@@ -20,7 +20,8 @@ export const theme = {
             md: "18px",
             s: "16px",
             xs: "15px",
-            xss: "14px"
+            xss: "14px",
+            xsss: "13px"
         }
     },
     colors: {
@@ -28,6 +29,21 @@ export const theme = {
         secondaryText: "#999999",
         tertiaryText: "#808080",
         menuBackground: "#ECECEC",
-        accentBackground: "#2C88DD21"
+        accentBackground: "#2C88DD21",
+        accentText: "#2C88DD",
+        borderColor: "#E6E6E6",
+        error: "#CB0000",
+        alert:{
+            notification: "#2C88DD21"
+        }
+    },
+    zIndex: {
+        dropdown:1000,
+        sticky: 1020,
+        fixed: 1030,
+        modalBackdrop:1040,
+        modal: 1050,
+        popover: 1060,
+        tooltip: 1070,
     }
 }
