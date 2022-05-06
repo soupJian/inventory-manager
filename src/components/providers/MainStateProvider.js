@@ -5,7 +5,9 @@ import { PersistGate } from  "redux-persist/integration/react"
 import LoadingScreen from "../loadingScreen/loadingScreen"
 
 const MainStateProvider = ({children}) => {
-    let persistedStore = persistStore(store);
+    let persistedStore = persistStore(store,{}, function () {
+        persistedStore.persist()
+      });
 
     return (
         <Provider store={store}>

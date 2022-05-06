@@ -1,19 +1,44 @@
-import { useCallback, useEffect, useState } from "react"
+import { withRouter } from "next/router";
+import { useEffect, useReducer, useState } from "react"
 import { Filter, Flex, Icon, Input, Pagination, Tab, Table, TableCell, TableRow, Tabs, Wrapper } from "../components/commons"
 import { categoryList, ExpandedTableHeaders, statusList, TableHeaders, variantList } from "../constants/pageConstants/inventory";
-import { Api } from "../utils/utils";
+import { Api, objectsToQueryString } from "../utils/utils";
 
 const api = new Api()
 
+const initialState = {
+    activeTab: 0,
+    page: 1,
+}
+const inventoryReducer = (state, {type, payload}) => {
+    console.log(type, payload)
+    switch (type) {
+        case "changeTab":
+            return {...state, activeTab:payload, page: 1}
+        case "changePaginateNumber":
+            return {...state, page:payload }
+        default:
+            return state
+    }
+}
 
-const Inventory = () => {
-    const [activeTab, setActiveTab] = useState(0);
+const Inventory = ({router}) => {
+    const [inventoryState, dispatch] = useReducer(inventoryReducer, {
+        activeTab: router.query.type === "items" ? 0 : router.query.type === "products" ? 1 : 0,
+        page: parseInt(router.query.page) || 1
+    })
     const [status, setStatus] = useState([])
     const [category, setCategory] = useState([])
     const [variant, setVariant] = useState([])
+    const [inventorySKUs, setInventorySKUs] = useState([])
     const [inventoryData, setInventoryData] = useState(null)
-    const [inventoryTotalCount, setInventoryTotalCount] = useState(0)
     const [selection, setSelection] = useState([])
+    const [itemsPerPage, setItemsPerPage] = useState(2)
+
+    const handlePage = (page) =>  {
+        router.replace(`/inventory?${objectsToQueryString({...router.query, page})}`, null, {shallow:true})
+        dispatch({type:"changePaginateNumber",payload:page})
+    }
 
     const addSelection = (sku) => {
         const idx = selection.indexOf(sku)
@@ -58,19 +83,53 @@ const Inventory = () => {
     }
 
     useEffect(() => {
-        api.getAllInventory("limit=10")
+        console.log(inventoryState)
+        api.getAllInventory("projectionExpression=SKU")
             .then(data => {
                 console.log(data)
-                setInventoryData(data)
+                setInventorySKUs(data.Items)
             })
     }, [])
 
+    useEffect(() => {
+        if(inventoryState.activeTab === 0) {
+            const skusToShow = inventorySKUs.slice(inventoryState.page * itemsPerPage - itemsPerPage, inventoryState.page * itemsPerPage)
+            if(skusToShow.length){
+                let str = ""
+                skusToShow.forEach(i => { Object.values(i).map(val => { str += val+","})})
+                console.log(str)
+                api.getMultipleInventory(`skus=${str}`) .then(data => { 
+                    setInventoryData(data)
+                })
+            }
+            else {
+                setInventoryData({})
+            }
+
+        }
+        else {
+
+        }
+    },[inventoryState.page, inventorySKUs])
+    
+    useEffect(() => {
+        if(!router.query.type) {
+            router.replace("/inventory?type=items", null,{shallow:true})
+        }
+        else if(inventoryState.activeTab === 0 && router.query.type === "products") {
+            router.replace("/inventory?type=items", null,{shallow:true})
+        }
+        else if ((inventoryState.activeTab === 1 && router.query.type === "items") ) {
+            router.replace("/inventory?type=products", null,{shallow:true})
+        }
+    }, [inventoryState.activeTab])
+    
     return (
         <Wrapper styles={{"min-height": "100%"}} height="auto" padding="21px 29px">
             <Flex styles={{"flex-wrap": "nowrap"}} justifyContent="space-between">
                 <Tabs>
-                    <Tab onClick={() => setActiveTab(0)} active={0 === activeTab} idx={0}>Items</Tab>
-                    <Tab onClick={() => setActiveTab(1)} active={1 === activeTab} idx={1}>Products</Tab>
+                    <Tab onClick={() => dispatch({type: "changeTab", payload: 0})} active={0 === inventoryState.activeTab} idx={0}>Items</Tab>
+                    <Tab onClick={() => dispatch({type: "changeTab", payload: 1})} active={1 === inventoryState.activeTab} idx={1}>Products</Tab>
                 </Tabs>
                 <Input type="text" placeholder="Search name or SKU" startIcon={<Icon name="search" width="30px" height="30px"/>} />
             </Flex>
@@ -84,7 +143,7 @@ const Inventory = () => {
                     selectable 
                     selectedAll={selection.length === inventoryData?.Items?.length} 
                     onSelectAll={selectAll} headers={TableHeaders}
-                    paginationComponent={ <Wrapper padding="32px 0 0"><Pagination itemsInPage={inventoryData?.ScannedCount} totalItems={inventoryData?.Count} totalPages={Math.floor(inventoryData?.Count * 10)} currentPage={1} /> </Wrapper>}
+                    paginationComponent={ <Wrapper padding="32px 0 0"><Pagination itemsInPage={itemsPerPage} totalItems={inventorySKUs?.length} totalPages={Math.floor(inventorySKUs?.length / itemsPerPage)} onPageChange={handlePage} currentPage={inventoryState.page} /> </Wrapper>}
                     >
                     {
                         inventoryData?.Items?.map((item, idx) => (
@@ -140,5 +199,5 @@ const Inventory = () => {
     )
 }
 
-export default Inventory
+export default withRouter(Inventory)
 

@@ -22,9 +22,24 @@ export class User {
 
 export class Api {
     static BASE_URL = "https://43kjv8b4z4.execute-api.us-west-2.amazonaws.com/v1"
-
     async getAllInventory(params) {
         return await fetch(`${Api.BASE_URL}/all-inventory?${params ? params : ""}`, {
+            method: "GET",
+            headers: {
+                "Access-Control-Allow-Headers": "*",
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                "Access-Control-Allow-Origin": "*"
+            }
+        })
+        .then((resp) => {
+            if(resp.ok) return resp.json()
+            else return Promise.reject(resp).catch((error) => error ? error.json() : null)
+        })
+    }
+    async getMultipleInventory(params) {
+        console.log(`${Api.BASE_URL}/inventory-skus?${params ? params : ""}`)
+        return await fetch(`${Api.BASE_URL}/inventory-skus?${params ? params : ""}`, {
             method: "GET",
             headers: {
                 "Access-Control-Allow-Headers": "*",
@@ -122,4 +137,8 @@ export class Api {
 export const ISOStringToReadableDate = (isoDate) => {
     let trimmedDate = isoDate.split("T")[0].split("-")
     return `${trimmedDate[1]}/${trimmedDate[2]}/${trimmedDate[0].slice(2)}`
+}
+
+export const objectsToQueryString = (params) => {
+    return Object.keys(params).map(key => key + '=' + params[key]).join('&');
 }

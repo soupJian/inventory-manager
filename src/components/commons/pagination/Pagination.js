@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import Icon from "../icons/Icon";
 
-const Pagination = ({totalPages, totalItems, itemsInPage, currentPage}) => {
+const Pagination = ({totalPages, totalItems, itemsInPage, currentPage, onPageChange}) => {
+    console.log({totalPages,currentPage })
     return (
         <PaginationWrapper>
             <Content>
@@ -11,10 +12,15 @@ const Pagination = ({totalPages, totalItems, itemsInPage, currentPage}) => {
                 {
                     totalPages > 1 &&
                     <Navigation>
-                        <PrevButton disabled={currentPage === 1}>
+                        <PrevButton onClick={() => currentPage === 1 ? null : onPageChange(currentPage - 1)} disabled={currentPage === 1}>
                             <Icon name="chevron" width="10px" height="10px"/>
                         </PrevButton>
-                        <NextButton disabled={currentPage === totalPages}>
+                        {
+                            [...new Array(totalPages)].map((_,idx) => (
+                                <PageNumber onClick={() => currentPage === idx + 1 ? null : onPageChange(idx + 1)} active={idx + 1 === currentPage} key={idx}>{idx+1}</PageNumber>
+                            ))
+                        }
+                        <NextButton onClick={() => currentPage === totalPages ? null : onPageChange(currentPage + 1)} disabled={currentPage === totalPages}>
                             <Icon name="chevron" width="10px" height="10px"/>
                         </NextButton>
                     </Navigation>
@@ -76,5 +82,6 @@ const NextButton = styled(PageButton)`
 const PageNumber = styled(PageButton)`
     background-color: ${({active}) => active ? "#000000" : ""};
     border-color: ${({active}) => active ? "#000000" : "#D9D9D9"};
-    color: ${({active}) => active ? "#000000" : "#ffffff"};
+    color: ${({active}) => active ? "#ffffff" : "#000000"};
+    cursor: pointer;
 `
