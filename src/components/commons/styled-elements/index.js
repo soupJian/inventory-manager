@@ -11,9 +11,15 @@ export const Flex = styled.div`
     display: flex;
     align-items: ${({alignItems}) => alignItems ? alignItems : "center"};
     justify-content: ${({justifyContent}) => justifyContent ? justifyContent : "center"};
+    gap: ${({gap}) => gap ? gap : ""};
     ${({styles}) => styles && styles}
 `
-
+export const Text = styled.span`
+    font-size: ${({theme, size}) => size ? size : theme.font.size.md};
+    font-weight: ${({theme, weight}) => weight ? weight : theme.font.weight.normal};
+    color: ${({theme, color}) => color ? color : theme.colors.primaryText};
+    ${({styles}) => styles && styles}
+`
 export const BaseButton = styled.button`
     display: flex;
     align-items: center;
@@ -28,7 +34,8 @@ export const BaseButton = styled.button`
     outline: none;
     cursor: pointer;
     transition: all .25s ease-in-out;
-
+    ${({styles}) => styles && styles}
+    
     &:active {
         transform: scale(.98) translateY(2px);
     }

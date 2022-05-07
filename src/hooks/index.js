@@ -13,3 +13,18 @@ export const useClickOutside = (ref, callback) => {
       };
     });
   };
+
+export const useConfirmation = (initialState) => {
+    const [dialog, setDialog] = useState(initialState || { message: "", onConfirm: "", show: false})
+
+    const confirmAction = (cb, message, setter) => {
+      if(!initialState) {
+        setDialog({message, show: true,onConfirm: () => cb()})
+      }
+      else {
+        setter()
+      }
+    }
+
+    return [confirmAction, dialog, setDialog]
+}

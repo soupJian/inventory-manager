@@ -100,6 +100,7 @@ export class Api {
         })
     }
     async updateInventory(data) {
+        console.log(data)
         return await fetch(`${Api.BASE_URL}/inventory`, {
             method: "PUT",
             headers: {
@@ -117,6 +118,7 @@ export class Api {
     }
 
     async deleteInventory(sku) {
+        console.log(`${Api.BASE_URL}/inventory?sku=${sku}`)
         return await fetch(`${Api.BASE_URL}/inventory?sku=${sku}`, {
             method: "DELETE",
             headers: {
@@ -125,7 +127,6 @@ export class Api {
                 Accept: "application/json",
                 "Access-Control-Allow-Origin": "*"
             },
-            body:JSON.stringify(data)
         })
         .then((resp) => {
             if(resp.ok) return resp.json()

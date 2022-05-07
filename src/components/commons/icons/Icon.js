@@ -2,11 +2,11 @@ import Image from "next/image"
 import styled from "styled-components"
 import icons from "../../../constants/icons"
 
-const Icon = ({name, width, height, styles, hoverStyles, quality}) => {
+const Icon = ({name, width, height, styles, hoverStyles, quality, ...rest}) => {
     const src = icons[name];
     if(!src) return <> </>
     return (
-        <IconWrapper wrapperWidth={width} wrapperHheight={height} styles={styles} hoverStyles={hoverStyles}>
+        <IconWrapper {...rest} wrapperWidth={width} wrapperHheight={height} styles={styles} hoverStyles={hoverStyles}>
             <Image src={src} alt={name} width={30} height={30} layout="responsive" objectFit="contain" quality={quality || 30} />
         </IconWrapper>
     )

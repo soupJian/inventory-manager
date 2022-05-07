@@ -30,6 +30,7 @@ export const theme = {
         tertiaryText: "#808080",
         menuBackground: "#ECECEC",
         accentBackground: "#2C88DD21",
+        barBackground: "#262626",
         accentText: "#2C88DD",
         borderColor: "#E6E6E6",
         error: "#CB0000",

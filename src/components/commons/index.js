@@ -12,11 +12,13 @@ import Filter from "./filter/Filter"
 import Dropdown from "./dropdown/Dropdown"
 import Pagination from "./pagination/Pagination"
 import MultiSelectDropdown from "./dropdown/MultiSelectDropdown"
+import FloatingBar from "./floatingBar/FloatingBar"
 import Popover from "./popover/Popover"
 import Modal from "./modal/Modal"
 import Backdrop from "./modal/Backdrop"
-import { BaseButton, Wrapper, Flex } from "./styled-elements"
+import { BaseButton, Wrapper, Flex, Text } from "./styled-elements"
 import Loader from "./loader/Loader"
+import Dialog from "./dialog/Dialog"
 
 export {
     Table,
@@ -42,5 +44,8 @@ export {
     Backdrop,
     BaseButton,
     Wrapper,
-    Flex
+    Flex,
+    FloatingBar,
+    Text,
+    Dialog
 }

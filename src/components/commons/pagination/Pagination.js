@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import Icon from "../icons/Icon";
 
-const Pagination = ({totalPages, totalItems, itemsInPage, currentPage, onPageChange}) => {
-    console.log({totalPages,currentPage })
+const Pagination = ({totalPages, currentPage, totalItems, itemsInPage, onPageChange}) => {
+
     return (
         <PaginationWrapper>
             <Content>
@@ -15,10 +15,70 @@ const Pagination = ({totalPages, totalItems, itemsInPage, currentPage, onPageCha
                         <PrevButton onClick={() => currentPage === 1 ? null : onPageChange(currentPage - 1)} disabled={currentPage === 1}>
                             <Icon name="chevron" width="10px" height="10px"/>
                         </PrevButton>
-                        {
-                            [...new Array(totalPages)].map((_,idx) => (
-                                <PageNumber onClick={() => currentPage === idx + 1 ? null : onPageChange(idx + 1)} active={idx + 1 === currentPage} key={idx}>{idx+1}</PageNumber>
-                            ))
+                        {   totalPages <= 8 ?
+                                [...new Array(totalPages)].map((_,idx) => (
+                                    <PageNumber onClick={() => currentPage === idx + 1 ? null : onPageChange(idx + 1)} active={idx + 1 === currentPage} key={idx}>{idx+1}</PageNumber>
+                                ))
+                                :
+                                <>
+                                    {
+                                        currentPage > 6?
+                                            <>
+                                                <PageNumber onClick={() => currentPage === 1 ? null : onPageChange(1)} active={1 === currentPage}>{1}</PageNumber>
+                                                <PageNumber onClick={() => onPageChange(currentPage - 1)} active={1 === currentPage}>...</PageNumber>
+                                                {
+                                                    currentPage < totalPages - 5 ?
+                                                    <>
+                                                    {
+                                                        [...new Array(5)].map((_,idx) => (
+                                                            <PageNumber key={idx + currentPage} onClick={() => currentPage === currentPage + idx ? null : onPageChange(currentPage + idx)} active={currentPage + idx === currentPage}>{currentPage + idx}</PageNumber>
+                                                            
+                                                        ))
+                                                    }
+                                                        <PageNumber onClick={() => onPageChange(currentPage + 5)} active={1 === currentPage}>...</PageNumber>
+                                                        <PageNumber onClick={() => currentPage === totalPages ? null : onPageChange(totalPages)} active={totalPages === currentPage}>{totalPages}</PageNumber>
+
+                                                    </>
+                                                    :
+                                                    <>
+                                                    {
+                                                        [...new Array(6)].map((_,idx) => (
+                                                            <PageNumber key={idx + currentPage} onClick={() => currentPage === totalPages - (5 - idx) ? null : onPageChange(totalPages - (5 - idx))} active={totalPages - (5 - idx) === currentPage}>{totalPages - (5 - idx)}</PageNumber>
+                                                            
+                                                        ))
+                                                    }
+                                                    </>
+                                                }
+                                            </>
+                                        :
+                                        <>
+                                            {
+                                                currentPage < totalPages - 5 ?
+                                                <>
+                                                {
+                                                    [...new Array(5)].map((_,idx) => (
+                                                        <PageNumber key={idx + 1} onClick={() => currentPage === 1 + idx ? null : onPageChange(1 + idx)} active={1 + idx === currentPage}>{1 + idx}</PageNumber>
+                                                        
+                                                    ))
+                                                }
+                                                <PageNumber onClick={() => onPageChange(currentPage + 1)}>...</PageNumber>
+                                                <PageNumber onClick={() => currentPage === totalPages ? null : onPageChange(totalPages)} active={totalPages === currentPage}>{totalPages}</PageNumber>
+
+                                                </>
+                                                :
+                                                <>
+                                                {
+                                                    [...new Array(6)].map((_,idx) => (
+                                                        <PageNumber key={idx + 1} onClick={() => currentPage === 1 + idx ? null : onPageChange(1 + idx)} active={1 + idx === currentPage}>{1 + idx}</PageNumber>
+                                                        
+                                                    ))
+                                                }
+                                                </>
+                                            }
+                                        </>
+                                    }
+                                </>
+
                         }
                         <NextButton onClick={() => currentPage === totalPages ? null : onPageChange(currentPage + 1)} disabled={currentPage === totalPages}>
                             <Icon name="chevron" width="10px" height="10px"/>
