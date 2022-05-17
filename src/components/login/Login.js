@@ -18,6 +18,7 @@ const Login = () => {
         e.preventDefault()
         setLoading(true)
         const req = await user.login(credentials)
+        console.log(req)
         if(req.data && req.data.status === 403) {
             setError(true)
             setErrorMessage(req.message)

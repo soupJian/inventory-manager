@@ -1,12 +1,15 @@
 import Image from "next/image"
 import { useRouter } from "next/router"
+import { useEffect } from "react"
 import styled from "styled-components"
 import logo from "../../../../public/images/company-logo.png"
 import Icon from "../icons/Icon"
 
 const SideBar = ({user}) => {
     const router = useRouter();
-
+    useEffect(() => {
+        console.log(router.pathname)
+    }, [router.pathname])
     return (
         <SideBarWrapper>
             <Content>
@@ -22,8 +25,8 @@ const SideBar = ({user}) => {
                         <SpanLogo disabled={!user} active={user && router.pathname === "/warehouse"}> <Icon name="warehouse"/> </SpanLogo> 
                         <SpanText disabled={!user}>Warehousing</SpanText>
                     </NavItem>
-                    <NavItem disabled={!user} onClick={() => router.push("/products")} active={user && router.pathname === "/products"}>
-                        <SpanLogo disabled={!user} active={user && router.pathname === "/products"}> <Icon name="product"/> </SpanLogo> 
+                    <NavItem disabled={!user} onClick={() => router.push("/products")} active={user && router.pathname.includes("/products")}>
+                        <SpanLogo disabled={!user} active={user && router.pathname.includes("/products")}> <Icon name="product"/> </SpanLogo> 
                         <SpanText disabled={!user}>Products</SpanText>
                     </NavItem>
                     <NavItem disabled={!user} onClick={() => router.push("/orders")} active={user && router.pathname === "/orders"}>

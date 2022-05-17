@@ -16,7 +16,7 @@ import FloatingBar from "./floatingBar/FloatingBar"
 import Popover from "./popover/Popover"
 import Modal from "./modal/Modal"
 import Backdrop from "./modal/Backdrop"
-import { BaseButton, Wrapper, Flex, Text } from "./styled-elements"
+import { BaseButton, Wrapper, Flex, Text, Label, InputGroup } from "./styled-elements"
 import Loader from "./loader/Loader"
 import Dialog from "./dialog/Dialog"
 
@@ -47,5 +47,7 @@ export {
     Flex,
     FloatingBar,
     Text,
+    Label,
+    InputGroup,
     Dialog
 }

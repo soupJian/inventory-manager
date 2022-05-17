@@ -6,11 +6,13 @@ import { Alert, Box, Button as ButtonV1, Dropdown, Filter, Flex, Icon, Input, Lo
 import { Api, ISOStringToReadableDate } from "../utils/utils";
 import { dateList, itemTemplate, locations, settledHeaders, unSettledHeaders } from "../constants/pageConstants/warehouse";
 import Tooltip from "../components/commons/Tooltip/Tooltip";
+import { useSelector } from "react-redux";
 
 const api = new Api()
 
 
 const Warehouse = () => {
+    const user = useSelector(state => state.user.user)
     const [activeTab, setActiveTab] = useState(0);
     const [recievingType, setRecievingType] = useState(0);
     const [scanning, setScanning] = useState(false);
@@ -48,8 +50,10 @@ const Warehouse = () => {
             setSku("")
             param = {[key]:barcode}
         }
-        api.getInventory(param)
+        console.log(param)
+        api.getInventory(param, {"Authorization": `Bearer ${user.accessToken}`})
         .then(data => {
+            console.log(data)
             if(data.Items && data.Items.length === 0) {
                 setLookUpError("Sorry, We can't find the item!")
             }
@@ -67,7 +71,7 @@ const Warehouse = () => {
     const saveItem = () => {
         if(lookUpItem) {
             setLookUpLoading(true)
-            api.updateInventory({...lookedUpItem, Updated: new Date(),Stock: parseInt(lookedUpItemCount)})
+            api.updateInventory({...lookedUpItem, Updated: new Date(),Stock: parseInt(lookedUpItemCount)}, {"Authorization": `Bearer ${user.accessToken}`})
                 .then((data) => {
                     lookUpItem(sku ? "sku" : "barcode")
                 })
@@ -107,10 +111,10 @@ const Warehouse = () => {
     const saveLocations = (key) => {
         const locationsToBeSave = [...locationList[key].map(loc => loc.value)]
         let item = unSettledItems.filter(item => item.SKU === key)[0]
-        api.updateInventory({...item, SettledTime: new Date(), Settled: true,["Location"]:locationsToBeSave})
+        api.updateInventory({...item, SettledTime: new Date(), Settled: true,["Location"]:locationsToBeSave}, {"Authorization": `Bearer ${user.accessToken}`})
             .then(data => {
                 if(data) {
-                    api.getUnsettledInventory()
+                    api.getUnsettledInventory({},{"Authorization": `Bearer ${user.accessToken}`})
                         .then(data => {
                         let locationListObj = {}
                         setUnSettledItems(data.Items)
@@ -155,7 +159,7 @@ const Warehouse = () => {
             const TotalCost = Object.values(newItem.Cost).reduce((total, cost) => total + parseInt(cost), 0)
             let data = {...newItem, Updated: new Date(), Created: new Date(), TotalCost}
             delete data['TagsInput']
-            api.updateInventory(data)
+            api.updateInventory(data, {"Authorization": `Bearer ${user.accessToken}`})
                 .then(data => {
                     setNewItemLoading(false)
                     setNewItemModal(false)
@@ -170,11 +174,11 @@ const Warehouse = () => {
     },[lookedUpItem])
 
     useEffect(() => {
-        api.getSettledInventory()
+        api.getSettledInventory({}, {"Authorization": `Bearer ${user.accessToken}`})
         .then(data => {
             setSettledItems(data.Items)
         })
-        api.getUnsettledInventory()
+        api.getUnsettledInventory({}, {"Authorization": `Bearer ${user.accessToken}`})
         .then(data => {
             console.log("fetching")
             let locationListObj = {}

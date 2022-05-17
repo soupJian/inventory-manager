@@ -25,7 +25,7 @@ const Pagination = ({totalPages, currentPage, totalItems, itemsInPage, onPageCha
                                         currentPage > 6?
                                             <>
                                                 <PageNumber onClick={() => currentPage === 1 ? null : onPageChange(1)} active={1 === currentPage}>{1}</PageNumber>
-                                                <PageNumber onClick={() => onPageChange(currentPage - 1)} active={1 === currentPage}>...</PageNumber>
+                                                <PageNumber onClick={() => onPageChange(currentPage - 5)} active={1 === currentPage}>...</PageNumber>
                                                 {
                                                     currentPage < totalPages - 5 ?
                                                     <>
@@ -56,12 +56,12 @@ const Pagination = ({totalPages, currentPage, totalItems, itemsInPage, onPageCha
                                                 currentPage < totalPages - 5 ?
                                                 <>
                                                 {
-                                                    [...new Array(5)].map((_,idx) => (
+                                                    [...new Array(6)].map((_,idx) => (
                                                         <PageNumber key={idx + 1} onClick={() => currentPage === 1 + idx ? null : onPageChange(1 + idx)} active={1 + idx === currentPage}>{1 + idx}</PageNumber>
                                                         
                                                     ))
                                                 }
-                                                <PageNumber onClick={() => onPageChange(currentPage + 1)}>...</PageNumber>
+                                                <PageNumber onClick={() => onPageChange(6 + 1)}>...</PageNumber>
                                                 <PageNumber onClick={() => currentPage === totalPages ? null : onPageChange(totalPages)} active={totalPages === currentPage}>{totalPages}</PageNumber>
 
                                                 </>
@@ -104,7 +104,7 @@ const Showing = styled.p`
     font-family: ${({theme}) => theme.font.family.secondary};
     font-size: ${({theme}) => theme.font.size.xs};
     font-weight: ${({theme}) => theme.font.weight.normal};
-    color: ${({theme}) => theme.colors.textPrimary};
+    color: ${({theme}) => theme.colors.primaryText};
 `
 
 const Navigation = styled.div`

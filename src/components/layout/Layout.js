@@ -6,7 +6,6 @@ import { Header, SideBar, Wrapper } from "../commons"
 
 const Layout = ({children}) => {
     const user = useSelector(state => state.user.user)
-
     return (
         <Container>
             <SideBar user={user} />

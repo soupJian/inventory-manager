@@ -1,5 +1,6 @@
 import { withRouter } from "next/router";
 import { useEffect, useReducer, useState } from "react"
+import { useSelector } from "react-redux";
 import { BaseButton, Dialog, Filter, Flex, FloatingBar, Icon, Input, Pagination, Tab, Table, TableCell, TableRow, Tabs, Text, Wrapper } from "../components/commons"
 import { categoryList, ExpandedTableHeaders, statusList, TableHeaders, variantList } from "../constants/pageConstants/inventory";
 import { Api, objectsToQueryString } from "../utils/utils";
@@ -23,6 +24,7 @@ const inventoryReducer = (state, {type, payload}) => {
 }
 
 const Inventory = ({router}) => {
+    const user = useSelector(state => state.user.user)
     const [inventoryState, dispatch] = useReducer(inventoryReducer, {
         activeTab: router.query.type === "items" ? 0 : router.query.type === "products" ? 1 : 0,
         page: parseInt(router.query.page) || 1
@@ -34,7 +36,7 @@ const Inventory = ({router}) => {
     const [inventorySKUs, setInventorySKUs] = useState([])
     const [inventoryData, setInventoryData] = useState(null)
     const [selection, setSelection] = useState([])
-    const [itemsPerPage, setItemsPerPage] = useState(1)
+    const [itemsPerPage, setItemsPerPage] = useState(10)
     const [dialog, setDialog] = useState({
         message: "",
         onConfirm: "",
@@ -81,7 +83,7 @@ const Inventory = ({router}) => {
         const itemsToBeCleared = inventoryData.Items.filter(item => selection.includes(item.SKU))
         Promise.all(
             itemsToBeCleared.map((item) => {
-                return api.updateInventory(item)
+                return api.updateInventory({...item, Stock: 0, Reserved: 0, Available: 0}, {"Authorization": `Bearer ${user.accessToken}`})
             })
         )
         .then(values => {
@@ -97,7 +99,7 @@ const Inventory = ({router}) => {
         setLoadingTable(true)
         Promise.all(
             selection.map((item) => {
-                return api.deleteInventory(item)
+                return api.deleteInventory(item, {"Authorization": `Bearer ${user.accessToken}`})
             })
         )
         .then(values => {
@@ -136,7 +138,8 @@ const Inventory = ({router}) => {
     }
 
     const fetchSKUs = () => {
-        return api.getAllInventory("projectionExpression=SKU")
+        console.log(user.accessToken)
+        return api.getAllInventory("projectionExpression=SKU", {"Authorization": `Bearer ${user.accessToken}`})
                 .then(data => {
                     console.log(data)
                     setInventorySKUs(data.Items)
@@ -150,12 +153,12 @@ const Inventory = ({router}) => {
 
     useEffect(() => {
         if(inventoryState.activeTab === 0) {
-            const skusToShow = inventorySKUs.slice(inventoryState.page * itemsPerPage - itemsPerPage, inventoryState.page * itemsPerPage)
-            if(skusToShow.length){
+            const skusToShow = inventorySKUs?.slice(inventoryState.page * itemsPerPage - itemsPerPage, inventoryState.page * itemsPerPage)
+            if(skusToShow?.length){
                 let str = ""
                 skusToShow.forEach(i => { Object.values(i).map(val => { str += val+","})})
                 console.log(str)
-                api.getMultipleInventory(`skus=${str}`) .then(data => { 
+                api.getMultipleInventory(`skus=${str}`, {"Authorization": `Bearer ${user.accessToken}`}) .then(data => { 
                     setInventoryData(data)
                 })
             }
@@ -191,7 +194,6 @@ const Inventory = ({router}) => {
                 <Input type="text" placeholder="Search name or SKU" startIcon={<Icon name="search" width="30px" height="30px"/>} />
             </Flex>
             <Flex justifyContent="flex-end" styles={{"margin-top": "27px", gap: "12px"}}>
-                <Filter value={category} activeIndex={0} label="Category" list={categoryList} multiSelect onSelect={handleCategory} />
                 <Filter value={status} activeIndex={0} label="Status" list={statusList} multiSelect onSelect={handleStatus} />
             </Flex>
             <Wrapper styles={{position: "relative"}} padding="23px 0px 0px">
@@ -211,8 +213,8 @@ const Inventory = ({router}) => {
                                 selectable
                                 selected={selection.includes(item.SKU)}
                                 onSelect={() => addSelection(item.SKU)}
-                                dataId={item.Barcode}
-                                key={item.Barcode}
+                                dataId={item.SKU + idx}
+                                key={item.SKU + idx}
                                 expandedContent={
                                     <Wrapper padding="4px 0">
                                         <Table styles={{'background-color': 'transparent', padding: "0"}} name={`inventory-item-expanded-${item.Name}`} headers={ExpandedTableHeaders}>

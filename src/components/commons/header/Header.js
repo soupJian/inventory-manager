@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components"
 import { Dropdown, Icon, Popover, BaseButton } from "..";
 import { logoutUser } from "../../../store/slices/userSlice";
+import History from "../../history/HIstory";
 
 
 const dropdownList = [
@@ -23,6 +24,7 @@ const dropdownList = [
 const Header = ({user}) => {
     const [activeDropdown, setActiveDropdown] = useState([]);
     const [toggleAccount, setToggleAccount] = useState(false)
+    const [toggleHistory, setToggleHistory] = useState(false)
     const dispatch = useDispatch()
 
     const Logout = () => {
@@ -65,21 +67,22 @@ const Header = ({user}) => {
                             }
                             >
                             <UserAction onClick={() => setToggleAccount(!toggleAccount)}>
-                                <Icon quality={80} name="user" width="100%" height="auto" />
+                                <Icon quality={80} name="user" width="32px" height="32px" />
                             </UserAction>
                         </Popover> 
                     }
                     {
                         user.isLoggedIn &&
-                        <UserAction>
-                            <Icon quality={80} name="clock" width="100%" height="auto" />
+                        <UserAction onClick={() => setToggleHistory(true)}>
+                            <Icon quality={80} name="clock" width="32px" height="32px" />
                         </UserAction>
                     }
                     <UserAction>
-                        <Icon quality={80} name="translate" width="100%" height="auto" />
+                        <Icon quality={80} name="translate" width="32px" height="32px" />
                     </UserAction>
                 </UserActions>
             </Content>
+            <History user={user} show={toggleHistory} onClose={() => setToggleHistory(false)}/>
         </HeaderWrapper>
     )
 }

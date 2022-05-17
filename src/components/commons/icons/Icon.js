@@ -7,7 +7,7 @@ const Icon = ({name, width, height, styles, hoverStyles, quality, ...rest}) => {
     if(!src) return <> </>
     return (
         <IconWrapper {...rest} wrapperWidth={width} wrapperHheight={height} styles={styles} hoverStyles={hoverStyles}>
-            <Image src={src} alt={name} width={30} height={30} layout="responsive" objectFit="contain" quality={quality || 30} />
+            <Image src={src} alt={name} layout="fill" objectPosition="center" objectFit="contain" quality={quality || 30} />
         </IconWrapper>
     )
 }
@@ -18,9 +18,11 @@ const IconWrapper = styled.div`
     width: ${({wrapperWidth}) => wrapperWidth ? wrapperWidth : "24px"};
     height: ${({wrapperHheight}) => wrapperHheight ? wrapperHheight : "24px"};
     transition: all .3s ease-in-out;
+    position: relative;
     &:hover {
         ${({hoverStyles}) => hoverStyles}
     }
     ${({styles}) => styles}
+
 
 `

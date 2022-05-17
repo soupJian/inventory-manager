@@ -16,7 +16,7 @@ const Filter = ({label, list, name, value, activeIndex, onSelect, multiSelect}) 
                     options={list} 
                     onSelect={onSelect} 
                     activeIndex={activeIndex}
-                    icon={<Icon name="chevron" styles={{transform: "rotate(-90deg)"}} width="14px" height="9px"/>}
+                    icon={<Icon name="chevron" styles={{transform: "rotate(-90deg)"}} width="9px" height="14px"/>}
                 />
                 :
                 <Dropdown
@@ -25,7 +25,7 @@ const Filter = ({label, list, name, value, activeIndex, onSelect, multiSelect}) 
                     options={list} 
                     onSelect={onSelect} 
                     activeIndex={activeIndex}
-                    icon={<Icon name="chevron" styles={{transform: "rotate(-90deg)"}} width="14px" height="9px"/>}
+                    icon={<Icon name="chevron" styles={{transform: "rotate(-90deg)"}} width="9px" height="14px"/>}
                 />
             }
         </Wrapper>

@@ -9,6 +9,7 @@ export const Wrapper = styled.div`
 
 export const Flex = styled.div`
     display: flex;
+    flex-direction: ${({direction}) => direction ? direction : "row"};
     align-items: ${({alignItems}) => alignItems ? alignItems : "center"};
     justify-content: ${({justifyContent}) => justifyContent ? justifyContent : "center"};
     gap: ${({gap}) => gap ? gap : ""};
@@ -18,6 +19,7 @@ export const Text = styled.span`
     font-size: ${({theme, size}) => size ? size : theme.font.size.md};
     font-weight: ${({theme, weight}) => weight ? weight : theme.font.weight.normal};
     color: ${({theme, color}) => color ? color : theme.colors.primaryText};
+    font-family: ${({theme, family}) => family ? family : theme.font.family.primary};
     ${({styles}) => styles && styles}
 `
 export const BaseButton = styled.button`
@@ -39,4 +41,22 @@ export const BaseButton = styled.button`
     &:active {
         transform: scale(.98) translateY(2px);
     }
+`
+
+export const Label = styled.label`
+    font-size: ${({theme}) => theme.font.size.xs};
+    font-family: ${({theme}) => theme.font.family.primary};
+    line-height: ${({theme}) => theme.font.lineHeight.tight};
+    color: ${({theme}) => theme.colors.primaryText};
+    text-transform: uppercase;
+    font-weight: ${({theme}) => theme.font.weight.medium};
+    cursor: pointer;
+`
+export const InputGroup = styled.div`
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
 `
