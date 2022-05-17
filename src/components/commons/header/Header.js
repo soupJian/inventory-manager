@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components"
 import { Dropdown, Icon, Popover, BaseButton } from "..";
 import { logoutUser } from "../../../store/slices/userSlice";
-import History from "../../history/HIstory";
+import History from "../../history/History";
 
 
 const dropdownList = [
