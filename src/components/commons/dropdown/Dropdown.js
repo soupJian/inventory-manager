@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { Flex } from "..";
 import Checkbox from "../checkbox/Checkbox";
 
-const Dropdown = ({ activeIndex, options = [], value = [], selected, onSelect, wrapperClassName, wrapperStyles, headerStyles, optionListStyles, optionStyles, icon}) => {
+const Dropdown = ({ activeIndex, options = [], value, selected, onSelect, wrapperClassName, wrapperStyles, headerStyles, optionListStyles, optionStyles, icon}) => {
     const [showOption, setShowOption] = useState(false);
     const nodeRef = useRef()
 
@@ -15,18 +15,16 @@ const Dropdown = ({ activeIndex, options = [], value = [], selected, onSelect, w
 
     const clickOption = (val) => {
         setShowOption(false);
-        if(!value.some(current => current?.value === val.value)) {
-            onSelect([val])
-        }
-        
+        onSelect(val.value)
     }
 
-    useEffect(() => {
-        onSelect([options[activeIndex ? activeIndex : 0]])
-    }, [])
+    // useEffect(() => {
+    //     onSelect([options[activeIndex ? activeIndex : 0]])
+    // }, [])
 
 
     useEffect(() => {
+        console.log(options.filter(option => option.value === value).map(item => item.label)[0])
         if(showOption) document.addEventListener('click', handleClick);
         else document.removeEventListener('click', handleClick);
 
@@ -38,7 +36,7 @@ const Dropdown = ({ activeIndex, options = [], value = [], selected, onSelect, w
     return (
         <Wrapper ref={nodeRef} className={wrapperClassName ? wrapperClassName : ""} styles={wrapperStyles}  onClick={() => setShowOption(!showOption)} >
             <Header tabIndex="0" style={headerStyles}>
-                <Title as="h6">{value[activeIndex]?.label || value[0]?.label}</Title>
+                <Title as="h6">{options.filter(option => option.value === value).map(item => item.label)[0]}</Title>
                 {
                     icon && <SpanIcon>{icon}</SpanIcon>
                 }

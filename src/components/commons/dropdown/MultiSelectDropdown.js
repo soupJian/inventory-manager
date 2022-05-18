@@ -11,7 +11,6 @@ const MultiSelectDropdown = ({ name, activeIndex, options = [], value = [], onSe
         }
     };
     const clickOption = (val) => {
-        console.log({name})
         if(name) {
             onSelect(name,val)
         }
@@ -39,7 +38,7 @@ const MultiSelectDropdown = ({ name, activeIndex, options = [], value = [], onSe
     return (
         <Wrapper ref={nodeRef} className={wrapperClassName ? wrapperClassName : ""} styles={wrapperStyles}  onClick={() => setShowOption(!showOption)} >
             <Header  tabIndex="0" style={headerStyles} >
-                <Title as="h6">{activeIndex >= 0 ? value[0]?.label : value.length >= 2 ? [...new Array(2)].map((val,idx) => <TitleSpan key={value[idx]?.value}>{value[idx]?.label};</TitleSpan> )  : <TitleSpan key={value[0]?.value}>{value[0]?.label}</TitleSpan>}</Title>
+                <Title as="h6">{activeIndex >= 0 ? value[0]?.label : <TitleSpan>{options.filter(option => value.includes(option.value)).map(item => item.label).join(";")}</TitleSpan>}</Title>
                 {
                     icon && <SpanIcon>{icon}</SpanIcon>
                 }
@@ -48,9 +47,9 @@ const MultiSelectDropdown = ({ name, activeIndex, options = [], value = [], onSe
                 <OptionList >
                     {
                         options?.map((item,idx) => (
-                            <Option key={idx} styles={optionStyles}>
+                            <Option key={idx+item.value} styles={optionStyles}>
                                 <Flex styles={{gap: "10px"}} alignItems="center" justifyContent="flex-start" > 
-                                    <Checkbox inputId={name + item.value} selected={value?.some(i => i.value === item.value)} onSelect={() => clickOption(item)} /> 
+                                    <Checkbox inputId={name + item.value} selected={value?.some(i => i === item.value)} onSelect={() => clickOption(item.value)} /> 
                                     <LabelText htmlFor={name + item.value}>{item.label} </LabelText>
                                 </Flex>
                             </Option>

@@ -15,7 +15,7 @@ export const TableCell = ({children,styles, expanded, ...rest}) => {
     )
 }
 
-export const TableRow = ({ idx, nested, selected, selectable, onSelect, dataId, expandedContent,children, ...rest}) => {
+export const TableRow = ({ idx, nested, selected, selectable, onSelect, dataId, expandedContent, redirectOnClick, children, ...rest}) => {
     const [expanded, setExpanded] = useState(false)
     return (
         <>
@@ -46,12 +46,12 @@ export const TableRow = ({ idx, nested, selected, selectable, onSelect, dataId, 
                     {
                         (expanded && expandedContent) &&
             
-                        <TableRowWrapper bgColor={idx%2 !== 0 ? "#F6F7F9" : "transparent"}>
+                        <TableRowWrapper bgColor="transparent">
                             <ExpandedTableCellWrapper  expanded={expanded} styles={{"padding-bottom": "0","padding-top": "0"}}></ExpandedTableCellWrapper>
                             <ExpandedTableCellWrapper  expanded={expanded} styles={{"padding-bottom": "0","padding-top": "0"}} colSpan={14}>
                                 <Wrapper styles={{position: "relative"}} padding="42px 0 40px">
                                     <Flex styles={{position: "absolute", top: "4px", right: "0"}}>
-                                        <ActionButton>
+                                        <ActionButton onClick={redirectOnClick}>
                                             <Icon name="edit" width="15px" height="15px"/>
                                         </ActionButton>
                                         <ActionButton onClick={() => setExpanded(false)}>

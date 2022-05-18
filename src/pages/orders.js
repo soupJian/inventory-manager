@@ -11,9 +11,11 @@ const orderReducer = (state, {type, payload}) => {
         case "changeTab":
             return {...state, activeTab:payload, page: 1}
         case "changePageType":
-            return {...state, pageType:payload, page: 1}
+            return {...state, pageType:payload, page: 1, date:365}
         case "changePaginateNumber":
             return {...state, page:payload }
+        case "changedate":
+            return {...state, date:payload }
         default:
             return state
     }
@@ -23,10 +25,9 @@ const Orders = ({router}) => {
     const user = useSelector(state => state.user.user)
     const [orderState, dispatch] = useReducer(orderReducer, {
         page: parseInt(router.query.page) || 1,
-        pageType: router.query.pageType || "current"
+        pageType: router.query.pageType || "current",
+        date: router.query.date || "365",
     })
-    const [shipDate, setShipDate] = useState([])
-    const [orderDate, setOrderDate] = useState([])
     const [shippedOrders, setShippedOrders] = useState([])
     const [shippedOrdersToShow, setShippedOrdersToShow] = useState([])
     const [unShippedOrdersToShow, setUnShippedOrdersToShow] = useState([])
@@ -39,6 +40,12 @@ const Orders = ({router}) => {
         dispatch({type:"changePaginateNumber",payload:page})
     }
 
+    const handleDate = (val) => {
+        console.log("handle date", val)
+        dispatch({type:"changedate",payload:val})
+        router.replace(`/orders?${objectsToQueryString({...router.query, date:val})}`, null, {shallow:true})
+    }
+
     const handleShippedOrdersToShow = () => {
         const dataToShow = shippedOrders.slice(orderState.page * 10 -10, orderState.page * 10)
         setShippedOrdersToShow(dataToShow)
@@ -49,14 +56,14 @@ const Orders = ({router}) => {
     }
 
     const fetchShippedOrders = () => {
-        api.getShippedOrders(null,{"Authorization": `Bearer ${user.accessToken}`})
+        api.getShippedOrders(`date=${orderState.date}`,{"Authorization": `Bearer ${user.accessToken}`})
         .then(data => {
             setShippedOrders(data.Items)
         })
     }
 
     const fetchUnShippedOrders = () => {
-        api.getUnShippedOrders(null,{"Authorization": `Bearer ${user.accessToken}`})
+        api.getUnShippedOrders(`date=${orderState.date}`,{"Authorization": `Bearer ${user.accessToken}`})
         .then(data => {
             setUnShippedOrders(data.Items)
             console.log(data)
@@ -89,13 +96,13 @@ const Orders = ({router}) => {
     }, [shippedOrders, unShippedOrders,orderState.pageType, orderState.page])
 
     useEffect(() => {
-        console.log(router.query.pageType)
+        console.log(router.query.date)
         if(!router.query.pageType) {
-            router.replace("/orders?pageType=current")
+            router.replace(`/orders?pageType=current&date=${orderState.date}`)
             handleShippedOrdersToShow()
         }
         else if(router.query.pageType !== orderState.pageType) {
-            router.replace(`/orders?pageType=${orderState.pageType}`, null, {shallow:true})
+            router.replace(`/orders?pageType=${orderState.pageType}&date=${orderState.date}`, null, {shallow:true})
             handleShippedOrdersToShow()
         }
     },[orderState.pageType])
@@ -114,10 +121,7 @@ const Orders = ({router}) => {
                 <Button onClick={syncData} minWidth="70px" kind="primary">
                     Sync
                 </Button>
-                {
-                    orderState.pageType === "history" &&  <Filter value={shipDate} label="Ship date" list={dateList} multiSelect onSelect={setShipDate} />
-                }
-                <Filter value={orderDate} label="Order date" list={dateList} multiSelect onSelect={setOrderDate} />
+                <Filter value={orderState.date} label={orderState.pageType === "history"? "Ship date" : "Order date"} list={dateList} onSelect={handleDate} />
             </Flex>
             {
                 orderState.pageType === "current" ?

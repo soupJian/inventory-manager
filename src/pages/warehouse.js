@@ -1,19 +1,42 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import styled from "styled-components";
 import scannerLogo from "../../public/images/scanner.png"
 import Image from "next/image";
-import { Alert, Box, Button as ButtonV1, Dropdown, Filter, Flex, Icon, Input, Loader, Modal, Popover, Tab, Table, TableCell, TableRow, Tabs, Wrapper } from "../components/commons";
-import { Api, ISOStringToReadableDate } from "../utils/utils";
+import { Alert, Box, Button as ButtonV1, Dropdown, Filter, Flex, Icon, Input, Loader, Modal, Pagination, Popover, Tab, Table, TableCell, TableRow, Tabs, Wrapper } from "../components/commons";
+import { Api, ISOStringToReadableDate, objectsToQueryString } from "../utils/utils";
 import { dateList, itemTemplate, locations, settledHeaders, unSettledHeaders } from "../constants/pageConstants/warehouse";
 import Tooltip from "../components/commons/Tooltip/Tooltip";
 import { useSelector } from "react-redux";
+import { withRouter } from "next/router";
 
 const api = new Api()
 
+const warehouseReducer = (state, {type, payload}) => {
+    switch (type) {
+        case "changeTab":
+            return {...state, activeTab:payload, page: 1, date: "365"}
+        case "changePageType":
+            return {...state, pageType:payload, page: 1, date:"365"}
+        case "changeSettlingType":
+            return {...state, settlingType:payload, page: 1, date:"365"}
+        case "changePaginateNumber":
+            return {...state, page:payload }
+        case "changeDate":
+            return {...state, date:payload }
+        default:
+            return state
+    }
+}
 
-const Warehouse = () => {
+const Warehouse = ({router}) => {
     const user = useSelector(state => state.user.user)
     const [activeTab, setActiveTab] = useState(0);
+    const [warehouseState, dispatch] = useReducer(warehouseReducer, {
+        page: parseInt(router.query.page) || 1,
+        pageType: router.query.pageType || "receiving",
+        date: router.query.date || "365",
+        settlingType: router.query.settlingType || "notsettled"
+    })
     const [recievingType, setRecievingType] = useState(0);
     const [scanning, setScanning] = useState(false);
     const [scan, setScan] = useState(false);
@@ -25,11 +48,11 @@ const Warehouse = () => {
     const [lookUpLoading, setLookUpLoading] = useState(false);
     const [lookUpError, setLookUpError] = useState("");
     //for settling items
-    const [settledDate, setSettledDate] = useState([]);
     const [settlingOption, setSettlingOption] = useState(0);
     const [settledItems, setSettledItems] = useState([])
     const [unSettledItems, setUnSettledItems] = useState([])
     const [locationList, setLocationList] = useState([])
+    const [itemsPerPage, setItemsPerPage] = useState(2)
     //for adding new Item
     const [newItem, setNewItem] = useState({...itemTemplate})
     const [newItemModal, setNewItemModal] = useState(false)
@@ -51,10 +74,9 @@ const Warehouse = () => {
             param = {[key]:barcode}
         }
         console.log(param)
-        api.getInventory(param, {"Authorization": `Bearer ${user.accessToken}`})
+        api.getInventory(objectsToQueryString(param), {"Authorization": `Bearer ${user.accessToken}`})
         .then(data => {
-            console.log(data)
-            if(data.Items && data.Items.length === 0) {
+            if(data.Items && data.Items?.length === 0) {
                 setLookUpError("Sorry, We can't find the item!")
             }
             else if (!data.Items && data.message) {
@@ -84,19 +106,17 @@ const Warehouse = () => {
     }
 
     const handleDate = (val) => {
-        const idx = settledDate.findIndex(data => data.value === val.value)
-        let newSettledDate = [...settledDate]
-        if(idx >= 0) {
-            newSettledDate.splice(idx, 1)
-            setSettledDate(newSettledDate)
-        }
-        else {
-            setSettledDate([...newSettledDate, val])
+        dispatch({type: "changeDate", payload:val})
+    }
+    const handleSettlingType = (val) => {
+        if(warehouseState.pageType === "settling") {
+            dispatch({type:"changeSettlingType", payload:val})
         }
     }
 
     const handleLocationList = (name,val) => {
-        const idx = locationList[name].findIndex(loc => loc.value === val.value)
+        console.log(val,name)
+        const idx = locationList[name].findIndex(loc => loc.value === val)
         let newLocationList = [...locationList[name]]
         if(idx >= 0) {
             newLocationList.splice(idx, 1)
@@ -109,7 +129,7 @@ const Warehouse = () => {
     }
 
     const saveLocations = (key) => {
-        const locationsToBeSave = [...locationList[key].map(loc => loc.value)]
+        const locationsToBeSave = [...locationList[key].map(loc => loc)]
         let item = unSettledItems.filter(item => item.SKU === key)[0]
         api.updateInventory({...item, SettledTime: new Date(), Settled: true,["Location"]:locationsToBeSave}, {"Authorization": `Bearer ${user.accessToken}`})
             .then(data => {
@@ -118,7 +138,7 @@ const Warehouse = () => {
                         .then(data => {
                         let locationListObj = {}
                         setUnSettledItems(data.Items)
-                        data.Items.forEach((item) => locationListObj[item.SKU] = [])
+                        data.Items?.forEach((item) => locationListObj[item.SKU] = [])
                         setLocationList(locationListObj)
                     })
                 }
@@ -170,51 +190,69 @@ const Warehouse = () => {
     }
 
     useEffect(() => {
+        if(!router.query.pageType) {
+            router.replace("/warehouse?&pageType=receiving", null, {shallow:true})
+        }
+        else if(router.query.pageType !== warehouseState.pageType) {
+            if(warehouseState.pageType==="receiving") {
+                router.replace(`/warehouse?pageType=${warehouseState.pageType}`, null, {shallow:true})
+            }
+            else {
+                router.replace(`/warehouse?pageType=${warehouseState.pageType}&settlingType=${warehouseState.settlingType}&date=${warehouseState.date}`, null, {shallow:true})
+            }
+        }
+    },[warehouseState.pageType, warehouseState.settlingType])
+
+    useEffect(() => {
         if(lookedUpItem) setLookedUpItemCount(lookedUpItem.Stock)
     },[lookedUpItem])
 
     useEffect(() => {
-        api.getSettledInventory({}, {"Authorization": `Bearer ${user.accessToken}`})
-        .then(data => {
-            setSettledItems(data.Items)
-        })
-        api.getUnsettledInventory({}, {"Authorization": `Bearer ${user.accessToken}`})
-        .then(data => {
-            console.log("fetching")
-            let locationListObj = {}
-            setUnSettledItems(data.Items)
-            data.Items.forEach((item) => locationListObj[item.SKU] = [])
-            console.log(locationListObj)
-            setLocationList(locationListObj)
-        })
-    },[])
+        if(warehouseState.pageType==="settling") {
+            router.replace(`/warehouse?pageType=${warehouseState.pageType}&settlingType=${warehouseState.settlingType}&date=${warehouseState.date}`, null, {shallow:true})
+            api.getSettledInventory(`date=${warehouseState.date}`, {"Authorization": `Bearer ${user.accessToken}`})
+            .then(data => {
+                setSettledItems(data.Items)
+            })
+            api.getUnsettledInventory(`date=${warehouseState.date}`, {"Authorization": `Bearer ${user.accessToken}`})
+            .then(data => {
+                let locationListObj = {}
+                setUnSettledItems(data.Items)
+                data.Items?.forEach((item) => locationListObj[item.SKU] = [])
+                setLocationList(locationListObj)
+            })
+        }
+    },[warehouseState.date, warehouseState.pageType])
 
     return (
         <Wrapper styles={{"min-height": "100%"}} height="auto"  padding="21px 29px">
             <Flex justifyContent="space-between">
                 <Tabs>
-                    <Tab onClick={() => setActiveTab(0)} active={0 === activeTab} idx={0}>Receiving</Tab>
-                    <Tab onClick={() => setActiveTab(1)} active={1 === activeTab} idx={1}>Settling</Tab>
+                    <Tab onClick={() => dispatch({type: "changePageType", payload: "receiving"})} active={"receiving" === warehouseState.pageType} idx={0}>Receiving</Tab>
+                    <Tab onClick={() => dispatch({type: "changePageType", payload: "settling"})} active={"settling" === warehouseState.pageType} idx={1}>Settling</Tab>
                 </Tabs>
                 {
-                    activeTab && <Input type="text" placeholder="Search name or SKU" startIcon={<Icon name="search" width="30px" height="30px"/>} />
+                    warehouseState.pageType==="settling" && <Input type="text" placeholder="Search name or SKU" startIcon={<Icon name="search" width="30px" height="30px"/>} />
                 }
             </Flex>
             {
-                activeTab ?
+                warehouseState.pageType === "settling" ?
                     <Wrapper height="auto" padding="36px 0">
                         <Flex justifyContent="space-between" alignItems="center">
                             <Tabs>
-                                <Tab contentStyles={{"font-size": "18px"}} onClick={() => setSettlingOption(0)} active={0 === settlingOption} idx={0}>Not Settled</Tab>
-                                <Tab contentStyles={{"font-size": "18px"}}  onClick={() => setSettlingOption(1)} active={1 === settlingOption} idx={1}>Settled</Tab>
+                                <Tab contentStyles={{"font-size": "18px"}} onClick={() => handleSettlingType("notsettled")} active={warehouseState.settlingType === "notsettled"} idx={0}>Not Settled</Tab>
+                                <Tab contentStyles={{"font-size": "18px"}}  onClick={() => handleSettlingType("settled")} active={warehouseState.settlingType === "settled"} idx={1}>Settled</Tab>
                             </Tabs>
-                            <Filter value={settledDate} activeIndex={0} multiSelect label={settlingOption ? "Settled": "Recieved"} list={dateList} onSelect={handleDate} />
+                            <Filter value={warehouseState.date} label={warehouseState.settlingType === "settled" ? "Settled": "Received"} list={dateList} onSelect={handleDate} />
                         </Flex>
                         <Wrapper padding="22px 0">
                             {
-                                settlingOption ?
+                                warehouseState.settlingType === "settled" ?
                                 <>
-                                    <Table name="warehousing-settled" headers={settledHeaders}>
+                                    <Table 
+                                        name="warehousing-settled" 
+                                        headers={settledHeaders}
+                                        >
                                         {
                                             settledItems.map((item,idx) => (
                                                 <TableRow
@@ -475,7 +513,7 @@ const Warehouse = () => {
     )
 }
 
-export default Warehouse;
+export default withRouter(Warehouse);
 
 
 const Text = styled.p`

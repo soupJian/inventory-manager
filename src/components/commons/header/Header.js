@@ -8,27 +8,32 @@ import History from "../../history/History";
 
 const dropdownList = [
     {
-        label: "Products",
-        value: "products"
+        label: "Product",
+        value: "product"
     },
     {
-        label: "Category",
-        value: "category"
+        label: "Item",
+        value: "Item"
     },
     {
-        label: "Orders",
-        value: "orders"
+        label: "Order",
+        value: "order"
     }
 ]
 
 const Header = ({user}) => {
-    const [activeDropdown, setActiveDropdown] = useState([]);
+    const [activeDropdown, setActiveDropdown] = useState("product");
     const [toggleAccount, setToggleAccount] = useState(false)
     const [toggleHistory, setToggleHistory] = useState(false)
     const dispatch = useDispatch()
 
     const Logout = () => {
         dispatch(logoutUser())
+    }
+
+    const handleDropdown = (val) => {
+        console.log({val})
+        setActiveDropdown(val)
     }
 
     return (
@@ -41,7 +46,7 @@ const Header = ({user}) => {
                         </SearchIcon>
                         <Input type="text" placeholder="Search inventory, product, order" />
                     </SearchInput>
-                    <Dropdown icon={<Icon name="triangle" width="12px" height="6px" />} options={dropdownList} value={activeDropdown} onSelect={setActiveDropdown} activeIndex={0} />
+                    <Dropdown icon={<Icon name="triangle" width="12px" height="6px" />} options={dropdownList} value={activeDropdown} onSelect={handleDropdown} />
                 </SearchWrapper>
                 <UserActions>
                     {

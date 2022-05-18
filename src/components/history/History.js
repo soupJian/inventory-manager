@@ -4,7 +4,18 @@ import { Flex, Icon, Text, Wrapper } from "../commons"
 import RangeAccordion from "./RangeAccordion"
 
 const History = ({children, show, onClose, user}) => {
-    
+    const today = new Date();
+    const yesterday = new Date();
+    const last7days = new Date();
+    const last30days = new Date();
+    const last90days = new Date();
+    const thisYear = new Date(new Date().getFullYear(), 0, 1);
+    yesterday.setDate(yesterday.getDate() - 1);
+    last7days.setDate(yesterday.getDate() - 7);  
+    last30days.setDate(yesterday.getDate() - 30);    
+    last90days.setDate(yesterday.getDate() - 90); 
+    console.log({thisYear})
+
     return (
         <HistoryWrapper show={show}>
             <Content>
@@ -17,10 +28,12 @@ const History = ({children, show, onClose, user}) => {
                     </CloseButton>
                 </CloseWrapper>
                 <Body>
-                    <RangeAccordion rangeParams={`from=${new Date().toISOString().split("T")[0]}`} user={user} label="Today" />
-                    <RangeAccordion user={user} label="Yesterday" />
-                    <RangeAccordion user={user} label="Last 7 days" />
-                    <RangeAccordion user={user} label="Last 30 days" />
+                    <RangeAccordion rangeParams={`from=${today.toISOString().split("T")[0]}&order=des`} user={user} label="Today" />
+                    <RangeAccordion rangeParams={`from=${new Date(yesterday).toISOString().split("T")[0]}&to=${new Date(yesterday).toISOString().split("T")[0]}`} user={user} label="Yesterday" />
+                    <RangeAccordion rangeParams={`from=${new Date(last7days).toISOString().split("T")[0]}`} user={user} label="Last 7 days" />
+                    <RangeAccordion rangeParams={`from=${new Date(last30days).toISOString().split("T")[0]}`} user={user} label="Last 30 days" />
+                    <RangeAccordion rangeParams={`from=${new Date(last90days).toISOString().split("T")[0]}`} user={user} label="Last 90 days" />
+                    <RangeAccordion rangeParams={`from=${new Date(thisYear).toISOString().split("T")[0]}`} user={user} label="This year" />
                 </Body>
             </Content>
         </HistoryWrapper>
@@ -47,7 +60,6 @@ const Content = styled.div`
     padding: 56px 16px 0px;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
 `
 const CloseWrapper = styled.div`
     position: absolute;
@@ -66,4 +78,6 @@ const Title = styled.div`
 const Body = styled.div`
     margin-top: 32px;
     flex: 1 1 auto;
+    overflow-y: auto;
+
 `

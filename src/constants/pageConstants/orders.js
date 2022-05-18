@@ -1,31 +1,27 @@
 export const dateList = [
     {
         label: "Today",
-        value: "Today"
+        value: "1"
     },
     {
         label: "Yesterday",
-        value: "Yesterday"
+        value: "2"
     },
     {
         label: "Last 7 days",
-        value: "Last 7 days"
+        value: "7"
     },
     {
         label: "Last 30 days",
-        value: "Last 30 days"
+        value: "30"
     },
     {
         label: "Last 90 days",
-        value: "Last 90 days"
-    },
-    {
-        label: "Last 180 days",
-        value: "Last 180 days"
+        value: "90"
     },
     {
         label: "Last 365 days",
-        value: "Last 365 days"
+        value: "365"
     }
 ]
 export const UnShippedTableHeaders = [

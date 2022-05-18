@@ -23,6 +23,7 @@ export class User {
 export class Api {
     static BASE_URL = "https://43kjv8b4z4.execute-api.us-west-2.amazonaws.com/v1"
     async getAllInventory(params, headers) {
+        console.log(`${Api.BASE_URL}/all-inventory?${params ? params : ""}`)
         return await fetch(`${Api.BASE_URL}/all-inventory?${params ? params : ""}`, {
             method: "GET",
             headers: {
@@ -55,8 +56,8 @@ export class Api {
             else return Promise.reject(resp).catch((error) => error ? error.json() : null)
         })
     }
-    async getInventory(param, headers) {
-        return await fetch(`${Api.BASE_URL}/inventory?${Object.keys(param)[0]}=${Object.values(param)[0]}`, {
+    async getInventory(params, headers) {
+        return await fetch(`${Api.BASE_URL}/inventory?${params ? params : ""}`, {
             method: "GET",
             headers: {
                 'Access-Control-Allow-Methods': 'GET',

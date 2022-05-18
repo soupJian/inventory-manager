@@ -10,7 +10,6 @@ const RangeAccordion = ({user, label, rangeParams}) => {
     const [isOpen,setIsOpen] = useState(false);
     const [isLoading,setIsLoading] = useState(false);
     const [data,setData] = useState({});
-    console.log(rangeParams)
     const fetchData = () => {
         setIsLoading(true)
         api.getHistory(`${rangeParams}`,{"Authorization": `Bearer ${user.accessToken}`})
@@ -22,7 +21,7 @@ const RangeAccordion = ({user, label, rangeParams}) => {
     }
 
     useEffect(() => {
-        if(isOpen) {
+        if(isOpen && !Object.keys(data).length) {
             fetchData()
         }
     }, [isOpen])
@@ -49,13 +48,13 @@ const RangeAccordion = ({user, label, rangeParams}) => {
                                     {
                                         data.Items?.map((data) => (
                                             <HistoryItem key={data.Id}>
-                                                <Text size="16px" color="#808080">11:39</Text>
+                                                <Text size="16px" color="#808080">{data.Created.match(/\d\d:\d\d/)[0]}</Text>
                                                 <Flex styles={{"margin-top": "20px"}} justifyContent="flex-start" alignItems="center" gap="8px">
                                                     <Icon name="user" width="18px" height="18px"/>
                                                     <Text weight="500" color="#000000" size="16px">User ID: {data.UserId}</Text>
                                                 </Flex>
                                                 <Wrapper padding="20px 26px">
-                                                    <Text as="p" size="14px" color="#808080">Y6 Canopy Tent Frame 13’x13’</Text>
+                                                    <Text as="p" size="14px" color="#808080">{data.NewItem.Name || data.OldItem.Name}</Text>
                                                     <Text as="p" styles={{"margin-top": "8px"}} size="14px" color="#000000">
                                                         {
                                                             data.Manipulation === "Create" ?

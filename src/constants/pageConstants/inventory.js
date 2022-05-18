@@ -2,15 +2,15 @@
 export const statusList = [
     {
         label: "In stock",
-        value: "IN_STOCK"
+        value: "in"
     },
     {
         label: "Out of stock",
-        value: "OUT_OF_STOCK"
+        value: "out"
     },
     {
         label: "Low stock",
-        value: "LOW_STOCK"
+        value: "low"
     }
 ]
 
@@ -31,7 +31,6 @@ export const categoryList = [
 export const TableHeaders = [
         {label: "Item Name", key: "Name"},
         {label: "SKU", key: "SKU"},
-        {label: "Category", key: "Category"},
         {label: "Stock", key: "Stock"},
         {label: "Reserved", key: "Reserved"},
         {label: "Available", key: "Available"},
@@ -44,3 +43,29 @@ export const ExpandedTableHeaders = [
     {label: "Location", key: "Location"}
 
 ]
+
+export const itemTemplate = {
+    "SKU": "",
+    "Available":0,
+    "Barcode": "",
+    "Cost": {
+     "CustomEntryDuty": 0,
+     "CustomerShipping": 0,
+     "ItemCost": 0,
+     "OceanFreight": 0,
+     "WarehouseDelivery": 0
+    },
+    "Created": "",
+    "Location": [],
+    "Name": "",
+    "ReorderAlert": 0,
+    "Reserved": 0,
+    "Settled": false,
+    "SettledTime": "",
+    "Sortable": 1,
+    "Stock": 0,
+    "Tags": [],
+    "TagsInput": "",
+    "TotalCost": 0,
+    "Updated": "",
+   }

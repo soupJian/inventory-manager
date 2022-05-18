@@ -51,7 +51,9 @@ const Content = styled.div`
     position: relative;
     background-color: ${({bgColor}) => bgColor};
     padding: 40px 48px;
+    overflow-y: auto;
     border-radius: 10px;
+    max-height: 95vh;
 `
 const CloseWrapper = styled.div`
     position: absolute;
