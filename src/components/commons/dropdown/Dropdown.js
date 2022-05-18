@@ -17,6 +17,8 @@ const Dropdown = ({ activeIndex, options = [], value, selected, onSelect, wrappe
         setShowOption(false);
         onSelect(val.value)
     }
+    console.log({value})
+
 
     // useEffect(() => {
     //     onSelect([options[activeIndex ? activeIndex : 0]])
@@ -24,7 +26,6 @@ const Dropdown = ({ activeIndex, options = [], value, selected, onSelect, wrappe
 
 
     useEffect(() => {
-        console.log(options.filter(option => option.value === value).map(item => item.label)[0])
         if(showOption) document.addEventListener('click', handleClick);
         else document.removeEventListener('click', handleClick);
 

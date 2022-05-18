@@ -11,7 +11,7 @@ const orderReducer = (state, {type, payload}) => {
         case "changeTab":
             return {...state, activeTab:payload, page: 1}
         case "changePageType":
-            return {...state, pageType:payload, page: 1, date:365}
+            return {...state, pageType:payload, page: 1, date:"365"}
         case "changePaginateNumber":
             return {...state, page:payload }
         case "changedate":
@@ -84,7 +84,7 @@ const Orders = ({router}) => {
     useEffect(() => {
         fetchShippedOrders()
         fetchUnShippedOrders()
-    }, [])
+    }, [orderState.pageType, orderState.date])
 
     useEffect(() => {
         if(orderState.pageType==="current") {
@@ -93,10 +93,9 @@ const Orders = ({router}) => {
         else if(orderState.pageType==="history")  {
             handleShippedOrdersToShow()
         }
-    }, [shippedOrders, unShippedOrders,orderState.pageType, orderState.page])
+    }, [shippedOrders, unShippedOrders])
 
     useEffect(() => {
-        console.log(router.query.date)
         if(!router.query.pageType) {
             router.replace(`/orders?pageType=current&date=${orderState.date}`)
             handleShippedOrdersToShow()

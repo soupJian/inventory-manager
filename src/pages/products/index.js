@@ -15,6 +15,8 @@ const productReducer = (state, {type, payload}) => {
     switch (type) {
         case "changeTab":
             return {...state, activeTab:payload, page: 1}
+        case "changeStatus":
+            return {...state, status:payload}
         case "changePaginateNumber":
             return {...state, page:payload }
         default:
@@ -25,7 +27,8 @@ const productReducer = (state, {type, payload}) => {
 const Products = ({router}) => {
     const user = useSelector(state => state.user.user)
     const [productState, dispatch] = useReducer(productReducer, {
-        page: parseInt(router.query.page) || 1
+        page: parseInt(router.query.page) || 1,
+        status: router.query.status ? router.query.status.split(",") : []
     })
     const [status, setStatus] = useState([])
     const [products, setProducts] = useState({})
@@ -84,6 +87,34 @@ const Products = ({router}) => {
         let newParts = [...partsInput]
         newParts.splice(idx,1)
         setPartsInput(newParts)
+    }
+    const handleStatus = (val) => {
+        console.log(val)
+        const idx = productState.status.findIndex(data => data === val)
+        let newStatus = [...productState.status]
+        if(idx >= 0) {
+            newStatus.splice(idx, 1)
+            if(newStatus.length) {
+                console.log(newStatus, "----> has status")
+
+                dispatch({type: "changeStatus", payload:newStatus})
+                router.replace(`/products?${objectsToQueryString({...router.query, status:newStatus.join(",")})}`, null, {shallow:true})
+
+            }
+            else {
+                console.log(newStatus, "----> no status")
+                dispatch({type: "changeStatus", payload:newStatus})
+                let params = {...router.query}
+                delete params['status']
+                router.replace(`/products?${objectsToQueryString({...params})}`, null, {shallow:true})
+
+            }
+
+        }
+        else {
+            router.replace(`/products?${objectsToQueryString({...router.query, status:[...newStatus, val].join(",")})}`, null, {shallow:true})
+            dispatch({type: "changeStatus", payload:[...newStatus, val]})
+        }
     }
 
     const newProductFieldHandler = (e,nestedKey) => {
@@ -145,7 +176,7 @@ const Products = ({router}) => {
     }
 
     const fetchSKUs = () => {
-        return api.getAllProducts("projectionExpression=SKU", {"Authorization": `Bearer ${user.accessToken}`})
+        return api.getAllProducts(`projectionExpression=SKU${productState.status ? `&status=${productState.status.join(',')}` : ""}`, {"Authorization": `Bearer ${user.accessToken}`})
                 .then(data => {
                     console.log(data)
                     setProductSKUs(data.Items)
@@ -188,7 +219,8 @@ const Products = ({router}) => {
 
     useEffect(() => {
         fetchSKUs()
-    }, [])
+        console.log("feching")
+    }, [productState.status])
 
     useEffect(() => {
         if(productSKUs.length) {
@@ -213,7 +245,7 @@ const Products = ({router}) => {
                 </Flex>
             </Flex>
             <Flex justifyContent="flex-end" styles={{"margin-top": "27px", gap: "12px"}}>
-                <Filter value={status} label="Status" list={statusList} multiSelect onSelect={setStatus} />
+                <Filter value={productState.status} label="Status" list={statusList} multiSelect onSelect={handleStatus} />
             </Flex>
             <Wrapper padding="23px 0px 0px">
                 <Table 
