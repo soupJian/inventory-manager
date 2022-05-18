@@ -4,7 +4,7 @@ import { Box, Flex, Icon, Input, Text, Wrapper } from "../../commons"
 import imagePlaceholder from "../../../../public/images/image-placeholder.png"
 
 const Item = ({item, backLink, onDelete, showEditModal}) => {
-    if(!item) return <> </>
+    if(!item) return <></>
     return (
         <Wrapper height="auto" padding="21px 33px">
             <Flex alignItems="center" justifyContent="space-between">
