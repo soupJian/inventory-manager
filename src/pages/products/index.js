@@ -30,6 +30,7 @@ const Products = ({router}) => {
         page: parseInt(router.query.page) || 1,
         status: router.query.status ? router.query.status.split(",") : []
     })
+    const [loadingTable, setLoadingTable] = useState(false)
     const [status, setStatus] = useState([])
     const [products, setProducts] = useState({})
     const [productSKUs, setProductSKUs] = useState([])
@@ -89,7 +90,6 @@ const Products = ({router}) => {
         setPartsInput(newParts)
     }
     const handleStatus = (val) => {
-        console.log(val)
         const idx = productState.status.findIndex(data => data === val)
         let newStatus = [...productState.status]
         if(idx >= 0) {
@@ -176,10 +176,15 @@ const Products = ({router}) => {
     }
 
     const fetchSKUs = () => {
+        setLoadingTable(true)
         return api.getAllProducts(`projectionExpression=SKU${productState.status ? `&status=${productState.status.join(',')}` : ""}`, {"Authorization": `Bearer ${user.accessToken}`})
                 .then(data => {
-                    console.log(data)
                     setProductSKUs(data.Items)
+                    setLoadingTable(false)
+                })
+                .catch(err => {
+                    setLoadingTable(false)
+                    console.log(err)
                 })
     }
 
@@ -213,24 +218,24 @@ const Products = ({router}) => {
         }
     }
 
-    useEffect(() => {
-        
-    }, [productState.page])
 
     useEffect(() => {
         fetchSKUs()
-        console.log("feching")
     }, [productState.status])
 
     useEffect(() => {
         if(productSKUs.length) {
+            setLoadingTable(true)
             const skusToShow = productSKUs.slice(productState.page * itemsPerPage - itemsPerPage, productState.page * itemsPerPage)
             let str = ""
             skusToShow.forEach(i => { Object.values(i).map(val => { str += val+","})})
             api.getMultipleProducts(`skus=${str}`, {"Authorization": `Bearer ${user.accessToken}`})
                 .then((data) => {
-                    console.log(skusToShow)
                     setProducts(data)
+                    setLoadingTable(false)
+                })
+                .catch(err => {
+                    setLoadingTable(false)
                 })
         }
     }, [productSKUs, productState.page])
@@ -248,7 +253,8 @@ const Products = ({router}) => {
                 <Filter value={productState.status} label="Status" list={statusList} multiSelect onSelect={handleStatus} />
             </Flex>
             <Wrapper padding="23px 0px 0px">
-                <Table 
+                <Table
+                    loading={loadingTable}
                     name="products-items" 
                     selectable 
                     onSelectAll={selectAll}

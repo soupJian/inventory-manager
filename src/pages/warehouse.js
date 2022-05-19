@@ -40,6 +40,7 @@ const Warehouse = ({router}) => {
     const [recievingType, setRecievingType] = useState(0);
     const [scanning, setScanning] = useState(false);
     const [scan, setScan] = useState(false);
+    const [loadingTable, setLoadingTable] = useState(false);
     //for looking up an Item
     const [sku, setSku] = useState("");
     const [barcode, setBarcode] = useState("");
@@ -48,16 +49,22 @@ const Warehouse = ({router}) => {
     const [lookUpLoading, setLookUpLoading] = useState(false);
     const [lookUpError, setLookUpError] = useState("");
     //for settling items
-    const [settlingOption, setSettlingOption] = useState(0);
     const [settledItems, setSettledItems] = useState([])
     const [unSettledItems, setUnSettledItems] = useState([])
+    const [settledItemsToShow, setSettledItemsToShow] = useState([])
+    const [unSettledItemsToShow, setUnSettledItemsToShow] = useState([])
     const [locationList, setLocationList] = useState([])
-    const [itemsPerPage, setItemsPerPage] = useState(2)
+    const [itemsPerPage, setItemsPerPage] = useState(10)
     //for adding new Item
     const [newItem, setNewItem] = useState({...itemTemplate})
     const [newItemModal, setNewItemModal] = useState(false)
     const [newItemLoading, setNewItemLoading] = useState(false);
     const [newItemError, setNewItemError] = useState("");
+
+    const handlePage = (page) => {
+        router.replace(`/warehouse?${objectsToQueryString({...router.query, page})}`, null, {shallow:true})
+        dispatch({type:"changePaginateNumber",payload:page})
+    }
 
     const lookUpItem = async (key) => {
         console.log(key)
@@ -189,6 +196,20 @@ const Warehouse = ({router}) => {
         }
     }
 
+    const handleSettledItemsToShow = () => {
+        setLoadingTable(true)
+        const dataToShow = settledItems.slice(warehouseState.page * 10 -10, warehouseState.page * 10)
+        setSettledItemsToShow(dataToShow)
+        setLoadingTable(false)
+
+    }
+    const handleUnSettledItemsToShow = () => {
+        setLoadingTable(true)
+        const dataToShow = unSettledItems.slice(warehouseState.page * 10 -10, warehouseState.page * 10)
+        setUnSettledItemsToShow(dataToShow)
+        setLoadingTable(false)
+    }
+
     useEffect(() => {
         if(!router.query.pageType) {
             router.replace("/warehouse?&pageType=receiving", null, {shallow:true})
@@ -197,8 +218,11 @@ const Warehouse = ({router}) => {
             if(warehouseState.pageType==="receiving") {
                 router.replace(`/warehouse?pageType=${warehouseState.pageType}`, null, {shallow:true})
             }
+            else if (warehouseState.pageType==="sending") {
+                router.replace(`/warehouse?pageType=${warehouseState.pageType}`, null, {shallow:true})
+            }
             else {
-                router.replace(`/warehouse?pageType=${warehouseState.pageType}&settlingType=${warehouseState.settlingType}&date=${warehouseState.date}`, null, {shallow:true})
+                router.replace(`/warehouse?pageType=${warehouseState.pageType}&settlingType=${warehouseState.settlingType}&date=${warehouseState.date}&page=${warehouseState.page}`, null, {shallow:true})
             }
         }
     },[warehouseState.pageType, warehouseState.settlingType])
@@ -208,8 +232,21 @@ const Warehouse = ({router}) => {
     },[lookedUpItem])
 
     useEffect(() => {
+        console.log("running")
         if(warehouseState.pageType==="settling") {
-            router.replace(`/warehouse?pageType=${warehouseState.pageType}&settlingType=${warehouseState.settlingType}&date=${warehouseState.date}`, null, {shallow:true})
+            router.replace(`/warehouse?pageType=${warehouseState.pageType}&settlingType=${warehouseState.settlingType}&date=${warehouseState.date}&page=${warehouseState.page}`, null, {shallow:true})
+            if(warehouseState.settlingType === "settled") {
+                handleSettledItemsToShow()
+            }   
+            else {
+                handleUnSettledItemsToShow()
+            }
+        }
+    }, [settledItems, unSettledItems, warehouseState.settlingType,warehouseState.page])
+
+    useEffect(() => {
+        if(warehouseState.pageType==="settling") {
+            router.replace(`/warehouse?pageType=${warehouseState.pageType}&settlingType=${warehouseState.settlingType}&date=${warehouseState.date}&page=${warehouseState.page}`, null, {shallow:true})
             api.getSettledInventory(`date=${warehouseState.date}`, {"Authorization": `Bearer ${user.accessToken}`})
             .then(data => {
                 setSettledItems(data.Items)
@@ -229,6 +266,7 @@ const Warehouse = ({router}) => {
             <Flex justifyContent="space-between">
                 <Tabs>
                     <Tab onClick={() => dispatch({type: "changePageType", payload: "receiving"})} active={"receiving" === warehouseState.pageType} idx={0}>Receiving</Tab>
+                    <Tab onClick={() => dispatch({type: "changePageType", payload: "sending"})} active={"sending" === warehouseState.pageType} idx={0}>Sending</Tab>
                     <Tab onClick={() => dispatch({type: "changePageType", payload: "settling"})} active={"settling" === warehouseState.pageType} idx={1}>Settling</Tab>
                 </Tabs>
                 {
@@ -249,12 +287,14 @@ const Warehouse = ({router}) => {
                             {
                                 warehouseState.settlingType === "settled" ?
                                 <>
-                                    <Table 
+                                    <Table
+                                        loading={loadingTable}
                                         name="warehousing-settled" 
                                         headers={settledHeaders}
+                                        paginationComponent={ <Wrapper padding="32px 0 0"><Pagination itemsInPage={settledItems?.length} totalItems={settledItems?.length} totalPages={Math.ceil(settledItems?.length / itemsPerPage)} onPageChange={handlePage} currentPage={warehouseState.page} /> </Wrapper>}
                                         >
                                         {
-                                            settledItems.map((item,idx) => (
+                                            settledItemsToShow.map((item,idx) => (
                                                 <TableRow
                                                     idx={idx} 
                                                     height="72px"
@@ -310,9 +350,14 @@ const Warehouse = ({router}) => {
                                 </>
                                 :
                                 <>
-                                    <Table name="warehousing-unsettled" headers={unSettledHeaders}>
+                                    <Table
+                                        loading={loadingTable}
+                                        name="warehousing-unsettled" 
+                                        headers={unSettledHeaders}
+                                        paginationComponent={ <Wrapper padding="32px 0 0"><Pagination itemsInPage={unSettledItems?.length} totalItems={unSettledItems?.length} totalPages={Math.ceil(unSettledItems?.length / itemsPerPage)} onPageChange={handlePage} currentPage={warehouseState.page} /> </Wrapper>}
+                                        >
                                         {
-                                            unSettledItems.map((item,idx) => (
+                                            unSettledItemsToShow.map((item,idx) => (
                                                 <TableRow
                                                     idx={idx} 
                                                     height="72px"
@@ -342,10 +387,11 @@ const Warehouse = ({router}) => {
                         </Wrapper>
                     </Wrapper>
                 :
+                warehouseState.pageType === "receiving" ?
                     <Wrapper height="auto"  padding="38px 0">
                         <Alert type="notification" styles={{display: "flex", "align-items": "center", borderRadius: "10px", width: "fit-content"}}>
                             <Icon name="notification" width="20px" height="20px"/>
-                            <Text>For new products without SKU/Barcode, <TriggeringText>create one first</TriggeringText> </Text>
+                            <Text>For new products without SKU/Barcode, <TriggeringText onClick={() => router.push("/products")}>create one first</TriggeringText> </Text>
                         </Alert>
 
                         <Wrapper height="auto" padding="47px 0 0">
@@ -508,6 +554,58 @@ const Warehouse = ({router}) => {
                             </Modal>
                         }
                     </Wrapper>
+                :
+                    <>
+                        <Flex alignItems="flex-start" justifyContent="flex-start" styles={{width: "100%", "padding-top": "58px", gap: "40px"}}>
+                            <CustomInputGroup>
+                                <Label htmlFor="warehouse-recieving-sku">SKU</Label>
+                                <Input readOnly={lookUpLoading} endIcon={<LookupBtn disabled={lookUpLoading} onClick={() => lookUpItem("sku")}>Look up</LookupBtn>} wrapperStyles={{"margin-top": "16px", "min-height": "59px"}} inputStyles={{width: "100%"}} placeholder="Type" value={sku} onChange={(e) => setSku(e.target.value)} name="sku" type="text" id="warehouse-recieving-sku" />
+                            </CustomInputGroup>
+                            <Separator>
+                                or
+                            </Separator>
+                            <CustomInputGroup>
+                                <Label htmlFor="warehouse-recieving-barcode">Barcode</Label>
+                                <Input readOnly={lookUpLoading} endIcon={<LookupBtn disabled={lookUpLoading} onClick={() => lookUpItem("barcode")}>Look up</LookupBtn>} wrapperStyles={{"margin-top": "16px", "min-height": "59px"}} inputStyles={{width: "100%"}} placeholder="Type" value={barcode} onChange={(e) => setBarcode(e.target.value)} name="barcode" type="text" id="warehouse-recieving-barcode" />
+                            </CustomInputGroup>
+                        </Flex>
+                        <Wrapper padding="16px 0">
+                            <Alert type="notification" styles={{display: "flex", "align-items": "center", borderRadius: "10px", width: "fit-content"}}>
+                                <Icon name="notification" width="20px" height="20px"/>
+                                <Text>Can’t find the item.<TriggeringText onClick={() => setNewItemModal(true)}> Add it to the system</TriggeringText> </Text>
+                            </Alert>
+                        </Wrapper>
+                        {
+                            lookUpLoading && 
+                            <Loader size={30} />
+                        }
+                        {
+                            lookUpError && 
+                            <ErrorMessage>
+                                {lookUpError}
+                            </ErrorMessage>
+                        }
+                        {
+                            lookedUpItem && !lookUpLoading && 
+                            <Wrapper padding="30px 0 39px">
+                                <LookedUpItemName>
+                                    Intaking: <strong>{lookedUpItem.Name}</strong>
+                                </LookedUpItemName>
+
+                                <Wrapper padding="0" styles={{"max-width": "335px", "margin-top": "39px"}}>
+                                    <InputGroup>
+                                        <Label htmlFor="warehouse-recieving-barcode">count</Label>
+                                        <Input wrapperStyles={{"margin-top": "16px", "min-height": "59px"}} inputStyles={{width: "100%"}} placeholder="Type" value={lookedUpItemCount} onChange={(e) => setLookedUpItemCount(e.target.value)} name="item-count" type="number" id="warehouse-recieving-lookedup-item" />
+                                    </InputGroup>
+                                    <ButtonV1 loading={lookUpLoading} onClick={saveItem} styles={{"margin-top": "36px"}} minWidth="78px" kind="primary">
+                                        Save
+                                    </ButtonV1>
+                                </Wrapper>
+                            </Wrapper>
+
+                        }
+                    </>
+
             }
         </Wrapper>
     )

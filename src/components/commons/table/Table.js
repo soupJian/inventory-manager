@@ -1,9 +1,9 @@
 import React from "react"
 import { useState } from "react"
 import styled from "styled-components"
-import { Checkbox } from ".."
+import { Checkbox, Loader } from ".."
 import Icon from "../icons/Icon"
-import { Flex, Wrapper } from "../styled-elements"
+import { Flex, Text, Wrapper } from "../styled-elements"
 
 //Note on using this component, use TableCell in rendering table data when using a table row without nested/expanded content
 
@@ -87,9 +87,18 @@ export const TableRow = ({ idx, nested, selected, selectable, onSelect, dataId, 
     )
 }
 
-const Table = ({children, onSelectAll, selectedAll, headers, selectable, name, styles, paginationComponent}) => {
+const Table = ({children, loading, onSelectAll, selectedAll, headers, selectable, name, styles, paginationComponent}) => {
     return (
         <CustomTableWrapper>
+            {
+                loading && 
+                <LoadingWrapper>
+                    {
+                        children?.length > 3 && <Loader size={70} />
+                    }
+                    <Text>Loading data...</Text>
+                </LoadingWrapper>
+            }
             <CustomTable styles={styles} border="0" cellSpacing="0" cellPadding="0">
                 <TableHead>
                     <TableRowWrapper>
@@ -126,6 +135,20 @@ const CustomTableWrapper = styled.div`
     padding: 30px 28px 48px 33px;
     background-color: #ffffff;
     border-radius: 10px 10px 0px 0px;
+    position: relative;
+`
+const LoadingWrapper = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255,.85);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
 `
 const CustomTable = styled.table`
     width: 100%;

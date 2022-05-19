@@ -16,6 +16,7 @@ const ProductPage = ({router}) => {
         onConfirm: "",
         show: false
     })
+    const [loadingData, setLoadingData] = useState(false)
     const [showModal, setShowModal] = useState(false)
     const [loading, setLoading] = useState(false)
     const [partsInput, setPartsInput] = useState([{barcode:"", count: 1, item: {}}])
@@ -145,8 +146,10 @@ const ProductPage = ({router}) => {
     }
 
     const fetchProduct = () => {
+        setLoadingData(true)
         api.getProduct(`sku=${router.query.sku}`, {"Authorization": `Bearer ${user.accessToken}`})
             .then(data => {
+                setLoadingData(false)
                 setProduct(data.Items[0])
                 setEditProduct(data.Items[0])                
                 if(data.Items[0]?.Parts.length) {
@@ -162,6 +165,10 @@ const ProductPage = ({router}) => {
                     })
                 }
             })
+            .catch(err => {
+                setLoadingData(false)
+                alert(err.name)
+            })
     }
 
     useEffect(() => {
@@ -170,7 +177,7 @@ const ProductPage = ({router}) => {
 
     return (
         <>
-            <Product parts={partsInput} showEditModal={modalHandler} onDelete={() => confirmAction(() => deleteProduct(product.SKU), "Are you sure you want to delete this product?")} product={product} backLink={() => router.back()} />
+            <Product loading={loadingData} parts={partsInput} showEditModal={modalHandler} onDelete={() => confirmAction(() => deleteProduct(product.SKU), "Are you sure you want to delete this product?")} product={product} backLink={() => router.back()} />
             {
                 dialog.message && dialog.show && 
                 <Dialog>

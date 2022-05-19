@@ -1,12 +1,20 @@
 import Image from "next/image"
 import styled from "styled-components"
-import { Box, Flex, Icon, Input, Text, Wrapper } from "../../commons"
+import { Box, Flex, Icon, Input, Loader, Text, Wrapper } from "../../commons"
 import imagePlaceholder from "../../../../public/images/image-placeholder.png"
 
-const Item = ({item, backLink, onDelete, showEditModal}) => {
-    if(!item) return <></>
+const Item = ({loading, item, backLink, onDelete, showEditModal}) => {
+    if(!item) return <> </>
+    console.log({loading})
     return (
-        <Wrapper height="auto" padding="21px 33px">
+        <Wrapper styles={{position: "relative"}} height="100%" padding="21px 33px">
+            {
+                loading && 
+                <LoadingWrapper>
+                    <Loader size={100} />
+                    <Text>Loading Item...</Text>
+                </LoadingWrapper>
+            }
             <Flex alignItems="center" justifyContent="space-between">
                 <Flex alignItems="center">
                     <Icon onClick={backLink} styles={{"cursor": "pointer", "margin-right": "41px"}} name="chevron" height="22px" width="14px" />
@@ -153,6 +161,20 @@ const Item = ({item, backLink, onDelete, showEditModal}) => {
 
 export default Item
 
+const LoadingWrapper = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255,.85);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    z-index: 5;
+`
 const ActionButton = styled.button`
     padding: 14px;
     margin: 0 5px;

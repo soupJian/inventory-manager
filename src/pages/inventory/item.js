@@ -17,6 +17,7 @@ const ItemPage = ({router}) => {
         show: false
     })
     const [showModal, setShowModal] = useState(false)
+    const [loadingItem, setLoadingItem] = useState(true)
     const [loading, setLoading] = useState(false)
     const [partsInput, setPartsInput] = useState([{barcode:"", count: 1, item: {}}])
     const [editItem, setEditItem] = useState({...itemTemplate})
@@ -70,11 +71,18 @@ const ItemPage = ({router}) => {
     const modalHandler = (val) => setShowModal(val)
 
     const fetchItem = () => {
+        console.log("loading item")
+        setLoadingItem(true)
         api.getInventory(`sku=${router.query.sku}`, {"Authorization": `Bearer ${user.accessToken}`})
             .then(data => {
-                console.log(data)
                 setItem(data.Items[0])
-                setEditItem(data.Items[0])                
+                setEditItem(data.Items[0])
+                setLoadingItem(false)    
+                console.log("loading item finished")
+       
+            })
+            .catch(err => {
+                setLoadingItem(false)
             })
     }
 
@@ -117,7 +125,7 @@ const ItemPage = ({router}) => {
 
     return (
         <>
-            <Item showEditModal={modalHandler} onDelete={() => confirmAction(() => deleteItem(item.SKU), "Are you sure you want to delete this item?")} item={item} backLink={() => router.back()} />
+            <Item loading={loadingItem} showEditModal={modalHandler} onDelete={() => confirmAction(() => deleteItem(item.SKU), "Are you sure you want to delete this item?")} item={item} backLink={() => router.back()} />
             {
                 dialog.message && dialog.show && 
                 <Dialog>

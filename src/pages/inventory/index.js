@@ -191,11 +191,15 @@ const Inventory = ({router}) => {
     }
 
     const fetchSKUs = () => {
-        console.log(inventoryState.status.length ? `&status=${inventoryState.status.join(",")}` : "")
+        setLoadingTable(true)
         return api.getAllInventory(`projectionExpression=SKU${inventoryState.status.length ? `&status=${inventoryState.status.join(",")}` : ""}`, {"Authorization": `Bearer ${user.accessToken}`})
                 .then(data => {
                     setInventorySKUs(data.Items)
-                    console.log(data.Items)
+                    setLoadingTable(false)
+                })
+                .catch(err => {
+                    console.log(err)
+                    setLoadingTable(false)
                 })
     }
 
@@ -206,11 +210,18 @@ const Inventory = ({router}) => {
     useEffect(() => {
         const skusToShow = inventorySKUs?.slice(inventoryState.page * itemsPerPage - itemsPerPage, inventoryState.page * itemsPerPage)
         if(skusToShow?.length){
+            setLoadingTable(true)
             let str = ""
             skusToShow.forEach(i => { Object.values(i).map(val => { str += val+","})})
-            api.getMultipleInventory(`skus=${str}`, {"Authorization": `Bearer ${user.accessToken}`}) .then(data => { 
-                setInventoryData(data)
-            })
+            api.getMultipleInventory(`skus=${str}`, {"Authorization": `Bearer ${user.accessToken}`}) 
+                .then(data => { 
+                    setInventoryData(data)
+                    setLoadingTable(false)
+                })
+                .then(err => {
+                    console.log(err)
+                    setLoadingTable(false)
+                })
         }
         else {
             setInventoryData({})
@@ -231,7 +242,8 @@ const Inventory = ({router}) => {
                 <Filter value={inventoryState.status} label="Status" list={statusList} multiSelect onSelect={handleStatus} />
             </Flex>
             <Wrapper styles={{position: "relative"}} padding="23px 0px 0px">
-                <Table 
+                <Table
+                    loading={loadingTable}
                     name="inventory-items" 
                     selectable 
                     selectedAll={selection.length === inventoryData?.Items?.length} 

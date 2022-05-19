@@ -28,12 +28,13 @@ const Orders = ({router}) => {
         pageType: router.query.pageType || "current",
         date: router.query.date || "365",
     })
-    const [shippedOrders, setShippedOrders] = useState([])
-    const [shippedOrdersToShow, setShippedOrdersToShow] = useState([])
-    const [unShippedOrdersToShow, setUnShippedOrdersToShow] = useState([])
-    const [unShippedOrders, setUnShippedOrders] = useState([])
-    const [itemsPerPage, setItemsPerPage] = useState(10)
-    const [syncLoading, setSyncLoading] = useState(false)
+    const [loadingTable, setLoadingTable] = useState(false);
+    const [shippedOrders, setShippedOrders] = useState([]);
+    const [shippedOrdersToShow, setShippedOrdersToShow] = useState([]);
+    const [unShippedOrdersToShow, setUnShippedOrdersToShow] = useState([]);
+    const [unShippedOrders, setUnShippedOrders] = useState([]);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [syncLoading, setSyncLoading] = useState(false);
 
     const handlePage = (page) => {
         router.replace(`/orders?${objectsToQueryString({...router.query, page})}`, null, {shallow:true})
@@ -47,30 +48,35 @@ const Orders = ({router}) => {
     }
 
     const handleShippedOrdersToShow = () => {
+        setLoadingTable(true)
         const dataToShow = shippedOrders.slice(orderState.page * 10 -10, orderState.page * 10)
         setShippedOrdersToShow(dataToShow)
+        setLoadingTable(false)
+
     }
     const handleUnShippedOrdersToShow = () => {
+        setLoadingTable(true)
         const dataToShow = unShippedOrders.slice(orderState.page * 10 -10, orderState.page * 10)
         setUnShippedOrdersToShow(dataToShow)
+        setLoadingTable(false)
     }
 
     const fetchShippedOrders = () => {
-        api.getShippedOrders(`date=${orderState.date}`,{"Authorization": `Bearer ${user.accessToken}`})
-        .then(data => {
-            setShippedOrders(data.Items)
-        })
+        return api.getShippedOrders(`date=${orderState.date}`,{"Authorization": `Bearer ${user.accessToken}`})
+                .then(data => {
+                    setShippedOrders(data.Items)
+                })
     }
 
     const fetchUnShippedOrders = () => {
-        api.getUnShippedOrders(`date=${orderState.date}`,{"Authorization": `Bearer ${user.accessToken}`})
-        .then(data => {
-            setUnShippedOrders(data.Items)
-            console.log(data)
-        })
-        .catch(err => {
-            console.log(err)
-        })
+        return api.getUnShippedOrders(`date=${orderState.date}`,{"Authorization": `Bearer ${user.accessToken}`})
+                .then(data => {
+                    setUnShippedOrders(data.Items)
+                    console.log(data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
     }
 
     const syncData = () => {
@@ -82,8 +88,16 @@ const Orders = ({router}) => {
     }
     
     useEffect(() => {
-        fetchShippedOrders()
-        fetchUnShippedOrders()
+        setLoadingTable(true)
+        const dataFetcher = Promise.all(fetchShippedOrders(),fetchUnShippedOrders())
+        dataFetcher
+            .then(data => {
+                setLoadingTable(false)
+            })
+            .catch(err => {
+                console.log(err)
+                setLoadingTable(false)
+            })
     }, [orderState.pageType, orderState.date])
 
     useEffect(() => {
@@ -93,7 +107,7 @@ const Orders = ({router}) => {
         else if(orderState.pageType==="history")  {
             handleShippedOrdersToShow()
         }
-    }, [shippedOrders, unShippedOrders])
+    }, [shippedOrders, unShippedOrders, orderState.page])
 
     useEffect(() => {
         if(!router.query.pageType) {
@@ -125,7 +139,8 @@ const Orders = ({router}) => {
             {
                 orderState.pageType === "current" ?
                     <Wrapper styles={{position: "relative"}} padding="23px 0px 0px">
-                        <Table 
+                        <Table
+                            loading={loadingTable}
                             name="shipped-items"
                             headers={UnShippedTableHeaders}
                             paginationComponent={ <Wrapper padding="32px 0 0"><Pagination itemsInPage={unShippedOrdersToShow?.length} totalItems={unShippedOrders?.length} totalPages={Math.ceil(unShippedOrders?.length / itemsPerPage)} onPageChange={handlePage} currentPage={orderState.page} /> </Wrapper>}
@@ -171,7 +186,8 @@ const Orders = ({router}) => {
                 :
                 <>
                     <Wrapper styles={{position: "relative"}} padding="23px 0px 0px">
-                        <Table 
+                        <Table
+                            loading={loadingTable}
                             name="shipped-items"
                             headers={ShippedTableHeaders}
                             paginationComponent={ <Wrapper padding="32px 0 0"><Pagination itemsInPage={shippedOrdersToShow?.length} totalItems={shippedOrders?.length} totalPages={Math.ceil(shippedOrders?.length / itemsPerPage)} onPageChange={handlePage} currentPage={orderState.page} /> </Wrapper>}

@@ -4,6 +4,7 @@ export const Wrapper = styled.div`
     padding: ${({padding}) => padding ? padding: "16px"};
     width: ${({width}) => width ? width: "100%"};
     height: ${({height}) => height ? height: "100%"};
+    position: ${({position}) => position ? position: "relative"};
     ${({styles}) => styles && styles}
 `
 
