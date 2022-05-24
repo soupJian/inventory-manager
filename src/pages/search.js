@@ -158,7 +158,7 @@ const SearchPage = ({router}) => {
             <Flex styles={{flex: "0 0 auto"}} alignItems="flex-start" justifyContent="flex-start">
                 <Icon onClick={() => router.back()} styles={{"cursor": "pointer", "margin-right": "41px"}} name="chevron" height="22px" width="14px" />
                 <Flex styles={{lineHeight: "1"}} gap="16px" direction="column" alignItems="flex-start">
-                    <Text as="h1" weight="500" size="24px">Search for "{search}"</Text>
+                    <Text as="h1" weight="500" size="24px">Search for {`"${search}"`}</Text>
                     <Text as="p" weight="400" size="18px">Showing {data.Items?.length || 0} results</Text>
                 </Flex>
             </Flex>
