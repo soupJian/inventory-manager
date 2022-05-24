@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { BaseButton, Button, Dialog, Filter, Flex, FloatingBar, Icon, Input, Modal, Pagination, Tab, Table, TableCell, TableRow, Tabs, Text, Wrapper } from "../../components/commons"
 import { ExpandedTableHeaders, itemTemplate, statusList, TableHeaders } from "../../constants/pageConstants/inventory";
+import { locations } from "../../constants/pageConstants/locations";
 import { Api, objectsToQueryString } from "../../utils/utils";
 
 const api = new Api()
@@ -168,6 +169,18 @@ const Inventory = ({router}) => {
         }
     }
 
+    const handleNewLocationList = (name, val) => {
+        const idx = newItem.Location.findIndex(loc => loc.value === val)
+        let newLocationList = [...newItem.Location]
+        if(idx >= 0) {
+            newLocationList.splice(idx, 1)
+            setNewItem({...newItem, [name]: newLocationList})
+        }
+        else {
+            setNewItem({...newItem, [name]: [...newLocationList,val]})
+        }
+    }
+
     const submitNewItem = (e) => {
         setNewItemLoading(true)
         setNewItemError("")
@@ -178,7 +191,7 @@ const Inventory = ({router}) => {
         }
         else {
             const TotalCost = Object.values(newItem.Cost).reduce((total, cost) => total + parseInt(cost), 0)
-            let data = {...newItem, Updated: new Date(), Created: new Date(), TotalCost}
+            let data = {...newItem, Updated: new Date(), Recieved: new Date(),Created: new Date(), TotalCost}
             delete data['TagsInput']
             api.updateInventory(data, {"Authorization": `Bearer ${user.accessToken}`})
                 .then(data => {
@@ -368,8 +381,22 @@ const Inventory = ({router}) => {
                                             <Input wrapperStyles={{"margin-top": "16px", "min-height": "59px"}} inputStyles={{width: "100%"}} placeholder="0" value={newItem.Stock} onChange={(e) => newItemHandler(e)} name="Stock" type="number" id="warehouse-new-item-count"/>
                                         </InputGroup>
                                         <InputGroup>
+                                            <Label htmlFor="warehouse-recieving-sku">AVAILABLE</Label>
+                                            <Input wrapperStyles={{"margin-top": "16px", "min-height": "59px"}} inputStyles={{width: "100%"}} placeholder="0" value={newItem.Available} onChange={(e) => newItemHandler(e)} name="Available" type="number" id="warehouse-new-item-available"/>
+                                        </InputGroup>
+                                        <InputGroup>
+                                            <Label htmlFor="warehouse-recieving-sku">RESERVED</Label>
+                                            <Input wrapperStyles={{"margin-top": "16px", "min-height": "59px"}} inputStyles={{width: "100%"}} placeholder="0" value={newItem.Reserved} onChange={(e) => newItemHandler(e)} name="Reserved" type="number" id="warehouse-new-item-reserved"/>
+                                        </InputGroup>
+                                        <InputGroup>
                                             <Label htmlFor="warehouse-recieving-sku">REORDER ALERT</Label>
                                             <Input wrapperStyles={{"margin-top": "16px", "min-height": "59px"}} inputStyles={{width: "100%"}} placeholder="0" value={newItem.ReorderAlert} onChange={(e) => newItemHandler(e)} name="ReorderAlert" type="number" id="warehouse-new-item-reorder-alert"/>
+                                        </InputGroup>
+                                    </Flex>
+                                    <Flex alignItems="flex-start" justifyContent="flex-start" styles={{width: "100%", "margin-top": "24px", gap: "24px"}}>
+                                        <InputGroup>
+                                            <Label htmlFor="warehouse-recieving-sku">LOCATION</Label>
+                                            <Filter wrapperStyles={{width: "100%", "margin-top": "10px"}} name="Location" value={newItem.Location} label="" list={locations} multiSelect onSelect={handleNewLocationList} />
                                         </InputGroup>
                                     </Flex>
                                     <Wrapper padding="24px 0 0">

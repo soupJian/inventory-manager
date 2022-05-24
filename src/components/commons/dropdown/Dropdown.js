@@ -63,6 +63,7 @@ export default Dropdown
 const Wrapper = styled.div`
     min-width: 120px;
     padding: 6px 10px;
+    width: 100%;
     position: relative;
     background-color: ${({theme}) => theme.colors.menuBackground};
     border-radius: 4px;

@@ -2,9 +2,10 @@ import { withRouter } from "next/router"
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { BaseButton, Button, Dialog, Flex, Icon, Input, InputGroup, Label, Loader, Modal, Text, Wrapper } from "../../components/commons";
+import { BaseButton, Button, Dialog, Filter, Flex, Icon, Input, InputGroup, Label, Loader, Modal, Text, Wrapper } from "../../components/commons";
 import { Item } from "../../components/pageComponents";
 import { itemTemplate } from "../../constants/pageConstants/inventory";
+import { locations } from "../../constants/pageConstants/locations";
 import { Api } from "../../utils/utils";
 const api = new Api()
 
@@ -71,14 +72,12 @@ const ItemPage = ({router}) => {
     const modalHandler = (val) => setShowModal(val)
 
     const fetchItem = () => {
-        console.log("loading item")
         setLoadingItem(true)
         api.getInventory(`sku=${router.query.sku}`, {"Authorization": `Bearer ${user.accessToken}`})
             .then(data => {
                 setItem(data.Items[0])
                 setEditItem(data.Items[0])
                 setLoadingItem(false)    
-                console.log("loading item finished")
        
             })
             .catch(err => {
@@ -86,11 +85,22 @@ const ItemPage = ({router}) => {
             })
     }
 
+    const handleNewLocationList = (name, val) => {
+        const idx = editItem.Location.findIndex(loc => loc.value === val)
+        let newLocationList = [...editItem.Location]
+        if(idx >= 0) {
+            newLocationList.splice(idx, 1)
+            setEditItem({...editItem, [name]: newLocationList})
+        }
+        else {
+            setEditItem({...editItem, [name]: [...newLocationList,val]})
+        }
+    }
+
     const submitEditedItem = (e) => {
         setEditItemLoading(true)
         setEditItemError("")
         e.preventDefault();
-        console.log("submit")
         if(!editItem.Name) {
             setEditItemLoading(false)
             setEditItemError("Required")
@@ -99,7 +109,6 @@ const ItemPage = ({router}) => {
             const TotalCost = Object.values(editItem.Cost).reduce((total, cost) => total + parseInt(cost), 0)
             let data = {...editItem, Updated: new Date(), TotalCost}
             delete data['TagsInput']
-            console.log(data)
             api.updateInventory(data, {"Authorization": `Bearer ${user.accessToken}`})
                 .then(data => {
                     setEditItemLoading(false)
@@ -184,8 +193,22 @@ const ItemPage = ({router}) => {
                                     <Input wrapperStyles={{"margin-top": "16px", "min-height": "59px"}} inputStyles={{width: "100%"}} placeholder="0" value={editItem.Stock} onChange={(e) => editItemHandler(e)} name="Stock" type="number" id="warehouse-new-item-count"/>
                                 </InputGroup>
                                 <InputGroup>
+                                    <Label htmlFor="warehouse-recieving-sku">AVAILABLE</Label>
+                                    <Input wrapperStyles={{"margin-top": "16px", "min-height": "59px"}} inputStyles={{width: "100%"}} placeholder="0" value={editItem.Available} onChange={(e) => editItemHandler(e)} name="Available" type="number" id="warehouse-new-item-available"/>
+                                </InputGroup>
+                                <InputGroup>
+                                    <Label htmlFor="warehouse-recieving-sku">RESERVED</Label>
+                                    <Input wrapperStyles={{"margin-top": "16px", "min-height": "59px"}} inputStyles={{width: "100%"}} placeholder="0" value={editItem.Reserved} onChange={(e) => editItemHandler(e)} name="Reserved" type="number" id="warehouse-new-item-reserved"/>
+                                </InputGroup>
+                                <InputGroup>
                                     <Label htmlFor="warehouse-recieving-sku">REORDER ALERT</Label>
                                     <Input wrapperStyles={{"margin-top": "16px", "min-height": "59px"}} inputStyles={{width: "100%"}} placeholder="0" value={editItem.ReorderAlert} onChange={(e) => editItemHandler(e)} name="ReorderAlert" type="number" id="warehouse-new-item-reorder-alert"/>
+                                </InputGroup>
+                            </Flex>
+                            <Flex alignItems="flex-start" justifyContent="flex-start" styles={{width: "100%", "margin-top": "24px", gap: "24px"}}>
+                                <InputGroup>
+                                    <Label htmlFor="warehouse-recieving-sku">LOCATION</Label>
+                                    <Filter wrapperStyles={{width: "100%", "margin-top": "10px"}} name="Location" value={editItem.Location} label="" list={locations} multiSelect onSelect={handleNewLocationList} />
                                 </InputGroup>
                             </Flex>
                             <Wrapper padding="24px 0 0">

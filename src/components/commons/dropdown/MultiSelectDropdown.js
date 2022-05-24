@@ -68,6 +68,7 @@ const Wrapper = styled.div`
     position: relative;
     background-color: ${({theme}) => theme.colors.menuBackground};
     border-radius: 4px;
+    width: 100%;
     ${({styles}) => styles && styles}
 `
 const Header = styled.div`
@@ -77,6 +78,7 @@ const Header = styled.div`
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
+    overflow-y: auto;
     ${({styles}) => styles && styles}
 
     & > h6 {
@@ -84,6 +86,7 @@ const Header = styled.div`
         font-size: ${({theme}) => theme.font.size.xs};
         line-height: ${({theme}) => theme.font.lineHeight.wide};
         color: #000000;
+        white-space: nowrap;
     }
 `
 const Title = styled.div`
@@ -101,13 +104,17 @@ const OptionWrapper = styled.div`
     left: 50%;
     z-index: 5;
     transition: all .15s ease-in-out;
+    max-height: 300px;
+    overflow-y: auto;
     min-width: 100%;
     opacity: ${({show}) => show ? "1" : "0"};
     visibility: ${({show}) => show ? "visible" : "hidden"};
     transform: ${({show}) => show ? "translate(-50%, 100%)" : "translate(-50%, 105%)"};
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.16);
 `
 const OptionList = styled.ul`
     width: 100%;
+    max-height: 100%;
     padding: 16px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.16);
     border-radius: 0px 0px 4px 4px;

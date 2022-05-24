@@ -4,10 +4,11 @@ import scannerLogo from "../../public/images/scanner.png"
 import Image from "next/image";
 import { Alert, Box, Button as ButtonV1, Dropdown, Filter, Flex, Icon, Input, Loader, Modal, Pagination, Popover, Tab, Table, TableCell, TableRow, Tabs, Wrapper } from "../components/commons";
 import { Api, ISOStringToReadableDate, objectsToQueryString } from "../utils/utils";
-import { dateList, itemTemplate, locations, settledHeaders, unSettledHeaders } from "../constants/pageConstants/warehouse";
+import { dateList, itemTemplate, settledHeaders, unSettledHeaders } from "../constants/pageConstants/warehouse";
 import Tooltip from "../components/commons/Tooltip/Tooltip";
 import { useSelector } from "react-redux";
 import { withRouter } from "next/router";
+import { locations } from "../constants/pageConstants/locations";
 
 const api = new Api()
 
@@ -132,7 +133,6 @@ const Warehouse = ({router}) => {
         else {
             setLocationList({...locationList, [name]: [...newLocationList,val]})
         }
-
     }
 
     const saveLocations = (key) => {
@@ -165,6 +165,17 @@ const Warehouse = ({router}) => {
             return setNewItem({...newItem, [e.target.name]:e.target.value})
         }
     }
+    const handleNewLocationList = (name,val) => {
+        const idx = newItem.Location.findIndex(loc => loc.value === val)
+        let newLocationList = [...newItem.Location]
+        if(idx >= 0) {
+            newLocationList.splice(idx, 1)
+            setNewItem({...newItem, [name]: newLocationList})
+        }
+        else {
+            setNewItem({...newItem, [name]: [...newLocationList,val]})
+        }
+    }
     const removeTag = (tag) => {
         const idx = newItem.Tags.indexOf(tag);
         if(idx >= 0) {
@@ -184,7 +195,7 @@ const Warehouse = ({router}) => {
         }
         else {
             const TotalCost = Object.values(newItem.Cost).reduce((total, cost) => total + parseInt(cost), 0)
-            let data = {...newItem, Updated: new Date(), Created: new Date(), TotalCost}
+            let data = {...newItem, Recieved: new Date(), Updated: new Date(), Created: new Date(), TotalCost}
             delete data['TagsInput']
             api.updateInventory(data, {"Authorization": `Bearer ${user.accessToken}`})
                 .then(data => {
@@ -291,7 +302,7 @@ const Warehouse = ({router}) => {
                                         loading={loadingTable}
                                         name="warehousing-settled" 
                                         headers={settledHeaders}
-                                        paginationComponent={ <Wrapper padding="32px 0 0"><Pagination itemsInPage={settledItems?.length} totalItems={settledItems?.length} totalPages={Math.ceil(settledItems?.length / itemsPerPage)} onPageChange={handlePage} currentPage={warehouseState.page} /> </Wrapper>}
+                                        paginationComponent={ <Wrapper padding="32px 0 0"><Pagination itemsInPage={settledItemsToShow?.length} totalItems={settledItems?.length} totalPages={Math.ceil(settledItems?.length / itemsPerPage)} onPageChange={handlePage} currentPage={warehouseState.page} /> </Wrapper>}
                                         >
                                         {
                                             settledItemsToShow.map((item,idx) => (
@@ -354,7 +365,7 @@ const Warehouse = ({router}) => {
                                         loading={loadingTable}
                                         name="warehousing-unsettled" 
                                         headers={unSettledHeaders}
-                                        paginationComponent={ <Wrapper padding="32px 0 0"><Pagination itemsInPage={unSettledItems?.length} totalItems={unSettledItems?.length} totalPages={Math.ceil(unSettledItems?.length / itemsPerPage)} onPageChange={handlePage} currentPage={warehouseState.page} /> </Wrapper>}
+                                        paginationComponent={ <Wrapper padding="32px 0 0"><Pagination itemsInPage={unSettledItemsToShow?.length} totalItems={unSettledItems?.length} totalPages={Math.ceil(unSettledItems?.length / itemsPerPage)} onPageChange={handlePage} currentPage={warehouseState.page} /> </Wrapper>}
                                         >
                                         {
                                             unSettledItemsToShow.map((item,idx) => (
@@ -368,8 +379,8 @@ const Warehouse = ({router}) => {
                                                             <TableCell key={i.key}>
                                                                 {
                                                                     i.key === "Location" ?
-                                                                    <Flex alignItems="stretch" justifyContent="flex-start">
-                                                                        <Filter name={item.SKU} value={locationList[item.SKU]} label="" list={locations} multiSelect onSelect={handleLocationList} />
+                                                                    <Flex styles={{"max-width": "260px"}} gap="10px" alignItems="stretch" justifyContent="flex-start">
+                                                                        <Filter wrapperStyles={{flex: "1 0 auto", width: "100%"}} name={item.SKU} value={locationList[item.SKU]} label="" list={locations} multiSelect onSelect={handleLocationList} />
                                                                         <SettleButton onClick={() => saveLocations(item.SKU)}>Settle</SettleButton>
                                                                     </Flex>
                                                                     :
@@ -504,6 +515,12 @@ const Warehouse = ({router}) => {
                                             <InputGroup>
                                                 <Label htmlFor="warehouse-recieving-sku">REORDER ALERT</Label>
                                                 <Input wrapperStyles={{"margin-top": "16px", "min-height": "59px"}} inputStyles={{width: "100%"}} placeholder="0" value={newItem.ReorderAlert} onChange={(e) => newItemHandler(e)} name="ReorderAlert" type="number" id="warehouse-new-item-reorder-alert"/>
+                                            </InputGroup>
+                                        </Flex>
+                                        <Flex alignItems="flex-start" justifyContent="flex-start" styles={{width: "100%", "margin-top": "24px", gap: "24px"}}>
+                                            <InputGroup>
+                                                <Label htmlFor="warehouse-recieving-sku">LOCATION</Label>
+                                                <Filter wrapperStyles={{width: "100%", "margin-top": "10px"}} name="Location" value={newItem.Location} label="" list={locations} multiSelect onSelect={handleNewLocationList} />
                                             </InputGroup>
                                         </Flex>
                                         <Wrapper padding="24px 0 0">
@@ -706,7 +723,6 @@ const LookupBtn = styled.button `
     }
 `
 const SettleButton = styled.button `
-    margin-left: 10px;
     padding: 8px 16px;
     font-family: ${({theme}) => theme.font.family.secondary};
     font-size: ${({theme}) => theme.font.size.xs};

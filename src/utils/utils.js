@@ -291,6 +291,23 @@ export class Api {
             else return Promise.reject(resp).catch((error) => error ? error.json() : null)
         })
     }
+
+    async search(params,headers) {
+        return await fetch(`${Api.BASE_URL}/search?${params ? params : ""}`, {
+            method: "GET",
+            headers: {
+                ...headers,
+                "Access-Control-Allow-Headers": "*",
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                "Access-Control-Allow-Origin": "*"
+            }
+        })
+        .then((resp) => {
+            if(resp.ok) return resp.json()
+            else return Promise.reject(resp).catch((error) => error ? error.json() : null)
+        })
+    }
 }
 
 export const ISOStringToReadableDate = (isoDate) => {

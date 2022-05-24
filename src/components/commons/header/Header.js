@@ -1,3 +1,4 @@
+import { Router, useRouter } from "next/router";
 import { useState } from "react"
 import { useDispatch } from "react-redux";
 import styled from "styled-components"
@@ -9,22 +10,24 @@ import History from "../../history/History";
 const dropdownList = [
     {
         label: "Product",
-        value: "product"
+        value: "Product"
     },
     {
         label: "Item",
-        value: "Item"
+        value: "Inventory"
     },
     {
-        label: "Order",
-        value: "order"
+        label: "Tag",
+        value: "Tag"
     }
 ]
 
 const Header = ({user}) => {
-    const [activeDropdown, setActiveDropdown] = useState("product");
-    const [toggleAccount, setToggleAccount] = useState(false)
-    const [toggleHistory, setToggleHistory] = useState(false)
+    const router = useRouter()
+    const [activeDropdown, setActiveDropdown] = useState("Product");
+    const [toggleAccount, setToggleAccount] = useState(false);
+    const [toggleHistory, setToggleHistory] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
     const dispatch = useDispatch()
 
     const Logout = () => {
@@ -32,19 +35,22 @@ const Header = ({user}) => {
     }
 
     const handleDropdown = (val) => {
-        console.log({val})
         setActiveDropdown(val)
+    }
+    const handleSearch = (e) => {
+        e.preventDefault()
+        router.push(`/search?searchEntity=${activeDropdown}&search=${searchQuery}`)
     }
 
     return (
         <HeaderWrapper>
             <Content>
-                <SearchWrapper>
+                <SearchWrapper onSubmit={handleSearch}>
                     <SearchInput>
                         <SearchIcon>
-                            <Icon quality={80} name="search" width="30" height="30" />
+                            <Icon quality={80} name="search" width="30px" height="30px" />
                         </SearchIcon>
-                        <Input type="text" placeholder="Search inventory, product, order" />
+                        <Input type="text" placeholder="Search inventory, product, order" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
                     </SearchInput>
                     <Dropdown icon={<Icon name="triangle" width="12px" height="6px" />} options={dropdownList} value={activeDropdown} onSelect={handleDropdown} />
                 </SearchWrapper>
@@ -105,7 +111,7 @@ const Content = styled.div`
     justify-content: space-between;
     padding: 25px 29px 16px;
 `
-const SearchWrapper = styled.div`
+const SearchWrapper = styled.form`
     display: flex;
     align-items: center;
     height: 30px;

@@ -3,10 +3,12 @@ import { MultiSelectDropdown } from ".."
 import Dropdown from "../dropdown/Dropdown"
 import Icon from "../icons/Icon"
 
-const Filter = ({label, list, name, value, activeIndex, onSelect, multiSelect}) => {
+const Filter = ({label, list, name, value, activeIndex, onSelect, multiSelect,wrapperStyles}) => {
     return (
-        <Wrapper>
-            <Label>{label}</Label>
+        <Wrapper styles={wrapperStyles}>
+            {
+                label && <Label>{label}</Label>
+            }
             {
                 multiSelect ?
                 <MultiSelectDropdown
@@ -37,6 +39,7 @@ export default Filter
 const Wrapper = styled.div`
     display: flex;
     align-items: center;
+    ${({styles}) => styles && styles};
 `
 
 const Label = styled.label`

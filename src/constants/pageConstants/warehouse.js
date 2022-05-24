@@ -45,17 +45,6 @@ export const unSettledHeaders = [
     {label: "LOCATION", key: "Location"},
 ]
 
-export const locations = [
-    {
-        label: "Z08-K23",
-        value: "Z08-K23"
-    },
-    {
-        label: "Z10-K08",
-        value: "Z10-K08"
-    }
-]
-
 export const itemTemplate = {
     "SKU": "",
     "Available":0,
