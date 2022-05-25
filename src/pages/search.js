@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { BaseButton, Box, Button, Dialog, Filter, Flex, FloatingBar, Icon, Loader, Pagination, Table, TableCell, TableRow, Text, Wrapper } from "../components/commons";
-import { Api, objectsToQueryString } from "../utils/utils"
+import { Api, ISOStringToReadableDate, objectsToQueryString } from "../utils/utils"
 import emptySearchLogo from "../../public/images/no-results.png"
 import { ExpandedItemTableHeaders, ItemTableHeaders, ProductTableHeaders, statusList } from "../constants/pageConstants/search";
 const api = new Api();
@@ -136,7 +136,7 @@ const SearchPage = ({router}) => {
             router.replace(`/search?searchEntity=${searchEntity}&search=${search}${status.length ? `&status=${status.join(",")}` : ""}`, null, {shallow:true})
             api.search(`searchEntity=${searchEntity}&search=${search}${status.length ? `&status=${status.join(",")}` : ""}`,{"Authorization": `Bearer ${user.accessToken}`})
                 .then(data => {
-                    console.log(data)
+                    setData(data)
                 })
                 .catch((err) => {
                     console.log(err)
@@ -205,7 +205,7 @@ const SearchPage = ({router}) => {
                                                 redirectOnClick={() => router.push(`/inventory/item?sku=${item.SKU}`)}
                                                 expandedContent={
                                                     <Wrapper padding="4px 0">
-                                                        <Table styles={{'background-color': 'transparent', padding: "0"}} name={`inventory-item-expanded-${item.Name}`} headers={ExpandedTableHeaders}>
+                                                        <Table styles={{'background-color': 'transparent', padding: "0"}} name={`inventory-item-expanded-${item.Name}`} headers={ExpandedItemTableHeaders}>
                                                             <TableRow>
                                                                 {
                                                                     ExpandedItemTableHeaders.map((header, idx) => (
@@ -267,6 +267,9 @@ const SearchPage = ({router}) => {
                                                             {
                                                                 header.key === "Location"?
                                                                 item[header.key][0]
+                                                                :
+                                                                header.key === "LastSync"?
+                                                                ISOStringToReadableDate(item[header.key])
                                                                 :
                                                                 item[header.key]
                                                             }

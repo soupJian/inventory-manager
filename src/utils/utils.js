@@ -293,7 +293,7 @@ export class Api {
     }
 
     async search(params,headers) {
-        return await fetch(`${Api.BASE_URL}/search?${params ? params : ""}`, {
+        return await fetch(`${Api.BASE_URL}/search-inventory?${params ? params : ""}`, {
             method: "GET",
             headers: {
                 ...headers,

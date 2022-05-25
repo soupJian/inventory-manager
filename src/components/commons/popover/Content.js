@@ -1,10 +1,10 @@
 import styled from "styled-components"
 import { useClickOutside } from "../../../hooks"
 
-const Content = ({children, closeOnClickOutside, wrapperRef}) => {
+const Content = ({children, closeOnClickOutside, wrapperRef, styles}) => {
     useClickOutside(wrapperRef, closeOnClickOutside);
     return (
-        <ContentWrapper>
+        <ContentWrapper styles={styles}>
             {children}
         </ContentWrapper>
     )
