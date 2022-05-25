@@ -546,11 +546,11 @@ const Inventory = ({router}) => {
                         <Flex as="form" onSubmit={handleLocateItem} alignItems="flex-end" gap="8px">
                             <InputGroup>
                                 <Label htmlFor="warehouse-barcode">Locate item</Label>
-                                <Input inputStyles={{height: "100%"}} startIcon={<Icon name="search" width="30px" height="30px" />} wrapperStyles={{"margin-top": "16px", "min-height": "59px"}} inputStyles={{width: "100%"}} placeholder="Type barcode" value={locatedItemInput} onChange={(e) => setLocatedItemInput(e.target.value)} name="Barcode" type="text" id="warehouse-barcode"/>
+                                <Input inputStyles={{height: "100%"}} startIcon={<Icon name="search" width="30px" height="30px" />} wrapperStyles={{"margin-top": "16px", "min-height": "59px"}} placeholder="Type barcode" value={locatedItemInput} onChange={(e) => setLocatedItemInput(e.target.value)} name="Barcode" type="text" id="warehouse-barcode"/>
                             </InputGroup>
                             <Flex direction="column"  justifyContent="flex-end" gap="9px" alignItems="flex-start">
                                 {
-                                    locatedItemError && <Text styles={{"white-space": "nowrap"}} color="#CB0000" size="15px">"Invalid Barcode"</Text>
+                                    locatedItemError && <Text styles={{"white-space": "nowrap"}} color="#CB0000" size="15px">{`"Invalid Barcode"`}</Text>
                                 }
                                 {
                                     locateItemLoading && <Loader size={30} />
@@ -640,7 +640,7 @@ const Inventory = ({router}) => {
                                                                     <Wrapper padding="20px 0 0">
                                                                         {
                                                                             warehouseData[[col,row].join("-")]?.map((item) => (
-                                                                                <Text styles={{"margin-top": "10px"}} as="div" family="Rubik" weight="400" size="15px" color="#000000">{item.Name}</Text>
+                                                                                <Text key={item.SKU} styles={{"margin-top": "10px"}} as="div" family="Rubik" weight="400" size="15px" color="#000000">{item.Name}</Text>
                                                                             ))
                                                                         }
                                                                     </Wrapper>
@@ -662,8 +662,7 @@ const Inventory = ({router}) => {
                                                             </Wrapper>
                                                         }
                                                     >
-                                                        <GridItem onMouseLeave={() => setShowLocationPopover(false)} active={showLocationPopover && activeLocationKey === [col,row].join("-")} onClick={(e) => handleGridItem([row,col].reverse().join("-"))} data-location={[row,col].join("-")}>
-                                                        </GridItem>
+                                                        <GridItem onMouseLeave={() => setShowLocationPopover(false)} active={(showLocationPopover && activeLocationKey === [col,row].join("-") )||(locatedItem?.Items?.length && locatedItem?.Items[0]?.Location.filter(val => val === [col,row].join("-")).length)} onClick={(e) => handleGridItem([row,col].reverse().join("-"))} data-location={[row,col].join("-")}></GridItem>
                                                     </Popover>
                                                 ))
                                             }
@@ -692,7 +691,7 @@ const Inventory = ({router}) => {
                                                                     <Wrapper padding="20px 0 0">
                                                                         {
                                                                             warehouseData[[col,row].join("-")]?.map((item) => (
-                                                                                <Text styles={{"margin-top": "10px"}} as="div" family="Rubik" weight="400" size="15px" color="#000000">{item.Name}</Text>
+                                                                                <Text key={item.SKU} styles={{"margin-top": "10px"}} as="div" family="Rubik" weight="400" size="15px" color="#000000">{item.Name}</Text>
                                                                             ))
                                                                         }
                                                                     </Wrapper>
@@ -714,8 +713,7 @@ const Inventory = ({router}) => {
                                                             </Wrapper>
                                                         }
                                                     >
-                                                        <GridItem onMouseLeave={() => setShowLocationPopover(false)} active={showLocationPopover && activeLocationKey === [col,row].join("-")} onClick={(e) => handleGridItem([row,col].reverse().join("-"))} data-location={[row,col].join("-")}>
-                                                        </GridItem>
+                                                        <GridItem onMouseLeave={() => setShowLocationPopover(false)} active={(showLocationPopover && activeLocationKey === [col,row].join("-") )||(locatedItem?.Items?.length && locatedItem?.Items[0]?.Location.filter(val => val === [col,row].join("-")).length)} onClick={(e) => handleGridItem([row,col].reverse().join("-"))} data-location={[row,col].join("-")}></GridItem>
                                                     </Popover>
                                                 ))
                                             }
@@ -742,7 +740,7 @@ const Inventory = ({router}) => {
                                                                     <Wrapper padding="20px 0 0">
                                                                         {
                                                                             warehouseData[[col,row].join("-")]?.map((item) => (
-                                                                                <Text styles={{"margin-top": "10px"}} as="div" family="Rubik" weight="400" size="15px" color="#000000">{item.Name}</Text>
+                                                                                <Text key={item.SKU} styles={{"margin-top": "10px"}} as="div" family="Rubik" weight="400" size="15px" color="#000000">{item.Name}</Text>
                                                                             ))
                                                                         }
                                                                     </Wrapper>
@@ -764,8 +762,7 @@ const Inventory = ({router}) => {
                                                             </Wrapper>
                                                         }
                                                     >
-                                                        <GridItem onMouseLeave={() => setShowLocationPopover(false)} active={showLocationPopover && activeLocationKey === [col,row].join("-")} onClick={(e) => handleGridItem([row,col].reverse().join("-"))} data-location={[row,col].join("-")}>
-                                                        </GridItem>
+                                                        <GridItem onMouseLeave={() => setShowLocationPopover(false)} active={(showLocationPopover && activeLocationKey === [col,row].join("-") )||(locatedItem?.Items?.length && locatedItem?.Items[0]?.Location.filter(val => val === [col,row].join("-")).length)} onClick={(e) => handleGridItem([row,col].reverse().join("-"))} data-location={[row,col].join("-")}></GridItem>
                                                     </Popover>
                                                 ))
                                             }
@@ -794,7 +791,7 @@ const Inventory = ({router}) => {
                                                                     <Wrapper padding="20px 0 0">
                                                                         {
                                                                             warehouseData[[col,row].join("-")]?.map((item) => (
-                                                                                <Text styles={{"margin-top": "10px"}} as="div" family="Rubik" weight="400" size="15px" color="#000000">{item.Name}</Text>
+                                                                                <Text key={item.SKU} styles={{"margin-top": "10px"}} as="div" family="Rubik" weight="400" size="15px" color="#000000">{item.Name}</Text>
                                                                             ))
                                                                         }
                                                                     </Wrapper>
@@ -816,8 +813,7 @@ const Inventory = ({router}) => {
                                                             </Wrapper>
                                                         }
                                                     >
-                                                        <GridItem onMouseLeave={() => setShowLocationPopover(false)} active={showLocationPopover && activeLocationKey === [col,row].join("-")} onClick={(e) => handleGridItem([row,col].reverse().join("-"))} data-location={[row,col].join("-")}>
-                                                        </GridItem>
+                                                        <GridItem onMouseLeave={() => setShowLocationPopover(false)} active={(showLocationPopover && activeLocationKey === [col,row].join("-") )||(locatedItem?.Items?.length && locatedItem?.Items[0]?.Location.filter(val => val === [col,row].join("-")).length)} onClick={(e) => handleGridItem([row,col].reverse().join("-"))} data-location={[row,col].join("-")}></GridItem>
                                                     </Popover>
                                                 ))
                                             }

@@ -14,7 +14,7 @@ const WarehouseUnit = ({children, unit, label, xLabel, yLabel}) => {
                     <Flex alignItems="center" justifyContent="space-around">
                         {
                             xLabel?.map(label => (
-                                <Text color="#999999" family="Rubik" size="14px">{label}</Text>
+                                <Text key={label} color="#999999" family="Rubik" size="14px">{label}</Text>
                             ))
                         }
                     </Flex>
@@ -23,7 +23,7 @@ const WarehouseUnit = ({children, unit, label, xLabel, yLabel}) => {
                     <Flex styles={{height: "100%"}} direction="column" alignItems="center" justifyContent="space-around">
                         {
                             yLabel?.map(label => (
-                                <Text color="#999999" family="Rubik" size="14px">{label}</Text>
+                                <Text key={label} color="#999999" family="Rubik" size="14px">{label}</Text>
                             ))
                         }
                     </Flex>
