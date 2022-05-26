@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components"
-import { Flex } from "..";
-import Checkbox from "../checkbox/Checkbox";
 
 const Dropdown = ({ activeIndex, options = [], value, selected, onSelect, wrapperClassName, wrapperStyles, headerStyles, optionListStyles, optionStyles, icon}) => {
     const [showOption, setShowOption] = useState(false);
@@ -17,8 +15,6 @@ const Dropdown = ({ activeIndex, options = [], value, selected, onSelect, wrappe
         setShowOption(false);
         onSelect(val.value)
     }
-    console.log({value})
-
 
     // useEffect(() => {
     //     onSelect([options[activeIndex ? activeIndex : 0]])

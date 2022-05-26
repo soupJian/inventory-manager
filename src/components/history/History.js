@@ -1,5 +1,4 @@
 import styled from "styled-components"
-import { ISOStringToReadableDate } from "../../utils/utils"
 import { Flex, Icon, Text, Wrapper } from "../commons"
 import RangeAccordion from "./RangeAccordion"
 
@@ -14,7 +13,6 @@ const History = ({children, show, onClose, user}) => {
     last7days.setDate(yesterday.getDate() - 7);  
     last30days.setDate(yesterday.getDate() - 30);    
     last90days.setDate(yesterday.getDate() - 90); 
-    console.log({thisYear})
 
     return (
         <HistoryWrapper show={show}>

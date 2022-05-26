@@ -4,12 +4,24 @@ import { Api, ISOStringToReadableDate } from "../../utils/utils";
 import { Flex, Icon, Loader, Text, Wrapper } from "../commons";
 
 const api = new Api()
-//from=${ISOStringToReadableDate(new Date()).replace("/", "-")
+
+const changeKeys = [
+    {label: "Available", key: "Available"},
+    {label: "Name", key: "Name"},
+    {label: "Location", key: "Location"},
+    {label: "ReorderAlert", key: "Reorder Alert"},
+    {label: "Reserved", key: "Reserved"},
+    {label: "SettledTime", key: "Settled Time"},
+    {label: "Stock", key: "Stock"},
+    {label: "Tags", key: "Tags"},
+    {label: "TotalCost", key: "Total Cost"}
+]
 
 const RangeAccordion = ({user, label, rangeParams}) => {
     const [isOpen,setIsOpen] = useState(false);
     const [isLoading,setIsLoading] = useState(false);
     const [data,setData] = useState({});
+
     const fetchData = () => {
         setIsLoading(true)
         api.getHistory(`${rangeParams}`,{"Authorization": `Bearer ${user.accessToken}`})
@@ -18,6 +30,16 @@ const RangeAccordion = ({user, label, rangeParams}) => {
                 setIsLoading(false)
                 console.log(data)
             })
+    }
+    
+    const renderChanges = (hist) => {
+        let changes = []
+        changeKeys.forEach(item => {
+            if(hist.NewItem[item.key]!==hist.OldItem.Attributes[item.key]) {
+                changes.push(`${item.label} changed from ${hist.NewItem[item.key]} to ${hist.OldItem.Attributes[item.key]}`)
+            }
+        })
+        return changes
     }
 
     useEffect(() => {
@@ -46,26 +68,27 @@ const RangeAccordion = ({user, label, rangeParams}) => {
                             data.Items?.length ?
                                 <HistoryItems>
                                     {
-                                        data.Items?.map((data) => (
+                                        data.Items?.sort((a,b) => -a.Created.localeCompare(b.Created)).map((data) => (
                                             <HistoryItem key={data.Id}>
                                                 <Text size="16px" color="#808080">{data.Created.match(/\d\d:\d\d/)[0]}</Text>
                                                 <Flex styles={{"margin-top": "20px"}} justifyContent="flex-start" alignItems="center" gap="8px">
                                                     <Icon name="user" width="18px" height="18px"/>
-                                                    <Text weight="500" color="#000000" size="16px">User ID: {data.UserId}</Text>
+                                                    <Text weight="500" color="#000000" size="16px">{data.UserName || data.UserId}</Text>
                                                 </Flex>
                                                 <Wrapper padding="20px 26px">
                                                     <Text as="p" size="14px" color="#808080">{data.NewItem.Name || data.OldItem.Name}</Text>
-                                                    <Text as="p" styles={{"margin-top": "8px"}} size="14px" color="#000000">
-                                                        {
-                                                            data.Manipulation === "Create" ?
-                                                                "Added item to the system "
-                                                            :
-                                                            data.Manipulation === "Delete" ?
-                                                                "Deleted from the system"
-                                                            :
-                                                            "Available changed from 150 to 180"
-                                                        }
-                                                    </Text>
+                                                    {
+                                                        data.Manipulation === "Create" ?
+                                                            <Text as="p" styles={{"margin-top": "8px"}} size="14px" color="#000000">Added item to the system</Text>                                        
+                                                        :
+                                                        data.Manipulation === "Delete" ?
+
+                                                            <Text as="p" styles={{"margin-top": "8px"}} size="14px" color="#000000">Deleted from the system</Text>  
+                                                        :
+                                                        renderChanges(data).map((change,idx) => (
+                                                            <Text key={idx} as="p" styles={{"margin-top": "8px"}} size="14px" color="#000000">{change}</Text>
+                                                        ))
+                                                    }
                                                 </Wrapper>
                                             </HistoryItem>
                                         ))

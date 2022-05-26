@@ -86,7 +86,7 @@ const ItemPage = ({router}) => {
     }
 
     const handleNewLocationList = (name, val) => {
-        const idx = editItem.Location.findIndex(loc => loc.value === val)
+        const idx = editItem.Location.findIndex(loc => loc === val)
         let newLocationList = [...editItem.Location]
         if(idx >= 0) {
             newLocationList.splice(idx, 1)
@@ -106,8 +106,10 @@ const ItemPage = ({router}) => {
             setEditItemError("Required")
         }
         else {
+            const theSameLocation = item.Location.sort().join(',') === editItem.Location.sort().join(',')
+            console.log(theSameLocation)
             const TotalCost = Object.values(editItem.Cost).reduce((total, cost) => total + parseInt(cost), 0)
-            let data = {...editItem, Updated: new Date(), TotalCost}
+            let data = {...editItem, Updated: new Date(), TotalCost, SettledTime: theSameLocation ? editItem.SettledTime: new Date()}
             delete data['TagsInput']
             api.updateInventory(data, {"Authorization": `Bearer ${user.accessToken}`})
                 .then(data => {

@@ -7,7 +7,7 @@ const Item = ({loading, item, backLink, onDelete, showEditModal}) => {
     if(!item) return <> </>
     console.log({loading})
     return (
-        <Wrapper styles={{position: "relative"}} height="100%" padding="21px 33px">
+        <Wrapper styles={{position: "relative"}} padding="21px 33px">
             {
                 loading && 
                 <LoadingWrapper>
@@ -29,7 +29,7 @@ const Item = ({loading, item, backLink, onDelete, showEditModal}) => {
                     </ActionButton>
                 </Flex>
             </Flex>
-            <Wrapper padding="37px 0 0 55px">
+            <Wrapper height="auto" padding="37px 0 0 55px">
                 <Flex gap="20px" justifyContent="flex-start">
                     {
                         item?.Image &&

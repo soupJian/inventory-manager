@@ -115,6 +115,7 @@ const Warehouse = ({router}) => {
 
     const handleDate = (val) => {
         dispatch({type: "changeDate", payload:val})
+        console.log(val)
     }
     const handleSettlingType = (val) => {
         if(warehouseState.pageType === "settling") {
@@ -124,7 +125,7 @@ const Warehouse = ({router}) => {
 
     const handleLocationList = (name,val) => {
         console.log(val,name)
-        const idx = locationList[name].findIndex(loc => loc.value === val)
+        const idx = locationList[name].findIndex(loc => loc === val)
         let newLocationList = [...locationList[name]]
         if(idx >= 0) {
             newLocationList.splice(idx, 1)
@@ -154,7 +155,7 @@ const Warehouse = ({router}) => {
 
     const newItemHandler = (e,nestedKey) => {
         if(nestedKey) {
-            return setNewItem({...newItem, Cost: {...newItem.Cost,[e.target.name]:e.target.value}})
+            return setNewItem({...newItem, Cost: {...newItem.Cost,[e.target.name]:parseInt(e.target.value)}})
         }
         else if(e.target.name === "Tags") {
             let newTags = e.target.value.split(",")
@@ -162,11 +163,16 @@ const Warehouse = ({router}) => {
             setNewItem({...newItem, TagsInput:e.target.value, Tags:newTags})
         }
         else {
-            return setNewItem({...newItem, [e.target.name]:e.target.value})
+            if(e.target.type === "number") {
+                return setNewItem({...newItem, [e.target.name]:parseInt(e.target.value)})
+            }
+            else {
+                return setNewItem({...newItem, [e.target.name]:e.target.value})
+            }
         }
     }
     const handleNewLocationList = (name,val) => {
-        const idx = newItem.Location.findIndex(loc => loc.value === val)
+        const idx = newItem.Location.findIndex(loc => loc === val)
         let newLocationList = [...newItem.Location]
         if(idx >= 0) {
             newLocationList.splice(idx, 1)
@@ -195,7 +201,8 @@ const Warehouse = ({router}) => {
         }
         else {
             const TotalCost = Object.values(newItem.Cost).reduce((total, cost) => total + parseInt(cost), 0)
-            let data = {...newItem, Recieved: new Date(), Updated: new Date(), Created: new Date(), TotalCost}
+            const settledInfo = {Settled: !!newItem.Location.length, SettledTime: newItem.Location.length ? new Date() : ""}
+            let data = {...newItem, ...settledInfo, Recieved: new Date(), Updated: new Date(), Created: new Date(), TotalCost}
             delete data['TagsInput']
             api.updateInventory(data, {"Authorization": `Bearer ${user.accessToken}`})
                 .then(data => {
@@ -222,6 +229,7 @@ const Warehouse = ({router}) => {
     }
 
     useEffect(() => {
+        console.log("change page type")
         if(!router.query.pageType) {
             router.replace("/warehouse?&pageType=receiving", null, {shallow:true})
         }
@@ -256,6 +264,7 @@ const Warehouse = ({router}) => {
     }, [settledItems, unSettledItems, warehouseState.settlingType,warehouseState.page])
 
     useEffect(() => {
+        console.log("**********-----REFETCHING------***********")
         if(warehouseState.pageType==="settling") {
             router.replace(`/warehouse?pageType=${warehouseState.pageType}&settlingType=${warehouseState.settlingType}&date=${warehouseState.date}&page=${warehouseState.page}`, null, {shallow:true})
             api.getSettledInventory(`date=${warehouseState.date}`, {"Authorization": `Bearer ${user.accessToken}`})
@@ -271,6 +280,7 @@ const Warehouse = ({router}) => {
             })
         }
     },[warehouseState.date, warehouseState.pageType])
+
 
     return (
         <Wrapper styles={{"min-height": "100%"}} height="auto"  padding="21px 29px">
@@ -511,6 +521,14 @@ const Warehouse = ({router}) => {
                                             <InputGroup>
                                                 <Label htmlFor="warehouse-recieving-sku">COUNT</Label>
                                                 <Input wrapperStyles={{"margin-top": "16px", "min-height": "59px"}} inputStyles={{width: "100%"}} placeholder="0" value={newItem.Stock} onChange={(e) => newItemHandler(e)} name="Stock" type="number" id="warehouse-new-item-count"/>
+                                            </InputGroup>
+                                            <InputGroup>
+                                                <Label htmlFor="warehouse-recieving-sku">AVAILABLE</Label>
+                                                <Input wrapperStyles={{"margin-top": "16px", "min-height": "59px"}} inputStyles={{width: "100%"}} placeholder="0" value={newItem.Available} onChange={(e) => newItemHandler(e)} name="Available" type="number" id="warehouse-new-item-available"/>
+                                            </InputGroup>
+                                            <InputGroup>
+                                                <Label htmlFor="warehouse-recieving-sku">RESERVED</Label>
+                                                <Input wrapperStyles={{"margin-top": "16px", "min-height": "59px"}} inputStyles={{width: "100%"}} placeholder="0" value={newItem.Reserved} onChange={(e) => newItemHandler(e)} name="Reserved" type="number" id="warehouse-new-item-reserved"/>
                                             </InputGroup>
                                             <InputGroup>
                                                 <Label htmlFor="warehouse-recieving-sku">REORDER ALERT</Label>

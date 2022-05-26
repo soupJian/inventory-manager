@@ -162,8 +162,9 @@ const Inventory = ({router}) => {
         }
     }
     const newItemHandler = (e,nestedKey) => {
+        console.log(e.target.name, e.target.type)
         if(nestedKey) {
-            return setNewItem({...newItem, Cost: {...newItem.Cost,[e.target.name]:e.target.value}})
+            return setNewItem({...newItem, Cost: {...newItem.Cost,[e.target.name]:parseInt(e.target.value)}})
         }
         else if(e.target.name === "Tags") {
             let newTags = e.target.value.split(",")
@@ -171,7 +172,12 @@ const Inventory = ({router}) => {
             setNewItem({...newItem, TagsInput:e.target.value, Tags:newTags})
         }
         else {
-            return setNewItem({...newItem, [e.target.name]:e.target.value})
+            if(e.target.type === "number") {
+                return setNewItem({...newItem, [e.target.name]:parseInt(e.target.value)})
+            }
+            else {
+                return setNewItem({...newItem, [e.target.name]:e.target.value})
+            }
         }
     }
     const removeTag = (tag) => {
@@ -184,7 +190,8 @@ const Inventory = ({router}) => {
     }
 
     const handleNewLocationList = (name, val) => {
-        const idx = newItem.Location.findIndex(loc => loc.value === val)
+        console.log({name})
+        const idx = newItem.Location.findIndex(loc => loc === val)
         let newLocationList = [...newItem.Location]
         if(idx >= 0) {
             newLocationList.splice(idx, 1)
@@ -205,10 +212,17 @@ const Inventory = ({router}) => {
         }
         else {
             const TotalCost = Object.values(newItem.Cost).reduce((total, cost) => total + parseInt(cost), 0)
-            let data = {...newItem, Updated: new Date(), Recieved: new Date(),Created: new Date(), TotalCost}
+            const settledInfo = {Settled: !!newItem.Location.length, SettledTime: newItem.Location.length ? new Date() : ""}
+            let data = {...newItem, ...settledInfo, Updated: new Date(), Recieved: new Date(),Created: new Date(), TotalCost}
             delete data['TagsInput']
             api.updateInventory(data, {"Authorization": `Bearer ${user.accessToken}`})
                 .then(data => {
+                    fetchSKUs()
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+                .finally(() => {
                     setNewItemLoading(false)
                     setNewItemModal(false)
                     setNewItemError("")
@@ -277,10 +291,11 @@ const Inventory = ({router}) => {
                     })
                     console.log(dataObj)
                     setWarehouseData(dataObj)
-                    setLoadingWarehouse(false)
                 })
                 .catch(err => {
                     console.log(err)
+                })
+                .finally(() => {
                     setLoadingWarehouse(false)
                 })
     }
@@ -340,6 +355,13 @@ const Inventory = ({router}) => {
                         </Flex> 
                 }
             </Flex>
+            {
+                loadingWarehouse && 
+                <LoadingWrapper>
+                    <Loader size={100} />
+                    <Text>Loading warehouse data...</Text>
+                </LoadingWrapper>
+            }
             {
                 inventoryState.pageType === "inventory" ?
                 <>
@@ -924,4 +946,18 @@ const GridItem = styled.div`
         background-color: #2EBEBD;
     }
 
+`
+const LoadingWrapper = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255,.85);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    z-index: 5;
 `
