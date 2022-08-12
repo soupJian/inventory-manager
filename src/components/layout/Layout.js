@@ -28,17 +28,22 @@ const Layout = ({ children }) => {
 export default Layout
 
 const Container = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
-  align-items: stretch;
-  width: 100%;
   min-width: 1440px;
-  min-height: 100vh;
-  overflow-x: hidden;
+  overflow: hidden;
   background-color: ${({ theme }) => theme.colors.menuBackground};
 `
 
 const Content = styled.div`
   flex: 1 1 auto;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
 
