@@ -67,6 +67,7 @@ const SideBar = ({ user }) => {
     ),
     getItem('CRM Hub', '/crm-hub', <Icon name="crmhub" />, [
       getItem('Forms & Emails', '/crm-hub/form-email'),
+      getItem('Deals', '/crm-hub/deals'),
       getItem('Chats', '/crm-hub/chats'),
       getItem('Tickets', '/crm-hub/tickets'),
       getItem('Task', '/crm-hub/task'),
@@ -79,6 +80,7 @@ const SideBar = ({ user }) => {
     setOpenKeys(router.route)
     const list = [
       '/crm-hub/form-email',
+      '/crm-hub/deals',
       '/crm-hub/chats',
       '/crm-hub/tickets',
       '/crm-hub/task',
