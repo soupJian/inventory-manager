@@ -137,7 +137,7 @@ const SideBar = ({ user }) => {
           {/* 如果当前路由是 cubHub 中的 需要默认展开 menu */}
           {isCubHub ? (
             <Menu
-              openKeys={defaultSelectedKeys}
+              openKeys={`${defaultSelectedKeys}`}
               defaultSelectedKeys={[`${defaultSelectedKeys}`]}
               selectedKeys={[`${defaultSelectedKeys}`]}
               mode="inline"

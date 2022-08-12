@@ -5,6 +5,11 @@
     height: 100%;
   }
   :global {
+    .ant-menu-inline,
+    .ant-menu-vertical,
+    .ant-menu-vertical-left {
+      border-right: none;
+    }
     .ant-menu-root {
       margin-top: 40px;
     }
