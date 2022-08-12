@@ -1,0 +1,10 @@
+.FormEmail {
+  // 减去头部 header的高度
+  height: calc(100vh - 73px);
+  display: flex;
+  flex-direction: column;
+  .FormEmailContent {
+    flex: 1;
+    height: calc(100% - 100px);
+  }
+}

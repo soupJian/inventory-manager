@@ -1,0 +1,118 @@
+// header ------
+.header-wrap {
+  margin-top: 28px;
+  padding: 0 28px 30px 34px;
+  .title {
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 100%;
+    color: #000000;
+  }
+}
+
+// list ---------
+.list {
+  background-color: #fff;
+  height: 100%;
+  overflow-y: scroll;
+  &.active {
+    background-color: rgba(44, 136, 221, 0.08);
+  }
+  .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 48px;
+    font-size: 22px;
+    color: #fff;
+  }
+  .active {
+    background: rgba(44, 136, 221, 0.08);
+  }
+  .item {
+    margin-left: 20px;
+    margin-right: 20px;
+    border-bottom: 1px solid #f0f0f0 !important;
+  }
+}
+
+// detail ----------
+.detail {
+  height: 100%;
+  background-color: #ffffff;
+  padding: 16px 28px 30px 24px;
+  overflow-y: scroll;
+  .deleteBtn {
+    background: #f0f0f0;
+  }
+  .createBtn {
+    background: #000000;
+    color: #ffffff;
+  }
+  .email-title-wrap {
+    margin-top: 24px;
+    .email-title {
+      font-family: 'Lato';
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 22px;
+      color: #000000;
+    }
+    .email-address-time {
+      margin-top: 8px;
+      font-family: 'Lato';
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 18px;
+      color: #555555;
+    }
+  }
+  .notice {
+    margin-top: 17px;
+    padding: 12px 18px;
+    width: 428px;
+    border-radius: 10px;
+    background-color: rgba(44, 136, 221, 0.13);
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    color: #000000;
+    cursor: pointer;
+  }
+  .email-content {
+    div {
+      height: 31px;
+      line-height: 31px;
+      padding-left: 8px;
+      a {
+        text-decoration: underline;
+      }
+      &.color {
+        background: rgba(44, 136, 221, 0.14);
+      }
+    }
+  }
+  .modal {
+    text-align: center;
+    :global {
+      .ant-modal {
+        .ant-modal-body {
+          text-align: center;
+        }
+        .ant-modal-footer {
+          text-align: center;
+        }
+      }
+    }
+  }
+  // 重写 antd 按钮样式
+  :global {
+    .ant-btn {
+      border-radius: 10px;
+    }
+  }
+}
