@@ -3,6 +3,7 @@
     position: fixed;
     overflow: scroll;
     height: 100%;
+    width: 231px;
   }
   :global {
     .ant-menu-inline,
@@ -10,8 +11,15 @@
     .ant-menu-vertical-left {
       border-right: none;
     }
-    .ant-menu-root {
+    .ant-menu-root,
+    .ant-menu-item,
+    .ant-menu-submenu {
       margin-top: 40px;
+      height: 46px;
+      border-radius: 10px;
+    }
+    .ant-menu-item-only-child {
+      margin-top: 20px;
     }
     .ant-menu-inline .ant-menu-selected::after,
     .ant-menu-inline .ant-menu-item-selected::after {

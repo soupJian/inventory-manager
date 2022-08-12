@@ -7,66 +7,85 @@ import logo from '../../../../public/images/company-logo.png'
 import Icon from '../icons/Icon'
 import styles from './SideBar.module.scss'
 
-function getMenuItem(label, key, icon, children) {
-  return {
-    key,
-    icon,
-    children,
-    label
-  }
-}
-
 const SideBar = ({ user }) => {
   const router = useRouter()
   // 默认展示的 menuItem
   const [defaultSelectedKeys, setDefaultSelectedKeys] = useState('')
-  // 匹配路由 默认展开 cubHub
-  const [isCubHub, setIsCubHub] = useState(false)
+  const [openKeys, setOpenKeys] = useState('')
   // 点击侧边栏 crm hub 事件
-  function getSubItem(label, key, path) {
+  function getItem(label, key, icon, children) {
     return {
       key,
+      icon,
+      children,
       label,
       onClick: () => {
-        router.push(path)
+        if (!children) {
+          router.push(key)
+        }
       }
     }
   }
   // 侧边栏 menu
   const menuItems = [
-    getMenuItem(
-      'CRM Hub',
-      '/crm-hub',
-      <SpanLogo disabled={!user} active={user && router.pathname === '/crmhub'}>
-        <Icon name="crmhub" />
-      </SpanLogo>,
-      [
-        getSubItem(
-          'Forms & Emails',
-          '/crm-hub/form-email',
-          '/crm-hub/form-email'
-        ),
-        getSubItem('Chats', '/crm-hub/chats', '/crm-hub/chats'),
-        getSubItem('Deals', '/crm-hub/deals', '/crm-hub/deals'),
-        getSubItem('Tickets', '/crm-hub/tickets', '/crm-hub/tickets'),
-        getSubItem('Dashboard', '/crm-hub/dashboard', '/crm-hub/dashboard')
-      ]
-    )
+    getItem(
+      'Inventory',
+      '/inventory',
+      <SpanLogo
+        disabled={!user}
+        active={user && router.pathname === '/inventory'}
+      >
+        <Icon name="inventory" />{' '}
+      </SpanLogo>
+    ),
+    getItem(
+      'Warehousing',
+      '/warehouse',
+      <SpanLogo
+        disabled={!user}
+        active={user && router.pathname === '/warehouse'}
+      >
+        <Icon name="warehouse" />{' '}
+      </SpanLogo>
+    ),
+    getItem(
+      'Products',
+      '/products',
+      <SpanLogo
+        disabled={!user}
+        active={user && router.pathname.includes('/products')}
+      >
+        <Icon name="product" />
+      </SpanLogo>
+    ),
+    getItem(
+      'Orders',
+      '/orders',
+      <SpanLogo disabled={!user} active={user && router.pathname === '/orders'}>
+        <Icon name="orders" />
+      </SpanLogo>
+    ),
+    getItem('CRM Hub', '/crm-hub', <Icon name="crmhub" />, [
+      getItem('Forms & Emails', '/crm-hub/form-email'),
+      getItem('Chats', '/crm-hub/chats'),
+      getItem('Tickets', '/crm-hub/tickets'),
+      getItem('Task', '/crm-hub/task'),
+      getItem('Dashboard', '/crm-hub/dashboard')
+    ])
   ]
   // 路由改变 需要判断是否展开 menu
   useEffect(() => {
-    const menuList = [
+    setDefaultSelectedKeys(router.route)
+    setOpenKeys(router.route)
+    const list = [
       '/crm-hub/form-email',
       '/crm-hub/chats',
-      '/crm-hub/deals',
       '/crm-hub/tickets',
+      '/crm-hub/task',
       '/crm-hub/dashboard'
     ]
-    if (menuList.indexOf(router.route) >= 0) {
-      setIsCubHub(true)
-      setDefaultSelectedKeys(router.route)
-    } else {
-      setIsCubHub(false)
+    if (list.indexOf(router.route) >= 0) {
+      setOpenKeys('/crm-hub')
     }
   }, [router.route])
   return (
@@ -81,72 +100,15 @@ const SideBar = ({ user }) => {
             priority={true}
           />
         </CompanyLogo>
-        <NavItems>
-          <NavItem
-            disabled={!user}
-            onClick={() => router.push('/inventory')}
-            active={user && router.pathname === '/inventory'}
-          >
-            <SpanLogo
-              disabled={!user}
-              active={user && router.pathname === '/inventory'}
-            >
-              <Icon name="inventory" />{' '}
-            </SpanLogo>
-            <SpanText disabled={!user}>Inventory</SpanText>
-          </NavItem>
-          <NavItem
-            disabled={!user}
-            onClick={() => router.push('/warehouse')}
-            active={user && router.pathname === '/warehouse'}
-          >
-            <SpanLogo
-              disabled={!user}
-              active={user && router.pathname === '/warehouse'}
-            >
-              <Icon name="warehouse" />{' '}
-            </SpanLogo>
-            <SpanText disabled={!user}>Warehousing</SpanText>
-          </NavItem>
-          <NavItem
-            disabled={!user}
-            onClick={() => router.push('/products')}
-            active={user && router.pathname.includes('/products')}
-          >
-            <SpanLogo
-              disabled={!user}
-              active={user && router.pathname.includes('/products')}
-            >
-              <Icon name="product" />{' '}
-            </SpanLogo>
-            <SpanText disabled={!user}>Products</SpanText>
-          </NavItem>
-          <NavItem
-            disabled={!user}
-            onClick={() => router.push('/orders')}
-            active={user && router.pathname === '/orders'}
-          >
-            <SpanLogo
-              disabled={!user}
-              active={user && router.pathname === '/orders'}
-            >
-              <Icon name="orders" />{' '}
-            </SpanLogo>
-            <SpanText disabled={!user}>Orders</SpanText>
-          </NavItem>
-          {/* 如果当前路由是 cubHub 中的 需要默认展开 menu */}
-          {isCubHub ? (
-            <Menu
-              openKeys={`${defaultSelectedKeys}`}
-              defaultSelectedKeys={[`${defaultSelectedKeys}`]}
-              selectedKeys={[`${defaultSelectedKeys}`]}
-              mode="inline"
-              items={menuItems}
-            />
-          ) : (
-            <Menu mode="inline" items={menuItems} />
-          )}
-        </NavItems>
+        <Menu
+          openKeys={[`${openKeys}`]}
+          selectedKeys={[`${defaultSelectedKeys}`]}
+          mode="inline"
+          items={menuItems}
+          onOpenChange={(key) => {
+            setOpenKeys(key[1])
+          }}
+        />
       </Content>
     </SideBarWrapper>
   )
