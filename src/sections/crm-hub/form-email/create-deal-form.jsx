@@ -4,7 +4,10 @@ import { Form, Button, Select, Input, Row, Col } from 'antd'
 // js --------
 const Option = Select.Option
 // main FC ------------
-const CreateDealForm = () => {
+const CreateDealForm = (props) => {
+  // 创建的 deal | ticket
+  const createType = props.createType
+
   const [form] = Form.useForm()
   const onFinish = (values) => {
     console.log(values)
@@ -26,12 +29,25 @@ const CreateDealForm = () => {
       >
         <Input placeholder="contact Name" size="large" />
       </Form.Item>
-      <Form.Item label="EMAIL" name="email">
+      {/* deal 的 email 非必填 ticket的 email 必填 */}
+      <Form.Item
+        label="EMAIL"
+        name="email"
+        rules={[
+          {
+            required: createType == 'ticket',
+            message: 'please input email!'
+          }
+        ]}
+      >
         <Input placeholder="email" size="large" />
       </Form.Item>
-      <Form.Item label="PHONE" name="phone">
-        <Input placeholder="phone" size="large" />
-      </Form.Item>
+      {/* 如果创建的是 deal 则有 PHONE 这个输入框 */}
+      {createType == 'deal' && (
+        <Form.Item label="PHONE" name="phone">
+          <Input placeholder="phone" size="large" />
+        </Form.Item>
+      )}
       <Form.Item
         label="PIPELINE"
         name="pipeline"
@@ -44,6 +60,15 @@ const CreateDealForm = () => {
           <Option value="Sales pipeline">Sales pipeline</Option>
         </Select>
       </Form.Item>
+      {createType == 'ticket' && (
+        <Form.Item
+          label="DESCRIPTION"
+          name="description"
+          rules={[{ required: true, message: 'please input description!' }]}
+        >
+          <Input.TextArea placeholder="description" />
+        </Form.Item>
+      )}
       <Row gutter={[10]}>
         <Col span={12}>
           <Form.Item

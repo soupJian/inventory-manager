@@ -14,7 +14,7 @@ import {
   Drawer
 } from 'antd'
 import { Icon } from '../../../components/commons'
-import { DeleteOutlined, DownOutlined, BellFilled } from '@ant-design/icons'
+import { DeleteOutlined, DownOutlined } from '@ant-design/icons'
 // componnets ------------
 import CreateDealForm from './create-deal-form'
 // CSS -------------
@@ -35,15 +35,22 @@ const FromEmailDetail = (props) => {
   const [assignList, setAssignList] = useState([])
   // assgin value
   const [assignValue, setAssignValue] = useState('')
+  // assign的类型
+  const [assignType, setAssignType] = useState('')
+  // create 的类型 deal ticket
+  const [createType, setCreateType] = useState('')
   // create Deal 的 弹窗
   const [showDealDrawer, setShowDealDrawer] = useState(false)
   // 选择 create 的 下拉框 Deal 或者 Tickets
   const chooseCreateMenu = (e) => {
-    const key = e.key
-    if (key == 'Deal') {
-      // 创建一个 Deal
-      setShowDealDrawer(true)
-    }
+    // 创建一个 deal 或者 ticket
+    setCreateType(e.key)
+    setShowDealDrawer(true)
+  }
+  // 选择 assign 的 下拉框 Deal 或者 Tickets
+  const chooseAssignMenu = (e) => {
+    setAssignType(e.key)
+    setShowAssignModal(true)
   }
   // 搜素输入框的 assign
   const handleSearchAssign = (newValue) => {
@@ -59,7 +66,22 @@ const FromEmailDetail = (props) => {
   const handleChangeAssign = (newValue) => {
     setValue(newValue)
   }
-
+  // create 的 下拉框
+  const assignMenu = (
+    <Menu
+      onClick={chooseAssignMenu}
+      items={[
+        {
+          label: 'Deal',
+          key: 'deal'
+        },
+        {
+          label: 'Ticket',
+          key: 'ticket'
+        }
+      ]}
+    />
+  )
   // create 的 下拉框
   const createMenu = (
     <Menu
@@ -67,11 +89,11 @@ const FromEmailDetail = (props) => {
       items={[
         {
           label: 'Deal',
-          key: 'Deal'
+          key: 'deal'
         },
         {
           label: 'Ticket',
-          key: 'Ticket'
+          key: 'ticket'
         }
       ]}
     />
@@ -96,9 +118,14 @@ const FromEmailDetail = (props) => {
             </Col>
             <Col>
               <Space>
-                <Button onClick={() => setShowAssignModal(true)}>
+                <Dropdown overlay={assignMenu}>
+                  <Button>
+                    Assign <DownOutlined />
+                  </Button>
+                </Dropdown>
+                {/* <Button onClick={() => setShowAssignModal(true)}>
                   Assign <DownOutlined />
-                </Button>
+                </Button> */}
                 <Dropdown overlay={createMenu}>
                   <Button className={styles.createBtn}>
                     Create <DownOutlined />
@@ -191,7 +218,11 @@ const FromEmailDetail = (props) => {
           {/* assign modal */}
           <Modal
             visible={showAssignModal}
-            title="Assign to an existing deal"
+            title={
+              assignType == 'deal'
+                ? 'Assign to an existing deal'
+                : 'Assign to an existing ticket'
+            }
             onCancel={() => setShowAssignModal(false)}
             footer={[
               <Row key="footer" justify="center">
@@ -206,7 +237,9 @@ const FromEmailDetail = (props) => {
                 span={24}
                 style={{ fontWeight: '500', marginBottom: '10px' }}
               >
-                contact name/deal Name
+                {assignType == 'deal'
+                  ? 'CONTACT NAME/DEAL NAME'
+                  : 'CONTACT CONTACT/TICKET NAME'}
               </Col>
               <Col span={24}>
                 <Select
@@ -229,6 +262,7 @@ const FromEmailDetail = (props) => {
               </Col>
             </Row>
           </Modal>
+          {/* create deal | ticket */}
           <Drawer
             title="Create a deal"
             placement="left"
@@ -237,7 +271,7 @@ const FromEmailDetail = (props) => {
             visible={showDealDrawer}
             key={'left'}
           >
-            <CreateDealForm />
+            <CreateDealForm createType={createType} />
           </Drawer>
         </div>
       )}
