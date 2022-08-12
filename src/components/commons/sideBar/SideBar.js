@@ -20,6 +20,8 @@ const SideBar = ({ user }) => {
   const router = useRouter()
   // 默认展示的 menuItem
   const [defaultSelectedKeys, setDefaultSelectedKeys] = useState('')
+  // 匹配路由 默认展开 cubHub
+  const [isCubHub, setIsCubHub] = useState(false)
   // 点击侧边栏 crm hub 事件
   function getSubItem(label, key, path) {
     return {
@@ -51,12 +53,25 @@ const SideBar = ({ user }) => {
       ]
     )
   ]
+  // 路由改变 需要判断是否展开 menu
   useEffect(() => {
-    setDefaultSelectedKeys(router.route)
+    const menuList = [
+      '/crm-hub/form-email',
+      '/crm-hub/chats',
+      '/crm-hub/deals',
+      '/crm-hub/tickets',
+      '/crm-hub/dashboard'
+    ]
+    if (menuList.indexOf(router.route) >= 0) {
+      setIsCubHub(true)
+      setDefaultSelectedKeys(router.route)
+    } else {
+      setIsCubHub(false)
+    }
   }, [router.route])
   return (
     <SideBarWrapper className={styles.SideBarWrapper}>
-      <Content>
+      <Content className={styles.content}>
         <CompanyLogo onClick={() => router.push('/')}>
           <Image
             src={logo}
@@ -76,7 +91,6 @@ const SideBar = ({ user }) => {
               disabled={!user}
               active={user && router.pathname === '/inventory'}
             >
-              {' '}
               <Icon name="inventory" />{' '}
             </SpanLogo>
             <SpanText disabled={!user}>Inventory</SpanText>
@@ -90,7 +104,6 @@ const SideBar = ({ user }) => {
               disabled={!user}
               active={user && router.pathname === '/warehouse'}
             >
-              {' '}
               <Icon name="warehouse" />{' '}
             </SpanLogo>
             <SpanText disabled={!user}>Warehousing</SpanText>
@@ -104,7 +117,6 @@ const SideBar = ({ user }) => {
               disabled={!user}
               active={user && router.pathname.includes('/products')}
             >
-              {' '}
               <Icon name="product" />{' '}
             </SpanLogo>
             <SpanText disabled={!user}>Products</SpanText>
@@ -118,17 +130,22 @@ const SideBar = ({ user }) => {
               disabled={!user}
               active={user && router.pathname === '/orders'}
             >
-              {' '}
               <Icon name="orders" />{' '}
             </SpanLogo>
             <SpanText disabled={!user}>Orders</SpanText>
           </NavItem>
-          <Menu
-            defaultSelectedKeys={[`${defaultSelectedKeys}`]}
-            selectedKeys={[`${defaultSelectedKeys}`]}
-            mode="inline"
-            items={menuItems}
-          />
+          {/* 如果当前路由是 cubHub 中的 需要默认展开 menu */}
+          {isCubHub ? (
+            <Menu
+              openKeys={defaultSelectedKeys}
+              defaultSelectedKeys={[`${defaultSelectedKeys}`]}
+              selectedKeys={[`${defaultSelectedKeys}`]}
+              mode="inline"
+              items={menuItems}
+            />
+          ) : (
+            <Menu mode="inline" items={menuItems} />
+          )}
         </NavItems>
       </Content>
     </SideBarWrapper>

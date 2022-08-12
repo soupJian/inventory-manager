@@ -13,6 +13,7 @@ import {
   Select,
   Drawer
 } from 'antd'
+import { Icon } from '../../../components/commons'
 import { DeleteOutlined, DownOutlined, BellFilled } from '@ant-design/icons'
 // componnets ------------
 import CreateDealForm from './create-deal-form'
@@ -114,10 +115,11 @@ const FromEmailDetail = (props) => {
             </div>
           </div>
           {/* 消息通知 */}
-          <Row className={styles.notice}>
-            <Col span={24}>
-              <BellFilled /> The sender exists in an open deal. Notify the owner
+          <Row className={styles.notice} align="middle">
+            <Col>
+              <Icon name="notification" width="20px" height="20px" />
             </Col>
+            <Col>The sender exists in an open deal. Notify the owner</Col>
           </Row>
           <Divider />
           {/* 邮件正文 区分 网站邮箱 和 客户邮箱 */}

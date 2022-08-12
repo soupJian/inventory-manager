@@ -1,5 +1,13 @@
 .SideBarWrapper {
+  .content {
+    position: fixed;
+    overflow: scroll;
+    height: 100%;
+  }
   :global {
+    .ant-menu-root {
+      margin-top: 40px;
+    }
     .ant-menu-inline .ant-menu-selected::after,
     .ant-menu-inline .ant-menu-item-selected::after {
       display: none;
