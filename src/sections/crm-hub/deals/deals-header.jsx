@@ -1,13 +1,16 @@
 // React next -------------
 import React from 'react'
+import Image from 'next/image'
 // antd ui -------------
 import { Row, Col, Space, Button, Select, Input } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
+// components ----------------
+import Icon from '../../../components/commons/icons/Icon'
 // css ---------------
 import styles from './index.module.scss'
 const { Option } = Select
 
-const DealsHeader = () => {
+const DealsHeader = ({ changeShowListType, shouListType }) => {
   const handleChange = (value) => {
     console.log(`selected ${value}`)
   }
@@ -29,6 +32,24 @@ const DealsHeader = () => {
             <Option value="Other pipeline example"></Option>Other pipeline
             example
           </Select>
+          <div className={styles.type}>
+            <div
+              className={`${styles['type-menu']} ${
+                shouListType == 'menu' ? styles.active : ''
+              }`}
+              onClick={() => changeShowListType('menu')}
+            >
+              <Icon name="menu" width="14px" height="13px" />
+            </div>
+            <div
+              className={`${styles['type-filter']} ${
+                shouListType == 'filter' ? styles.active : ''
+              }`}
+              onClick={() => changeShowListType('filter')}
+            >
+              <Icon name="filter" width="14px" height="13px" />
+            </div>
+          </div>
         </Space>
       </Col>
       <Col>

@@ -20,5 +20,7 @@ export default {
   delete: '/images/icons/icon-delete.png',
   notification: '/images/icons/icon-notification.png',
   crmhub: '/images/icons/icon-crmhub.png',
-  setting: '/images/icons/icon-setting.png'
+  setting: '/images/icons/icon-setting.png',
+  menu: '/images/icons/icon-menu.png',
+  filter: '/images/icons/icon-filter.png'
 }
