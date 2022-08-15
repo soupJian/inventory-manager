@@ -5,6 +5,8 @@ import { Menu } from 'antd'
 import styled from 'styled-components'
 import logo from '../../../../public/images/company-logo.png'
 import Icon from '../icons/Icon'
+// 有时候本地加载 menu 样式 加载不成功，故手动导入
+import 'antd/lib/menu/style/index.css'
 import styles from './SideBar.module.scss'
 
 const SideBar = ({ user }) => {
@@ -121,6 +123,7 @@ export default SideBar
 const SideBarWrapper = styled.aside`
   flex: 1 0 auto;
   max-width: 231px;
+  min-width: 231px;
   background-color: #ffffff;
 `
 

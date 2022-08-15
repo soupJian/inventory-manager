@@ -6,10 +6,10 @@ import DealsHeader from '../../../sections/crm-hub/deals/deals-header'
 import DealsTabs from '../../../sections/crm-hub/deals/deals-tabs'
 
 const Deals = () => {
-  const [shouListType, setShpwListType] = useState('menu')
+  const [showListType, setShowListType] = useState('menu')
   const changeShowListType = (type) => {
     // menu（表格） filter(分类)
-    setShpwListType(type)
+    setShowListType(type)
   }
   return (
     <>
@@ -18,9 +18,9 @@ const Deals = () => {
       </Head>
       <DealsHeader
         changeShowListType={changeShowListType}
-        shouListType={shouListType}
+        showListType={showListType}
       />
-      <DealsTabs shouListType={shouListType} />
+      <DealsTabs showListType={showListType} />
     </>
   )
 }

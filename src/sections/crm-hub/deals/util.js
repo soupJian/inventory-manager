@@ -11,14 +11,16 @@ export const switchStatusColor = (status) => {
   switch (status) {
     case 'Interest showed':
       return '#FF7B7B'
-    case 'Initial Mockup':
+    case 'Mockup sent':
       return 'rgba(247, 148, 0, 0.6)'
     case 'Mockup revising':
       return '#2C88DD'
-    case 'Invoice sent':
+    case 'Quote sent':
       return '#77D755'
     case 'Closed won':
       return '#2EBEBD'
+    case 'Closed lost':
+      return '#B7B7B7'
     default:
       return '#FF7B7B'
   }

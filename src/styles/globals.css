@@ -22,29 +22,27 @@ a {
 }
 /* 整个滚动条 */
 ::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  width: 6px;
+  height: 10px;
   display: block;
 }
 /* 滚动条竖向滑块 */
 ::-webkit-scrollbar-thumb:vertical {
   background-color: rgba(211, 211, 211, 1);
-  border-radius: 2px;
+  border-radius: 3px;
 }
 /* 滚动条竖向滑块hover */
 ::-webkit-scrollbar-thumb:vertical:hover {
   background-color: rgba(128, 128, 128, 1);
-  border-radius: 4px;
 }
 /* 滚动条横向滑块 */
 ::-webkit-scrollbar-thumb:horizontal {
   background-color: rgba(211, 211, 211, 1);
-  border-radius: 2px;
+  border-radius: 4px;
 }
 /* 滚动条横向滑块hover */
 ::-webkit-scrollbar-thumb:horizontal:hover {
   background-color: rgba(128, 128, 128, 1);
-  border-radius: 4px;
 }
 /* 同时有垂直和水平滚动条时交汇的部分 */
 ::-webkit-scrollbar-corner {

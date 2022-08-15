@@ -10,7 +10,7 @@ import Icon from '../../../components/commons/icons/Icon'
 import styles from './index.module.scss'
 const { Option } = Select
 
-const DealsHeader = ({ changeShowListType, shouListType }) => {
+const DealsHeader = ({ changeShowListType, showListType }) => {
   const handleChange = (value) => {
     console.log(`selected ${value}`)
   }
@@ -35,19 +35,19 @@ const DealsHeader = ({ changeShowListType, shouListType }) => {
           <div className={styles.type}>
             <div
               className={`${styles['type-menu']} ${
-                shouListType == 'menu' ? styles.active : ''
+                showListType == 'menu' ? styles.active : ''
               }`}
               onClick={() => changeShowListType('menu')}
             >
-              <Icon name={shouListType == 'menu' ?'menu-white' :'menu-black'} width="14px" height="13px" />
+              <Icon name={showListType == 'menu' ?'menu-white' :'menu-black'} width="14px" height="13px" />
             </div>
             <div
               className={`${styles['type-filter']} ${
-                shouListType == 'filter' ? styles.active : ''
+                showListType == 'filter' ? styles.active : ''
               }`}
               onClick={() => changeShowListType('filter')}
             >
-              <Icon name={shouListType == 'filter' ?'filter-white' :'filter-black'} width="14px" height="13px" />
+              <Icon name={showListType == 'filter' ?'filter-white' :'filter-black'} width="14px" height="13px" />
             </div>
           </div>
         </Space>

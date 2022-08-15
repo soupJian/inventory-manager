@@ -18,29 +18,25 @@ import { menuColumns, filterColumns } from './util'
 const { TabPane } = Tabs
 
 // main FC ---------------------------------------------------------------------------------
-const DealsTabs = ({ shouListType }) => {
+const DealsTabs = ({ showListType }) => {
   // 表格数据
   const [data, setData] = useState([])
   // 选择的表格数据
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const [filterData, setFilterData] = useState([])
   // 切换标签页
   const changeTabs = (key) => {
     console.log(key)
   }
-  // 切换表格数据展示
-  const tableChange = (pagination, filters, sorter, extra) => {
-    // 总共有多少页
-    console.log(extra)
-    // const totalPage = Math.ceil(pagination.total / pagination.pageSize)
-    // if (pagination.current < totalPage) {
-    //   setCurrentShowList(pagination.pageSize)
-    // } else {
-    //   setCurrentShowList(
-    //     pagination.total - (pagination.current - 1) * pagination.pageSize
-    //   )
-    // }
-    // setPagination(pagination)
+  // menu 状态表格筛选
+  const tableMenuChange = (pagination, filters, sorter, extr) => {}
+  // filter状态表格筛选
+  const tableFilterChange = (pagination, filters, sorter, extra) => {
+    // 过滤后的数据
+    // console.log(extra.currentDataSource)
+    setFilterData(extra.currentDataSource)
   }
+
   // 选择表格 checkbox 的事件
   const onSelectChange = (newSelectedRowKeys) => {
     // 对应的 key 数组 [1,2,3,4,6] 也就是对应的 id数组
@@ -62,7 +58,7 @@ const DealsTabs = ({ shouListType }) => {
       {
         key: '2',
         dealName: 'Derrick Person',
-        status: 'Initial Mockup',
+        status: 'Mockup sent',
         customerType: 'New',
         interest: 'Canopy tent p2',
         amount: 600,
@@ -82,7 +78,7 @@ const DealsTabs = ({ shouListType }) => {
       {
         key: '4',
         dealName: 'Derrick Person',
-        status: 'Invoice sent',
+        status: 'Quote sent',
         customerType: 'New',
         interest: 'Canopy tent p2',
         amount: 900,
@@ -102,7 +98,7 @@ const DealsTabs = ({ shouListType }) => {
       {
         key: '6',
         dealName: 'Derrick Person',
-        status: 'Interest showed',
+        status: 'Closed lost',
         customerType: 'New',
         interest: 'Canopy tent p2',
         amount: 1400,
@@ -211,11 +207,12 @@ const DealsTabs = ({ shouListType }) => {
       }
     ]
     setData(list)
+    setFilterData(list)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
     <>
-      {shouListType == 'menu' && (
+      {showListType == 'menu' && (
         <div className={styles['deals-content-wrap']}>
           <Tabs onChange={changeTabs} type="card" tabBarGutter={0}>
             <TabPane tab="My open deals" key="1"></TabPane>
@@ -231,7 +228,7 @@ const DealsTabs = ({ shouListType }) => {
               }}
               columns={menuColumns}
               dataSource={data}
-              onChange={tableChange}
+              onChange={tableMenuChange}
               pagination={{
                 showTotal: (total) => `Showing ${total} of ${data.length} deals`
               }}
@@ -239,36 +236,36 @@ const DealsTabs = ({ shouListType }) => {
           </div>
         </div>
       )}
-      {shouListType == 'filter' && (
+      {showListType == 'filter' && (
         // 过滤数据采用 table 表格筛选过滤数据，自定义太麻烦，头痛
         <div className={styles['deals-content-wrap']}>
           <div className={styles['deals-content-filter']}>
             <Table
               columns={filterColumns}
               dataSource={data}
-              onChange={tableChange}
+              onChange={tableFilterChange}
               pagination={false}
             />
           </div>
           <div className={styles.filterWrap}>
-            <Row className={styles.row} gutter={10}>
-              <Col span={4}>
-                <DealsFilter />
+            <Row className={styles.row} gutter={[10, 10]} wrap={false}>
+              <Col>
+                <DealsFilter filterData={filterData} status="Interest showed" />
               </Col>
-              <Col span={4}>
-                <DealsFilter />
+              <Col>
+                <DealsFilter filterData={filterData} status="Mockup sent" />
               </Col>
-              <Col span={4}>
-                <DealsFilter />
+              <Col>
+                <DealsFilter filterData={filterData} status="Mockup revising" />
               </Col>
-              <Col span={4}>
-                <DealsFilter />
+              <Col>
+                <DealsFilter filterData={filterData} status="Quote sent" />
               </Col>
-              <Col span={4}>
-                <DealsFilter />
+              <Col>
+                <DealsFilter filterData={filterData} status="Closed won" />
               </Col>
-              <Col span={4}>
-                <DealsFilter />
+              <Col>
+                <DealsFilter filterData={filterData} status="Closed lost" />
               </Col>
             </Row>
           </div>
