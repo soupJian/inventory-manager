@@ -21,6 +21,8 @@ export default {
   notification: '/images/icons/icon-notification.png',
   crmhub: '/images/icons/icon-crmhub.png',
   setting: '/images/icons/icon-setting.png',
-  menu: '/images/icons/icon-menu.png',
-  filter: '/images/icons/icon-filter.png'
+  "menu-white": '/images/icons/icon-menu-white.png',
+  'menu-black': '/images/icons/icon-menu-black.png',
+  'filter-white': '/images/icons/icon-filter-white.png',
+  'filter-black': '/images/icons/icon-filter-black.png'
 }

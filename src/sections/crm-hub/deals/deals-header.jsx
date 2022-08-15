@@ -39,7 +39,7 @@ const DealsHeader = ({ changeShowListType, shouListType }) => {
               }`}
               onClick={() => changeShowListType('menu')}
             >
-              <Icon name="menu" width="14px" height="13px" />
+              <Icon name={shouListType == 'menu' ?'menu-white' :'menu-black'} width="14px" height="13px" />
             </div>
             <div
               className={`${styles['type-filter']} ${
@@ -47,7 +47,7 @@ const DealsHeader = ({ changeShowListType, shouListType }) => {
               }`}
               onClick={() => changeShowListType('filter')}
             >
-              <Icon name="filter" width="14px" height="13px" />
+              <Icon name={shouListType == 'filter' ?'filter-white' :'filter-black'} width="14px" height="13px" />
             </div>
           </div>
         </Space>
