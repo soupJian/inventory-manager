@@ -1,9 +1,11 @@
 // react next -----------
 import React, { useEffect, useState } from 'react'
 // antd -------------
-import { Table, Tabs, Row, Col } from 'antd'
+import { Table, Tabs, Row, Col, Button } from 'antd'
+import { CloseOutlined } from '@ant-design/icons'
 // components ------------
 import DealsFilter from './deals-filter'
+import Icon from '../../../components/commons/icons/Icon'
 // css ----------
 import styles from './index.module.scss'
 // table 组件 导入，由于 next 按需导入机制 只导入了 table 样式 需要手动导入 其他样式
@@ -24,6 +26,8 @@ const DealsTabs = ({ showListType }) => {
   // 选择的表格数据
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [filterData, setFilterData] = useState([])
+  // 展示选中的 表格 数目
+  const [showSelectedView, setShowTSelectedView] = useState(false)
   // 切换标签页
   const changeTabs = (key) => {
     console.log(key)
@@ -42,6 +46,15 @@ const DealsTabs = ({ showListType }) => {
     // 对应的 key 数组 [1,2,3,4,6] 也就是对应的 id数组
     console.log(newSelectedRowKeys)
     setSelectedRowKeys(newSelectedRowKeys)
+    // 如果选中 数目 > 0 展示 view
+    if (newSelectedRowKeys.length > 0) {
+      setShowTSelectedView(true)
+    }
+  }
+  // 清除已选择
+  const clearSelect = () => {
+    setSelectedRowKeys([])
+    setShowTSelectedView(false)
   }
   useEffect(() => {
     const list = [
@@ -234,6 +247,21 @@ const DealsTabs = ({ showListType }) => {
               }}
             />
           </div>
+          {selectedRowKeys.length > 0 && (
+            <Row className={styles.view} align="middle" justify="space-between">
+              <Col>
+                <span onClick={clearSelect} style={{ cursor: 'pointer' }}>
+                  <CloseOutlined />
+                </span>
+                <span className={styles.num}>
+                  {selectedRowKeys.length} items selected
+                </span>
+              </Col>
+              <Col>
+                <Button icon={<Icon name="view" />}>View</Button>
+              </Col>
+            </Row>
+          )}
         </div>
       )}
       {showListType == 'filter' && (

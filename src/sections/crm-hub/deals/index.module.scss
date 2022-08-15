@@ -45,6 +45,27 @@
   .deals-content {
     background-color: #fff;
   }
+  .view {
+    position: fixed;
+    bottom: 10px;
+    right: 30px;
+    color: #fff;
+    width: 350px;
+    height: 53px;
+    padding: 0 28px;
+    border-radius: 10px;
+    background-color: #000000;
+    .num {
+      margin-left: 10px;
+    }
+    button {
+      width: 90px;
+      display: flex;
+      color: #000;
+      justify-content: space-between;
+      border-radius: 10px;
+    }
+  }
   :global {
     .ant-tabs-nav {
       margin-bottom: 0 !important;
