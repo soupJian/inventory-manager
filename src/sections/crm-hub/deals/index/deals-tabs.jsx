@@ -1,11 +1,12 @@
 // react next -----------
 import React, { useEffect, useState } from 'react'
+import {useRouter} from 'next/router'
 // antd -------------
 import { Table, Tabs, Row, Col, Button } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 // components ------------
 import DealsFilter from './deals-filter'
-import Icon from '../../../components/commons/icons/Icon'
+import Icon from '../../../../components/commons/icons/Icon'
 // css ----------
 import styles from './index.module.scss'
 // table 组件 导入，由于 next 按需导入机制 只导入了 table 样式 需要手动导入 其他样式
@@ -16,11 +17,13 @@ import 'antd/lib/input/style/index.css'
 import 'antd/lib/button/style/index.css'
 import 'antd/lib/checkbox/style/index.css'
 // js ---------
-import { menuColumns, filterColumns } from './util'
+import { menuColumns, filterColumns } from '../util'
 const { TabPane } = Tabs
 
 // main FC ---------------------------------------------------------------------------------
 const DealsTabs = ({ showListType }) => {
+  // 路由
+  const router = useRouter()
   // 表格数据
   const [data, setData] = useState([])
   // 选择的表格数据
@@ -56,6 +59,12 @@ const DealsTabs = ({ showListType }) => {
     setSelectedRowKeys([])
     setShowTSelectedView(false)
   }
+  // 进入详情页面, 本次存储一下 选择的 数据 id
+  const goToDealDetail = ()=>{
+    localStorage.setItem('dealIds',JSON.stringify(selectedRowKeys))
+    router.push('/crm-hub/deals/detail')
+  }
+  // 获取数据，数据渲染
   useEffect(() => {
     const list = [
       {
@@ -223,6 +232,8 @@ const DealsTabs = ({ showListType }) => {
     setFilterData(list)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  
   return (
     <>
       {showListType == 'menu' && (
@@ -258,7 +269,7 @@ const DealsTabs = ({ showListType }) => {
                 </span>
               </Col>
               <Col>
-                <Button icon={<Icon name="view" />}>View</Button>
+                <Button icon={<Icon name="view" />} onClick={goToDealDetail}>View</Button>
               </Col>
             </Row>
           )}
