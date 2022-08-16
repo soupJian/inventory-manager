@@ -25,5 +25,8 @@ export default {
   'menu-black': '/images/icons/icon-menu-black.png',
   'filter-white': '/images/icons/icon-filter-white.png',
   'filter-black': '/images/icons/icon-filter-black.png',
-  view: '/images/icons/icon-view.png'
+  view: '/images/icons/icon-view.png',
+  note: '/images/icons/icon-note.png',
+  merge: '/images/icons/icon-merge.png',
+  deal: '/images/icons/icon-deal.png'
 }
