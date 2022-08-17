@@ -28,5 +28,7 @@ export default {
   view: '/images/icons/icon-view.png',
   note: '/images/icons/icon-note.png',
   merge: '/images/icons/icon-merge.png',
-  deal: '/images/icons/icon-deal.png'
+  deal: '/images/icons/icon-deal.png',
+  send: '/images/icons/icon-send.png',
+  reply: '/images/icons/icon-reply.png'
 }

@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 // antd -------------
 import { Tabs, Row, Col } from 'antd'
 // components
-import DetailHistor from './detail-history'
-import DetailEmails from './detail-emails'
-import DetailCalls from './detail-calls'
-import DetailChats from './detali-chats'
-import DetailTasks from './detail-tasks'
-import DetailNotes from './detail-notes'
+import DetailHistory from './components/detail-history'
+import DetailEmails from './components/detail-emails'
+import DetailCalls from './components/detail-calls'
+import DetailChats from './components/detali-chats'
+import DetailTasks from './components/detail-tasks'
+import DetailNotes from './components/detail-notes'
 
 // css ---------
 import styles from './index.module.scss'
@@ -21,24 +21,24 @@ const DetailTabs = () => {
   }
   return (
     <div className={styles['detail-tabs']}>
-      <Tabs defaultActiveKey="History" onChange={onChange}>
+      <Tabs defaultActiveKey="Emails" onChange={onChange}>
         <TabPane tab="History" key="History">
-          Historys
+          <DetailHistory />
         </TabPane>
         <TabPane tab="Emails" key="Emails">
-          Emails
+          <DetailEmails />
         </TabPane>
         <TabPane tab="Calls" key="Calls">
-          Calls
+          <DetailCalls />
         </TabPane>
         <TabPane tab="Chats" key="Chats">
-          Chats
+          <DetailChats />
         </TabPane>
         <TabPane tab="Task" key="Task">
-          Tasks
+          <DetailTasks />
         </TabPane>
         <TabPane tab="Repository" key="Repository">
-          Repository
+          <DetailNotes />
         </TabPane>
       </Tabs>
     </div>
