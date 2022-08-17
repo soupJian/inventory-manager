@@ -150,4 +150,32 @@
     color: #2ebebd;
     font-weight: 700;
   }
+  :global {
+    .ant-tabs-nav::before {
+      border-bottom: none !important;
+    }
+    .ant-tabs-tab {
+      width: 106px;
+      height: 36px;
+      font-family: 'Lato';
+      font-weight: 400;
+      font-size: 15px;
+      color: #707070;
+      text-align: center;
+      line-height: 36px;
+      .ant-tabs-tab-btn {
+        width: 100%;
+        border-radius: 50px;
+      }
+    }
+    .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+      background: rgba(46, 190, 189, 0.1);
+      color: #2ebebd;
+      font-weight: 700;
+      text-shadow: none;
+    }
+    .ant-tabs-ink-bar {
+      display: none;
+    }
+  }
 }

@@ -1,41 +1,46 @@
 import React, { useState } from 'react'
 // antd -------------
-import { Row, Col } from 'antd'
+import { Tabs, Row, Col } from 'antd'
 // components
-// import Icon from '../../../../components/commons/icons/Icon'
+import DetailHistor from './detail-history'
+import DetailEmails from './detail-emails'
+import DetailCalls from './detail-calls'
+import DetailChats from './detali-chats'
+import DetailTasks from './detail-tasks'
+import DetailNotes from './detail-notes'
+
 // css ---------
 import styles from './index.module.scss'
-const tabs = [
-  { name: 'History' },
-  { name: 'Emails' },
-  { name: 'Calls' },
-  { name: 'Chats' },
-  { name: 'Task' },
-  { name: 'Repository' }
-]
+//js ------------
+const { TabPane } = Tabs
 
 const DetailTabs = () => {
   const [active, setActive] = useState('History')
+  const onChange = (key) => {
+    setActive(key)
+  }
   return (
     <div className={styles['detail-tabs']}>
-      <Row>
-        {tabs.map((item) => {
-          return (
-            <Col key={item.name}>
-              <div
-                onClick={() => setActive(item.name)}
-                className={
-                  active == item.name
-                    ? `${styles.tab} ${styles.active}`
-                    : `${styles.tab}`
-                }
-              >
-                {item.name}
-              </div>
-            </Col>
-          )
-        })}
-      </Row>
+      <Tabs defaultActiveKey="History" onChange={onChange}>
+        <TabPane tab="History" key="History">
+          Historys
+        </TabPane>
+        <TabPane tab="Emails" key="Emails">
+          Emails
+        </TabPane>
+        <TabPane tab="Calls" key="Calls">
+          Calls
+        </TabPane>
+        <TabPane tab="Chats" key="Chats">
+          Chats
+        </TabPane>
+        <TabPane tab="Task" key="Task">
+          Tasks
+        </TabPane>
+        <TabPane tab="Repository" key="Repository">
+          Repository
+        </TabPane>
+      </Tabs>
     </div>
   )
 }
