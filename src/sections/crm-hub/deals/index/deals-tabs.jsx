@@ -1,6 +1,6 @@
 // react next -----------
 import React, { useEffect, useState } from 'react'
-import {useRouter} from 'next/router'
+import { useRouter } from 'next/router'
 // antd -------------
 import { Table, Tabs, Row, Col, Button } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
@@ -54,14 +54,18 @@ const DealsTabs = ({ showListType }) => {
       setShowTSelectedView(true)
     }
   }
+  const handleRowClick = (record) => {
+    localStorage.setItem('dealIds', JSON.stringify([record.key]))
+    router.push('/crm-hub/deals/detail')
+  }
   // 清除已选择
   const clearSelect = () => {
     setSelectedRowKeys([])
     setShowTSelectedView(false)
   }
   // 进入详情页面, 本次存储一下 选择的 数据 id
-  const goToDealDetail = ()=>{
-    localStorage.setItem('dealIds',JSON.stringify(selectedRowKeys))
+  const goToDealDetail = () => {
+    localStorage.setItem('dealIds', JSON.stringify(selectedRowKeys))
     router.push('/crm-hub/deals/detail')
   }
   // 获取数据，数据渲染
@@ -233,7 +237,6 @@ const DealsTabs = ({ showListType }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  
   return (
     <>
       {showListType == 'menu' && (
@@ -256,6 +259,14 @@ const DealsTabs = ({ showListType }) => {
               pagination={{
                 showTotal: (total) => `Showing ${total} of ${data.length} deals`
               }}
+              // 点击行
+              onRow={(record) => {
+                return {
+                  onClick: () => {
+                    handleRowClick(record)
+                  }
+                }
+              }}
             />
           </div>
           {selectedRowKeys.length > 0 && (
@@ -269,7 +280,9 @@ const DealsTabs = ({ showListType }) => {
                 </span>
               </Col>
               <Col>
-                <Button icon={<Icon name="view" />} onClick={goToDealDetail}>View</Button>
+                <Button icon={<Icon name="view" />} onClick={goToDealDetail}>
+                  View
+                </Button>
               </Col>
             </Row>
           )}

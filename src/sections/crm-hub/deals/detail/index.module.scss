@@ -130,3 +130,24 @@
     }
   }
 }
+.detail-tabs {
+  padding: 26px 24px;
+  background-color: #fff;
+  .tab {
+    width: 106px;
+    height: 36px;
+    font-family: 'Lato';
+    font-weight: 400;
+    font-size: 15px;
+    color: #707070;
+    text-align: center;
+    line-height: 36px;
+    cursor: pointer;
+  }
+  .active {
+    border-radius: 50px;
+    background: rgba(46, 190, 189, 0.1);
+    color: #2ebebd;
+    font-weight: 700;
+  }
+}

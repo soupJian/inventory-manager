@@ -4,6 +4,8 @@ import { Row, Col } from 'antd'
 
 // css -------------
 import styles from './index.module.scss'
+// js
+import { switchStatusColor } from '../util'
 
 const DealsFilter = ({ filterData, status }) => {
   const data = filterData.filter((item) => {
@@ -18,6 +20,15 @@ const DealsFilter = ({ filterData, status }) => {
   return (
     <div className={styles.dealsfilterwrap}>
       <div className={styles.container}>
+        <Row className={styles.title}>
+          <Col
+            className={styles['status-name']}
+            style={{ background: `${switchStatusColor(status)}` }}
+          >
+            {status}
+          </Col>
+          <Col className={styles['status-num']}>{data.length}</Col>
+        </Row>
         {data.map((item) => {
           return (
             <div key={item.key} className={styles['filter-item']}>

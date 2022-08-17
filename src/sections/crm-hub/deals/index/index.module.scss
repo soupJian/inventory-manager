@@ -116,6 +116,28 @@
   min-width: 240px;
   padding: 18px 8px 54px;
   .container {
+    .title {
+      margin-left: 8px;
+      margin-bottom: 24px;
+      .status-name {
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-size: 13px;
+        line-height: 15px;
+        font-weight: 500;
+      }
+      .status-num {
+        margin-left: 10px;
+        height: 19px;
+        text-align: center;
+        background: #000000;
+        border-radius: 3px;
+        color: #fff;
+        font-size: 13px;
+        line-height: 15px;
+        padding: 2px 6px;
+      }
+    }
     .filter-item {
       padding: 12px;
       margin-bottom: 12px;
