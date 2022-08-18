@@ -1,5 +1,6 @@
 import React from 'react'
 import { Row, Col, Select, Space, Button } from 'antd'
+import { DownloadOutlined } from '@ant-design/icons'
 import styles from '../index.module.scss'
 
 const { Option } = Select
@@ -7,6 +8,21 @@ const { Option } = Select
 const EmailCollapseContent = (props) => {
   const { item } = props
   const handleChangeStatus = () => {}
+  const downloadFile = (file) => {
+    // const res = await fetch(file.url, {
+    //   responseType: 'blob'
+    // })
+    // const blob = await res.blob()
+    // let url = URL.createObjectURL(blob)
+    console.log(file.url)
+    let a = document.createElement('a')
+    document.body.appendChild(a)
+    a.href = `${file.url}?response-content-type=application/octet-stream`
+    a.download = file.name
+    // a.target = '_blank'
+    // a.click()
+    // a.remove()
+  }
   return (
     <div className={styles['collapse-content-wrap']}>
       <div className={styles['collapse-content-header']}>
@@ -44,14 +60,25 @@ const EmailCollapseContent = (props) => {
                   <Col span={24}>
                     to {email.acceprPerson} . {email.sendTime}
                   </Col>
-                  {/* <Col span={24}>
-                    <Space>
-                      <Button
-                        className={styles['email-list-button']}
-                        shape="round"
-                      ></Button>
-                    </Space>
-                  </Col> */}
+                  {email.file && email.file.length > 0 && (
+                    <Col span={24} style={{ marginTop: '10px' }}>
+                      <Space>
+                        {email.file.map((fileItem) => {
+                          return (
+                            <Button
+                              onClick={() => downloadFile(fileItem)}
+                              key={fileItem.id}
+                              className={styles['email-list-button']}
+                              shape="round"
+                            >
+                              {fileItem.name}
+                              <DownloadOutlined className={styles.icon} />
+                            </Button>
+                          )
+                        })}
+                      </Space>
+                    </Col>
+                  )}
                 </Row>
               </Col>
             </Row>

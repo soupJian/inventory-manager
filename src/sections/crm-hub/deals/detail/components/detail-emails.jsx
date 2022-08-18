@@ -34,7 +34,19 @@ const DetailEamil = () => {
             acceprPerson: 'You',
             sendTime: 'Wed 5/11 3:20 PM',
             content:
-              'Hi Kevin,Thank you! Please find the attached for your free mockup and let us know if you have any questions. We look forward to hearing back from you! Let me know if you don’t like it, we can always start production.Best Regards, Cathy'
+              'Hi Kevin,Thank you! Please find the attached for your free mockup and let us know if you have any questions. We look forward to hearing back from you! Let me know if you don’t like it, we can always start production.Best Regards, Cathy',
+            file: [
+              {
+                id: 1,
+                name: 'Mockup.pdf',
+                url: 'http://175.24.116.96:3300/upload/11199db8a5824c3ccd220482f179a124.jpg'
+              },
+              {
+                id: 2,
+                name: 'Example.jpg',
+                url: 'http://175.24.116.96:3300/upload/3bd137920e4d824917141b7384ad7fb4.png'
+              }
+            ]
           },
           {
             id: 2,
