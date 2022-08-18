@@ -42,7 +42,7 @@ const EmailCollapseContent = (props) => {
                 <Row align="middle">
                   <Col span={24}>{email.sendPerson}</Col>
                   <Col span={24}>
-                    to {email.acceptPerson} . {email.sendTime}
+                    to {email.acceprPerson} . {email.sendTime}
                   </Col>
                   {/* <Col span={24}>
                     <Space>

@@ -36,7 +36,7 @@ const Container = styled.div`
   display: flex;
   min-width: 1440px;
   overflow: hidden;
-  background-color: ${({ theme }) => theme.colors.menuBackground};
+  background-color: #f6f7f9;
 `
 
 const Content = styled.div`

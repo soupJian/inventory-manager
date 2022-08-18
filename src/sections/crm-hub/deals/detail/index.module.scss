@@ -21,8 +21,15 @@
     width: 99px;
     background-color: #f0f0f0;
   }
+  :global {
+    .ant-page-header-ghost {
+      background-color: #f6f7f9;
+    }
+  }
 }
 .detail-action {
+  background-color: #fff;
+  // padding-bottom: 20px;
   .action-header {
     padding: 24px 24px 0;
     padding-bottom: 32px;
@@ -131,28 +138,14 @@
   }
 }
 .detail-tabs {
-  padding: 26px 24px;
-  background-color: #fff;
-  .tab {
-    width: 106px;
-    height: 36px;
-    font-family: 'Lato';
-    font-weight: 400;
-    font-size: 15px;
-    color: #707070;
-    text-align: center;
-    line-height: 36px;
-    cursor: pointer;
-  }
-  .active {
-    border-radius: 50px;
-    background: rgba(46, 190, 189, 0.1);
-    color: #2ebebd;
-    font-weight: 700;
-  }
   :global {
     .ant-tabs-nav::before {
       border-bottom: none !important;
+    }
+    .ant-tabs-nav {
+      padding: 16px 24px;
+      margin: 0 !important;
+      background-color: #fff;
     }
     .ant-tabs-tab {
       width: 106px;
@@ -182,6 +175,12 @@
 
 .detail-email {
   :global {
+    .ant-page-header {
+      background-color: #f6f7f9;
+    }
+    .ant-collapse {
+      margin: 0 24px;
+    }
     .ant-collapse-expand-icon {
       order: 1;
       transform: rotate(90deg);
@@ -195,9 +194,13 @@
     .ant-collapse-ghost > .ant-collapse-item {
       border-bottom: 1px solid #d9d9d9;
     }
+    .ant-collapse-content-box {
+      background-color: #f6f7f9;
+    }
   }
   .email-search-wrap {
-    margin-bottom: 16px;
+    padding: 16px 24px;
+    background-color: #fff;
   }
   .email-list-header {
     .email-list-header-avatar {
@@ -241,10 +244,9 @@
     }
   }
   .collapse-content-wrap {
-    background-color: #fff;
-    padding-left: 44px;
     .collapse-content-header {
       margin-bottom: 15px;
+      padding-left: 44px;
       .collapse-title {
         font-family: 'Lato';
         font-weight: 600;
@@ -254,7 +256,9 @@
       }
     }
     .contentItem {
+      padding: 16px 0 16px 44px;
       margin-top: 8px;
+      background-color: #fff;
       .email-list-avatar {
         width: 48px;
         height: 48px;

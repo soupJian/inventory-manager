@@ -35,6 +35,14 @@ const DetailEamil = () => {
             sendTime: 'Wed 5/11 3:20 PM',
             content:
               'Hi Kevin,Thank you! Please find the attached for your free mockup and let us know if you have any questions. We look forward to hearing back from you! Let me know if you don’t like it, we can always start production.Best Regards, Cathy'
+          },
+          {
+            id: 2,
+            sendPerson: 'You',
+            acceprPerson: 'Kevin Bowden',
+            sendTime: 'Wed 5/11 3:20 PM',
+            content:
+              'Hi Kevin,Thank you! Please find the attached for your free mockup and let us know if you have any questions. We look forward to hearing back from you! Let me know if you don’t like it, we can always start production.Best Regards, Cathy'
           }
         ],
         collapseTitle: 'Your free canopy tent mockup is now availble to review!'
