@@ -65,6 +65,7 @@ const DetailHeader = () => {
           visible={showModalMerge}
           footer={null}
           onCancel={() => setShowModalMerge(true)}
+          width={672}
         >
           <ModalMerge />
         </Modal>

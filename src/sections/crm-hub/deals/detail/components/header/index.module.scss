@@ -49,6 +49,73 @@
   }
 }
 .modal-merge {
+  .title {
+    font-family: 'Rubik';
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 100%;
+    text-transform: uppercase;
+    color: #000000;
+    margin-bottom: 10px;
+  }
+  .description {
+    margin-bottom: 10px;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+    color: #000000;
+  }
+  .switchBtn-wrap {
+    .primaryText {
+      width: 63px;
+      height: 14px;
+      font-family: 'Rubik';
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 100%;
+      color: #2ebebd;
+      margin: 10px 0;
+    }
+    Button {
+      width: 100%;
+      height: 59px;
+      background: #ffffff;
+      border: 1px solid #d9d9d9;
+      border-radius: 8px;
+      font-family: 'Lato';
+      font-weight: 400;
+      font-size: 17px;
+      &.active {
+        border: 2px solid #2ebebd;
+        font-family: 'Lato';
+        font-weight: 500;
+        font-size: 17px;
+        line-height: 100%;
+        color: #2ebebd;
+      }
+    }
+  }
+  .container {
+    margin-top: 36px;
+    margin-bottom: 80px;
+    .label {
+      margin-right: 12px;
+      font-family: 'Rubik';
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 100%;
+      color: #808080;
+    }
+    .labelValue {
+      font-family: 'Lato';
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 17px;
+      color: #262626;
+    }
+  }
+
   .cancelBtn,
   .mergeBtn {
     width: 76px;
