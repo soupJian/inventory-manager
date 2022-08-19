@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 // antd --------------
 import { Form, Button, Space, Input } from 'antd'
 // js --------
 // main FC ------------
 const EditContact = (props) => {
-  const { editContactType } = props
+  const { editContactType, editContactInfo } = props
   const [form] = Form.useForm()
 
   const onFinish = (values) => {
@@ -13,6 +13,10 @@ const EditContact = (props) => {
   const onFinishFailed = (errInfo) => {
     console.log(errInfo)
   }
+  useEffect(() => {
+    form.setFieldsValue(editContactInfo)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editContactInfo.id])
   return (
     <Form
       layout="vertical"
@@ -39,27 +43,41 @@ const EditContact = (props) => {
       <Form.Item label=" " style={{ textAlign: 'right' }}>
         <Space>
           {editContactType == 'edit' && (
+            <>
+              <Button
+                htmlType="button"
+                style={{
+                  color: '#00000',
+                  background: '#E6E6E6',
+                  borderRadius: '10px'
+                }}
+              >
+                Delete
+              </Button>
+              <Button
+                htmlType="submit"
+                style={{
+                  color: '#ffffff',
+                  background: '#000000',
+                  borderRadius: '10px'
+                }}
+              >
+                Save
+              </Button>
+            </>
+          )}
+          {editContactType == 'add' && (
             <Button
-              htmlType="button"
+              htmlType="submit"
               style={{
-                color: '#00000',
-                background: '#E6E6E6',
+                color: '#ffffff',
+                background: '#000000',
                 borderRadius: '10px'
               }}
             >
-              Delete
+              Add
             </Button>
           )}
-          <Button
-            htmlType="submit"
-            style={{
-              color: '#ffffff',
-              background: '#000000',
-              borderRadius: '10px'
-            }}
-          >
-            {editContactType == 'add' ? 'ADD' : 'Save'}
-          </Button>
         </Space>
       </Form.Item>
     </Form>

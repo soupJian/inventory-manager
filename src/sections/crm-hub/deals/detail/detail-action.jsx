@@ -18,20 +18,29 @@ const DetailAction = (props) => {
   const [showEditDeal, setShowEditDeal] = useState(false)
   const [showEditContact, setShowContact] = useState(false)
   const [editContactType, setEditContactType] = useState(false)
+  // 编辑 contact 信息
+  const [editContactInfo, setEditContactInfo] = useState(null)
   // 修改 status 状态
   const handleChangeStatus = (value) => {
     console.log(`selected ${value}`)
   }
   // 新增 contact
   const handleAddContact = () => {
+    setEditContactInfo({
+      id: dealInfo.contact[dealInfo.contact.length - 1].id + 1,
+      name: '',
+      email: '',
+      phone: '',
+      company: ''
+    })
     setEditContactType('add')
     setShowContact(true)
   }
   // 编辑 contact
   const handleEditContact = (item) => {
-    console.log(item)
     setEditContactType('edit')
     setShowContact(true)
+    setEditContactInfo(item)
   }
   return (
     <>
@@ -184,7 +193,10 @@ const DetailAction = (props) => {
         footer={null}
         onCancel={() => setShowContact(false)}
       >
-        <EditContact editContactType={editContactType} />
+        <EditContact
+          editContactType={editContactType}
+          editContactInfo={editContactInfo}
+        />
       </Modal>
     </>
   )
