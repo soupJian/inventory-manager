@@ -16,7 +16,18 @@ const DealDetail = () => {
     amount: 690,
     createTime: '5/11/2022',
     owner: 'cathy',
-    product: ['Custom Canopy Tent p5 x1', 'Kapri Umbrella x2'],
+    interestProduct: [
+      {
+        id: 1,
+        name: 'Custom Canopy Tent p5',
+        quality: 1
+      },
+      {
+        id: 2,
+        name: 'Kapri Umbrella',
+        quality: 2
+      }
+    ],
     source: 'FaceBook',
     customerType: 'existing',
     contact: [

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 // antd ---------
-import { Select, Row, Col, Button, Modal } from 'antd'
+import { Select, Row, Col, Button, Modal, Space } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
 // components -----------
 import Icon from '../../../../components/commons/icons/Icon'
@@ -14,6 +14,7 @@ const { Option } = Select
 const DetailAction = (props) => {
   // deal 信息
   const dealInfo = props.dealInfo
+  // 编辑 amount 金额的等信息
   const [showEditDeal, setShowEditDeal] = useState(false)
   const [showEditContact, setShowContact] = useState(false)
   const [editContactType, setEditContactType] = useState(false)
@@ -27,7 +28,8 @@ const DetailAction = (props) => {
     setShowContact(true)
   }
   // 编辑 contact
-  const handleEditContact = () => {
+  const handleEditContact = (item) => {
+    console.log(item)
     setEditContactType('edit')
     setShowContact(true)
   }
@@ -39,7 +41,7 @@ const DetailAction = (props) => {
             <Icon name="deal" width="22px" height="24px" />
             <div className={styles['deal-logo']}>DEAL</div>
           </div>
-          <div className={styles['deal-name']}>{dealInfo.name}</div>
+          <div className={styles['deal-name']}>{dealInfo.contact[0].name}</div>
           <div className={styles['status-wrap']}>
             <div>Status</div>
             <Select
@@ -86,13 +88,16 @@ const DetailAction = (props) => {
           <div className={styles['goods-info']}>
             <div className={styles.title}>DETAILS</div>
             <div className={styles['info-label']}>Interest Product(s)</div>
-            {dealInfo.product.map((item, index) => {
+            {dealInfo.interestProduct.map((item, index) => {
               return (
                 <div
                   key={index}
                   className={`${styles['info-content']} ${styles.center}`}
                 >
-                  {item}
+                  <Space>
+                    <span>{item.name}</span>
+                    <span>x {item.quality}</span>
+                  </Space>
                 </div>
               )
             })}
@@ -129,7 +134,12 @@ const DetailAction = (props) => {
                       <div className={styles['info-content']}>{item.name}</div>
                     </Col>
                     <Col>
-                      <Button onClick={() => handleEditContact()}>Edit</Button>
+                      <Button
+                        className={styles.editBtn}
+                        onClick={() => handleEditContact(item)}
+                      >
+                        Edit
+                      </Button>
                     </Col>
                   </Row>
                 </Col>
@@ -161,12 +171,12 @@ const DetailAction = (props) => {
         </div>
       </div>
       <Modal
-        title="Edot a deal"
+        title="Edit a deal"
         visible={showEditDeal}
         footer={null}
         onCancel={() => setShowEditDeal(false)}
       >
-        <EditDeal />
+        <EditDeal dealInfo={dealInfo} />
       </Modal>
       <Modal
         title={editContactType == 'add' ? 'Add a contact' : 'Edit contact'}
