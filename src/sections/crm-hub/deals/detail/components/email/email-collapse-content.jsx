@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Row, Col, Select, Space, Button } from 'antd'
 import { DownloadOutlined } from '@ant-design/icons'
 import EmailContact from './email-contact'
-import styles from '../email.module.scss'
+import styles from '../../email.module.scss'
 
 const { Option } = Select
 

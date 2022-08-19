@@ -4,8 +4,8 @@ import { Select, Row, Col, Button, Modal, Space } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
 // components -----------
 import Icon from '../../../../components/commons/icons/Icon'
-import EditDeal from './components/edit-deal'
-import EditContact from './components/edit-contact'
+import EditDeal from './components/action/modal-edit-deal'
+import EditContact from './components/action/modal-edit-contact'
 // css ----------
 import styles from './index.module.scss'
 

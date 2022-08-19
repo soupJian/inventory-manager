@@ -3,9 +3,9 @@ import { Row, Col, Input, Space, Button, Collapse, select } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 // components
 import Icon from '../../../../../components/commons/icons/Icon'
-import EmailHeader from './email-list-header'
-import EmailCollapseContent from './email-collapse-content'
-import EmailContact from './email-contact'
+import EmailHeader from './email/email-list-header'
+import EmailCollapseContent from './email/email-collapse-content'
+import EmailContact from './email/email-contact'
 // js
 const { Panel } = Collapse
 // css ----------

@@ -15,8 +15,8 @@ import {
   DownOutlined,
   DeleteOutlined
 } from '@ant-design/icons'
-import { Icon } from '../../../../../components/commons'
-import styles from '../email.module.scss'
+import { Icon } from '../../../../../../components/commons'
+import styles from '../../email.module.scss'
 
 const EmailContact = (props) => {
   // 该 deals 的 联系人 如果传递了则表示 创建 的是一个 new ，没有则表示是 回复邮件
