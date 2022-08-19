@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from '../../../../../components/commons/icons/Icon'
 import { Row, Col, Button } from 'antd'
-import styles from '../index.module.scss'
+import styles from '../email.module.scss'
 
 const EmailHeader = (item) => {
   return (

@@ -14,7 +14,8 @@ import styles from './index.module.scss'
 //js ------------
 const { TabPane } = Tabs
 
-const DetailTabs = () => {
+const DetailTabs = (props) => {
+  const dealInfo = props.dealInfo
   const [active, setActive] = useState('History')
   const onChange = (key) => {
     setActive(key)
@@ -26,7 +27,7 @@ const DetailTabs = () => {
           <DetailHistory />
         </TabPane>
         <TabPane tab="Emails" key="Emails">
-          <DetailEmails />
+          <DetailEmails dealInfo={dealInfo} />
         </TabPane>
         <TabPane tab="Calls" key="Calls">
           <DetailCalls />

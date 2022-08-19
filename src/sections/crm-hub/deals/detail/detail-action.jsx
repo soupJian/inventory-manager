@@ -11,7 +11,9 @@ import styles from './index.module.scss'
 
 // js ------------
 const { Option } = Select
-const DetailAction = () => {
+const DetailAction = (props) => {
+  // deal 信息
+  const dealInfo = props.dealInfo
   const [showEditDeal, setShowEditDeal] = useState(false)
   const [showEditContact, setShowContact] = useState(false)
   const [editContactType, setEditContactType] = useState(false)
@@ -37,11 +39,11 @@ const DetailAction = () => {
             <Icon name="deal" width="22px" height="24px" />
             <div className={styles['deal-logo']}>DEAL</div>
           </div>
-          <div className={styles['deal-name']}>Kevin Bowden</div>
+          <div className={styles['deal-name']}>{dealInfo.name}</div>
           <div className={styles['status-wrap']}>
             <div>Status</div>
             <Select
-              defaultValue="Closed lost"
+              defaultValue={dealInfo.status}
               onChange={handleChangeStatus}
               size="middle"
             >
@@ -59,7 +61,9 @@ const DetailAction = () => {
             <Row justify="space-between">
               <Col>
                 <span className={styles['info-label']}>Amount</span>
-                <span className={styles['info-content']}>$690</span>
+                <span className={styles['info-content']}>
+                  ${dealInfo.amount}
+                </span>
               </Col>
               <Col>
                 <EditOutlined
@@ -70,59 +74,81 @@ const DetailAction = () => {
             </Row>
             <div className={styles.center}>
               <span className={styles['info-label']}>Created</span>
-              <span className={styles['info-content']}>5/11/2022</span>
+              <span className={styles['info-content']}>
+                {dealInfo.createTime}
+              </span>
             </div>
             <div>
               <span className={styles['info-label']}>Owner</span>
-              <span className={styles['info-content']}>Cathy</span>
+              <span className={styles['info-content']}>{dealInfo.owner}</span>
             </div>
           </div>
           <div className={styles['goods-info']}>
             <div className={styles.title}>DETAILS</div>
             <div className={styles['info-label']}>Interest Product(s)</div>
-            <div className={`${styles['info-content']} ${styles.center}`}>
-              Custom Canopy Tent p5 x1
-            </div>
-            <div className={styles['info-content']}>Kapri Umbrella x2</div>
+            {dealInfo.product.map((item, index) => {
+              return (
+                <div
+                  key={index}
+                  className={`${styles['info-content']} ${styles.center}`}
+                >
+                  {item}
+                </div>
+              )
+            })}
             <Row className={styles.row}>
               <Col span={12}>
                 <div className={styles['info-label']}>Source</div>
-                <div className={styles['info-content']}>Facebook</div>
+                <div className={styles['info-content']}>{dealInfo.source}</div>
               </Col>
               <Col span={12}>
                 <div className={styles['info-label']}>Customer Type</div>
-                <div className={styles['info-content']}>Existing</div>
+                <div className={styles['info-content']}>
+                  {dealInfo.customerType}
+                </div>
               </Col>
             </Row>
           </div>
-          <Row className={styles['contact-info']} gutter={[0, 18]}>
-            <Col span={24}>
+          {dealInfo.contact.map((item, index) => {
+            return (
               <Row
-                justify="space-between"
-                align="middle"
-                className={styles.contact}
+                key={item.id}
+                className={styles['contact-info']}
+                gutter={[0, 18]}
               >
-                <Col>
-                  <div className={styles['info-label']}>Contact 1</div>
-                  <div className={styles['info-content']}>Kevin Bowden</div>
+                <Col span={24}>
+                  <Row
+                    justify="space-between"
+                    align="middle"
+                    className={styles.contact}
+                  >
+                    <Col>
+                      <div className={styles['info-label']}>
+                        Contact {index + 1}
+                      </div>
+                      <div className={styles['info-content']}>{item.name}</div>
+                    </Col>
+                    <Col>
+                      <Button onClick={() => handleEditContact()}>Edit</Button>
+                    </Col>
+                  </Row>
                 </Col>
-                <Col>
-                  <Button onClick={() => handleEditContact()}>Edit</Button>
+                <Col span={24}>
+                  <div className={styles['info-label']}>Email</div>
+                  <div className={styles['info-content']}>{item.email}</div>
+                </Col>
+                <Col span={24}>
+                  <div className={styles['info-label']}>Phone</div>
+                  <div className={styles['info-content']}>{item.phone}</div>
+                </Col>
+                <Col span={24}>
+                  <div className={styles['info-label']}>Company</div>
+                  <div className={styles['info-content']}>{item.company}</div>
                 </Col>
               </Row>
-            </Col>
-            <Col span={24}>
-              <div className={styles['info-label']}>Email</div>
-              <div className={styles['info-content']}>kevinhb@myemail.com</div>
-            </Col>
-            <Col span={24}>
-              <div className={styles['info-label']}>Phone</div>
-              <div className={styles['info-content']}>123 456 7890</div>
-            </Col>
-            <Col span={24}>
-              <div className={styles['info-label']}>Company</div>
-              <div className={styles['info-content']}>Great Canyon LLC</div>
-            </Col>
+            )
+          })}
+          <Row>
             <Col span={24}>
               <Button
                 className={styles.addBtn}

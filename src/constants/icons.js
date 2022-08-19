@@ -30,5 +30,6 @@ export default {
   merge: '/images/icons/icon-merge.png',
   deal: '/images/icons/icon-deal.png',
   send: '/images/icons/icon-send.png',
-  reply: '/images/icons/icon-reply.png'
+  reply: '/images/icons/icon-reply.png',
+  link: '/images/icons/icon-link.png'
 }

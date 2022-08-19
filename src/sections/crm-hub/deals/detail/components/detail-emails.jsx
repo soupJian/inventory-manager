@@ -5,12 +5,16 @@ import { SearchOutlined } from '@ant-design/icons'
 import Icon from '../../../../../components/commons/icons/Icon'
 import EmailHeader from './email-list-header'
 import EmailCollapseContent from './email-collapse-content'
+import EmailContact from './email-contact'
 // js
 const { Panel } = Collapse
 // css ----------
-import styles from '../index.module.scss'
+import styles from '../email.module.scss'
 
-const DetailEamil = () => {
+const DetailEamil = (props) => {
+  const dealInfo = props.dealInfo
+  // new email
+  const [showNewEmail, setShowNewEmail] = useState(false)
   const onChange = (key) => {
     console.log(key)
   }
@@ -106,6 +110,7 @@ const DetailEamil = () => {
                 color: '#fff',
                 alignItems: 'center'
               }}
+              onClick={() => setShowNewEmail(true)}
             >
               <Icon
                 name="reply"
@@ -116,6 +121,7 @@ const DetailEamil = () => {
           </Space>
         </Col>
       </Row>
+      {showNewEmail && <EmailContact dealInfo={dealInfo} />}
       <Collapse onChange={onChange} ghost>
         {emailList.map((item) => {
           return (
