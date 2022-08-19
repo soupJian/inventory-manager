@@ -7,10 +7,15 @@ import styles from '../email.module.scss'
 const { Option } = Select
 
 const EmailCollapseContent = (props) => {
-  const { item } = props
+  const { emailListItem } = props
   const [showEmail, setShowEmail] = useState(false)
+  const [replyAddress, setReplyAddress] = useState(emailListItem.emailAddress)
   const handleChangeStatus = (value) => {
-    console.log(value)
+    if (value == 'Forward') {
+      setReplyAddress('')
+    } else {
+      setReplyAddress(emailListItem.emailAddress)
+    }
     setShowEmail(true)
   }
   const downloadFile = (file) => {
@@ -34,7 +39,7 @@ const EmailCollapseContent = (props) => {
         <Row justify="space-between" align="middle">
           <Col>
             <span className={styles['collapse-title']}>
-              {item.collapseTitle}
+              {emailListItem.collapseTitle}
             </span>
           </Col>
           <Col>
@@ -43,15 +48,15 @@ const EmailCollapseContent = (props) => {
               placeholder="Select"
               size="middle"
             >
-              <Option value="Interest showed">Reply</Option>
-              <Option value="Initial mockup">Reply all</Option>
-              <Option value=">Mockup revising">Forward</Option>
+              <Option value="Reply">Reply</Option>
+              <Option value="Reply All">Reply all</Option>
+              <Option value="Forward">Forward</Option>
             </Select>
           </Col>
         </Row>
       </div>
-      {showEmail && <EmailContact replyAddress={item.emailAddress} />}
-      {item.emailList.map((email) => {
+      {showEmail && <EmailContact replyAddress={replyAddress} />}
+      {emailListItem.list.map((email) => {
         return (
           <div key={email.id} className={styles.contentItem}>
             <Row>

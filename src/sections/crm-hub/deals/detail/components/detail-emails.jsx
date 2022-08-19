@@ -31,7 +31,7 @@ const DetailEamil = (props) => {
         new: true,
         content:
           'Guys, I don’t know if it’s possible but can I ask if you can do another free mockup for me? I was thinking there might...',
-        emailList: [
+        list: [
           {
             id: 1,
             sendPerson: 'Kevin Bowden',
@@ -73,7 +73,7 @@ const DetailEamil = (props) => {
         new: false,
         content:
           'Guys, I don’t know if it’s possible but can I ask if you can do another free mockup for me? I was thinking there might...',
-        emailList: [],
+        list: [],
         collapseTitle: 'Your free canopy tent mockup is now availble to review!'
       },
       {
@@ -86,7 +86,7 @@ const DetailEamil = (props) => {
         new: false,
         content:
           'Guys, I don’t know if it’s possible but can I ask if you can do another free mockup for me? I was thinking there might...',
-        emailList: [],
+        list: [],
         collapseTitle: 'Your free canopy tent mockup is now availble to review!'
       }
     ]
@@ -132,7 +132,7 @@ const DetailEamil = (props) => {
         {emailList.map((item) => {
           return (
             <Panel header={EmailHeader(item)} key={item.id}>
-              <EmailCollapseContent item={item} />
+              <EmailCollapseContent emailListItem={item} />
             </Panel>
           )
         })}
