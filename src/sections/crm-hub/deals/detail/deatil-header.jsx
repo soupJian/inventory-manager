@@ -7,6 +7,7 @@ import { LeftOutlined } from '@ant-design/icons'
 // components
 import Icon from '../../../../components/commons/icons/Icon'
 import ModalNotes from './components/header/modal-notes'
+import ModalMerge from './components/header/modal-merge'
 // css -------------
 // 导入space样式
 import 'antd/lib/space/style/index.css'
@@ -16,6 +17,9 @@ const DetailHeader = () => {
   const router = useRouter()
   // 展示 motes 的 modal
   const [showModalNotes, setShowModalNotes] = useState(false)
+  // merge modal
+  const [showModalMerge, setShowModalMerge] = useState(false)
+
   return (
     <div className={styles['detail-header']}>
       <PageHeader
@@ -35,6 +39,7 @@ const DetailHeader = () => {
             key="2"
             className={styles.mergeBtn}
             icon={<Icon name="merge" width="14px" height="14px" />}
+            onClick={() => setShowModalMerge(true)}
           >
             Merge
           </Button>,
@@ -54,6 +59,14 @@ const DetailHeader = () => {
           onCancel={() => setShowModalNotes(false)}
         >
           <ModalNotes />
+        </Modal>
+        <Modal
+          title="Merge deals"
+          visible={showModalMerge}
+          footer={null}
+          onCancel={() => setShowModalMerge(true)}
+        >
+          <ModalMerge />
         </Modal>
       </PageHeader>
     </div>
