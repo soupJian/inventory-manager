@@ -1,13 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Row, Col, Select, Space, Button } from 'antd'
 import { DownloadOutlined } from '@ant-design/icons'
+import EmailContact from './email-contact'
 import styles from '../email.module.scss'
 
 const { Option } = Select
 
 const EmailCollapseContent = (props) => {
   const { item } = props
-  const handleChangeStatus = () => {}
+  const [showEmail, setShowEmail] = useState(false)
+  const handleChangeStatus = (value) => {
+    console.log(value)
+    setShowEmail(true)
+  }
   const downloadFile = (file) => {
     // const res = await fetch(file.url, {
     //   responseType: 'blob'
@@ -45,7 +50,8 @@ const EmailCollapseContent = (props) => {
           </Col>
         </Row>
       </div>
-      {item.contactList.map((email) => {
+      {showEmail && <EmailContact replyAddress={item.emailAddress} />}
+      {item.emailList.map((email) => {
         return (
           <div key={email.id} className={styles.contentItem}>
             <Row>

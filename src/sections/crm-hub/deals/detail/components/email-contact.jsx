@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Row,
   Col,
@@ -19,8 +19,10 @@ import { Icon } from '../../../../../components/commons'
 import styles from '../email.module.scss'
 
 const EmailContact = (props) => {
-  // 该 deals 的 联系人
+  // 该 deals 的 联系人 如果传递了则表示 创建 的是一个 new ，没有则表示是 回复邮件
   const dealInfo = props.dealInfo
+  // 如果传递了这个参数，则表示 是回复邮件，需要自动填写 to 的 人
+  const replyAddress = props.replyAddress
   const [showCc, setShowCc] = useState(false)
   const [showBCc, setShowBCc] = useState(false)
   // to 列表
@@ -118,6 +120,19 @@ const EmailContact = (props) => {
         url: `${item.uid}.${item.name.split('.')[1]}`
       }
     })
+    console.log(list)
+    // fetch(
+    //   `https://beyond-diving.s3.us-west-2.amazonaws.com/reviews/${list[0].url}`,
+    //   {
+    //     method: 'PUT',
+    //     headers: {
+    //       'Access-Control-Allow-Headers': '*',
+    //       'Access-Control-Allow-Origin': '*',
+    //       'Content-Type': list[0].type
+    //     },
+    //     body: list[0].originFileObj
+    //   }
+    // )
     setFileList(list)
   }
   // to 后面 select 选择该 deals 的 联系人
@@ -130,6 +145,16 @@ const EmailContact = (props) => {
     })
     return <Menu items={list} />
   }
+  useEffect(() => {
+    if (replyAddress) {
+      setToList((list) => {
+        const newList = [...list]
+        newList.push(replyAddress)
+        return newList
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className={styles['email-contact-wrap']}>
@@ -150,7 +175,7 @@ const EmailContact = (props) => {
                 </Col>
 
                 <Col span={23}>
-                  {dealInfo.contact.length > 0 && (
+                  {dealInfo && dealInfo.contact.length > 0 && (
                     <span className={styles.dropdown}>
                       <Dropdown overlay={selectMenu(dealInfo.contact)}>
                         <Space>

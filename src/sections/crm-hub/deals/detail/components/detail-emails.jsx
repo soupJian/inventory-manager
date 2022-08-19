@@ -31,7 +31,7 @@ const DetailEamil = (props) => {
         new: true,
         content:
           'Guys, I don’t know if it’s possible but can I ask if you can do another free mockup for me? I was thinking there might...',
-        contactList: [
+        emailList: [
           {
             id: 1,
             sendPerson: 'Kevin Bowden',
@@ -73,7 +73,8 @@ const DetailEamil = (props) => {
         new: false,
         content:
           'Guys, I don’t know if it’s possible but can I ask if you can do another free mockup for me? I was thinking there might...',
-        contactList: []
+        emailList: [],
+        collapseTitle: 'Your free canopy tent mockup is now availble to review!'
       },
       {
         id: 3,
@@ -85,7 +86,8 @@ const DetailEamil = (props) => {
         new: false,
         content:
           'Guys, I don’t know if it’s possible but can I ask if you can do another free mockup for me? I was thinking there might...',
-        contactList: []
+        emailList: [],
+        collapseTitle: 'Your free canopy tent mockup is now availble to review!'
       }
     ]
     setEmailList(list)
@@ -121,7 +123,11 @@ const DetailEamil = (props) => {
           </Space>
         </Col>
       </Row>
-      {showNewEmail && <EmailContact dealInfo={dealInfo} />}
+      {showNewEmail && (
+        <div style={{ margin: '9px 24px 24px' }}>
+          <EmailContact dealInfo={dealInfo} />
+        </div>
+      )}
       <Collapse onChange={onChange} ghost>
         {emailList.map((item) => {
           return (
