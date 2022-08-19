@@ -1,11 +1,12 @@
 // react next --------------
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 // antd
-import { PageHeader, Button } from 'antd'
+import { PageHeader, Button, Modal } from 'antd'
 import { LeftOutlined } from '@ant-design/icons'
 // components
 import Icon from '../../../../components/commons/icons/Icon'
+import ModalNotes from './components/header/modal-notes'
 // css -------------
 // 导入space样式
 import 'antd/lib/space/style/index.css'
@@ -13,6 +14,8 @@ import styles from './index.module.scss'
 
 const DetailHeader = () => {
   const router = useRouter()
+  // 展示 motes 的 modal
+  const [showModalNotes, setShowModalNotes] = useState(false)
   return (
     <div className={styles['detail-header']}>
       <PageHeader
@@ -24,6 +27,7 @@ const DetailHeader = () => {
             key="1"
             className={styles.noteBtn}
             icon={<Icon name="note" width="16px" height="16px" />}
+            onClick={() => setShowModalNotes(true)}
           >
             Notes
           </Button>,
@@ -42,7 +46,16 @@ const DetailHeader = () => {
             Delete
           </Button>
         ]}
-      />
+      >
+        <Modal
+          title="Notes"
+          visible={showModalNotes}
+          footer={null}
+          onCancel={() => setShowModalNotes(false)}
+        >
+          <ModalNotes />
+        </Modal>
+      </PageHeader>
     </div>
   )
 }

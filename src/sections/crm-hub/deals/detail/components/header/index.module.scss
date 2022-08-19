@@ -1,0 +1,50 @@
+.modal-note {
+  .title {
+    font-family: 'Rubik';
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 100%;
+    text-transform: uppercase;
+    color: #000000;
+    margin-bottom: 10px;
+  }
+  .textarea {
+    min-height: 120px;
+  }
+  .postBtn {
+    width: 76px;
+    height: 45px;
+    background-color: #000;
+    color: #fff;
+    margin: 16px 0 24px 0;
+    border-radius: 10px;
+    &:disabled {
+      background-color: #c4c4c4;
+      color: #fff;
+    }
+  }
+  .note-wrap {
+    height: 350px;
+    overflow-y: auto;
+  }
+  .noteItem {
+    .user {
+      display: flex;
+      align-items: center;
+      font-family: 'Rubik';
+      font-weight: 400;
+      font-size: 15px;
+      color: #000000;
+      .userIcon {
+        width: 16px;
+        height: 16px;
+        margin-right: 8px;
+      }
+    }
+    .content {
+      padding: 17px 0 22px 0;
+      margin-bottom: 22px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+  }
+}
