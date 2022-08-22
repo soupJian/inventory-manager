@@ -22,7 +22,7 @@ const DetailTabs = (props) => {
   }
   return (
     <div className={styles['detail-tabs']}>
-      <Tabs defaultActiveKey="Emails" onChange={onChange}>
+      <Tabs defaultActiveKey="Tasks" onChange={onChange}>
         <TabPane tab="History" key="History">
           <DetailHistory />
         </TabPane>
@@ -35,7 +35,7 @@ const DetailTabs = (props) => {
         <TabPane tab="Chats" key="Chats">
           <DetailChats />
         </TabPane>
-        <TabPane tab="Task" key="Task">
+        <TabPane tab="Tasks" key="Tasks">
           <DetailTasks />
         </TabPane>
         <TabPane tab="Repository" key="Repository">

@@ -32,5 +32,7 @@ export default {
   send: '/images/icons/icon-send.png',
   reply: '/images/icons/icon-reply.png',
   'reply-white': '/images/icons/icon-reply-white.png',
-  link: '/images/icons/icon-link.png'
+  link: '/images/icons/icon-link.png',
+  'task-clock': '/images/icons/icon-task-clock.png',
+  'edit-white': '/images/icons/icon-edit-white.png'
 }

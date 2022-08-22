@@ -1,0 +1,124 @@
+.taskWrap {
+  margin: 0 24px;
+  .task-search-wrap {
+    padding: 16px 24px;
+    background-color: #fff;
+  }
+  .weekContainer {
+    position: relative;
+    margin-top: 50px;
+    .weekTitle {
+      position: absolute;
+      top: -35px;
+      padding-left: 16px;
+      width: 230px;
+      height: 37px;
+      line-height: 37px;
+      background: #ffffff;
+      border: 2px solid #f0f0f0;
+      border-bottom: none;
+      border-radius: 10px 10px 0px 0px;
+      font-family: 'Rubik';
+      font-weight: 500;
+      font-size: 15px;
+      color: #000000;
+      z-index: 1;
+    }
+    .weekContainer {
+      padding: 20px 20px 37px;
+      background: #ffffff;
+      border: 2px solid #f0f0f0;
+      border-radius: 0px 10px 10px 10px;
+      :global {
+        .ant-radio-group,
+        .ant-space-vertical,
+        .ant-radio-wrapper {
+          width: 100%;
+        }
+        .ant-radio-wrapper {
+          padding: 20px 0;
+          border-bottom: 1px solid #f0f0f0;
+          span {
+            &:nth-child(2) {
+              flex: 1;
+            }
+          }
+        }
+      }
+      .radioContainer {
+        .overDue,
+        .due {
+          font-family: 'Lato';
+          font-weight: 400;
+        }
+        .overDue {
+          color: #ff7b7b;
+        }
+        .due {
+          color: #000000;
+        }
+        .contentText {
+          font-family: 'Lato';
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 20px;
+          color: #000000;
+        }
+        .actionBtn {
+          .deleteBtn,
+          .actionBtn {
+            display: flex;
+            margin-left: 30px;
+            align-items: center;
+            height: 35px;
+            padding: 10px 14px;
+            border-radius: 8px;
+          }
+          .editBtn {
+            background-color: #000000;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
+.taskEdit {
+  background-color: #fff;
+  .header {
+    padding: 15px 0 16px 44px;
+    background: #f6f6f6;
+    border-width: 1px 1px 0px 1px;
+    border-style: solid;
+    border-color: #d9d9d9;
+    border-radius: 6px;
+  }
+  .content {
+    position: relative;
+    .textarea {
+      padding: 15px 0 60px 44px;
+      min-height: 200px;
+    }
+    .actionWrap {
+      position: absolute;
+      bottom: 16px;
+      right: 24px;
+    }
+  }
+  :global {
+    .ant-radio-group,
+    .ant-space-vertical,
+    .ant-radio-wrapper {
+      width: unset !important;
+    }
+    .ant-radio-wrapper {
+      padding: unset !important;
+      border-bottom: none !important;
+      span {
+        &:nth-child(2) {
+          flex: unset !important;
+        }
+      }
+    }
+  }
+}
