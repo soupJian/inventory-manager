@@ -14,6 +14,7 @@ const DealDetail = () => {
   const dealInfo = {
     status: 'Close lost',
     amount: 690,
+    name: 'dealName',
     createTime: '5/11/2022',
     owner: 'cathy',
     interestProduct: [

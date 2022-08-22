@@ -75,21 +75,6 @@ const EditDeal = ({ dealInfo }) => {
           size="large"
         />
       </Form.Item>
-      <Form.Item label="EMAIL" name="email">
-        <Input placeholder="email" size="large" />
-      </Form.Item>
-      <Row gutter={[10]}>
-        <Col span={12}>
-          <Form.Item label="PHONE" name="phone">
-            <Input placeholder="phone" size="large" />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item label="COMPANY" name="company">
-            <Input placeholder="company" size="large" />
-          </Form.Item>
-        </Col>
-      </Row>
       {interestList.map((item, index) => {
         return (
           <Row gutter={[10]} key={`${item.id}`}>

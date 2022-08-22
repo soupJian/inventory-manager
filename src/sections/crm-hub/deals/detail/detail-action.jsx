@@ -20,6 +20,7 @@ const DetailAction = (props) => {
   const [editContactType, setEditContactType] = useState(false)
   // 编辑 contact 信息
   const [editContactInfo, setEditContactInfo] = useState(null)
+  const [editIndex, setEditIndex] = useState(0)
   // 修改 status 状态
   const handleChangeStatus = (value) => {
     console.log(`selected ${value}`)
@@ -36,10 +37,11 @@ const DetailAction = (props) => {
     setEditContactType('add')
     setShowContact(true)
   }
-  // 编辑 contact
-  const handleEditContact = (item) => {
+  // 编辑 contact 如果是第一个，不允许删除
+  const handleEditContact = (item, index) => {
     setEditContactType('edit')
     setShowContact(true)
+    setEditIndex(index)
     setEditContactInfo(item)
   }
   return (
@@ -50,7 +52,7 @@ const DetailAction = (props) => {
             <Icon name="deal" width="22px" height="24px" />
             <div className={styles['deal-logo']}>DEAL</div>
           </div>
-          <div className={styles['deal-name']}>{dealInfo.contact[0].name}</div>
+          <div className={styles['deal-name']}>{dealInfo.name}</div>
           <div className={styles['status-wrap']}>
             <div>Status</div>
             <Select
@@ -73,7 +75,7 @@ const DetailAction = (props) => {
               <Col>
                 <span className={styles['info-label']}>Amount</span>
                 <span className={styles['info-content']}>
-                  ${dealInfo.amount}
+                  ${dealInfo.amount.toLocaleString()}
                 </span>
               </Col>
               <Col>
@@ -145,7 +147,7 @@ const DetailAction = (props) => {
                     <Col>
                       <Button
                         className={styles.editBtn}
-                        onClick={() => handleEditContact(item)}
+                        onClick={() => handleEditContact(item, index)}
                       >
                         Edit
                       </Button>
@@ -194,6 +196,7 @@ const DetailAction = (props) => {
         onCancel={() => setShowContact(false)}
       >
         <EditContact
+          editIndex={editIndex}
           editContactType={editContactType}
           editContactInfo={editContactInfo}
         />

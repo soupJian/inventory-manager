@@ -31,5 +31,6 @@ export default {
   deal: '/images/icons/icon-deal.png',
   send: '/images/icons/icon-send.png',
   reply: '/images/icons/icon-reply.png',
+  'reply-white': '/images/icons/icon-reply-white.png',
   link: '/images/icons/icon-link.png'
 }

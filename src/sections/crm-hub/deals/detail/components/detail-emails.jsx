@@ -115,7 +115,7 @@ const DetailEamil = (props) => {
               onClick={() => setShowNewEmail(true)}
             >
               <Icon
-                name="reply"
+                name="reply-white"
                 style={{ marginRight: '8px', width: '11px', height: '11px' }}
               />
               New email
@@ -125,7 +125,12 @@ const DetailEamil = (props) => {
       </Row>
       {showNewEmail && (
         <div style={{ margin: '9px 24px 24px' }}>
-          <EmailContact dealInfo={dealInfo} />
+          <EmailContact
+            dealInfo={dealInfo}
+            discount={() => {
+              setShowNewEmail(false)
+            }}
+          />
         </div>
       )}
       <Collapse onChange={onChange} ghost>

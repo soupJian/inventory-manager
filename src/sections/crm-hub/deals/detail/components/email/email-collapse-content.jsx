@@ -9,6 +9,7 @@ const { Option } = Select
 const EmailCollapseContent = (props) => {
   const { emailListItem } = props
   const [showEmail, setShowEmail] = useState(false)
+  const [replyType, setReplyType] = useState(undefined)
   const [replyAddress, setReplyAddress] = useState(emailListItem.emailAddress)
   const handleChangeStatus = (value) => {
     if (value == 'Forward') {
@@ -16,6 +17,7 @@ const EmailCollapseContent = (props) => {
     } else {
       setReplyAddress(emailListItem.emailAddress)
     }
+    setReplyType(value)
     setShowEmail(true)
   }
   const downloadFile = (file) => {
@@ -47,6 +49,7 @@ const EmailCollapseContent = (props) => {
               onChange={handleChangeStatus}
               placeholder="Select"
               size="middle"
+              value={replyType}
             >
               <Option value="Reply">Reply</Option>
               <Option value="Reply All">Reply all</Option>
@@ -55,7 +58,15 @@ const EmailCollapseContent = (props) => {
           </Col>
         </Row>
       </div>
-      {showEmail && <EmailContact replyAddress={replyAddress} />}
+      {showEmail && (
+        <EmailContact
+          replyAddress={replyAddress}
+          discount={() => {
+            setShowEmail(false)
+            setReplyType(undefined)
+          }}
+        />
+      )}
       {emailListItem.list.map((email) => {
         return (
           <div key={email.id} className={styles.contentItem}>
@@ -69,7 +80,7 @@ const EmailCollapseContent = (props) => {
                 <Row align="middle">
                   <Col span={24}>{email.sendPerson}</Col>
                   <Col span={24}>
-                    to {email.acceprPerson} . {email.sendTime}
+                    to {email.acceprPerson} • {email.sendTime}
                   </Col>
                   {email.file && email.file.length > 0 && (
                     <Col span={24} style={{ marginTop: '10px' }}>

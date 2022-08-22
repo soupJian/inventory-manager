@@ -4,7 +4,7 @@ import { Form, Button, Space, Input } from 'antd'
 // js --------
 // main FC ------------
 const EditContact = (props) => {
-  const { editContactType, editContactInfo } = props
+  const { editContactType, editContactInfo, editIndex } = props
   const [form] = Form.useForm()
 
   const onFinish = (values) => {
@@ -44,16 +44,18 @@ const EditContact = (props) => {
         <Space>
           {editContactType == 'edit' && (
             <>
-              <Button
-                htmlType="button"
-                style={{
-                  color: '#00000',
-                  background: '#E6E6E6',
-                  borderRadius: '10px'
-                }}
-              >
-                Delete
-              </Button>
+              {editIndex != 0 && (
+                <Button
+                  htmlType="button"
+                  style={{
+                    color: '#00000',
+                    background: '#E6E6E6',
+                    borderRadius: '10px'
+                  }}
+                >
+                  Delete
+                </Button>
+              )}
               <Button
                 htmlType="submit"
                 style={{

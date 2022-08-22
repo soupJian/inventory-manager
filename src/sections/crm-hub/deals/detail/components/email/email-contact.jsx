@@ -19,10 +19,14 @@ import { Icon } from '../../../../../../components/commons'
 import styles from '../../email.module.scss'
 
 const EmailContact = (props) => {
-  // 该 deals 的 联系人 如果传递了则表示 创建 的是一个 new ，没有则表示是 回复邮件
-  const dealInfo = props.dealInfo
-  // 如果传递了这个参数，则表示 是回复邮件，需要自动填写 to 的 人
-  const replyAddress = props.replyAddress
+  /**
+   * dealInfo new email 的 选择 select 需要处理的信息，以及邮件 邮件相关信息
+   * replyAddress  回复邮件 需要 自动填写 邮件接收人地址
+   * discount 关闭邮件
+   */
+  // 没有 replyAddress 传递则表示 是 new 邮件
+  const { dealInfo, replyAddress, discount } = props
+
   const [showCc, setShowCc] = useState(false)
   const [showBCc, setShowBCc] = useState(false)
   // to 列表
@@ -208,6 +212,24 @@ const EmailContact = (props) => {
                 </Col>
               </Row>
             </Col>
+            {/*  subject 创建新邮件 才会有 */}
+            {!replyAddress && (
+              <Col span={24}>
+                <Row>
+                  <Col span={2} className={styles.label}>
+                    Subject
+                  </Col>
+                  <Col span={22}>
+                    <Input
+                      allowClear
+                      placeholder="email subject"
+                      style={{ width: '300px' }}
+                      name="subject"
+                    />
+                  </Col>
+                </Row>
+              </Col>
+            )}
             {showCc && (
               <Col span={24}>
                 <Row>
@@ -339,7 +361,11 @@ const EmailContact = (props) => {
           </Col>
           <Col>
             <Space>
-              <Button>
+              <Button
+                onClick={() => {
+                  discount()
+                }}
+              >
                 <DeleteOutlined />
                 Discount
               </Button>
@@ -352,7 +378,7 @@ const EmailContact = (props) => {
                 }}
               >
                 <Icon
-                  name="reply"
+                  name="reply-white"
                   style={{ marginRight: '8px', width: '11px', height: '11px' }}
                 />
                 Send
