@@ -1,9 +1,24 @@
 import React, { useEffect, useState } from 'react'
+import { Modal } from 'antd'
 import ImgWrap from './reposoitory/img-wrap'
+import AddModal from './reposoitory/add-modal'
 import styles from './repository.module.scss'
 
 const DetailRepository = () => {
   const [logoList, setLogoList] = useState([])
+  // 是否展示 add 对话框
+  const [showAddModal, setShowAddModal] = useState(false)
+  const [addType, setAddType] = useState(null)
+  // 配置 添加的类型
+  const handleAddNew = (type) => {
+    setShowAddModal(true)
+    setAddType(type)
+  }
+  // 提交 add
+  const addSave = (values) => {
+    console.log(values)
+    setShowAddModal(false)
+  }
   useEffect(() => {
     const list = [
       {
@@ -47,9 +62,31 @@ const DetailRepository = () => {
   }, [])
   return (
     <div className={styles.repository}>
-      <ImgWrap list={logoList} title="LOGOS" />
-      <ImgWrap list={logoList} title="MOCKUPS" />
-      <ImgWrap list={logoList} title="QUOTES & others" />
+      <ImgWrap
+        list={logoList}
+        title="LOGOS"
+        addNew={() => handleAddNew('LOGOS')}
+      />
+      <ImgWrap
+        list={logoList}
+        title="MOCKUPS"
+        addNew={() => handleAddNew('MOCKUPS')}
+      />
+      <ImgWrap
+        list={logoList}
+        title="QUOTES & others"
+        addNew={() => handleAddNew('QUOTES & others')}
+      />
+      <Modal
+        title="Add a new file"
+        visible={showAddModal}
+        footer={false}
+        onCancel={() => {
+          setShowAddModal(false)
+        }}
+      >
+        <AddModal addSave={addSave} />
+      </Modal>
     </div>
   )
 }

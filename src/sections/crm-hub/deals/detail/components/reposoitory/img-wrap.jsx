@@ -4,11 +4,11 @@ import { Row, Col, Space, Button } from 'antd'
 import { DeleteOutlined, DownloadOutlined } from '@ant-design/icons'
 import styles from '../repository.module.scss'
 
-const ImgWrap = ({ list, title }) => {
+const ImgWrap = ({ list, title, addNew }) => {
   return (
     <div className={styles.wrap}>
       <div className={styles.title}>{title}</div>
-      <div className={styles.addBtn}>
+      <div className={styles.addBtn} onClick={() => addNew()}>
         <Button type="link">Add new</Button>
       </div>
       <div className={styles.container}>
