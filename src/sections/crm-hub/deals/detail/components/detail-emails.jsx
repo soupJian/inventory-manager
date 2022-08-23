@@ -9,7 +9,7 @@ import EmailContact from './email/email-contact'
 // js
 const { Panel } = Collapse
 // css ----------
-import styles from '../email.module.scss'
+import styles from './email.module.scss'
 
 const DetailEamil = (props) => {
   const dealInfo = props.dealInfo

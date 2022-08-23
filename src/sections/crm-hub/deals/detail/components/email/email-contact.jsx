@@ -16,7 +16,7 @@ import {
   DeleteOutlined
 } from '@ant-design/icons'
 import { Icon } from '../../../../../../components/commons'
-import styles from '../../email.module.scss'
+import styles from '../email.module.scss'
 
 const EmailContact = (props) => {
   /**

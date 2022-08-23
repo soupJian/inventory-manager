@@ -10,7 +10,7 @@ import DetailTasks from './components/detail-tasks'
 import DetailNotes from './components/detail-notes'
 
 // css ---------
-import styles from './index.module.scss'
+import styles from './detail-tabs.module.scss'
 //js ------------
 const { TabPane } = Tabs
 
