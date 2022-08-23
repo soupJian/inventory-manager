@@ -20,13 +20,13 @@ import styles from '../email.module.scss'
 
 const EmailContact = (props) => {
   /**
-   * dealInfo new email 的 选择 select 需要处理的信息，以及邮件 邮件相关信息
-   * replyAddress  回复邮件 需要 自动填写 邮件接收人地址
+   * emailType: new | reply 判断是新增邮件和 回复邮件 差别在于 新增邮件 有subject 和 select 字段
+   * dealInfo new email 的 选择 select 需要处理的信息，以及邮件 deal-action 相关信息
+   * replyAddress  回复邮件 需要 自动填写 邮件接收人地址  如果是 Forward 则 不需要默认展示，需要手动 填写
    * discount 关闭邮件
    */
   // 没有 replyAddress 传递则表示 是 new 邮件
-  const { dealInfo, replyAddress, discount } = props
-
+  const { emailType, dealInfo, replyAddress, discount } = props
   const [showCc, setShowCc] = useState(false)
   const [showBCc, setShowBCc] = useState(false)
   // to 列表
@@ -153,12 +153,14 @@ const EmailContact = (props) => {
     if (replyAddress) {
       setToList((list) => {
         const newList = [...list]
-        newList.push(replyAddress)
+        if (newList.indexOf(replyAddress) < 0) {
+          newList.push(replyAddress)
+        }
         return newList
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [replyAddress])
 
   return (
     <div className={styles['email-contact-wrap']}>
@@ -179,15 +181,17 @@ const EmailContact = (props) => {
                 </Col>
 
                 <Col span={23}>
-                  {dealInfo && dealInfo.contact.length > 0 && (
-                    <span className={styles.dropdown}>
-                      <Dropdown overlay={selectMenu(dealInfo.contact)}>
-                        <Space>
-                          Select <DownOutlined />
-                        </Space>
-                      </Dropdown>
-                    </span>
-                  )}
+                  {emailType == 'new' &&
+                    dealInfo &&
+                    dealInfo.contact.length > 0 && (
+                      <span className={styles.dropdown}>
+                        <Dropdown overlay={selectMenu(dealInfo.contact)}>
+                          <Space>
+                            Select <DownOutlined />
+                          </Space>
+                        </Dropdown>
+                      </span>
+                    )}
                   {ToList.map((item, index) => {
                     return (
                       <Button key={item} className={styles['attachments-file']}>
@@ -213,7 +217,7 @@ const EmailContact = (props) => {
               </Row>
             </Col>
             {/*  subject 创建新邮件 才会有 */}
-            {!replyAddress && (
+            {emailType == 'new' && (
               <Col span={24}>
                 <Row>
                   <Col span={2} className={styles.label}>

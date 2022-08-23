@@ -126,6 +126,7 @@ const DetailEamil = (props) => {
       {showNewEmail && (
         <div style={{ margin: '9px 24px 24px' }}>
           <EmailContact
+            emailType="new"
             dealInfo={dealInfo}
             discount={() => {
               setShowNewEmail(false)

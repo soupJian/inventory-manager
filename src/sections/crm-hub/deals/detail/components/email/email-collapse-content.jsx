@@ -8,8 +8,11 @@ const { Option } = Select
 
 const EmailCollapseContent = (props) => {
   const { emailListItem } = props
+  // 是否展示邮件模块
   const [showEmail, setShowEmail] = useState(false)
+  // 邮件回复类型
   const [replyType, setReplyType] = useState(undefined)
+  // 邮件 回复地址
   const [replyAddress, setReplyAddress] = useState(emailListItem.emailAddress)
   const handleChangeStatus = (value) => {
     if (value == 'Forward') {
@@ -61,6 +64,7 @@ const EmailCollapseContent = (props) => {
       {showEmail && (
         <EmailContact
           replyAddress={replyAddress}
+          emailType="reply"
           discount={() => {
             setShowEmail(false)
             setReplyType(undefined)

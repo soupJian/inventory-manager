@@ -40,7 +40,6 @@ const DetailTasks = () => {
           'Remember to make the new mockup based on the suggestions from the client and send it to the client.'
       }
     ]
-    console.log(new Date(list[0].time).getTime())
     setCurrentWeekList(list)
   }, [])
   return (
