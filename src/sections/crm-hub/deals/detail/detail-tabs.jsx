@@ -7,7 +7,7 @@ import DetailEmails from './components/detail-emails'
 import DetailCalls from './components/detail-calls'
 import DetailChats from './components/detali-chats'
 import DetailTasks from './components/detail-tasks'
-import DetailNotes from './components/detail-notes'
+import DetailRepository from './components/detail-repository'
 
 // css ---------
 import styles from './detail-tabs.module.scss'
@@ -22,7 +22,7 @@ const DetailTabs = (props) => {
   }
   return (
     <div className={styles['detail-tabs']}>
-      <Tabs defaultActiveKey="Tasks" onChange={onChange}>
+      <Tabs defaultActiveKey="Repository" onChange={onChange}>
         <TabPane tab="History" key="History">
           <DetailHistory />
         </TabPane>
@@ -39,7 +39,7 @@ const DetailTabs = (props) => {
           <DetailTasks />
         </TabPane>
         <TabPane tab="Repository" key="Repository">
-          <DetailNotes />
+          <DetailRepository />
         </TabPane>
       </Tabs>
     </div>

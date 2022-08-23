@@ -2,7 +2,10 @@
 const nextConfig = {
   reactStrictMode: false,
   images: {
-    domains: ['s3.us-west-2.amazonaws.com']
+    domains: [
+      's3.us-west-2.amazonaws.com',
+      'beyond-diving.s3.us-west-2.amazonaws.com'
+    ]
   }
 }
 
