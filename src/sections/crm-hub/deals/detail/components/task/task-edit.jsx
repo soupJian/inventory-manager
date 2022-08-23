@@ -19,7 +19,38 @@ const TaskEdit = (props) => {
           <Col>
             <Space>
               <span>Due date & time</span>
-              <DatePicker showTime />
+              <DatePicker />
+              <span>at</span>
+              <Select placeholder="Time" style={{ width: '100px' }}>
+                <Option value="7:00">7:00 AM</Option>
+                <Option value="7:30">7:30 AM</Option>
+                <Option value="8:00">8:00 AM</Option>
+                <Option value="8:30">8:30 AM</Option>
+                <Option value="9:00">9:00 AM</Option>
+                <Option value="9:30">9:30 AM</Option>
+                <Option value="10:00">10:00 AM</Option>
+                <Option value="10:30">10:30 AM</Option>
+                <Option value="11:00">11:00 AM</Option>
+                <Option value="11:30">11:30 AM</Option>
+                <Option value="12:00">12:00 PM</Option>
+                <Option value="12:30">12:30 PM</Option>
+                <Option value="13:00">1:00 PM</Option>
+                <Option value="13:30">1:30 PM</Option>
+                <Option value="14:00">2:00 PM</Option>
+                <Option value="14:30">2:30 PM</Option>
+                <Option value="15:00">3:00 PM</Option>
+                <Option value="15:30">3:30 PM</Option>
+                <Option value="16:00">4:00 PM</Option>
+                <Option value="16:30">4:30 PM</Option>
+                <Option value="17:00">5:00 PM</Option>
+                <Option value="17:30">5:30 PM</Option>
+                <Option value="18:00">6:00 PM</Option>
+                <Option value="18:30">6:30 PM</Option>
+                <Option value="19:00">7:00 PM</Option>
+                <Option value="19:30">7:30 PM</Option>
+                <Option value="20:00">8:00 PM</Option>
+                <Option value="20:30">8:30 PM</Option>
+              </Select>
             </Space>
           </Col>
           <Col>
@@ -36,7 +67,7 @@ const TaskEdit = (props) => {
         <div style={{ margin: '16px 0' }}>
           <Space>
             <span>Task short description</span>
-            <Input placeholder="type here" />
+            <Input placeholder="type here" style={{ width: '485px' }} />
           </Space>
         </div>
         <div>
