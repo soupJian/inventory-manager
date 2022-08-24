@@ -20,7 +20,7 @@ export const isToday = (time) => {
 }
 /**
  * 判断是不是昨天，
- * 只需要判断 当前时间 是不是在 今天 0 点 和 昨天 0 点之间
+ * 只需要判断 当前时间 是不是在 今天 0 点 和 昨天 0 点之间,减去一天的时间戳即可
  * @param {*} time
  * @returns
  */
@@ -106,6 +106,31 @@ export const isLastMonth = (time) => {
     current.getFullYear() - 1 == date.getFullYear() &&
     current.getMonth() == 0 &&
     date.getMonth == 11
+  ) {
+    return true
+  } else {
+    return false
+  }
+}
+
+/**
+ * 判断是不是 下一月
+ * 坑： 有可能跨 年
+ * @param {*} time
+ * @returns
+ */
+export const isNextMonth = (time) => {
+  const current = new Date()
+  const date = new Date(time)
+  // 如果 是 同一年
+  if (current.getFullYear() == date.getFullYear()) {
+    return current.getMonth() == date.getMonth() + 1
+  }
+  // 不是同一年, 那就必须是下一年 且当月是 12月，下一个月是 1月
+  else if (
+    current.getFullYear() + 1 == date.getFullYear() &&
+    current.getMonth() == 11 &&
+    date.getMonth == 0
   ) {
     return true
   } else {

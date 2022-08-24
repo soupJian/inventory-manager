@@ -1,0 +1,59 @@
+.taskHeader {
+  padding: 9px 0 12px 0;
+  .title {
+    margin-right: 6px;
+    font-family: 'Rubik';
+    font-weight: 500;
+    font-size: 24px;
+    color: #000000;
+  }
+}
+.taskContent {
+  .tabs {
+    :global {
+      .ant-tabs-nav {
+        margin-bottom: 0 !important;
+      }
+      .ant-tabs-content {
+        background-color: #fff;
+      }
+    }
+  }
+  .tabs-table {
+    .checkbox {
+      // background-color: pink;
+      :global {
+        .ant-checkbox-inner {
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          &:after {
+            width: 8px;
+            height: 15px;
+            top: 43%;
+            left: 23%;
+          }
+        }
+      }
+    }
+    .statusText {
+      padding: 1px 6px;
+      display: inline-block;
+      height: 19px;
+      line-height: 17px;
+      font-family: 'Rubik';
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+      color: #ffffff;
+    }
+    :global {
+      .ant-table-pagination-right {
+        justify-content: flex-start;
+      }
+      .ant-table-pagination.ant-pagination {
+        padding-left: 10px;
+      }
+    }
+  }
+}

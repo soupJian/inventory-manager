@@ -29,7 +29,7 @@ const FromEmailHeader = () => {
           >
             <Option value="jack">ALL types</Option>
             <Option value="Mockup forms">Mockup forms</Option>
-            <Option value="Contact us forms"></Option>Contact us forms
+            <Option value="Contact us forms">Contact us forms</Option>
           </Select>
           <Input
             size="large"
