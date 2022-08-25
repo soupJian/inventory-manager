@@ -1,7 +1,7 @@
 import React from 'react'
 
-const DetailHostory = () => {
-  return <div>DetailHostory</div>
+const DetailTimeLine = () => {
+  return <div>DetailTimeLine</div>
 }
 
-export default DetailHostory
+export default DetailTimeLine

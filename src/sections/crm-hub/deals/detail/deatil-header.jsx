@@ -57,7 +57,14 @@ const DetailHeader = () => {
           >
             Notes
           </Button>,
-          <Dropdown overlay={MoreMenu} key="2" className={styles.moreBtn}>
+          <Button
+            key="2"
+            className={styles.callBtn}
+            icon={<Icon name="phone" width="16px" height="16px" />}
+          >
+            Make Call
+          </Button>,
+          <Dropdown overlay={MoreMenu} key="3" className={styles.moreBtn}>
             <Button className={styles.createBtn}>
               More <DownOutlined />
             </Button>

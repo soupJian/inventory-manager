@@ -34,5 +34,6 @@ export default {
   'reply-white': '/images/icons/icon-reply-white.png',
   link: '/images/icons/icon-link.png',
   'task-clock': '/images/icons/icon-task-clock.png',
-  'edit-white': '/images/icons/icon-edit-white.png'
+  'edit-white': '/images/icons/icon-edit-white.png',
+  phone: '/images/icons/icon-phone.png'
 }

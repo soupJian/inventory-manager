@@ -22,7 +22,7 @@ const DetailTabs = (props) => {
   }
   return (
     <div className={styles['detail-tabs']}>
-      <Tabs defaultActiveKey="Repository" onChange={onChange}>
+      <Tabs defaultActiveKey="Timeline" onChange={onChange}>
         <TabPane tab="Timeline" key="Timeline">
           <DetailTimeLine />
         </TabPane>
