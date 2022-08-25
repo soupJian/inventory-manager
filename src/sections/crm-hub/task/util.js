@@ -1,10 +1,13 @@
 import {
   isToday,
   isYesterday,
+  isTomorrow,
   isThisWeek,
   isLastWeek,
   isThisMonth,
-  isNextMonth
+  isNextWeek,
+  isNextMonth,
+  isLastMonth
 } from '../../../utils/formatTime'
 import styles from './index.module.scss'
 import { Checkbox, Space } from 'antd'
@@ -23,122 +26,120 @@ export const switchStatusColor = (status) => {
   }
 }
 
-export const MyActiveTasksColumns = (changeCheckBox, pipelineType) => {
-  return [
-    {
-      title: 'DESCRIPTION',
-      dataIndex: 'description',
-      render: (_, record) => (
-        <>
-          <Space>
-            <Checkbox
-              className={styles.checkbox}
-              checked={record.step == 0}
-              onChange={(e) => changeCheckBox(e, record)}
-            ></Checkbox>
-            {record.description}
-          </Space>
-        </>
-      )
-    },
-    {
-      title: `ASSIGNED ${pipelineType == 'Sales pipeline' ? 'DEAL' : 'TICKET'}`,
-      dataIndex: 'assignedDeal',
-      render: (_, record) => (
-        <div style={{ whiteSpace: 'nowrap' }}>{record.assignedDeal}</div>
-      )
-    },
-    {
-      title: 'DUE TIME',
-      dataIndex: 'dueTime',
-      filters: [
-        {
-          text: 'ALL time',
-          value: 1
-        },
-        {
-          text: 'Today',
-          value: 2
-        },
-        {
-          text: 'Yesterday',
-          value: 3
-        },
-        {
-          text: 'This week',
-          value: 4
-        },
-        {
-          text: 'Last week',
-          value: 5
-        },
-        {
-          text: 'This month',
-          value: 6
-        },
-        {
-          text: 'Next month',
-          value: 7
-        }
-      ],
-      onFilter: (value, record) => {
-        let flag = false
-        switch (value) {
-          case 1:
-            // all time
-            flag = true
-            break
-          case 2:
-            // today
-            flag = isToday(record.dueTime)
-            break
-          case 3:
-            // yesterday
-            flag = isYesterday(record.dueTime)
-            break
-          case 4:
-            // this week
-            flag = isThisWeek(record.dueTime)
-            break
-          case 5:
-            // last week
-            flag = isLastWeek(record.dueTime)
-            break
-          case 6:
-            // this month
-            flag = isThisMonth(record.dueTime)
-            break
-          case 7:
-            // next month
-            flag = isNextMonth(record.dueTime)
-            break
-          default:
-            flag = true
-        }
-        return flag
+export const MyActiveTasksColumns = (changeCheckBox, pipelineType) => [
+  {
+    title: 'DESCRIPTION',
+    dataIndex: 'description',
+    render: (_, record) => (
+      <>
+        <Space>
+          <Checkbox
+            className={styles.checkbox}
+            checked={record.step == 0}
+            onChange={(e) => changeCheckBox(e, record)}
+          ></Checkbox>
+          {record.description}
+        </Space>
+      </>
+    )
+  },
+  {
+    title: `ASSIGNED ${pipelineType == 'Sales pipeline' ? 'DEAL' : 'TICKET'}`,
+    dataIndex: 'assignedDeal',
+    render: (_, record) => (
+      <div style={{ whiteSpace: 'nowrap' }}>{record.assignedDeal}</div>
+    )
+  },
+  {
+    title: 'DUE TIME',
+    dataIndex: 'dueTime',
+    filters: [
+      // {
+      //   text: 'ALL time',
+      //   value: 1
+      // },
+      {
+        text: 'Today',
+        value: 2
       },
-      render: (_, record) => (
-        <>
-          <span style={{ color: '#2EBEBD' }}>{record.dueTime}</span>
-        </>
-      ),
-      width: 200
+      {
+        text: 'Tomorrow',
+        value: 3
+      },
+      {
+        text: 'This week',
+        value: 4
+      },
+      {
+        text: 'Last week',
+        value: 5
+      },
+      {
+        text: 'This month',
+        value: 6
+      },
+      {
+        text: 'Next month',
+        value: 7
+      }
+    ],
+    onFilter: (value, record) => {
+      let flag = false
+      switch (value) {
+        // case 1:
+        //   // all time
+        //   flag = true
+        //   break
+        case 2:
+          // today
+          flag = isToday(record.dueTime)
+          break
+        case 3:
+          // tomorrow
+          flag = isTomorrow(record.dueTime)
+          break
+        case 4:
+          // this week
+          flag = isThisWeek(record.dueTime)
+          break
+        case 5:
+          // last week
+          flag = isLastWeek(record.dueTime)
+          break
+        case 6:
+          // this month
+          flag = isThisMonth(record.dueTime)
+          break
+        case 7:
+          // next month
+          flag = isNextMonth(record.dueTime)
+          break
+        default:
+          flag = true
+      }
+      return flag
     },
-    {
-      title: 'REMINDER',
-      dataIndex: 'reminder',
-      render: (_, record) => (
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <span style={{ color: '#FF7B7B' }}>{record.reminder}</span>
-          <span>
-            <RightOutlined />
-          </span>
-        </div>
-      ),
-      width: 200
-    }
-  ]
-}
+    render: (_, record) => (
+      <>
+        <span style={{ color: '#2EBEBD' }}>{record.dueTime}</span>
+      </>
+    ),
+    width: 200
+  },
+  {
+    title: 'REMINDER',
+    dataIndex: 'reminder',
+    render: (_, record) => (
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <span>{record.reminder}</span>
+        <span>
+          <RightOutlined />
+        </span>
+      </div>
+    ),
+    width: 200
+  }
+]
 export const MyOverDueTasksColumns = (changeCheckBox, pipelineType) => [
   {
     title: 'DESCRIPTION',
@@ -164,10 +165,10 @@ export const MyOverDueTasksColumns = (changeCheckBox, pipelineType) => [
     title: 'DUE TIME',
     dataIndex: 'dueTime',
     filters: [
-      {
-        text: 'ALL time',
-        value: 1
-      },
+      // {
+      //   text: 'ALL time',
+      //   value: 1
+      // },
       {
         text: 'Today',
         value: 2
@@ -189,17 +190,17 @@ export const MyOverDueTasksColumns = (changeCheckBox, pipelineType) => [
         value: 6
       },
       {
-        text: 'Next month',
+        text: 'Last month',
         value: 7
       }
     ],
     onFilter: (value, record) => {
       let flag = false
       switch (value) {
-        case 1:
-          // all time
-          flag = true
-          break
+        // case 1:
+        //   // all time
+        //   flag = true
+        //   break
         case 2:
           // today
           flag = isToday(record.dueTime)
@@ -221,8 +222,8 @@ export const MyOverDueTasksColumns = (changeCheckBox, pipelineType) => [
           flag = isThisMonth(record.dueTime)
           break
         case 7:
-          // next month
-          flag = isNextMonth(record.dueTime)
+          // last month
+          flag = isLastMonth(record.dueTime)
           break
         default:
           flag = true
@@ -231,7 +232,7 @@ export const MyOverDueTasksColumns = (changeCheckBox, pipelineType) => [
     },
     render: (_, record) => (
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <span style={{ color: '#FF7B7B' }}>{record.dueTime}</span>
+        <span style={{ color: 'red' }}>{record.dueTime}</span>
         <span>
           <RightOutlined />
         </span>
@@ -265,10 +266,10 @@ export const MyCompletedTasksColumns = (changeCheckBox, pipelineType) => [
     title: 'TIME COMPLETED',
     dataIndex: 'timeCompleted',
     filters: [
-      {
-        text: 'ALL time',
-        value: 1
-      },
+      // {
+      //   text: 'ALL time',
+      //   value: 1
+      // },
       {
         text: 'Today',
         value: 2
@@ -290,17 +291,17 @@ export const MyCompletedTasksColumns = (changeCheckBox, pipelineType) => [
         value: 6
       },
       {
-        text: 'Next month',
+        text: 'Last month',
         value: 7
       }
     ],
     onFilter: (value, record) => {
       let flag = false
       switch (value) {
-        case 1:
-          // all time
-          flag = true
-          break
+        // case 1:
+        //   // all time
+        //   flag = true
+        //   break
         case 2:
           // today
           flag = isToday(record.timeCompleted)
@@ -322,8 +323,8 @@ export const MyCompletedTasksColumns = (changeCheckBox, pipelineType) => [
           flag = isThisMonth(record.timeCompleted)
           break
         case 7:
-          // next month
-          flag = isNextMonth(record.timeCompleted)
+          // last month
+          flag = isLastMonth(record.timeCompleted)
           break
         default:
           flag = true
@@ -337,7 +338,7 @@ export const MyCompletedTasksColumns = (changeCheckBox, pipelineType) => [
     dataIndex: 'dueTime',
     render: (_, record) => (
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <span style={{ color: '#FF7B7B' }}>{record.dueTime}</span>
+        <span>{record.dueTime}</span>
         <span>
           <RightOutlined />
         </span>
@@ -392,16 +393,16 @@ export const AllTasksColumns = (pipelineType) => [
     title: 'Due Time',
     dataIndex: 'dueTime',
     filters: [
-      {
-        text: 'ALL time',
-        value: 1
-      },
+      // {
+      //   text: 'ALL time',
+      //   value: 1
+      // },
       {
         text: 'Today',
         value: 2
       },
       {
-        text: 'Yesterday',
+        text: 'Tomorrow',
         value: 3
       },
       {
@@ -409,7 +410,7 @@ export const AllTasksColumns = (pipelineType) => [
         value: 4
       },
       {
-        text: 'Last week',
+        text: 'Next week',
         value: 5
       },
       {
@@ -419,30 +420,42 @@ export const AllTasksColumns = (pipelineType) => [
       {
         text: 'Next month',
         value: 7
+      },
+      {
+        text: 'Yesterday',
+        value: 8
+      },
+      {
+        text: 'Last week',
+        value: 9
+      },
+      {
+        text: 'Last month',
+        value: 10
       }
     ],
     onFilter: (value, record) => {
       let flag = false
       switch (value) {
-        case 1:
-          // all time
-          flag = true
-          break
+        // case 1:
+        //   // all time
+        //   flag = true
+        //   break
         case 2:
           // today
           flag = isToday(record.dutTime)
           break
         case 3:
-          // yesterday
-          flag = isYesterday(record.dutTime)
+          // tomorrow
+          flag = isTomorrow(record.dutTime)
           break
         case 4:
           // this week
           flag = isThisWeek(record.dutTime)
           break
         case 5:
-          // last week
-          flag = isLastWeek(record.dutTime)
+          // next week
+          flag = isNextWeek(record.dutTime)
           break
         case 6:
           // this month
@@ -451,6 +464,18 @@ export const AllTasksColumns = (pipelineType) => [
         case 7:
           // next month
           flag = isNextMonth(record.dutTime)
+          break
+        case 8:
+          // yesterday
+          flag = isYesterday(record.dutTime)
+          break
+        case 9:
+          // last week
+          flag = isLastWeek(record.dutTime)
+          break
+        case 10:
+          // last month
+          flag = isLastMonth(record.dutTime)
           break
         default:
           flag = true
@@ -481,7 +506,7 @@ export const AllTasksColumns = (pipelineType) => [
     },
     render: (_, record) => (
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <span style={{ color: '#FF7B7B' }}>{record.assignee}</span>
+        <span>{record.assignee}</span>
         <span>
           <RightOutlined />
         </span>

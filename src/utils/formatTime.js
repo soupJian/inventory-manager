@@ -29,11 +29,31 @@ export const isYesterday = (time) => {
   const year = current.getFullYear()
   const month = current.getMonth() + 1
   const day = current.getDate()
-  const todayTime = new Date(`${year}-${month}-${day}`).getTime()
-  const yesterdayTime = todayTime - 24 * 60 * 60 * 1000
+  const todayStart = new Date(`${year}-${month}-${day}`).getTime()
+  const yesterdayStart = todayTime - 24 * 60 * 60 * 1000
   return (
-    new Date(time).getTime() >= yesterdayTime &&
-    new Date(time).getTime() < todayTime
+    new Date(time).getTime() >= yesterdayStart &&
+    new Date(time).getTime() < todayStart
+  )
+}
+
+/**
+ * 判断是不是明天，
+ * 只需要判断 当前时间 是不是在 今天 0 点 + 24小时 ~ +48 小时之间
+ * @param {*} time
+ * @returns
+ */
+export const isTomorrow = (time) => {
+  const current = new Date()
+  const year = current.getFullYear()
+  const month = current.getMonth() + 1
+  const day = current.getDate()
+  const todayStart = new Date(`${year}-${month}-${day}`).getTime()
+  const tomorrowStart = todayStart + 24 * 60 * 60 * 1000
+  const tomorrowEnd = tomorrowStart + 24 * 60 * 60 * 1000
+  return (
+    new Date(time).getTime() >= tomorrowStart &&
+    new Date(time).getTime() < tomorrowEnd
   )
 }
 
@@ -73,6 +93,25 @@ export const isLastWeek = (time) => {
   // 1970年 一月一号是 周四 所以 +4
   return parseInt((old_count + 4) / 7) === parseInt((now_count + 4) / 7) - 1
 }
+/**
+ * 判断是不是 下一周
+ * 坑： 一周有可能 跨年月日，所以只能获取周数
+ * 比较 当前天数是多少周 + 1    传入时间是多少周
+ * @param {*} time
+ * @returns
+ */
+export const isNextWeek = (time) => {
+  const date = new Date(time)
+  const current = new Date()
+  var oneDayTime = 1000 * 60 * 60 * 24
+  // 计算 传入的 日期有多少天
+  var old_count = parseInt(date.getTime() / oneDayTime)
+  // 计算当前日期有多少天
+  var now_count = parseInt(current.getTime() / oneDayTime)
+  // 1970年 一月一号是 周四 所以 +4
+  return parseInt((old_count + 4) / 7) === parseInt((now_count + 4) / 7) + 1
+}
+
 /**
  * 判断是不是 同一月
  * 直接比较 年 月
