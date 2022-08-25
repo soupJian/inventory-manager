@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 // antd -------------
 import { Tabs, Row, Col } from 'antd'
 // components
-import DetailHistory from './components/detail-history'
+import DetailTimeLine from './components/detail-timeline'
 import DetailEmails from './components/detail-emails'
 import DetailCalls from './components/detail-calls'
 import DetailChats from './components/detali-chats'
@@ -23,18 +23,18 @@ const DetailTabs = (props) => {
   return (
     <div className={styles['detail-tabs']}>
       <Tabs defaultActiveKey="Repository" onChange={onChange}>
-        <TabPane tab="History" key="History">
-          <DetailHistory />
+        <TabPane tab="Timeline" key="Timeline">
+          <DetailTimeLine />
         </TabPane>
         <TabPane tab="Emails" key="Emails">
           <DetailEmails dealInfo={dealInfo} />
         </TabPane>
-        <TabPane tab="Calls" key="Calls">
+        {/* <TabPane tab="Calls" key="Calls">
           <DetailCalls />
-        </TabPane>
-        <TabPane tab="Chats" key="Chats">
+        </TabPane> */}
+        {/* <TabPane tab="Chats" key="Chats">
           <DetailChats />
-        </TabPane>
+        </TabPane> */}
         <TabPane tab="Tasks" key="Tasks">
           <DetailTasks />
         </TabPane>

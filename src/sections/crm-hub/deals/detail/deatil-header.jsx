@@ -2,8 +2,8 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 // antd
-import { PageHeader, Button, Modal } from 'antd'
-import { LeftOutlined } from '@ant-design/icons'
+import { PageHeader, Button, Modal, Dropdown, Menu } from 'antd'
+import { LeftOutlined, DownOutlined } from '@ant-design/icons'
 // components
 import Icon from '../../../../components/commons/icons/Icon'
 import ModalNotes from './components/header/modal-notes'
@@ -15,11 +15,33 @@ import styles from './index.module.scss'
 
 const DetailHeader = () => {
   const router = useRouter()
+
   // 展示 motes 的 modal
   const [showModalNotes, setShowModalNotes] = useState(false)
   // merge modal
   const [showModalMerge, setShowModalMerge] = useState(false)
 
+  const chooseCreateMenu = (e) => {
+    // merge  delete
+    if (e.key == 'Merge') {
+      setShowModalMerge(true)
+    }
+  }
+  const MoreMenu = (
+    <Menu
+      onClick={chooseCreateMenu}
+      items={[
+        {
+          label: 'Merge',
+          key: 'Merge'
+        },
+        {
+          label: 'Delete',
+          key: 'Delete'
+        }
+      ]}
+    />
+  )
   return (
     <div className={styles['detail-header']}>
       <PageHeader
@@ -35,21 +57,26 @@ const DetailHeader = () => {
           >
             Notes
           </Button>,
-          <Button
-            key="2"
-            className={styles.mergeBtn}
-            icon={<Icon name="merge" width="14px" height="14px" />}
-            onClick={() => setShowModalMerge(true)}
-          >
-            Merge
-          </Button>,
-          <Button
-            key="3"
-            className={styles.deleteBtn}
-            icon={<Icon name="delete" width="10px" height="13px" />}
-          >
-            Delete
-          </Button>
+          <Dropdown overlay={MoreMenu} key="2" className={styles.moreBtn}>
+            <Button className={styles.createBtn}>
+              More <DownOutlined />
+            </Button>
+          </Dropdown>
+          // <Button
+          //   key="3"
+          //   className={styles.mergeBtn}
+          //   icon={<Icon name="merge" width="14px" height="14px" />}
+          //   onClick={() => setShowModalMerge(true)}
+          // >
+          //   Merge
+          // </Button>
+          // <Button
+          //   key="4"
+          //   className={styles.deleteBtn}
+          //   icon={<Icon name="delete" width="10px" height="13px" />}
+          // >
+          //   Delete
+          // </Button>
         ]}
       >
         <Modal
@@ -64,7 +91,7 @@ const DetailHeader = () => {
           title="Merge deals"
           visible={showModalMerge}
           footer={null}
-          onCancel={() => setShowModalMerge(true)}
+          onCancel={() => setShowModalMerge(false)}
           width={672}
         >
           <ModalMerge />

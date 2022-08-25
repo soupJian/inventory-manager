@@ -2,7 +2,8 @@
 .detail-header {
   .noteBtn,
   .mergeBtn,
-  .deleteBtn {
+  .deleteBtn,
+  .moreBtn {
     display: flex;
     align-items: center;
     height: 45px;
@@ -14,6 +15,9 @@
     width: 92px;
     background-color: #000000;
     color: #ffffff;
+  }
+  .moreBtn {
+    width: 92px;
   }
   .mergeBtn {
     width: 93px;
