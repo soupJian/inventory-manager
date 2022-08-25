@@ -1,53 +1,71 @@
 import React, { useEffect, useState } from 'react'
-import { Row, Col, Input, Select, Space, DatePicker, Radio, Button } from 'antd'
+import {
+  Row,
+  Col,
+  Input,
+  Select,
+  Space,
+  DatePicker,
+  Radio,
+  Button,
+  Checkbox
+} from 'antd'
 import { Icon } from '../../../../../../components/commons'
 import TaskEdit from './task-edit'
 import styles from '../task.module.scss'
 
 const RadioContent = (props) => {
-  const { taskItem, radioValue } = props
+  const { taskItem, handleChangeStatus } = props
   const [showEdit, setShowEdit] = useState(false)
-  useEffect(() => {
-    setShowEdit(false)
-  }, [radioValue])
+
   return (
     <>
-      <Row
-        style={{ marginLeft: '10px' }}
-        gutter={[0, 14]}
-        className={styles.radioContainer}
-      >
-        <Col span={24}>
-          <Row justify="space-between" align="middle">
-            <Col>
-              <Space>
-                <Icon
-                  name="task-clock"
-                  style={{ width: '16px', height: '16px' }}
-                />
-                {new Date(taskItem.time).getTime() < new Date().getTime() ? (
-                  <span className={styles.overDue}>
-                    Overdue: {taskItem.time}
-                  </span>
-                ) : (
-                  <span className={styles.due}>Due: {taskItem.time}</span>
-                )}
-              </Space>
-            </Col>
-            <Col>
-              <Space>
-                <Icon name="user" style={{ width: '16px', height: '16px' }} />
-                <span>Assignee:</span>
-                <span>Cathy</span>
-              </Space>
-            </Col>
-          </Row>
+      <Row className={styles.taskContentWrap}>
+        <Col style={{ marginTop: '15px', marginRight: '12px' }}>
+          <Checkbox
+            defaultChecked={taskItem.taskStatus == 0}
+            onChange={(e) => handleChangeStatus(e, taskItem)}
+          />
         </Col>
-        <Col span={24}>
-          <span className={styles.contentText}>{taskItem.title}</span>
-        </Col>
-        {radioValue == taskItem.id && (
-          <>
+        <Col style={{ flex: '1' }}>
+          <Row
+            style={{ marginLeft: '10px' }}
+            gutter={[0, 13]}
+            className={styles.taskContent}
+          >
+            <Col span={24}>
+              <Row justify="space-between" align="middle">
+                <Col>
+                  <Space>
+                    <Icon
+                      name="task-clock"
+                      style={{ width: '16px', height: '16px' }}
+                    />
+                    {new Date(taskItem.time).getTime() <
+                    new Date().getTime() ? (
+                      <span className={styles.overDue}>
+                        Overdue: {taskItem.time}
+                      </span>
+                    ) : (
+                      <span className={styles.due}>Due: {taskItem.time}</span>
+                    )}
+                  </Space>
+                </Col>
+                <Col>
+                  <Space>
+                    <Icon
+                      name="user"
+                      style={{ width: '16px', height: '16px' }}
+                    />
+                    <span>Assignee:</span>
+                    <span>Cathy</span>
+                  </Space>
+                </Col>
+              </Row>
+            </Col>
+            <Col span={24}>
+              <span className={styles.contentText}>{taskItem.title}</span>
+            </Col>
             <Col span={24}>
               <Space>
                 <span>Reminder</span>
@@ -85,10 +103,10 @@ const RadioContent = (props) => {
                 </Col>
               </Row>
             </Col>
-          </>
-        )}
+          </Row>
+        </Col>
       </Row>
-      {radioValue == taskItem.id && showEdit && (
+      {showEdit && (
         <div style={{ marginTop: '16px' }}>
           <TaskEdit type="edit" discount={() => setShowEdit(false)} />
         </div>

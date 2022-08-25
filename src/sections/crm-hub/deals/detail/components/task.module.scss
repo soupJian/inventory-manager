@@ -25,58 +25,46 @@
       z-index: 1;
     }
     .weekContent {
-      padding: 20px 20px 37px;
+      padding: 0 20px 37px;
       background: #ffffff;
       border: 2px solid #f0f0f0;
       border-radius: 0px 10px 10px 10px;
-      :global {
-        .ant-radio-group,
-        .ant-space-vertical,
-        .ant-radio-wrapper {
-          width: 100%;
-        }
-        .ant-radio-wrapper {
-          padding: 20px 0;
-          border-bottom: 1px solid #f0f0f0;
-          span {
-            &:nth-child(2) {
-              flex: 1;
-            }
+      .taskContentWrap {
+        border-bottom: 1px solid #f0f0f0;
+        padding: 20px 0;
+        .taskContent {
+          .overDue,
+          .due {
+            font-family: 'Lato';
+            font-weight: 400;
           }
-        }
-      }
-      .radioContainer {
-        .overDue,
-        .due {
-          font-family: 'Lato';
-          font-weight: 400;
-        }
-        .overDue {
-          color: #ff7b7b;
-        }
-        .due {
-          color: #000000;
-        }
-        .contentText {
-          font-family: 'Lato';
-          font-weight: 400;
-          font-size: 14px;
-          line-height: 20px;
-          color: #000000;
-        }
-        .actionBtn {
-          .deleteBtn,
+          .overDue {
+            color: #ff7b7b;
+          }
+          .due {
+            color: #000000;
+          }
+          .contentText {
+            font-family: 'Lato';
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            color: #000000;
+          }
           .actionBtn {
-            display: flex;
-            margin-left: 30px;
-            align-items: center;
-            height: 35px;
-            padding: 10px 14px;
-            border-radius: 8px;
-          }
-          .editBtn {
-            background-color: #000000;
-            color: #fff;
+            .deleteBtn,
+            .actionBtn {
+              display: flex;
+              margin-left: 30px;
+              align-items: center;
+              height: 35px;
+              padding: 10px 14px;
+              border-radius: 8px;
+            }
+            .editBtn {
+              background-color: #000000;
+              color: #fff;
+            }
           }
         }
       }
@@ -103,22 +91,6 @@
       position: absolute;
       bottom: 16px;
       right: 24px;
-    }
-  }
-  :global {
-    .ant-radio-group,
-    .ant-space-vertical,
-    .ant-radio-wrapper {
-      width: unset !important;
-    }
-    .ant-radio-wrapper {
-      padding: unset !important;
-      border-bottom: none !important;
-      span {
-        &:nth-child(2) {
-          flex: unset !important;
-        }
-      }
     }
   }
 }

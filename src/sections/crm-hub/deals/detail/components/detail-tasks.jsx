@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Row, Col, Input, Button, Space, Radio } from 'antd'
+import { Row, Col, Input, Button, Space, Radio, Checkbox } from 'antd'
 import { Icon } from '../../../../../components/commons'
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons'
 import TaskEdit from './task/task-edit'
-import RadioContent from './task/radio-content'
+import TaskContent from './task/task-content'
 
 import styles from './task.module.scss'
 
@@ -14,12 +14,12 @@ const DetailTasks = () => {
   const [lastWeekList, setLastWeekList] = useState([])
   // before last week
   const [beforeLastWeekList, setBeforeLastWeekList] = useState({})
-  // active
-  const [radioValue, setRadioValue] = useState(null)
   // show New Task Modal
   const [showNewTask, setShowNewTask] = useState(false)
-  const changeRadioValue = (e) => {
-    setRadioValue(e.target.value)
+  const handleChangeStatus = (e, item) => {
+    console.log(e)
+    console.log(item)
+    // setRadioValue(e.target.value)
   }
   useEffect(() => {
     const list = [
@@ -29,7 +29,8 @@ const DetailTasks = () => {
         title: 'Remind the client to check the mockup and quote',
         reminder: '1 day before',
         detail:
-          'Remember to make the new mockup based on the suggestions from the client and send it to the client.Remember to make the new mockup based on the suggestions from the client and send it to the client.'
+          'Remember to make the new mockup based on the suggestions from the client and send it to the client.Remember to make the new mockup based on the suggestions from the client and send it to the client.',
+        taskStatus: 0 // 0 表示已完成 1 未完成
       },
       {
         id: 2,
@@ -37,7 +38,8 @@ const DetailTasks = () => {
         title: 'Remind the client to check the mockup and quote',
         reminder: '1 day before',
         detail:
-          'Remember to make the new mockup based on the suggestions from the client and send it to the client.'
+          'Remember to make the new mockup based on the suggestions from the client and send it to the client.',
+        taskStatus: 1 // 0 表示已完成 1 未完成
       }
     ]
     setCurrentWeekList(list)
@@ -73,17 +75,43 @@ const DetailTasks = () => {
       <div className={styles.weekContainer}>
         <div className={styles.weekTitle}>This WEEK</div>
         <div className={styles.weekContent}>
-          <Radio.Group value={radioValue} onChange={changeRadioValue}>
-            <Space direction="vertical">
-              {currentWeekList.map((item) => {
-                return (
-                  <Radio value={item.id} key={item.id}>
-                    <RadioContent taskItem={item} radioValue={radioValue} />
-                  </Radio>
-                )
-              })}
-            </Space>
-          </Radio.Group>
+          {currentWeekList.map((item) => {
+            return (
+              <TaskContent
+                taskItem={item}
+                key={item.id}
+                handleChangeStatus={handleChangeStatus}
+              />
+            )
+          })}
+        </div>
+      </div>
+      <div className={styles.weekContainer}>
+        <div className={styles.weekTitle}>Last WEEK</div>
+        <div className={styles.weekContent}>
+          {currentWeekList.map((item) => {
+            return (
+              <TaskContent
+                taskItem={item}
+                key={item.id}
+                handleChangeStatus={handleChangeStatus}
+              />
+            )
+          })}
+        </div>
+      </div>
+      <div className={styles.weekContainer}>
+        <div className={styles.weekTitle}>Before last WEEK</div>
+        <div className={styles.weekContent}>
+          {currentWeekList.map((item) => {
+            return (
+              <TaskContent
+                taskItem={item}
+                key={item.id}
+                handleChangeStatus={handleChangeStatus}
+              />
+            )
+          })}
         </div>
       </div>
     </div>
