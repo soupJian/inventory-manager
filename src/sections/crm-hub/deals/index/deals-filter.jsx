@@ -1,4 +1,6 @@
 import React from 'react'
+import { useRouter } from 'next/router'
+
 // antd ---------
 import { Row, Col } from 'antd'
 
@@ -8,6 +10,7 @@ import styles from './index.module.scss'
 import { switchStatusColor } from '../util'
 
 const DealsFilter = ({ filterData, status }) => {
+  const router = useRouter()
   const data = filterData.filter((item) => {
     return item.status == status
   })
@@ -16,7 +19,10 @@ const DealsFilter = ({ filterData, status }) => {
     total += item.amount
   })
   total = total.toLocaleString()
-
+  const handleClick = (item) => {
+    localStorage.setItem('dealIds', JSON.stringify([item.key]))
+    router.push('/crm-hub/deals/detail')
+  }
   return (
     <div className={styles.dealsfilterwrap}>
       <div className={styles.container}>
@@ -31,7 +37,11 @@ const DealsFilter = ({ filterData, status }) => {
         </Row>
         {data.map((item) => {
           return (
-            <div key={item.key} className={styles['filter-item']}>
+            <div
+              key={item.key}
+              className={styles['filter-item']}
+              onClick={() => handleClick(item)}
+            >
               <Row>
                 <Col>
                   <span className={styles['item-title']}>{item.dealName}</span>
