@@ -65,16 +65,21 @@ export const menuColumns = [
     },
     render: (_, record) => {
       return (
-        <span
+        <div
           style={{
             background: `${switchStatusColor(record.status)}`,
-            padding: '0 6px',
-            height: '17px',
-            lineHeight: '17px'
+            padding: '1px 6px',
+            display: 'inline-block',
+            height: '19px',
+            lineHeight: '17px',
+            fontFamily: 'Rubik',
+            fontWeight: '400',
+            fontSize: '14px',
+            color: '#ffffff'
           }}
         >
           {record.status}
-        </span>
+        </div>
       )
     }
   },
