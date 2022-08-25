@@ -72,7 +72,7 @@ const DetailTasks = () => {
       )}
       <div className={styles.weekContainer}>
         <div className={styles.weekTitle}>This WEEK</div>
-        <div className={styles.weekContainer}>
+        <div className={styles.weekContent}>
           <Radio.Group value={radioValue} onChange={changeRadioValue}>
             <Space direction="vertical">
               {currentWeekList.map((item) => {

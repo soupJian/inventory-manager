@@ -1,0 +1,75 @@
+.timelineWrap {
+  .timeline-search-wrap {
+    padding: 16px 24px;
+    background-color: #fff;
+  }
+  .weekContainer {
+    margin: 0 24px;
+    position: relative;
+    margin-top: 50px;
+    .weekTitle {
+      position: absolute;
+      top: -35px;
+      padding-left: 16px;
+      width: 230px;
+      height: 37px;
+      line-height: 37px;
+      background: #ffffff;
+      border: 2px solid #f0f0f0;
+      border-bottom: none;
+      border-radius: 10px 10px 0px 0px;
+      font-family: 'Rubik';
+      font-weight: 500;
+      font-size: 15px;
+      color: #000000;
+      z-index: 1;
+    }
+    .weekContent {
+      padding: 0 20px 37px;
+      background: #ffffff;
+      border: 2px solid #f0f0f0;
+      border-radius: 0px 10px 10px 10px;
+      .contentItem {
+        padding-top: 20px;
+        font-family: 'Lato';
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        color: #000000;
+        .time {
+          color: #808080;
+        }
+        .action {
+          font-family: 'Rubik';
+          font-size: 15px;
+          color: #000000;
+        }
+        .detail {
+          padding-bottom: 20px;
+          font-family: 'Lato';
+          color: #000000;
+          border-bottom: 1px solid #f0f0f0;
+          .bold {
+            font-weight: 900;
+          }
+          .activeColor {
+            color: #2c88dd;
+            cursor: pointer;
+          }
+          .label {
+            width: 72px;
+            font-family: 'Rubik';
+            font-size: 13px;
+            color: #808080;
+          }
+          .labelContent {
+            flex: 1;
+          }
+          .statusColor {
+            color: #2ebebd;
+          }
+        }
+      }
+    }
+  }
+}
