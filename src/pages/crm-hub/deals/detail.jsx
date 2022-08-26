@@ -13,6 +13,11 @@ import styles from './index.module.scss'
 const { TabPane } = Tabs
 const { Option } = Select
 
+/*
+ * 数据更新统一由 deal 子组件 调用 deal 页面内方
+ * 跟新 update， 删除 delete
+ */
+
 const DealDetail = () => {
   // 如贵没有 ids 则取消进入页面
   const router = useRouter()
@@ -21,6 +26,7 @@ const DealDetail = () => {
   if (!dealIdsStr) {
     router.replace('/crm-hub/deals')
   }
+  const dealIds = JSON.parse(dealIdsStr)
   // promiseALL 数据
   const [data, setData] = useState([])
   // 当前激活的 tab
@@ -73,8 +79,7 @@ const DealDetail = () => {
         }
       ]
     }
-    const dealIds = JSON.parse(dealIdsStr)
-    const list = dealIds.map((item, index) => {
+    const list = dealIds.map((item) => {
       return {
         title: dealInfo.name,
         key: item,
@@ -181,27 +186,32 @@ const DealDetail = () => {
   return (
     <div className={styles.container}>
       <DetailHeader />
-      <Tabs
-        hideAdd
-        onChange={handleChangeTabs}
-        activeKey={activeKey}
-        type="editable-card"
-        onEdit={onEdit}
-        className={styles.dealTabs}
-      >
-        {data.map((item) => (
-          <TabPane tab={item.title} key={item.key}>
-            <div className={styles.content}>
-              <div className={styles.tabs}>
-                <DetailTabs dealInfo={item.dealInfo} />
+      {/* 如果只有一条数，那么就不展示 tabs */}
+      {dealIds.length > 1 ? (
+        <Tabs
+          hideAdd
+          onChange={handleChangeTabs}
+          activeKey={activeKey}
+          type="editable-card"
+          onEdit={onEdit}
+          className={styles.dealTabs}
+        >
+          {data.map((item) => (
+            <TabPane tab={item.title} key={item.key}>
+              <div className={styles.content}>
+                <div className={styles.tabs}>
+                  <DetailTabs dealInfo={item.dealInfo} />
+                </div>
+                <div className={styles.action}>
+                  <DetailAction dealInfo={dealInfo} updateDeal={updateDeal} />
+                </div>
               </div>
-              <div className={styles.action}>
-                <DetailAction dealInfo={dealInfo} updateDeal={updateDeal} />
-              </div>
-            </div>
-          </TabPane>
-        ))}
-      </Tabs>
+            </TabPane>
+          ))}
+        </Tabs>
+      ) : (
+        <DetailTabs dealInfo={data[0]?.dealInfo} />
+      )}
       <Modal
         title="Change status"
         visible={showChangeStatusModal}
