@@ -9,7 +9,6 @@ import {
   StatusFive,
   StatusSix,
   StatusSeven,
-  StatusEightta,
   StatusEight
 } from './timeline/status'
 import styles from './timeline.module.scss'
@@ -41,12 +40,12 @@ const DetailTimeLine = () => {
       {
         id: 4,
         type: 4,
-        actionPerson: 'Cathy',
-        time: '5/27/2022 9:21 AM',
-        remind: 'Remind the client to check the mockup and quote',
-        remindTime: '1 day before',
+        time: '28/08/2022 10:00 AM',
+        title: 'Remind the client to check the mockup and quote',
+        reminder: '1 day before',
         detail:
-          'Remember to remind the client to take a look at the revised mockup based on the suggestions from the client and also check the quote sent.'
+          'Remember to make the new mockup based on the suggestions from the client and send it to the client.',
+        taskStatus: 0 // 0 表示已完成 1 未完成
       },
       {
         id: 5,

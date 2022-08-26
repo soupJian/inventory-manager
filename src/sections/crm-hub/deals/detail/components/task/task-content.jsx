@@ -14,7 +14,7 @@ import { Icon } from '../../../../../../components/commons'
 import TaskEdit from './task-edit'
 import styles from '../task.module.scss'
 
-const RadioContent = (props) => {
+const TaskContent = (props) => {
   const { taskItem, handleChangeStatus } = props
   const [showEdit, setShowEdit] = useState(false)
 
@@ -115,4 +115,4 @@ const RadioContent = (props) => {
   )
 }
 
-export default RadioContent
+export default TaskContent

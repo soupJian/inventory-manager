@@ -29,44 +29,43 @@
       background: #ffffff;
       border: 2px solid #f0f0f0;
       border-radius: 0px 10px 10px 10px;
-      .taskContentWrap {
-        border-bottom: 1px solid #f0f0f0;
-        padding: 20px 0;
-        .taskContent {
-          .overDue,
-          .due {
-            font-family: 'Lato';
-            font-weight: 400;
-          }
-          .overDue {
-            color: #ff7b7b;
-          }
-          .due {
-            color: #000000;
-          }
-          .contentText {
-            font-family: 'Lato';
-            font-weight: 400;
-            font-size: 14px;
-            line-height: 20px;
-            color: #000000;
-          }
-          .actionBtn {
-            .deleteBtn,
-            .actionBtn {
-              display: flex;
-              margin-left: 30px;
-              align-items: center;
-              height: 35px;
-              padding: 10px 14px;
-              border-radius: 8px;
-            }
-            .editBtn {
-              background-color: #000000;
-              color: #fff;
-            }
-          }
-        }
+    }
+  }
+}
+.taskContentWrap {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 20px 0;
+  .taskContent {
+    .overDue,
+    .due {
+      font-family: 'Lato';
+      font-weight: 400;
+    }
+    .overDue {
+      color: #ff7b7b;
+    }
+    .due {
+      color: #000000;
+    }
+    .contentText {
+      font-family: 'Lato';
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      color: #000000;
+    }
+    .actionBtn {
+      .deleteBtn,
+      .editBtn {
+        display: flex;
+        align-items: center;
+        height: 35px;
+        padding: 10px 14px;
+        border-radius: 8px;
+      }
+      .editBtn {
+        background-color: #000000;
+        color: #fff;
       }
     }
   }

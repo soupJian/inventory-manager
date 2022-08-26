@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Row, Col, Space } from 'antd'
 import styles from '../timeline.module.scss'
 import { Icon } from '../../../../../../components/commons'
+import TaskContent from '../task/task-content'
 // 状态一 这个deal的负责人把这个 deal 分配给别人时候
 export const StatusOne = ({ item }) => {
   return (
@@ -90,46 +91,12 @@ export const StatusThree = ({ item }) => {
 }
 // 状态四
 export const StatusFour = ({ item }) => {
-  return (
-    <Row gutter={[0, 14]}>
-      <Col span={24}>
-        <Row justify="space-between">
-          <Col>
-            <Space>
-              <Icon
-                name="task-clock"
-                style={{ width: '16px', height: '16px' }}
-              />
-              <span className={styles.due}>Due: {item.time}</span>
-            </Space>
-          </Col>
-          <Col className={styles.action}>
-            <Space>
-              <Icon name="user" style={{ width: '16px', height: '16px' }} />
-              <span>{item.actionPerson}</span>
-            </Space>
-          </Col>
-        </Row>
-      </Col>
-      <Col span={24} className={styles.detail}>
-        <Row gutter={[0, 12]}>
-          <Col span={24}>{item.remind}</Col>
-          <Col span={24}>
-            <Row align="top">
-              <Col className={styles.label}>Reminder</Col>
-              <Col className={styles.labelContent}>{item.remindTime}</Col>
-            </Row>
-          </Col>
-          <Col span={24}>
-            <Row align="top">
-              <Col className={styles.label}>Details</Col>
-              <Col className={styles.labelContent}>{item.detail}</Col>
-            </Row>
-          </Col>
-        </Row>
-      </Col>
-    </Row>
-  )
+  const handleChangeStatus = (e, item) => {
+    console.log(e)
+    console.log(item)
+    // setRadioValue(e.target.value)
+  }
+  return <TaskContent taskItem={item} handleChangeStatus={handleChangeStatus} />
 }
 // 状态五
 export const StatusFive = ({ item }) => {
