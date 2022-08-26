@@ -2,6 +2,17 @@
   width: 100%;
   height: calc(100vh - 158px);
 }
+.dealTabs {
+  :global {
+    .ant-tabs-nav {
+      margin: 0 29px;
+      margin-bottom: 0;
+      .ant-tabs-tab {
+        margin-left: 0;
+      }
+    }
+  }
+}
 .content {
   display: flex;
   height: 100%;
