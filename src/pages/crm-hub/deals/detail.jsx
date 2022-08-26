@@ -158,6 +158,10 @@ const DealDetail = () => {
       }
     ]
   }
+  const updateDeal = (dealInfo) => {
+    // data遍历 然后匹配更新
+    console.log(dealInfo)
+  }
 
   useEffect(() => {
     getData()
@@ -192,7 +196,7 @@ const DealDetail = () => {
                 <DetailTabs dealInfo={item.dealInfo} />
               </div>
               <div className={styles.action}>
-                <DetailAction dealInfo={dealInfo} />
+                <DetailAction dealInfo={dealInfo} updateDeal={updateDeal} />
               </div>
             </div>
           </TabPane>

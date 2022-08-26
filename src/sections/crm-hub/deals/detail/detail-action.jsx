@@ -13,7 +13,7 @@ import styles from './detail-action.module.scss'
 const { Option } = Select
 const DetailAction = (props) => {
   // deal 信息
-  const dealInfo = props.dealInfo
+  const { dealInfo, updateDeal } = props
   // 编辑 amount 金额的等信息
   const [showEditDeal, setShowEditDeal] = useState(false)
   const [showEditContact, setShowContact] = useState(false)
@@ -24,6 +24,9 @@ const DetailAction = (props) => {
   // 修改 status 状态
   const handleChangeStatus = (value) => {
     console.log(`selected ${value}`)
+    dealInfo.status = value
+    // 调用接口更新deal的状态
+    updateDeal(dealInfo)
   }
   // 新增 contact
   const handleAddContact = () => {
