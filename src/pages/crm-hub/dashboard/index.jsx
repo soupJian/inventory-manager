@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react'
 import Head from 'next/head'
 import { Row, Col } from 'antd'
 import UpDownCard from '../../../sections/crm-hub/dashboard/up-down-card'
+import PieTotalOpenDeals from '../../../sections/crm-hub/dashboard/pie-total-open-deals'
 import styles from './index.module.scss'
 
 const Dashboard = () => {
   const [upDownList, setUpDownList] = useState([])
+  // 头部 数据
   const getupDownList = () => {
     const list = [
       {
@@ -58,7 +60,7 @@ const Dashboard = () => {
       </Head>
       <div className={styles.dashboard}>
         <div className={styles.title}>Dashboard</div>
-        <Row gutter={[24, 0]}>
+        <Row gutter={24}>
           {upDownList.map((item) => {
             return (
               <Col span={6} key={item.iconName}>
@@ -74,6 +76,14 @@ const Dashboard = () => {
               </Col>
             )
           })}
+        </Row>
+        <Row gutter={24} style={{ marginTop: '24px' }}>
+          <Col span={12}>
+            <PieTotalOpenDeals />
+          </Col>
+          <Col span={12}>
+            <PieTotalOpenDeals />
+          </Col>
         </Row>
       </div>
     </>

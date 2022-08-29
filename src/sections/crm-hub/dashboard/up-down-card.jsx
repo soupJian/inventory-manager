@@ -14,7 +14,7 @@ const UpDownCard = ({
   description
 }) => {
   return (
-    <Row align="middle" className={styles.wrap}>
+    <Row align="middle" className={styles['up-down-card']}>
       <Col className={styles.iconWrap} style={{ background }}>
         <Icon name={iconName} width="20px" height="20px" />
       </Col>
