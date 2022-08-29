@@ -3,6 +3,7 @@ import Head from 'next/head'
 import { Row, Col } from 'antd'
 import UpDownCard from '../../../sections/crm-hub/dashboard/up-down-card'
 import PieTotalOpenDeals from '../../../sections/crm-hub/dashboard/pie-total-open-deals'
+import LineSale from '../../../sections/crm-hub/dashboard/line-sale'
 import styles from './index.module.scss'
 
 const Dashboard = () => {
@@ -82,7 +83,7 @@ const Dashboard = () => {
             <PieTotalOpenDeals />
           </Col>
           <Col span={12}>
-            <PieTotalOpenDeals />
+            <LineSale />
           </Col>
         </Row>
       </div>
