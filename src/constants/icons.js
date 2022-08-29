@@ -35,5 +35,9 @@ export default {
   link: '/images/icons/icon-link.png',
   'task-clock': '/images/icons/icon-task-clock.png',
   'edit-white': '/images/icons/icon-edit-white.png',
-  phone: '/images/icons/icon-phone.png'
+  phone: '/images/icons/icon-phone.png',
+  conversion: '/images/icons/icon-conversion.png',
+  'new-deals': '/images/icons/icon-new-deals.png',
+  'sale-amount': '/images/icons/icon-sale-amount.png',
+  sales: '/images/icons/icon-sales.png'
 }
