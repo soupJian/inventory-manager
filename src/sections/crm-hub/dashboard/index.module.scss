@@ -60,3 +60,62 @@
     margin: 35px 8px 0 8px;
   }
 }
+.deal-lost-in,
+.new-contacts,
+.deals-source {
+  background: #ffffff;
+  border-radius: 8px;
+  height: 150px;
+  padding: 24px;
+  .title {
+    font-family: 'Rubik';
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 18px;
+    color: #1d2129;
+  }
+  .dropdown {
+    cursor: pointer;
+  }
+}
+.deals-source {
+  .wrap {
+    margin-top: 34px;
+  }
+  .leftBar {
+    width: 4px;
+    height: 50px;
+    background: #2ebebd;
+    border-radius: 2px;
+  }
+  .content {
+    margin-left: 8px;
+    .name {
+      font-family: 'Rubik';
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 22px;
+      color: #4e5969;
+    }
+    .precentNum {
+      font-family: 'Helvetica Neue';
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 28px;
+      color: #1d2129;
+    }
+    .precent {
+      margin-left: 2px;
+      font-family: 'Helvetica Neue';
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 28px;
+      color: #86909c;
+    }
+  }
+  .others {
+    .leftBar {
+      background: #d9d9d9;
+    }
+  }
+}

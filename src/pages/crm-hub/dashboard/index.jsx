@@ -4,6 +4,9 @@ import { Row, Col } from 'antd'
 import UpDownCard from '../../../sections/crm-hub/dashboard/up-down-card'
 import PieTotalOpenDeals from '../../../sections/crm-hub/dashboard/pie-total-open-deals'
 import LineSale from '../../../sections/crm-hub/dashboard/line-sale'
+import DealsLostIn from '../../../sections/crm-hub/dashboard/Deals-lost-in'
+import DealsSource from '../../../sections/crm-hub/dashboard/deals-source'
+import NewContact from '../../../sections/crm-hub/dashboard/new-contact'
 import styles from './index.module.scss'
 
 const Dashboard = () => {
@@ -84,6 +87,17 @@ const Dashboard = () => {
           </Col>
           <Col span={12}>
             <LineSale />
+          </Col>
+        </Row>
+        <Row gutter={24} style={{ marginTop: '24px' }}>
+          <Col span={8}>
+            <DealsSource />
+          </Col>
+          <Col span={4}>
+            <NewContact />
+          </Col>
+          <Col span={12}>
+            <DealsLostIn />
           </Col>
         </Row>
       </div>

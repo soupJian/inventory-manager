@@ -7,8 +7,6 @@ const PieTotalOpenDeals = () => {
   const initPie = (data) => {
     const total = data.reduce(
       (pre, cur) => {
-        console.log('pre', pre.value)
-        console.log('cur', cur.value)
         return { value: pre.value + cur.value }
       },
       { value: 0 }
