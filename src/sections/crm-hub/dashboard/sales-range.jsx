@@ -1,9 +1,8 @@
 import React, { useEffect, useRef } from 'react'
 import { Row, Col } from 'antd'
 import styles from './index.module.scss'
-import * as echarts from 'echarts'
 
-const SalesRange = ({ salesRange }) => {
+const SalesRange = ({ salesRange, echarts }) => {
   const barRef = useRef(null)
   // 渲染柱状图
   const initBar = () => {

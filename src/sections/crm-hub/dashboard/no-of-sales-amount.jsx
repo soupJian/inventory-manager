@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from 'react'
-import * as echarts from 'echarts'
 import styles from './index.module.scss'
 
-const NoofSalesAmount = ({ noSales, salesAmount }) => {
+const NoofSalesAmount = ({ noSales, salesAmount, echarts }) => {
   const barRef = useRef(null)
   const barInit = () => {
     const barChart = echarts.init(barRef.current)

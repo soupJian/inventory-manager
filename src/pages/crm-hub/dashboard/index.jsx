@@ -10,6 +10,8 @@ import NewContact from '../../../sections/crm-hub/dashboard/new-contact'
 import BestSellers from '../../../sections/crm-hub/dashboard/best-sellers'
 import SalesRange from '../../../sections/crm-hub/dashboard/sales-range'
 import NoofSalesAmount from '../../../sections/crm-hub/dashboard/no-of-sales-amount'
+import * as echarts from 'echarts'
+
 import styles from './index.module.scss'
 
 const Dashboard = () => {
@@ -230,10 +232,10 @@ const Dashboard = () => {
         </Row>
         <Row gutter={24} style={{ marginTop: '24px' }}>
           <Col span={12}>
-            <PieTotalOpenDeals />
+            <PieTotalOpenDeals echarts={echarts} />
           </Col>
           <Col span={12}>
-            <LineSale />
+            <LineSale echarts={echarts} />
           </Col>
         </Row>
         <Row gutter={24} style={{ marginTop: '24px' }}>
@@ -253,13 +255,17 @@ const Dashboard = () => {
           </Col>
           {salesRange.length > 0 && (
             <Col span={12}>
-              <SalesRange salesRange={salesRange} />
+              <SalesRange salesRange={salesRange} echarts={echarts} />
             </Col>
           )}
         </Row>
         {noSales.length > 0 && salesAmount.length > 0 && (
           <div style={{ marginTop: '24px' }}>
-            <NoofSalesAmount noSales={noSales} salesAmount={salesAmount} />
+            <NoofSalesAmount
+              echarts={echarts}
+              noSales={noSales}
+              salesAmount={salesAmount}
+            />
           </div>
         )}
         <Row gutter={24} style={{ marginTop: '24px' }}>
