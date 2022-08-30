@@ -21,9 +21,9 @@ const NoofSalesAmount = ({ noSales, salesAmount }) => {
       'Dec'
     ]
     const option = {
-      tooltip: {
-        trigger: 'axis'
-      },
+      // tooltip: {
+      //   trigger: 'axis'
+      // },
       grid: {
         top: 50,
         left: 80,

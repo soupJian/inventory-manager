@@ -28,14 +28,18 @@ const NewContact = () => {
   return (
     <div className={styles['new-contacts']}>
       <Row>
-        <Col className={styles.title}>New contacts</Col>
-        <Col>
+        <Col className={styles.title} span={24}>
+          New contacts
+        </Col>
+        <Col span={24}>
           <div className={styles.num}>153</div>
           <Dropdown overlay={menu} className={styles.dropdown}>
-            <Space>
-              Hover me
-              <DownOutlined />
-            </Space>
+            <Row justify="space-between">
+              <Col>Hover me</Col>
+              <Col>
+                <DownOutlined />
+              </Col>
+            </Row>
           </Dropdown>
         </Col>
       </Row>

@@ -191,10 +191,10 @@ const Dashboard = () => {
           </Col>
         </Row>
         <Row gutter={24} style={{ marginTop: '24px' }}>
-          <Col span={8}>
+          <Col span={9}>
             <DealsSource />
           </Col>
-          <Col span={4}>
+          <Col span={3}>
             <NewContact />
           </Col>
           <Col span={12}>
@@ -217,6 +217,23 @@ const Dashboard = () => {
             <NoofSalesAmount noSales={noSales} salesAmount={salesAmount} />
           </div>
         )}
+        <Row gutter={24} style={{ marginTop: '24px' }}>
+          {upDownList.map((item) => {
+            return (
+              <Col span={6} key={item.iconName}>
+                <UpDownCard
+                  background={item.background}
+                  iconName={item.iconName}
+                  num={item.num}
+                  color={item.color}
+                  precent={item.precent}
+                  isup={item.isup}
+                  description={item.description}
+                />
+              </Col>
+            )
+          })}
+        </Row>
       </div>
     </>
   )
