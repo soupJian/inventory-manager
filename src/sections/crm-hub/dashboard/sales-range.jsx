@@ -11,12 +11,12 @@ const SalesRange = ({ salesRange }) => {
     const Xdata = ['$700 or less', '$701 - $1,400', '$1,401 or more']
     const barChart = echarts.init(barRef.current)
     const option = {
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'shadow'
-        }
-      },
+      // tooltip: {
+      //   trigger: 'axis',
+      //   axisPointer: {
+      //     type: 'shadow'
+      //   }
+      // },
       legend: {
         show: false
       },
