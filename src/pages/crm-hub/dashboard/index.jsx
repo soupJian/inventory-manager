@@ -17,6 +17,7 @@ import styles from './index.module.scss'
 const Dashboard = () => {
   // 头部面板数据
   const [upDownList, setUpDownList] = useState([])
+  const [pieData, setPieData] = useState([])
   // deals lost in 数据
   const [lostIn, setLostIn] = useState([])
   // best sellers
@@ -69,6 +70,18 @@ const Dashboard = () => {
       }
     ]
     setUpDownList(list)
+  }
+  // pieData
+  const getPieData = () => {
+    const list = [
+      { value: 1048, name: 'Interest showed' },
+      { value: 735, name: 'Initial mockup' },
+      { value: 580, name: 'Mockup revising' },
+      { value: 580, name: 'Invoice sent' },
+      { value: 484, name: 'Closed won' },
+      { value: 300, name: 'Closed lost' }
+    ]
+    setPieData(list)
   }
   // deals lost in
   const getDealsLostIn = () => {
@@ -192,6 +205,7 @@ const Dashboard = () => {
     // 头部面板数据
     getupDownList()
     // echarts pie数据
+    getPieData()
     // deal Source 数据
     // new contact数据
     // deals lost in 数据
@@ -232,7 +246,9 @@ const Dashboard = () => {
         </Row>
         <Row gutter={24} style={{ marginTop: '24px' }}>
           <Col span={12}>
-            <PieTotalOpenDeals echarts={echarts} />
+            {pieData.length > 0 && (
+              <PieTotalOpenDeals echarts={echarts} data={pieData} />
+            )}
           </Col>
           <Col span={12}>
             <LineSale echarts={echarts} />

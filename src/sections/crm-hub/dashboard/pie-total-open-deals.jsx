@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react'
 import styles from './index.module.scss'
 
-const PieTotalOpenDeals = ({ echarts }) => {
+const PieTotalOpenDeals = ({ echarts, data }) => {
   const pie = useRef(null)
-  const initPie = (data) => {
+  const initPie = () => {
     const total = data.reduce(
       (pre, cur) => {
         return { value: pre.value + cur.value }
@@ -94,16 +94,8 @@ const PieTotalOpenDeals = ({ echarts }) => {
     pieChart.setOption(option)
   }
   useEffect(() => {
-    // 获取数据后 initpie
-    const data = [
-      { value: 1048, name: 'Interest showed' },
-      { value: 735, name: 'Initial mockup' },
-      { value: 580, name: 'Mockup revising' },
-      { value: 580, name: 'Invoice sent' },
-      { value: 484, name: 'Closed won' },
-      { value: 300, name: 'Closed lost' }
-    ]
-    initPie(data)
+    initPie()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
     <div className={styles['pie-total-open-deals']}>
