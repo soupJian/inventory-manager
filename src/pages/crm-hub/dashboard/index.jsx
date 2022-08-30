@@ -10,7 +10,10 @@ import NewContact from '../../../sections/crm-hub/dashboard/new-contact'
 import styles from './index.module.scss'
 
 const Dashboard = () => {
+  // 头部面板数据
   const [upDownList, setUpDownList] = useState([])
+  // deals lost in 数据
+  const [lostIn, setLostIn] = useState([])
   // 头部 数据
   const getupDownList = () => {
     const list = [
@@ -53,9 +56,45 @@ const Dashboard = () => {
     ]
     setUpDownList(list)
   }
+  // deals lost in
+  const getDealsLostIn = () => {
+    const list = [
+      {
+        name: 'Interest showed',
+        precent: 48,
+        isup: true,
+        value: 25
+      },
+      {
+        name: 'Initial mockup',
+        precent: 48,
+        isup: false,
+        value: 12
+      },
+      {
+        name: 'Mockup revising',
+        precent: 48,
+        isup: false,
+        value: 12
+      },
+      {
+        name: 'Invoice sent',
+        precent: 48,
+        isup: true,
+        value: 25
+      }
+    ]
+    setLostIn(list)
+  }
   // 渲染数据
   useEffect(() => {
+    // 头部面板数据
     getupDownList()
+    // echarts pie数据
+    // deal Source 数据
+    // new contact数据
+    // deals lost in 数据
+    getDealsLostIn()
   }, [])
   return (
     <>
@@ -97,7 +136,7 @@ const Dashboard = () => {
             <NewContact />
           </Col>
           <Col span={12}>
-            <DealsLostIn />
+            <DealsLostIn lostIn={lostIn} />
           </Col>
         </Row>
       </div>
