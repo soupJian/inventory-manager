@@ -17,10 +17,13 @@ const SalesRange = ({ salesRange }) => {
           type: 'shadow'
         }
       },
-      legend: {},
+      legend: {
+        show: false
+      },
       grid: {
-        left: '0',
-        right: '0',
+        left: 0,
+        right: 0,
+        top: 20,
         bottom: 24,
         containLabel: true
       },
