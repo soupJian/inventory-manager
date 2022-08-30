@@ -76,6 +76,11 @@
   }
   .dropdown {
     cursor: pointer;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
   }
 }
 .deals-source {
@@ -117,5 +122,17 @@
     .leftBar {
       background: #d9d9d9;
     }
+  }
+}
+.new-contacts {
+  .num {
+    margin-top: 6px;
+    margin-bottom: 2px;
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 60px;
+    color: #151522;
   }
 }
