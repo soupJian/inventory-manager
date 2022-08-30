@@ -4,9 +4,10 @@ import { Row, Col } from 'antd'
 import UpDownCard from '../../../sections/crm-hub/dashboard/up-down-card'
 import PieTotalOpenDeals from '../../../sections/crm-hub/dashboard/pie-total-open-deals'
 import LineSale from '../../../sections/crm-hub/dashboard/line-sale'
-import DealsLostIn from '../../../sections/crm-hub/dashboard/Deals-lost-in'
+import DealsLostIn from '../../../sections/crm-hub/dashboard/deals-lost-in'
 import DealsSource from '../../../sections/crm-hub/dashboard/deals-source'
 import NewContact from '../../../sections/crm-hub/dashboard/new-contact'
+import BestSellers from '../../../sections/crm-hub/dashboard/best-sellers'
 import styles from './index.module.scss'
 
 const Dashboard = () => {
@@ -14,6 +15,8 @@ const Dashboard = () => {
   const [upDownList, setUpDownList] = useState([])
   // deals lost in 数据
   const [lostIn, setLostIn] = useState([])
+  // best sellers
+  const [BestSellersList, setBestSellersList] = useState([])
   // 头部 数据
   const getupDownList = () => {
     const list = [
@@ -86,6 +89,37 @@ const Dashboard = () => {
     ]
     setLostIn(list)
   }
+  // best sellers
+  const getBestSellers = () => {
+    const list = [
+      {
+        rank: '01',
+        name: 'Custom canopy tent p4',
+        sales: '32%'
+      },
+      {
+        rank: '02',
+        name: 'Custom canopy tent p4',
+        sales: '32%'
+      },
+      {
+        rank: '03',
+        name: 'Custom canopy tent p4',
+        sales: '32%'
+      },
+      {
+        rank: '04',
+        name: 'Custom canopy tent p4',
+        sales: '32%'
+      },
+      {
+        rank: '05',
+        name: 'Custom canopy tent p4',
+        sales: '32%'
+      }
+    ]
+    setBestSellersList(list)
+  }
   // 渲染数据
   useEffect(() => {
     // 头部面板数据
@@ -95,6 +129,8 @@ const Dashboard = () => {
     // new contact数据
     // deals lost in 数据
     getDealsLostIn()
+    // best sellers
+    getBestSellers()
   }, [])
   return (
     <>
@@ -137,6 +173,14 @@ const Dashboard = () => {
           </Col>
           <Col span={12}>
             <DealsLostIn lostIn={lostIn} />
+          </Col>
+        </Row>
+        <Row gutter={24} style={{ marginTop: '24px' }}>
+          <Col span={12}>
+            <BestSellers BestSellersList={BestSellersList} />
+          </Col>
+          <Col span={12}>
+            <BestSellers BestSellersList={BestSellersList} />
           </Col>
         </Row>
       </div>

@@ -141,3 +141,61 @@
     margin-top: 25px;
   }
 }
+.best-sellers {
+  padding: 24px;
+  color: #ffffff;
+  background: #21222d;
+  border-radius: 8px;
+  height: 322px;
+  .dropdown {
+    cursor: pointer;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+  }
+  .table {
+    margin-top: 30px;
+  }
+  .sales {
+    font-family: 'Inter';
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 22px;
+    color: #2ebebd;
+  }
+  :global {
+    .ant-table {
+      color: #ffffff;
+      background: #21222d;
+      .ant-table-thead > tr > th,
+      .ant-table-tbody > tr > td,
+      .ant-table tfoot > tr > th,
+      .ant-table tfoot > tr > td {
+        padding: 0 !important;
+        height: 37px;
+        font-family: 'Rubik';
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 18px;
+        color: #ffffff;
+      }
+      .ant-table-thead > tr > th {
+        background-color: unset;
+        font-family: 'Rubik';
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 17px;
+        color: #87888c;
+        border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+      }
+      .ant-table-tbody > tr > td {
+        border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+      }
+      .ant-table-tbody > tr.ant-table-row:hover > td,
+      .ant-table-tbody > tr > td.ant-table-cell-row-hover {
+        background-color: #21222d;
+      }
+    }
+  }
+}

@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
-import { DownOutlined } from '@ant-design/icons'
-import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons'
+import {
+  DownOutlined,
+  ArrowUpOutlined,
+  ArrowDownOutlined
+} from '@ant-design/icons'
 import { Row, Col, Progress, Dropdown, Menu, Space, Checkbox } from 'antd'
 
 import styles from './index.module.scss'
