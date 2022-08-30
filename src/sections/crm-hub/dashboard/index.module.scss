@@ -223,3 +223,18 @@
     height: 280px;
   }
 }
+.no-of-sales-amount {
+  padding: 24px 24px 0;
+  background: #ffffff;
+  border-radius: 8px;
+  .title {
+    font-family: 'Rubik';
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 18px;
+    color: #1d2129;
+  }
+  .bar {
+    height: 368px;
+  }
+}

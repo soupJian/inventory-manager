@@ -9,6 +9,7 @@ import DealsSource from '../../../sections/crm-hub/dashboard/deals-source'
 import NewContact from '../../../sections/crm-hub/dashboard/new-contact'
 import BestSellers from '../../../sections/crm-hub/dashboard/best-sellers'
 import SalesRange from '../../../sections/crm-hub/dashboard/sales-range'
+import NoofSalesAmount from '../../../sections/crm-hub/dashboard/no-of-sales-amount'
 import styles from './index.module.scss'
 
 const Dashboard = () => {
@@ -20,6 +21,9 @@ const Dashboard = () => {
   const [BestSellersList, setBestSellersList] = useState([])
   // sales range
   const [salesRange, setSalesRange] = useState([])
+  // no of sales amount
+  const [noSales, setNosales] = useState([])
+  const [salesAmount, setSalesAmount] = useState([])
   // 头部 数据
   const getupDownList = () => {
     const list = [
@@ -128,6 +132,15 @@ const Dashboard = () => {
     const list = [186, 279, 142]
     setSalesRange(list)
   }
+  // no of sales & sales amount
+  const getNoSalesAmount = () => {
+    const barOneData = [
+      242, 210, 290, 210, 340, 380, 240, 380, 210, 240, 380, 320
+    ]
+    const barTwoData = [36, 44, 37, 57, 60, 68, 34, 49, 24, 57, 39, 50]
+    setNosales(barOneData)
+    setSalesAmount(barTwoData)
+  }
 
   // 渲染数据
   useEffect(() => {
@@ -142,6 +155,8 @@ const Dashboard = () => {
     getBestSellers()
     // sales range
     getSalesRange()
+    // no of sales & sales amount
+    getNoSalesAmount()
   }, [])
   return (
     <>
@@ -197,6 +212,11 @@ const Dashboard = () => {
             </Col>
           )}
         </Row>
+        {noSales.length > 0 && salesAmount.length > 0 && (
+          <div style={{ marginTop: '24px' }}>
+            <NoofSalesAmount noSales={noSales} salesAmount={salesAmount} />
+          </div>
+        )}
       </div>
     </>
   )
