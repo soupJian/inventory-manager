@@ -24,6 +24,8 @@ const Dashboard = () => {
   // no of sales amount
   const [noSales, setNosales] = useState([])
   const [salesAmount, setSalesAmount] = useState([])
+  // 底部数据
+  const [footerLsit, setFooterList] = useState([])
   // 头部 数据
   const getupDownList = () => {
     const list = [
@@ -141,7 +143,48 @@ const Dashboard = () => {
     setNosales(barOneData)
     setSalesAmount(barTwoData)
   }
-
+  // footer list
+  const getFooterList = () => {
+    const list = [
+      {
+        background: '#D5F2F2',
+        iconName: 'new-deals',
+        num: 1024,
+        color: '#2EBEBD',
+        precent: '28',
+        isup: true,
+        description: 'New deals this month'
+      },
+      {
+        background: '#D5E7F8',
+        iconName: 'sales',
+        num: 139,
+        color: '#2C88DD',
+        precent: '12',
+        isup: false,
+        description: 'No. of calls received'
+      },
+      {
+        background: '#FFE5E5',
+        iconName: 'sale-amount',
+        num: 1024,
+        color: '#FF7B7B',
+        precent: '28',
+        isup: true,
+        description: 'No. of chats'
+      },
+      {
+        background: '#FEF2E0',
+        iconName: 'conversion',
+        num: 139,
+        color: '#F69400',
+        precent: '12',
+        isup: false,
+        description: 'No. of tasks'
+      }
+    ]
+    setFooterList(list)
+  }
   // 渲染数据
   useEffect(() => {
     // 头部面板数据
@@ -157,6 +200,8 @@ const Dashboard = () => {
     getSalesRange()
     // no of sales & sales amount
     getNoSalesAmount()
+    // footer list
+    getFooterList()
   }, [])
   return (
     <>
@@ -177,6 +222,7 @@ const Dashboard = () => {
                   precent={item.precent}
                   isup={item.isup}
                   description={item.description}
+                  format={true}
                 />
               </Col>
             )
@@ -191,10 +237,10 @@ const Dashboard = () => {
           </Col>
         </Row>
         <Row gutter={24} style={{ marginTop: '24px' }}>
-          <Col span={9}>
+          <Col span={8}>
             <DealsSource />
           </Col>
-          <Col span={3}>
+          <Col span={4}>
             <NewContact />
           </Col>
           <Col span={12}>
@@ -207,7 +253,6 @@ const Dashboard = () => {
           </Col>
           {salesRange.length > 0 && (
             <Col span={12}>
-              salesRange
               <SalesRange salesRange={salesRange} />
             </Col>
           )}
@@ -218,7 +263,7 @@ const Dashboard = () => {
           </div>
         )}
         <Row gutter={24} style={{ marginTop: '24px' }}>
-          {upDownList.map((item) => {
+          {footerLsit.map((item) => {
             return (
               <Col span={6} key={item.iconName}>
                 <UpDownCard

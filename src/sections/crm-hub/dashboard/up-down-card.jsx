@@ -11,7 +11,8 @@ const UpDownCard = ({
   color,
   precent,
   isup,
-  description
+  description,
+  format
 }) => {
   return (
     <Row align="middle" className={styles['up-down-card']}>
@@ -19,7 +20,7 @@ const UpDownCard = ({
         <Icon name={iconName} width="20px" height="20px" />
       </Col>
       <Col className={styles.num} style={{ color }}>
-        ${num.toLocaleString()}
+        {format ? `$${num.toLocaleString()}` : num}
       </Col>
       <Col className={styles.precent}>
         <span>
