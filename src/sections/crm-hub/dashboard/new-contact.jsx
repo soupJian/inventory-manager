@@ -1,30 +1,12 @@
 import React from 'react'
-import { Row, Col, Dropdown, Space, Menu } from 'antd'
-import { DownOutlined } from '@ant-design/icons'
+import { Row, Col } from 'antd'
 import styles from './index.module.scss'
-const list = [
-  { key: 1, text: 'This Week' },
-  { key: 2, text: 'Last week' },
-  { key: 3, text: 'This month' },
-  { key: 4, text: 'Last month' },
-  { key: 5, text: 'This season' },
-  { key: 6, text: 'This season' },
-  { key: 7, text: 'This Year' },
-  { key: 8, text: 'Last Year' }
-]
+import SelectDay from './components/select-day'
 const NewContact = () => {
-  const menu = (
-    <Menu
-      items={list.map((item) => {
-        return {
-          key: item.key,
-          label: (
-            <span onClick={() => handleChooseSelect(item)}>{item.text}</span>
-          )
-        }
-      })}
-    />
-  )
+  // 切换 时间选择
+  const handleChooseSelect = (item) => {
+    console.log(item)
+  }
   return (
     <div className={styles['new-contacts']}>
       <Row>
@@ -33,14 +15,7 @@ const NewContact = () => {
         </Col>
         <Col span={24}>
           <div className={styles.num}>153</div>
-          <Dropdown overlay={menu} className={styles.dropdown}>
-            <Row justify="space-between">
-              <Col>Hover me</Col>
-              <Col>
-                <DownOutlined />
-              </Col>
-            </Row>
-          </Dropdown>
+          <SelectDay handleChooseSelect={handleChooseSelect} />
         </Col>
       </Row>
     </div>

@@ -1,37 +1,13 @@
 import React from 'react'
-import { Table, Row, Col, Dropdown, Menu, Space } from 'antd'
-import { DownOutlined } from '@ant-design/icons'
+import { Table, Row, Col } from 'antd'
 
 import styles from './index.module.scss'
-// 选择时间的数组
-const DayList = [
-  { key: 1, text: 'This Week' },
-  { key: 2, text: 'Last week' },
-  { key: 3, text: 'This month' },
-  { key: 4, text: 'Last month' },
-  { key: 5, text: 'This season' },
-  { key: 6, text: 'This season' },
-  { key: 7, text: 'This Year' },
-  { key: 8, text: 'Last Year' }
-]
+import SelectDay from './components/select-day'
 const BestSellers = ({ BestSellersList }) => {
   // 切换 时间选择
-  const handleChooseSelect = (e) => {
-    // console.log(item)
+  const handleChooseSelect = (item) => {
+    console.log(item)
   }
-  // 切换 展示 状态类型
-  const DayMenu = (
-    <Menu
-      items={DayList.map((item) => {
-        return {
-          key: item.key,
-          label: (
-            <span onClick={() => handleChooseSelect(item)}>{item.text}</span>
-          )
-        }
-      })}
-    />
-  )
   const columns = [
     {
       title: 'Rank',
@@ -57,12 +33,7 @@ const BestSellers = ({ BestSellersList }) => {
       <Row justify="space-between">
         <Col>Best sellers</Col>
         <Col>
-          <Dropdown overlay={DayMenu} className={styles.dropdown}>
-            <Space>
-              This month
-              <DownOutlined />
-            </Space>
-          </Dropdown>
+          <SelectDay handleChooseSelect={handleChooseSelect} />
         </Col>
       </Row>
       <Table

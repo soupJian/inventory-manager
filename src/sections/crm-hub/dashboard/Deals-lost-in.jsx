@@ -7,17 +7,8 @@ import {
 import { Row, Col, Progress, Dropdown, Menu, Space, Checkbox } from 'antd'
 
 import styles from './index.module.scss'
-// 选择时间的数组
-const DayList = [
-  { key: 1, text: 'This Week' },
-  { key: 2, text: 'Last week' },
-  { key: 3, text: 'This month' },
-  { key: 4, text: 'Last month' },
-  { key: 5, text: 'This season' },
-  { key: 6, text: 'This season' },
-  { key: 7, text: 'This Year' },
-  { key: 8, text: 'Last Year' }
-]
+import SelectDay from './components/select-day'
+
 const LostInItem = ({ item }) => {
   return (
     <>
@@ -64,22 +55,9 @@ const DealsLostIn = ({ lostIn }) => {
     setTypeSelect(newTypeSelect)
   }
   // 切换 时间选择
-  const handleChooseSelect = (e) => {
-    // console.log(item)
+  const handleChooseSelect = (item) => {
+    console.log(item)
   }
-  // 切换 展示 状态类型
-  const DayMenu = (
-    <Menu
-      items={DayList.map((item) => {
-        return {
-          key: item.key,
-          label: (
-            <span onClick={() => handleChooseSelect(item)}>{item.text}</span>
-          )
-        }
-      })}
-    />
-  )
   const typeMenu = (
     <Menu
       items={lostIn.map((item) => {
@@ -115,12 +93,7 @@ const DealsLostIn = ({ lostIn }) => {
               </Dropdown>
             </Col>
             <Col style={{ marginLeft: '20px' }}>
-              <Dropdown overlay={DayMenu} className={styles.dropdown}>
-                <Space>
-                  This month
-                  <DownOutlined />
-                </Space>
-              </Dropdown>
+              <SelectDay handleChooseSelect={handleChooseSelect} />
             </Col>
           </Row>
         </Col>
