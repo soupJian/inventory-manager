@@ -8,6 +8,7 @@ import DealsLostIn from '../../../sections/crm-hub/dashboard/deals-lost-in'
 import DealsSource from '../../../sections/crm-hub/dashboard/deals-source'
 import NewContact from '../../../sections/crm-hub/dashboard/new-contact'
 import BestSellers from '../../../sections/crm-hub/dashboard/best-sellers'
+import SalesRange from '../../../sections/crm-hub/dashboard/sales-range'
 import styles from './index.module.scss'
 
 const Dashboard = () => {
@@ -17,6 +18,8 @@ const Dashboard = () => {
   const [lostIn, setLostIn] = useState([])
   // best sellers
   const [BestSellersList, setBestSellersList] = useState([])
+  // sales range
+  const [salesRange, setSalesRange] = useState([])
   // 头部 数据
   const getupDownList = () => {
     const list = [
@@ -120,6 +123,12 @@ const Dashboard = () => {
     ]
     setBestSellersList(list)
   }
+  // sales range
+  const getSalesRange = () => {
+    const list = [186, 279, 142]
+    setSalesRange(list)
+  }
+
   // 渲染数据
   useEffect(() => {
     // 头部面板数据
@@ -131,6 +140,8 @@ const Dashboard = () => {
     getDealsLostIn()
     // best sellers
     getBestSellers()
+    // sales range
+    getSalesRange()
   }, [])
   return (
     <>
@@ -179,9 +190,12 @@ const Dashboard = () => {
           <Col span={12}>
             <BestSellers BestSellersList={BestSellersList} />
           </Col>
-          <Col span={12}>
-            <BestSellers BestSellersList={BestSellersList} />
-          </Col>
+          {salesRange.length > 0 && (
+            <Col span={12}>
+              salesRange
+              <SalesRange salesRange={salesRange} />
+            </Col>
+          )}
         </Row>
       </div>
     </>

@@ -199,3 +199,27 @@
     }
   }
 }
+.sales-range {
+  padding: 24px 24px 0;
+  height: 322px;
+  background: #ffffff;
+  border-radius: 12px;
+  .title {
+    font-family: 'Rubik';
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 18px;
+    color: #1d2129;
+  }
+  .subTitle {
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: #4e5969;
+    border-radius: 10px;
+  }
+  .bar {
+    height: 280px;
+  }
+}

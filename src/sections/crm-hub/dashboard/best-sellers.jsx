@@ -1,10 +1,6 @@
 import React from 'react'
 import { Table, Row, Col, Dropdown, Menu, Space } from 'antd'
-import {
-  DownOutlined,
-  ArrowUpOutlined,
-  ArrowDownOutlined
-} from '@ant-design/icons'
+import { DownOutlined } from '@ant-design/icons'
 
 import styles from './index.module.scss'
 // 选择时间的数组
