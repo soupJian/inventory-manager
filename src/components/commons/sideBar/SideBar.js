@@ -74,7 +74,17 @@ const SideBar = ({ user }) => {
       getItem('Tickets', '/crm-hub/tickets'),
       getItem('Task', '/crm-hub/task'),
       getItem('Dashboard', '/crm-hub/dashboard')
-    ])
+    ]),
+    getItem(
+      'Setting',
+      '/setting',
+      <SpanLogo
+        disabled={!user}
+        active={user && router.pathname === '/setting'}
+      >
+        <Icon name="setting" />
+      </SpanLogo>
+    )
   ]
   // 路由改变 需要判断是否展开 menu
   useEffect(() => {
