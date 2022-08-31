@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 // antd -------------
-import { Tabs, Row, Col } from 'antd'
+import { Tabs } from 'antd'
 // components
 import DetailTimeLine from './components/detail-timeline'
 import DetailEmails from './components/detail-emails'
-import DetailCalls from './components/detail-calls'
-import DetailChats from './components/detali-chats'
+// import DetailCalls from './components/detail-calls'
+// import DetailChats from './components/detali-chats'
 import DetailTasks from './components/detail-tasks'
 import DetailRepository from './components/detail-repository'
 
@@ -22,7 +22,7 @@ const DetailTabs = (props) => {
   }
   return (
     <div className={styles['detail-tabs']}>
-      <Tabs defaultActiveKey="Timeline" onChange={onChange}>
+      <Tabs defaultActiveKey={active} onChange={onChange}>
         <TabPane tab="Timeline" key="Timeline">
           <DetailTimeLine />
         </TabPane>
