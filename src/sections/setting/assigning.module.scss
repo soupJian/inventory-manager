@@ -1,0 +1,117 @@
+.header-select {
+  background-color: #fff;
+  padding: 0 16px 14px;
+  .selectText {
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 13px;
+    color: #808080;
+  }
+  .selectWrap {
+    :global {
+      .ant-select-selector {
+        background-color: #dbf5f5;
+        .ant-select-selection-item {
+          font-family: 'Lato';
+          font-weight: 700;
+          font-size: 14px;
+          color: #2ebebd;
+        }
+      }
+    }
+  }
+}
+.assiging {
+  .container {
+    position: relative;
+    width: 900px;
+    margin: 69px auto 37px;
+    padding: 0 20px 20px;
+    background-color: #fff;
+    border: 2px solid #f0f0f0;
+    border-radius: 0px 10px 10px 10px;
+    .containerTitle {
+      position: absolute;
+      top: -37px;
+      left: -2px;
+      width: 230px;
+      height: 37px;
+      padding-left: 17px;
+      line-height: 37px;
+      background: #ffffff;
+      border-width: 2px 2px 0px 2px;
+      border-style: solid;
+      border-color: #f0f0f0;
+      border-radius: 10px 10px 0px 0px;
+      font-family: 'Rubik';
+      font-weight: 500;
+      font-size: 15px;
+      color: #000000;
+    }
+    .subTitle {
+      margin-bottom: 8px;
+      font-family: 'Rubik';
+      font-weight: 500;
+      font-size: 17px;
+      line-height: 18px;
+      color: #000000;
+    }
+    .wrap {
+      padding: 20px 0 20px;
+      border-bottom: 1px solid #f0f0f0;
+      .des {
+        width: 520px;
+        height: 44px;
+      }
+      .pipelineWrap {
+        width: 256px;
+        height: 59px;
+        padding: 21px 20px;
+        background: #ffffff;
+        border: 1px solid #d9d9d9;
+        border-radius: 8px;
+        font-family: 'Lato';
+        font-weight: 400;
+        font-size: 17px;
+        line-height: 17px;
+        color: #707070;
+      }
+      .ruleWrap {
+        margin-top: 23px;
+        .ruleSubTitle {
+          margin-top: 6px;
+          font-family: 'Lato';
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 20px;
+          color: #999999;
+        }
+        :global {
+          .ant-checkbox-inner {
+            border-radius: 50%;
+          }
+        }
+      }
+      .rulePersonWrap {
+        padding-left: 32px;
+        .ruleRange {
+          font-family: 'Rubik';
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 14px;
+          color: #000000;
+        }
+      }
+      :global {
+        .ant-switch-checked {
+          background-color: #77d755;
+        }
+        .ant-checkbox-checked .ant-checkbox-inner {
+          background-color: #2ebebd;
+          border-color: #2ebebd;
+        }
+      }
+    }
+  }
+}

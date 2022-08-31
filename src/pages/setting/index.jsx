@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import Head from 'next/head'
 // antd -----------------
-import { Row, Col, Tabs } from 'antd'
+import { Tabs } from 'antd'
+// components --------------
+import Assiging from '../../sections/setting/assigning'
 // css ----------------
 import styles from './index.module.scss'
 //js --------
 const { TabPane } = Tabs
-
+const tabslist = ['Assigning', 'Pipeline', 'Assets', 'Users', 'Reply']
 const Settings = () => {
   const [active, setActive] = useState('Assigning')
   const handleChangeTabs = (key) => {
@@ -23,13 +25,11 @@ const Settings = () => {
         defaultActiveKey={active}
         onChange={handleChangeTabs}
       >
-        <TabPane tab="Assigning" key="Assigning"></TabPane>
-        <TabPane tab="Pipeline" key="Pipeline"></TabPane>
-        <TabPane tab="Assets" key="Assets"></TabPane>
-        <TabPane tab="Users" key="Users"></TabPane>
-        <TabPane tab="Reply" key="Reply"></TabPane>
+        {tabslist.map((item) => {
+          return <TabPane tab={item} key={item}></TabPane>
+        })}
       </Tabs>
-      1234
+      {active == 'Assigning' && <Assiging />}
     </>
   )
 }
