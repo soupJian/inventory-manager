@@ -1,45 +1,19 @@
 import React from 'react'
-import { DownOutlined } from '@ant-design/icons'
-import { Row, Col, Dropdown, Menu, Space } from 'antd'
+import { Row, Col } from 'antd'
+import SelectDay from './components/select-day'
+
 import styles from './index.module.scss'
 
-const list = [
-  { key: 1, text: 'This Week' },
-  { key: 2, text: 'Last week' },
-  { key: 3, text: 'This month' },
-  { key: 4, text: 'Last month' },
-  { key: 5, text: 'This season' },
-  { key: 6, text: 'This season' },
-  { key: 7, text: 'This Year' },
-  { key: 8, text: 'Last Year' }
-]
 const DealsSource = () => {
   const handleChooseSelect = (item) => {
     console.log(item)
   }
-  const menu = (
-    <Menu
-      items={list.map((item) => {
-        return {
-          key: item.key,
-          label: (
-            <span onClick={() => handleChooseSelect(item)}>{item.text}</span>
-          )
-        }
-      })}
-    />
-  )
   return (
     <div className={styles['deals-source']}>
       <Row justify="space-between">
         <Col className={styles.title}>Deals source</Col>
         <Col className={styles.dropdown}>
-          <Dropdown overlay={menu}>
-            <Space>
-              Hover me
-              <DownOutlined />
-            </Space>
-          </Dropdown>
+          <SelectDay handleChooseSelect={handleChooseSelect} />
         </Col>
       </Row>
       <Row className={styles.wrap}>

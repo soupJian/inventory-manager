@@ -8,7 +8,7 @@ import DealsLostIn from '../../../sections/crm-hub/dashboard/deals-lost-in'
 import DealsSource from '../../../sections/crm-hub/dashboard/deals-source'
 import NewContact from '../../../sections/crm-hub/dashboard/new-contact'
 import BestSellers from '../../../sections/crm-hub/dashboard/best-sellers'
-import SalesRange from '../../../sections/crm-hub/dashboard/sales-range'
+import NoOfSales from '../../../sections/crm-hub/dashboard/No-of-sales'
 import NoofSalesAmount from '../../../sections/crm-hub/dashboard/no-of-sales-amount'
 import * as echarts from 'echarts'
 
@@ -271,7 +271,7 @@ const Dashboard = () => {
           </Col>
           {salesRange.length > 0 && (
             <Col span={12}>
-              <SalesRange salesRange={salesRange} echarts={echarts} />
+              <NoOfSales salesRange={salesRange} echarts={echarts} />
             </Col>
           )}
         </Row>

@@ -29,6 +29,12 @@ const NoofSalesAmount = ({ noSales, salesAmount, echarts }) => {
         bottom: 40,
         right: 80
       },
+      legend: {
+        show: true,
+        right: 45,
+        top: 0,
+        data: ['No. of sales', 'Sales amount']
+      },
       xAxis: {
         type: 'category',
         data: Xdata,
@@ -71,6 +77,7 @@ const NoofSalesAmount = ({ noSales, salesAmount, echarts }) => {
       series: [
         {
           type: 'bar',
+          name: 'No. of sales',
           yAxisIndex: 0,
           data: noSales,
           barWidth: 22,
@@ -88,6 +95,7 @@ const NoofSalesAmount = ({ noSales, salesAmount, echarts }) => {
         },
         {
           type: 'bar',
+          name: 'Sales amount',
           yAxisIndex: 1,
           barWidth: 22,
           barGap: '70%',

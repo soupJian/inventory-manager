@@ -81,7 +81,7 @@ const SalesRange = ({ salesRange, echarts }) => {
   return (
     <div className={styles['sales-range']}>
       <Row justify="space-between">
-        <Col className={styles.title}>Sales range</Col>
+        <Col className={styles.title}>No. of Sales</Col>
         <Col className={styles.subTitle}>In last 90 days</Col>
       </Row>
       <div ref={barRef} className={styles.bar}></div>
