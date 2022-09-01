@@ -37,7 +37,6 @@
   .cancelBtn,
   .saveBtn {
     padding: 10px 14px;
-    width: 93px;
     height: 35px;
     border-radius: 8px;
     font-family: 'Lato';
@@ -48,5 +47,18 @@
   .saveBtn {
     background-color: #000;
     color: #fff;
+  }
+  .labelTitle {
+    font-family: 'Lato';
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 16px;
+  }
+  .addInput {
+    width: 268px;
+    height: 45px;
+    padding: 12px 90px 12px 20px;
+    background: #ffffff;
+    border-radius: 10px;
   }
 }

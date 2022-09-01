@@ -4,7 +4,7 @@ import { CloseOutlined, CheckOutlined } from '@ant-design/icons'
 import { Icon } from '../../../components/commons'
 import styles from '../pipeline.module.scss'
 
-const PipelineEdit = ({ item, updatePipeline, salesList }) => {
+const PipelineEdit = ({ item, updatePipeline, salesList, disabled }) => {
   const [edit, setEdit] = useState(false)
   const [value, setValue] = useState('')
   const save = () => {
@@ -36,16 +36,18 @@ const PipelineEdit = ({ item, updatePipeline, salesList }) => {
             <>{item.name}</>
           )}
         </div>
-        <Icon
-          name="edit-active"
-          width="20px"
-          height="20px"
-          styles={{ cursor: 'pointer' }}
-          onClick={() => {
-            setEdit(true)
-            setValue(item.value)
-          }}
-        />
+        {!disabled && (
+          <Icon
+            name="edit-active"
+            width="20px"
+            height="20px"
+            styles={{ cursor: 'pointer' }}
+            onClick={() => {
+              setEdit(true)
+              setValue(item.value)
+            }}
+          />
+        )}
       </Space>
       {edit && (
         <div style={{ margin: '16px 0' }}>

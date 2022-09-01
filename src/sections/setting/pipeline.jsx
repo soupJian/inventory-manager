@@ -33,11 +33,25 @@ const Pipeline = () => {
       color: '#B7B7B7'
     }
   ])
+  // 编辑 slaes pipeline
   const updateSalesPipeline = (oldValue, newValue) => {
     setSaleslist((list) => {
       const index = salesList.findIndex((item) => item.name == oldValue)
       const newList = [...list]
       newList[index].name = newValue
+      return newList
+    })
+  }
+
+  // 创建 sale pipeline
+  const createSalesPipeline = (salesName, afterName) => {
+    setSaleslist((list) => {
+      const newList = [...list]
+      const index = newList.findIndex((item) => item.name == afterName)
+      newList.splice(index + 1, 0, {
+        name: salesName,
+        color: 'pink'
+      })
       return newList
     })
   }
@@ -66,6 +80,7 @@ const Pipeline = () => {
         <PipelineSales
           salesList={salesList}
           updateSalesPipeline={updateSalesPipeline}
+          createSalesPipeline={createSalesPipeline}
         />
       )}
     </div>
