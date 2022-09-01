@@ -3,6 +3,7 @@ import { Row, Col, Select, Switch, Checkbox, Radio, Space } from 'antd'
 // components -----------
 import SettingDeal from './components/setting-deal'
 import SettingCall from './components/setting-call'
+import SettingChat from './components/setting-chat'
 import styles from './assigning.module.scss'
 //js =---------
 const { Option } = Select
@@ -32,6 +33,7 @@ const Assiging = () => {
       {/* container */}
       {headerSelect == 'Mockup inquiry form' && <SettingDeal />}
       {headerSelect == 'Call' && <SettingCall />}
+      {headerSelect == 'Chat' && <SettingChat />}
     </div>
   )
 }
