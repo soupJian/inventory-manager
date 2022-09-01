@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Row, Col, Select, Switch, Checkbox, Radio, Space } from 'antd'
 // components -----------
 import SettingDeal from './components/setting-deal'
+import SettingCall from './components/setting-call'
 import styles from './assigning.module.scss'
 //js =---------
 const { Option } = Select
@@ -30,6 +31,7 @@ const Assiging = () => {
       </Row>
       {/* container */}
       {headerSelect == 'Mockup inquiry form' && <SettingDeal />}
+      {headerSelect == 'Call' && <SettingCall />}
     </div>
   )
 }

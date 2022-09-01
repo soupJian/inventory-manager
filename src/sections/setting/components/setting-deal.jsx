@@ -1,20 +1,45 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Col, Select, Switch, Checkbox, Radio, Space } from 'antd'
-const { Option } = Select
+import { Row, Col, Select, Switch, Checkbox, Space } from 'antd'
 import styles from '../assigning.module.scss'
+const { Option } = Select
+const CheckboxGroup = Checkbox.Group
 
 const SettingDeal = () => {
   // 是否打开
   const [open, setOpen] = useState(false)
   // 客服
   const [customerList, setCustomerList] = useState([
-    { id: 1, name: 'Cathy', checked: true },
-    { id: 2, name: 'Neela', checked: false },
-    { id: 3, name: 'Theo', checked: true },
-    { id: 4, name: 'Trish', checked: false }
+    { id: 1, name: 'Cathy1' },
+    { id: 2, name: 'Neela2' },
+    { id: 3, name: 'Theo3' },
+    { id: 4, name: 'Trish4' },
+    { id: 5, name: 'Cathy5' },
+    { id: 6, name: 'Neela6' },
+    { id: 7, name: 'Theo7' },
+    { id: 8, name: 'Trish8' },
+    { id: 9, name: 'Cathy9' },
+    { id: 10, name: 'Neela10' },
+    { id: 11, name: 'Theo11' },
+    { id: 12, name: 'Trish12' }
   ])
   // 自动分配规则
   const [radioRule, setRadioRule] = useState(0)
+  // 选择的客服
+  const [checkedList, setCheckedList] = useState([])
+  // 是否全选
+  const [checkAll, setCheckAll] = useState(false)
+  // checkbox one
+  const handleChangeCheckbox = (list) => {
+    setCheckedList(list)
+    setCheckAll(list.length === customerList.length)
+  }
+  // checkbox all
+  const handleCheckAll = (e) => {
+    setCheckedList(
+      e.target.checked ? customerList.map((item) => item.name) : []
+    )
+    setCheckAll(e.target.checked)
+  }
   // 自动分配 按照 价格
   const [rulePerson, setRulePerson] = useState([
     {
@@ -96,18 +121,28 @@ const SettingDeal = () => {
             Select Customer Representatives who will be dealing with this kind
             of form
           </Col>
-          {customerList.map((item) => {
-            return (
-              <Col span={24} key={item.id}>
-                <Checkbox
-                  checked={item.checked}
-                  onChange={(e) => handleChangeCustomer(e, item)}
-                >
-                  {item.name}
-                </Checkbox>
-              </Col>
-            )
-          })}
+          <Col span={24}>
+            <Checkbox onChange={handleCheckAll} checked={checkAll}>
+              Select all
+            </Checkbox>
+          </Col>
+          <Col span={24}>
+            <CheckboxGroup
+              value={checkedList}
+              onChange={handleChangeCheckbox}
+              style={{ wudth: '100%' }}
+            >
+              <Row gutter={[0, 10]}>
+                {customerList.map((item) => {
+                  return (
+                    <Col key={item.id} span={6}>
+                      <Checkbox value={item.name}>{item.name}</Checkbox>
+                    </Col>
+                  )
+                })}
+              </Row>
+            </CheckboxGroup>
+          </Col>
         </Row>
       </div>
       <div className={styles.wrap}>
@@ -153,6 +188,7 @@ const SettingDeal = () => {
                         <Col span={3} className={styles.ruleRange}>
                           {ruleItem.range}
                         </Col>
+
                         <Col>
                           <Select
                             mode="multiple"
@@ -165,19 +201,13 @@ const SettingDeal = () => {
                               handleChangeRulePerson(values, ruleItem)
                             }
                           >
-                            {customerList
-                              .filter((item) => item.checked)
-                              .map((item) => {
-                                return (
-                                  <Option
-                                    value={item.name}
-                                    label={item.name}
-                                    key={item.id}
-                                  >
-                                    {item.name}
-                                  </Option>
-                                )
-                              })}
+                            {checkedList.map((item) => {
+                              return (
+                                <Option value={item} label={item} key={item}>
+                                  {item}
+                                </Option>
+                              )
+                            })}
                           </Select>
                         </Col>
                       </Row>
