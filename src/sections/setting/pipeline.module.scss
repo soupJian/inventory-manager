@@ -1,0 +1,52 @@
+.header-select {
+  background-color: #fff;
+  padding: 0 16px 14px;
+  .selectText {
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 13px;
+    color: #808080;
+  }
+  .selectWrap {
+    :global {
+      .ant-select-selector {
+        background-color: #dbf5f5;
+        .ant-select-selection-item {
+          font-family: 'Lato';
+          font-weight: 700;
+          font-size: 14px;
+          color: #2ebebd;
+        }
+      }
+    }
+  }
+}
+
+.container {
+  padding: 25px 24px 0;
+  .pipelineItem {
+    padding: 16px 20px;
+    display: inline-block;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 23px;
+    color: #ffffff;
+  }
+  .cancelBtn,
+  .saveBtn {
+    padding: 10px 14px;
+    width: 93px;
+    height: 35px;
+    border-radius: 8px;
+    font-family: 'Lato';
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 14px;
+  }
+  .saveBtn {
+    background-color: #000;
+    color: #fff;
+  }
+}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Row, Col, Select, Switch, Checkbox, Radio, Space } from 'antd'
+import { Row, Col, Select } from 'antd'
 // components -----------
 import AssigningDeal from './components/assigning-deal'
 import AssigningCall from './components/assigning-call'

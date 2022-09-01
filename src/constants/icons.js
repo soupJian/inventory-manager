@@ -39,5 +39,6 @@ export default {
   conversion: '/images/icons/icon-conversion.png',
   'new-deals': '/images/icons/icon-new-deals.png',
   'sale-amount': '/images/icons/icon-sale-amount.png',
-  sales: '/images/icons/icon-sales.png'
+  sales: '/images/icons/icon-sales.png',
+  'edit-active': '/images/icons/icon-edit-active.png'
 }
