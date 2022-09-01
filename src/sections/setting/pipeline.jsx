@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
-import { Row, Col, Select, Switch, Checkbox, Radio, Space } from 'antd'
+import { Row, Col, Select } from 'antd'
 // components -----------
-import AssigningDeal from './components/assigning-deal'
-import AssigningCall from './components/assigning-call'
-import AssigningChat from './components/assigning-chat'
+import PipelineSales from './components/pipeline-sales.jsx'
 import styles from './assigning.module.scss'
 //js =---------
 const { Option } = Select
 const Assiging = () => {
-  const [headerSelect, setHeaderSelect] = useState('Mockup inquiry form')
+  const [headerSelect, setHeaderSelect] = useState('Sales pipeline')
 
   return (
     <div className={styles.assiging}>
@@ -24,16 +22,14 @@ const Assiging = () => {
             }}
             onChange={(value) => setHeaderSelect(value)}
           >
-            <Option value="Mockup inquiry form">Mockup inquiry form</Option>
-            <Option value="Call">Call</Option>
-            <Option value="Chat">Chat</Option>
+            <Option value="Sales pipeline">Sales pipeline</Option>
+            <Option value="Support pipeline">Support pipeline</Option>
+            <Option value="Reverse logistics">Reverse logistics</Option>
           </Select>
         </Col>
       </Row>
       {/* container */}
-      {headerSelect == 'Mockup inquiry form' && <AssigningDeal />}
-      {headerSelect == 'Call' && <AssigningCall />}
-      {headerSelect == 'Chat' && <AssigningChat />}
+      {headerSelect == 'Sales pipeline' && <PipelineSales />}
     </div>
   )
 }

@@ -4,6 +4,7 @@ import Head from 'next/head'
 import { Tabs } from 'antd'
 // components --------------
 import Assiging from '../../sections/setting/assigning'
+import Pipeline from '../../sections/setting/pipeline'
 // css ----------------
 import styles from './index.module.scss'
 //js --------
@@ -30,6 +31,7 @@ const Settings = () => {
         })}
       </Tabs>
       {active == 'Assigning' && <Assiging />}
+      {active == 'Pipeline' && <Pipeline />}
     </>
   )
 }
