@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Row, Col, Switch, Checkbox, Space } from 'antd'
 import styles from '../assigning.module.scss'
 const CheckboxGroup = Checkbox.Group
@@ -62,79 +62,83 @@ const SettingCall = () => {
           </Col>
         </Row>
       </div>
-      <div className={styles.wrap}>
-        <div className={styles.subTitle}>Customer Representative</div>
-        <Row>
-          <Col className={styles.des}>
-            Select Customer Representatives who will be answering calls
-          </Col>
-          <Col span={24}>
-            <Checkbox onChange={handleCheckAll} checked={checkAll}>
-              Select all
-            </Checkbox>
-          </Col>
-          <Col span={24} style={{ marginTop: '20px' }}>
-            <CheckboxGroup
-              value={checkedList}
-              onChange={handleChangeCheckbox}
-              style={{ wudth: '100%' }}
-            >
-              <Row gutter={[0, 10]}>
-                {customerList.map((item) => {
-                  return (
-                    <Col key={item.id} span={6}>
-                      <Checkbox value={item.name}>{item.name}</Checkbox>
+      {open && (
+        <>
+          <div className={styles.wrap}>
+            <div className={styles.subTitle}>Customer Representative</div>
+            <Row>
+              <Col className={styles.des}>
+                Select Customer Representatives who will be answering calls
+              </Col>
+              <Col span={24}>
+                <Checkbox onChange={handleCheckAll} checked={checkAll}>
+                  Select all
+                </Checkbox>
+              </Col>
+              <Col span={24} style={{ marginTop: '20px' }}>
+                <CheckboxGroup
+                  value={checkedList}
+                  onChange={handleChangeCheckbox}
+                  style={{ wudth: '100%' }}
+                >
+                  <Row gutter={[0, 10]}>
+                    {customerList.map((item) => {
+                      return (
+                        <Col key={item.id} span={6}>
+                          <Checkbox value={item.name}>{item.name}</Checkbox>
+                        </Col>
+                      )
+                    })}
+                  </Row>
+                </CheckboxGroup>
+              </Col>
+            </Row>
+          </div>
+          <div className={styles.wrap}>
+            <div className={styles.subTitle}>Assigning rule</div>
+            <Row className={styles.ruleWrap} gutter={[0, 17]}>
+              <Col span={24}>
+                <Space>
+                  <Checkbox
+                    checked={radioRule == 0}
+                    onChange={(e) => handleChangeRule(e, 0)}
+                  ></Checkbox>
+                  <span>
+                    Assign to the customer representative who has the LEAST
+                    calls today
+                  </span>
+                </Space>
+              </Col>
+              <Col>
+                <Space>
+                  <Checkbox
+                    checked={radioRule == 1}
+                    onChange={(e) => handleChangeRule(e, 1)}
+                  ></Checkbox>
+                  <Row align="middle">
+                    <Col span={24}>
+                      Assign to a customer representative who has the MOST
+                      waiting time since last call
                     </Col>
-                  )
-                })}
-              </Row>
-            </CheckboxGroup>
-          </Col>
-        </Row>
-      </div>
-      <div className={styles.wrap}>
-        <div className={styles.subTitle}>Assigning rule</div>
-        <Row className={styles.ruleWrap} gutter={[0, 17]}>
-          <Col span={24}>
-            <Space>
-              <Checkbox
-                checked={radioRule == 0}
-                onChange={(e) => handleChangeRule(e, 0)}
-              ></Checkbox>
-              <span>
-                Assign to the customer representative who has the LEAST calls
-                today
-              </span>
-            </Space>
-          </Col>
-          <Col>
-            <Space>
-              <Checkbox
-                checked={radioRule == 1}
-                onChange={(e) => handleChangeRule(e, 1)}
-              ></Checkbox>
-              <Row align="middle">
-                <Col span={24}>
-                  Assign to a customer representative who has the MOST waiting
-                  time since last call
-                </Col>
-              </Row>
-            </Space>
-          </Col>
-          <Col span={24}>
-            <Space>
-              <Checkbox
-                checked={radioRule == 2}
-                onChange={(e) => handleChangeRule(e, 2)}
-              ></Checkbox>
-              <span>
-                Assign to a customer representative who has the LEAST waiting
-                time since last call
-              </span>
-            </Space>
-          </Col>
-        </Row>
-      </div>
+                  </Row>
+                </Space>
+              </Col>
+              <Col span={24}>
+                <Space>
+                  <Checkbox
+                    checked={radioRule == 2}
+                    onChange={(e) => handleChangeRule(e, 2)}
+                  ></Checkbox>
+                  <span>
+                    Assign to a customer representative who has the LEAST
+                    waiting time since last call
+                  </span>
+                </Space>
+              </Col>
+            </Row>
+          </div>
+        </>
+      )}
     </div>
   )
 }

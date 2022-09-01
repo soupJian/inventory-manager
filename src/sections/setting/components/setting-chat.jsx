@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import { Row, Col, Switch, Checkbox, Space } from 'antd'
+import React, { useState } from 'react'
+import { Row, Col, Checkbox, Space } from 'antd'
 import styles from '../assigning.module.scss'
 const CheckboxGroup = Checkbox.Group
 
 const SettingChat = () => {
-  // 是否打开
-  const [open, setOpen] = useState(false)
+  //
   // 客服
   const [customerList, setCustomerList] = useState([
     { id: 1, name: 'Cathy' },
