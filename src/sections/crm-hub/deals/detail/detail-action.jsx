@@ -14,6 +14,7 @@ const { Option } = Select
 const DetailAction = (props) => {
   // deal 信息
   const { dealInfo, updateDeal } = props
+  console.log(dealInfo)
   // 编辑 amount 金额的等信息
   const [showEditDeal, setShowEditDeal] = useState(false)
   const [showEditContact, setShowContact] = useState(false)

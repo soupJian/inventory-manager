@@ -44,7 +44,7 @@ const DealDetail = () => {
   const getData = () => {
     const dealInfo = {
       status: 'Close lost',
-      amount: 690,
+      amount: 6900,
       name: 'dealName',
       createTime: '5/11/2022',
       owner: 'cathy',
@@ -72,7 +72,7 @@ const DealDetail = () => {
         },
         {
           id: 1,
-          name: 'soupjian',
+          name: 'soupjian123',
           email: 'soupjian@163.com',
           phone: '13479291739',
           company: '炜辰科技'
@@ -126,43 +126,6 @@ const DealDetail = () => {
     remove(deleteKey)
   }
   const handleChangStatus = () => {}
-  const dealInfo = {
-    status: 'Close lost',
-    amount: 690,
-    name: 'dealName',
-    createTime: '5/11/2022',
-    owner: 'cathy',
-    interestProduct: [
-      {
-        id: 1,
-        name: 'Custom Canopy Tent p5',
-        quality: 1
-      },
-      {
-        id: 2,
-        name: 'Kapri Umbrella',
-        quality: 2
-      }
-    ],
-    source: 'FaceBook',
-    customerType: 'existing',
-    contact: [
-      {
-        id: 0,
-        name: 'Kevin Bowden',
-        email: 'kevinhb@myemail.com',
-        phone: '123 456 7890',
-        company: 'Great Canyon LLC'
-      },
-      {
-        id: 1,
-        name: 'soupjian',
-        email: 'soupjian@163.com',
-        phone: '13479291739',
-        company: '炜辰科技'
-      }
-    ]
-  }
   const updateDeal = (dealInfo) => {
     // data遍历 然后匹配更新
     console.log(dealInfo)
@@ -187,7 +150,7 @@ const DealDetail = () => {
     <div className={styles.container}>
       <DetailHeader />
       {/* 如果只有一条数，那么就不展示 tabs */}
-      {dealIds.length > 1 ? (
+      {dealIds.length > 1 && (
         <Tabs
           hideAdd
           onChange={handleChangeTabs}
@@ -200,17 +163,25 @@ const DealDetail = () => {
             <TabPane tab={item.title} key={item.key}>
               <div className={styles.content}>
                 <div className={styles.tabs}>
-                  <DetailTabs dealInfo={item.dealInfo} />
+                  <DetailTabs dealInfo={item.value} />
                 </div>
                 <div className={styles.action}>
-                  <DetailAction dealInfo={dealInfo} updateDeal={updateDeal} />
+                  <DetailAction dealInfo={item.value} updateDeal={updateDeal} />
                 </div>
               </div>
             </TabPane>
           ))}
         </Tabs>
-      ) : (
-        <DetailTabs dealInfo={data[0]?.dealInfo} />
+      )}
+      {data.length == 1 > 0 && (
+        <div className={styles.content}>
+          <div className={styles.tabs}>
+            <DetailTabs dealInfo={data[0]?.value} />
+          </div>
+          <div className={styles.action}>
+            <DetailAction dealInfo={data[0].value} updateDeal={updateDeal} />
+          </div>
+        </div>
       )}
       <Modal
         title="Change status"
