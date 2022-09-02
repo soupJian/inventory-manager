@@ -23,7 +23,7 @@ const SettingDeal = () => {
     { id: 12, name: 'Trish12' }
   ])
   // 自动分配 按照 价格
-  const [rulePerson, setRulePerson] = useState([
+  const [rulePrice, setRulePrice] = useState([
     {
       range: '$0 - $400',
       personName: ['Cathy', 'Neela']
@@ -35,6 +35,28 @@ const SettingDeal = () => {
     {
       range: 'Over $999',
       personName: ['Trish']
+    }
+  ])
+  const [ruleInterest, setRuleInterest] = useState([
+    {
+      range: 'Canopy tent',
+      personName: ['Cathy', 'Neela']
+    },
+    {
+      range: 'Umbrella',
+      personName: ['Cathy', 'Neela']
+    },
+    {
+      range: 'Table covers',
+      personName: ['Trish']
+    },
+    {
+      range: 'Display products',
+      personName: ['Cathy', 'Neela']
+    },
+    {
+      range: 'Inflatables',
+      personName: ['Cathy', 'Neela']
     }
   ])
   // 自动分配规则
@@ -64,9 +86,18 @@ const SettingDeal = () => {
   const handleChangeRule = (e, value) => {
     setRadioRule(value)
   }
-  // 选择 价格 对应的人
+  // 选择 价格 对应的人 radioRule == 1  price
   const handleChangeRulePerson = (values, ruleItem) => {
-    setRulePerson((list) => {
+    setRulePrice((list) => {
+      const newList = [...list]
+      const index = newList.findIndex((item) => item.range == ruleItem.range)
+      newList[index].personName = values
+      return newList
+    })
+  }
+  // radioRule == 2 选择 interest
+  const handleChangeRuleInterest = (values, ruleItem) => {
+    setRuleInterest((list) => {
       const newList = [...list]
       const index = newList.findIndex((item) => item.range == ruleItem.range)
       newList[index].personName = values
@@ -170,11 +201,11 @@ const SettingDeal = () => {
               <Col>
                 {radioRule == 1 && (
                   <Row className={styles.rulePersonWrap} gutter={[0, 24]}>
-                    {rulePerson.map((ruleItem) => {
+                    {rulePrice.map((ruleItem) => {
                       return (
                         <Col span={24} key={ruleItem.range}>
                           <Row align="middle">
-                            <Col span={3} className={styles.ruleRange}>
+                            <Col className={styles.ruleRange}>
                               {ruleItem.range}
                             </Col>
 
@@ -220,6 +251,49 @@ const SettingDeal = () => {
                     Assign to a customer representative based on the interest
                   </span>
                 </Space>
+              </Col>
+              <Col>
+                {radioRule == 2 && (
+                  <Row className={styles.rulePersonWrap} gutter={[0, 24]}>
+                    {ruleInterest.map((ruleItem) => {
+                      return (
+                        <Col span={24} key={ruleItem.range}>
+                          <Row align="middle">
+                            <Col className={styles.ruleRange}>
+                              {ruleItem.range}
+                            </Col>
+
+                            <Col>
+                              <Select
+                                mode="multiple"
+                                style={{
+                                  minWidth: '300px',
+                                  marginLeft: '20px'
+                                }}
+                                value={ruleItem.personName}
+                                onChange={(values) =>
+                                  handleChangeRuleInterest(values, ruleItem)
+                                }
+                              >
+                                {checkedList.map((item) => {
+                                  return (
+                                    <Option
+                                      value={item}
+                                      label={item}
+                                      key={item}
+                                    >
+                                      {item}
+                                    </Option>
+                                  )
+                                })}
+                              </Select>
+                            </Col>
+                          </Row>
+                        </Col>
+                      )
+                    })}
+                  </Row>
+                )}
               </Col>
             </Row>
           </div>
