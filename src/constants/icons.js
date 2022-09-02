@@ -40,5 +40,6 @@ export default {
   'new-deals': '/images/icons/icon-new-deals.png',
   'sale-amount': '/images/icons/icon-sale-amount.png',
   sales: '/images/icons/icon-sales.png',
-  'edit-active': '/images/icons/icon-edit-active.png'
+  'edit-active': '/images/icons/icon-edit-active.png',
+  'user-deactivate': '/images/icons/icon-user-deactivate.png'
 }

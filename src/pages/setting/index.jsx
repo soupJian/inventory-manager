@@ -6,13 +6,15 @@ import { Tabs } from 'antd'
 import Assiging from '../../sections/setting/assigning'
 import Pipeline from '../../sections/setting/pipeline'
 import Assets from '../../sections/setting/assets'
+import Users from '../../sections/setting/users'
+
 // css ----------------
 import styles from './index.module.scss'
 //js --------
 const { TabPane } = Tabs
 const tabslist = ['Assigning', 'Pipeline', 'Assets', 'Users', 'Reply']
 const Settings = () => {
-  const [active, setActive] = useState('Assets')
+  const [active, setActive] = useState('Users')
   const handleChangeTabs = (key) => {
     setActive(key)
   }
@@ -34,6 +36,7 @@ const Settings = () => {
       {active == 'Assigning' && <Assiging />}
       {active == 'Pipeline' && <Pipeline />}
       {active == 'Assets' && <Assets />}
+      {active == 'Users' && <Users />}
     </>
   )
 }
