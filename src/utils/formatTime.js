@@ -30,7 +30,7 @@ export const isYesterday = (time) => {
   const month = current.getMonth() + 1
   const day = current.getDate()
   const todayStart = new Date(`${year}-${month}-${day}`).getTime()
-  const yesterdayStart = todayTime - 24 * 60 * 60 * 1000
+  const yesterdayStart = todayStart - 24 * 60 * 60 * 1000
   return (
     new Date(time).getTime() >= yesterdayStart &&
     new Date(time).getTime() < todayStart
@@ -175,4 +175,41 @@ export const isNextMonth = (time) => {
   } else {
     return false
   }
+}
+
+/**
+ * 判断是不是 最近多少天的， 90 180
+ * @param {*} time
+ * @returns
+ */
+export const islastdays = (day, time) => {
+  const currentTime = new Date().getTime()
+  const dateTime = new Date(time).getTime()
+  // 多少天的 时间戳
+  const lastDayTime = day * (24 * 60 * 60 * 1000)
+  if (dateTime <= currentTime && currentTime - dateTime <= lastDayTime) {
+    return true
+  } else {
+    return false
+  }
+}
+/**
+ * 判断是不是同一年的
+ * @param {*} time
+ * @returns
+ */
+export const isSameYear = (time) => {
+  const currentYear = new Date().getFullYear()
+  const timeYear = new Date(time).getFullYear()
+  return currentYear == timeYear
+}
+/**
+ * 上一年
+ * @param {*} time
+ * @returns
+ */
+export const isLastYear = (time) => {
+  const currentYear = new Date().getFullYear()
+  const timeYear = new Date(time).getFullYear()
+  return currentYear == timeYear + 1
 }

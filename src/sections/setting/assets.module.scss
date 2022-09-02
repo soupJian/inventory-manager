@@ -1,0 +1,140 @@
+.assets {
+  .header-select {
+    background-color: #fff;
+    padding: 0 16px 14px;
+    .selectText {
+      font-family: 'Rubik';
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 13px;
+      color: #808080;
+    }
+    .selectWrap {
+      border-radius: 10px;
+
+      :global {
+        .ant-select-selector {
+          background-color: #dbf5f5;
+          border-radius: 10px;
+          .ant-select-selection-item {
+            font-family: 'Lato';
+            font-weight: 700;
+            font-size: 14px;
+            color: #2ebebd;
+          }
+        }
+      }
+    }
+    .inputWrap {
+      :global {
+        .ant-input-affix-wrapper {
+          border-radius: 10px;
+        }
+      }
+    }
+    .exportBtn {
+      width: 87px;
+      height: 35px;
+      padding: 10px 14px;
+      background: #000000;
+      border-radius: 8px;
+      font-family: 'Lato';
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 14px;
+      color: #ffffff;
+    }
+  }
+  .container {
+    margin: 60px 29px 0;
+    .tableWrap {
+      position: relative;
+    }
+    .view {
+      position: fixed;
+      bottom: 10px;
+      right: 30px;
+      color: #fff;
+      width: 350px;
+      height: 53px;
+      padding: 0 28px;
+      border-radius: 10px;
+      background-color: #000000;
+      .num {
+        margin-left: 10px;
+      }
+      button {
+        width: 90px;
+        display: flex;
+        color: #000;
+        justify-content: space-between;
+        border-radius: 10px;
+      }
+    }
+    .exportBtn {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      padding: 10px 14px;
+      height: 35px;
+      background: #000000;
+      border-radius: 8px;
+      font-family: 'Lato';
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 14px;
+      color: #ffffff;
+    }
+  }
+}
+.modal {
+  color: red;
+  .modalTitle {
+    font-family: 'Rubik';
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 20px;
+    color: #000000;
+  }
+  .modalSubTitle {
+    margin-top: 10px;
+    font-family: 'Lato';
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 16px;
+    color: #000000;
+  }
+  .fileFormat {
+    margin-top: 34px;
+    font-family: 'Rubik';
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 14px;
+    color: #000000;
+  }
+  .filewrap {
+    margin-top: 10px;
+    padding: 20px;
+    height: 59px;
+    background: #d9d9d9;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    font-family: 'Lato';
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 17px;
+    color: #000000;
+  }
+  .exportBtn {
+    margin-top: 32px;
+    padding: 10px 14px;
+    height: 35px;
+    background: #000000;
+    border-radius: 8px;
+    font-family: 'Lato';
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 14px;
+    color: #ffffff;
+  }
+}

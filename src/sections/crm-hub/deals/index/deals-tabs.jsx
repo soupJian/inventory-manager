@@ -30,7 +30,7 @@ const DealsTabs = ({ showListType }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [filterData, setFilterData] = useState([])
   // 展示选中的 表格 数目
-  const [showSelectedView, setShowTSelectedView] = useState(false)
+  const [showSelectedView, setShowSelectedView] = useState(false)
   // 切换标签页
   const changeTabs = (key) => {
     console.log(key)
@@ -51,7 +51,7 @@ const DealsTabs = ({ showListType }) => {
     setSelectedRowKeys(newSelectedRowKeys)
     // 如果选中 数目 > 0 展示 view
     if (newSelectedRowKeys.length > 0) {
-      setShowTSelectedView(true)
+      setShowSelectedView(true)
     }
   }
   const handleRowClick = (record) => {
@@ -61,7 +61,7 @@ const DealsTabs = ({ showListType }) => {
   // 清除已选择
   const clearSelect = () => {
     setSelectedRowKeys([])
-    setShowTSelectedView(false)
+    setShowSelectedView(false)
   }
   // 进入详情页面, 本次存储一下 选择的 数据 id
   const goToDealDetail = () => {
@@ -269,7 +269,7 @@ const DealsTabs = ({ showListType }) => {
               }}
             />
           </div>
-          {selectedRowKeys.length > 0 && (
+          {showSelectedView && selectedRowKeys.length > 0 && (
             <Row className={styles.view} align="middle" justify="space-between">
               <Col>
                 <span onClick={clearSelect} style={{ cursor: 'pointer' }}>
