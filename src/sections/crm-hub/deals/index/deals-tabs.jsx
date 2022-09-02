@@ -24,11 +24,12 @@ const { TabPane } = Tabs
 const DealsTabs = ({ showListType }) => {
   // 路由
   const router = useRouter()
-  // 表格数据
+  // 表格数据 默认表格状态
   const [data, setData] = useState([])
+  // 表格数据 分类状态
+  const [filterData, setFilterData] = useState([])
   // 选择的表格数据
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  const [filterData, setFilterData] = useState([])
   // 展示选中的 表格 数目
   const [showSelectedView, setShowSelectedView] = useState(false)
   // 切换标签页
@@ -41,7 +42,7 @@ const DealsTabs = ({ showListType }) => {
   const tableFilterChange = (pagination, filters, sorter, extra) => {
     // 过滤后的数据
     // console.log(extra.currentDataSource)
-    setFilterData(extra.currentDataSource)
+    // setFilterData(extra.currentDataSource)
   }
 
   // 选择表格 checkbox 的事件
