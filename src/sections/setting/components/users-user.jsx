@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Table, Row, Col, Button, Modal, Space } from 'antd'
+import { DownOutlined } from '@ant-design/icons'
+import { Table, Row, Col, Button, Modal, Space, Dropdown, Menu } from 'antd'
 import { Icon } from '../../../components/commons'
 import { CloseOutlined } from '@ant-design/icons'
 import styles from '../users.module.scss'
@@ -34,6 +35,65 @@ const UserModule = ({ data }) => {
   const handleDeactivate = () => {
     console.log(selectedRowKeys)
   }
+  const dropMenu = (
+    <Menu
+      items={[
+        {
+          key: '1',
+          label: (
+            <Row>
+              <Col span={24} className={styles.title}>
+                Super admin
+              </Col>
+              <Col span={24} className={styles.subTitle}>
+                Access to all data, can read and edit all data
+              </Col>
+            </Row>
+          )
+        },
+        {
+          key: '2',
+          label: (
+            <Row>
+              <Col span={24} className={styles.title}>
+                <Space>
+                  Admin <a>Details</a>
+                </Space>
+              </Col>
+              <Col span={24} className={styles.subTitle}>
+                Access to all data, can read and edit except for super admin
+              </Col>
+            </Row>
+          )
+        },
+        {
+          key: '3',
+          label: (
+            <Row>
+              <Col span={24} className={styles.title}>
+                <Space>
+                  Viewer <a className={styles.link}>Details</a>
+                </Space>
+              </Col>
+              <Col span={24} className={styles.subTitle}>
+                Can read but not edit data
+              </Col>
+            </Row>
+          )
+        },
+        {
+          key: '4',
+          label: (
+            <Row>
+              <Col span={24}>
+                <a className={styles.link}>Create new access</a>
+              </Col>
+            </Row>
+          )
+        }
+      ]}
+    />
+  )
   // menu table 的 columns
   const columns = [
     {
@@ -46,7 +106,17 @@ const UserModule = ({ data }) => {
     },
     {
       title: 'ACCESS',
-      dataIndex: 'access'
+      dataIndex: 'access',
+      render: (_, record) => {
+        return (
+          <Dropdown overlay={dropMenu} overlayClassName={styles.dropDownItem}>
+            <Space style={{ cursor: 'pointer' }}>
+              {record.access}
+              <DownOutlined />
+            </Space>
+          </Dropdown>
+        )
+      }
     },
     {
       title: 'EMAIL',
@@ -68,6 +138,7 @@ const UserModule = ({ data }) => {
       )
     }
   ]
+
   return (
     <div className={styles.tableWrap}>
       <Table

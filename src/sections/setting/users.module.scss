@@ -90,6 +90,31 @@
     }
   }
 }
+.dropDownItem {
+  width: 360px;
+  .title {
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    color: #000000;
+  }
+  .subTitle {
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #999999;
+  }
+  .link {
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    text-decoration-line: underline;
+    color: #2c88dd;
+  }
+}
 .modal {
   color: red;
   .modalTitle {
