@@ -186,7 +186,7 @@ const UserModule = ({ data }) => {
               <CloseOutlined />
             </span>
             <span className={styles.num}>
-              {selectedRowKeys.length} items selected
+              {selectedRowKeys.length} users selected
             </span>
           </Col>
           <Col>
