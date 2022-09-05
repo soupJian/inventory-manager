@@ -101,9 +101,6 @@ const Assets = () => {
         wrapClassName={styles.modal}
       >
         <div className={styles.modalTitle}>Export to a file</div>
-        <div className={styles.modalSubTitle}>
-          The exported file will be emailed to the address you provide.
-        </div>
         <div className={styles.fileFormat}>file format</div>
         <div className={styles.filewrap}>XLSX</div>
         <Row justify="end">

@@ -1,7 +1,18 @@
 import React, { useState } from 'react'
 import { DownOutlined } from '@ant-design/icons'
-import { Table, Row, Col, Button, Modal, Space, Dropdown, Menu } from 'antd'
+import {
+  Table,
+  Row,
+  Col,
+  Button,
+  Modal,
+  Space,
+  Dropdown,
+  Menu,
+  Radio
+} from 'antd'
 import { Icon } from '../../../components/commons'
+import UserCreateEdit from './user-create-edit'
 import { CloseOutlined } from '@ant-design/icons'
 import styles from '../users.module.scss'
 import 'antd/lib/dropdown/style/index.css'
@@ -15,8 +26,11 @@ const UserModule = ({ data }) => {
   const [showSelectedView, setShowSelectedView] = useState(false)
   // 选择的表格数据
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
-  // 导出 modal
-  const [showExportModal, setShowExportModal] = useState(false)
+  // deactivate modal
+  const [showDeactiveModal, setShowDeactivateModal] = useState(false)
+  // edit modal
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [editModalInfo, setEditModalInfo] = useState(null)
   // 表格选择 select Change
   const onSelectChange = (newSelectedRowKeys) => {
     // 对应的 key 数组 [1,2,3,4,6] 也就是对应的 id数组
@@ -32,68 +46,67 @@ const UserModule = ({ data }) => {
     setSelectedRowKeys([])
     setShowSelectedView(false)
   }
+  // deactivate
   const handleDeactivate = () => {
     console.log(selectedRowKeys)
   }
-  const dropMenu = (
-    <Menu
-      items={[
-        {
-          key: '1',
-          label: (
-            <Row>
-              <Col span={24} className={styles.title}>
-                Super admin
-              </Col>
-              <Col span={24} className={styles.subTitle}>
-                Access to all data, can read and edit all data
-              </Col>
-            </Row>
-          )
-        },
-        {
-          key: '2',
-          label: (
-            <Row>
-              <Col span={24} className={styles.title}>
-                <Space>
-                  Admin <a>Details</a>
+  const changeUserAccess = (e, record) => {
+    console.log(e.target.value)
+    console.log(record)
+  }
+  const DropMenu = ({ value, changeUserAccess }) => {
+    return (
+      <Menu
+        items={[
+          {
+            key: '1',
+            label: (
+              <Radio.Group value={value}>
+                <Space direction="vertical" onChange={changeUserAccess}>
+                  <Row>
+                    <Col span={2}>
+                      <Radio value="Super Admin"></Radio>
+                    </Col>
+                    <Col className={styles.title}>Super admin</Col>
+                    <Col span={22} offset={2} className={styles.subTitle}>
+                      Access to all data, can read and edit all data
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={2}>
+                      <Radio value="Admin"></Radio>
+                    </Col>
+                    <Col className={styles.title}>
+                      <Space>
+                        Admin <a>Details</a>
+                      </Space>
+                    </Col>
+                    <Col span={22} offset={2} className={styles.subTitle}>
+                      Access to all data, can read and edit except for super
+                      admin
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={2}>
+                      <Radio value="Viewer"></Radio>
+                    </Col>
+                    <Col className={styles.title}>
+                      <Space>
+                        Admin <a>Details</a>
+                      </Space>
+                    </Col>
+                    <Col span={22} offset={2} className={styles.subTitle}>
+                      Can read but not edit data
+                    </Col>
+                  </Row>
                 </Space>
-              </Col>
-              <Col span={24} className={styles.subTitle}>
-                Access to all data, can read and edit except for super admin
-              </Col>
-            </Row>
-          )
-        },
-        {
-          key: '3',
-          label: (
-            <Row>
-              <Col span={24} className={styles.title}>
-                <Space>
-                  Viewer <a className={styles.link}>Details</a>
-                </Space>
-              </Col>
-              <Col span={24} className={styles.subTitle}>
-                Can read but not edit data
-              </Col>
-            </Row>
-          )
-        },
-        {
-          key: '4',
-          label: (
-            <Row>
-              <Col span={24}>
-                <a className={styles.link}>Create new access</a>
-              </Col>
-            </Row>
-          )
-        }
-      ]}
-    />
-  )
+              </Radio.Group>
+            )
+          }
+        ]}
+      />
+    )
+  }
   // menu table 的 columns
   const columns = [
     {
@@ -109,7 +122,15 @@ const UserModule = ({ data }) => {
       dataIndex: 'access',
       render: (_, record) => {
         return (
-          <Dropdown overlay={dropMenu} overlayClassName={styles.dropDownItem}>
+          <Dropdown
+            overlay={
+              <DropMenu
+                value={record.access}
+                changeUserAccess={(e) => changeUserAccess(e, record)}
+              />
+            }
+            overlayClassName={styles.dropDownItem}
+          >
             <Space style={{ cursor: 'pointer' }}>
               {record.access}
               <DownOutlined />
@@ -129,7 +150,13 @@ const UserModule = ({ data }) => {
     {
       title: '',
       render: (_, record) => (
-        <Button size="small">
+        <Button
+          size="small"
+          onClick={() => {
+            setEditModalInfo(record)
+            setShowEditModal(true)
+          }}
+        >
           <Space>
             <Icon name="edit" width="11px" height="11px"></Icon>
             Edit
@@ -163,10 +190,10 @@ const UserModule = ({ data }) => {
             </span>
           </Col>
           <Col>
-            <Button onClick={() => handleDeactivate()}>
+            <Button onClick={setShowDeactivateModal}>
               <Space>
                 <Icon name="user-deactivate" width="22px" height="22px" />
-                Export
+                Deactivate
               </Space>
             </Button>
           </Col>
@@ -174,26 +201,44 @@ const UserModule = ({ data }) => {
       )}
       <Modal
         title=""
-        visible={showExportModal}
+        visible={showDeactiveModal}
         okText="Save"
         footer={false}
         // onOK={() => ()}
-        onCancel={() => setShowExportModal(false)}
+        onCancel={() => setShowDeactivateModal(false)}
         wrapClassName={styles.modal}
       >
-        <div className={styles.modalTitle}>Export to a file</div>
         <div className={styles.modalSubTitle}>
-          The exported file will be emailed to the address you provide.
+          Are you sure you want to deactivate these users?
         </div>
-        <div className={styles.fileFormat}>file format</div>
-        <div className={styles.filewrap}>XLSX</div>
-        <Row justify="end">
+        <Row justify="center">
           <Col>
-            <Button className={styles.exportBtn} onClick={() => download()}>
-              Download
-            </Button>
+            <Space>
+              <Button
+                className={styles.confirmBtn}
+                onClick={() => handleDeactivate()}
+              >
+                YES
+              </Button>
+              <Button
+                className={styles.cancelBtn}
+                onClick={() => setShowDeactivateModal(false)}
+              >
+                NO
+              </Button>
+            </Space>
           </Col>
         </Row>
+      </Modal>
+      <Modal
+        title=""
+        visible={showEditModal}
+        footer={false}
+        onCancel={() => setShowEditModal(false)}
+        wrapClassName={styles.modal}
+        destroyOnClose
+      >
+        <UserCreateEdit type="edit" modalInfo={editModalInfo} />
       </Modal>
     </div>
   )

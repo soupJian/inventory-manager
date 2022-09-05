@@ -1,4 +1,4 @@
-.assets {
+.users {
   .header-select {
     background-color: #fff;
     padding: 0 16px 14px;
@@ -153,16 +153,28 @@
     line-height: 17px;
     color: #000000;
   }
-  .exportBtn {
+  .confirmBtn,
+  .cancelBtn,
+  .formBtn {
     margin-top: 32px;
     padding: 10px 14px;
-    height: 35px;
-    background: #000000;
+    height: 45px;
     border-radius: 8px;
     font-family: 'Lato';
     font-weight: 500;
     font-size: 14px;
     line-height: 14px;
+  }
+  .confirmBtn {
+    width: 200px;
     color: #ffffff;
+    background: #000000;
+  }
+  .cancelBtn {
+    width: 200px;
+  }
+  .formBtn {
+    color: #ffffff;
+    background: #000000;
   }
 }
