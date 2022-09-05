@@ -3,7 +3,7 @@ import { Row, Col, Select, Input, Button, Modal } from 'antd'
 import UserModule from './components/users-user'
 import UserAccess from './components/user-access'
 import UserCreateEdit from './components/user-create-edit'
-import styles from './users.module.scss'
+import styles from './index.module.scss'
 
 const { Option } = Select
 

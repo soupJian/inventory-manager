@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Row, Col, Input, Select, Space, Button, message } from 'antd'
 import { DeleteOutlined, CheckOutlined } from '@ant-design/icons'
 
-import styles from '../pipeline.module.scss'
+import styles from '../index.module.scss'
 import PipelineEdit from './pipeline-edit'
 
 const { Option } = Select

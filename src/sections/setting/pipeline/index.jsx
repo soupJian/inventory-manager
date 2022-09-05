@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Row, Col, Select, message } from 'antd'
 // components -----------
 import PipelineSales from './components/pipeline-sales.jsx'
-import styles from './pipeline.module.scss'
+import styles from './index.module.scss'
 //js =---------
 const { Option } = Select
 const Pipeline = () => {

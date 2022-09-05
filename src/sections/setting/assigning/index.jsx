@@ -4,7 +4,7 @@ import { Row, Col, Select } from 'antd'
 import AssigningDeal from './components/assigning-deal'
 import AssigningCall from './components/assigning-call'
 import AssigningChat from './components/assigning-chat'
-import styles from './assigning.module.scss'
+import styles from './index.module.scss'
 //js =---------
 const { Option } = Select
 const Assiging = () => {

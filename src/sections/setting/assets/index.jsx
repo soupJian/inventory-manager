@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Row, Col, Select, Input, Button, Modal } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import AssetsContact from './components/asset-contact'
-import styles from './assets.module.scss'
+import styles from './index.module.scss'
 
 const { Option } = Select
 

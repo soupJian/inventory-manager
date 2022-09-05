@@ -11,10 +11,10 @@ import {
   Menu,
   Radio
 } from 'antd'
-import { Icon } from '../../../components/commons'
+import { Icon } from '../../../../components/commons'
 import UserCreateEdit from './user-create-edit'
 import { CloseOutlined } from '@ant-design/icons'
-import styles from '../users.module.scss'
+import styles from '../index.module.scss'
 
 const UserModule = ({ data }) => {
   const [showSelectedView, setShowSelectedView] = useState(false)

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Row, Col, Select, Switch, Checkbox, Space } from 'antd'
-import styles from '../assigning.module.scss'
+import styles from '../index.module.scss'
 const { Option } = Select
 const CheckboxGroup = Checkbox.Group
 

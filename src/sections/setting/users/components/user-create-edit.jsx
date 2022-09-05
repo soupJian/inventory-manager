@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Form, Input, Select } from 'antd'
 const { Option } = Select
-import styles from '../users.module.scss'
+import styles from '../index.module.scss'
 const UserCreateEdit = ({ type, modalInfo }) => {
   const [form] = Form.useForm()
   const formSubmit = (values) => {

@@ -3,10 +3,10 @@ import Head from 'next/head'
 // antd -----------------
 import { Tabs } from 'antd'
 // components --------------
-import Assiging from '../../sections/setting/assigning'
-import Pipeline from '../../sections/setting/pipeline'
-import Assets from '../../sections/setting/assets'
-import Users from '../../sections/setting/users'
+import Assiging from '../../sections/setting/assigning/index'
+import Pipeline from '../../sections/setting/pipeline/index'
+import Assets from '../../sections/setting/assets/index'
+import Users from '../../sections/setting/users/index'
 
 // css ----------------
 import styles from './index.module.scss'

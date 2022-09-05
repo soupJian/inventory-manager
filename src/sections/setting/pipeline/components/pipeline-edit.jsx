@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Col, Space, Input, Button, message } from 'antd'
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons'
-import { Icon } from '../../../components/commons'
-import styles from '../pipeline.module.scss'
+import { Icon } from '../../../../components/commons'
+import styles from '../index.module.scss'
 
 const PipelineEdit = ({ item, updatePipeline, salesList, disabled }) => {
   const [edit, setEdit] = useState(false)

@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Table, Row, Col, Button, Modal } from 'antd'
-import { Icon } from '../../../components/commons'
+import { Icon } from '../../../../components/commons'
 import { CloseOutlined } from '@ant-design/icons'
-import styles from '../assets.module.scss'
+import styles from '../index.module.scss'
 import 'antd/lib/dropdown/style/index.css'
 import 'antd/lib/pagination/style/index.css'
 import 'antd/lib/checkbox/style/index.css'
 import 'antd/lib/input/style/index.css'
 import 'antd/lib/button/style/index.css'
-import 'antd/lib/checkbox/style/index.css'
 import {
   isThisWeek,
   isLastWeek,
@@ -17,7 +16,7 @@ import {
   islastdays,
   isSameYear,
   isLastYear
-} from '../../../utils/formatTime'
+} from '../../../../utils/formatTime'
 
 const AssetsContact = ({ data }) => {
   const [filterData, setFilterData] = useState([])
