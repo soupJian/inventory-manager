@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Col, Select, Input, Button, Modal } from 'antd'
+import { Row, Col, Select, Drawer, Button, Modal } from 'antd'
 import UserModule from './components/users-user'
 import UserAccess from './components/user-access'
 import UserCreateEdit from './components/user-create-edit'
+import AccessDrawer from './components/access-drawer'
 import styles from './index.module.scss'
 
 const { Option } = Select
 
 const Users = () => {
-  const [selectValue, setSelectValue] = useState('Users')
+  const [selectValue, setSelectValue] = useState('Access')
   const [userList, setUserList] = useState([])
   const [accessList, setAccessList] = useState([])
   // create user  modal
   const [showCreateUserModal, setShowCreateUser] = useState(false)
+  // create access modal
+  const [showCreateAccessModal, setShowCreateAccessModal] = useState(false)
   const getUserList = () => {
     const list = [
       {
@@ -96,7 +99,7 @@ const Users = () => {
           {selectValue == 'Access' && (
             <Button
               className={styles.exportBtn}
-              onClick={() => setShowCreateUser(true)}
+              onClick={() => setShowCreateAccessModal(true)}
             >
               Create access
             </Button>
@@ -121,6 +124,16 @@ const Users = () => {
       >
         <UserCreateEdit type="create" modalInfo={null} />
       </Modal>
+      {/* access detail */}
+      <Drawer
+        title="Create access"
+        placement="left"
+        width={500}
+        onClose={() => setShowCreateAccessModal(false)}
+        visible={showCreateAccessModal}
+      >
+        <AccessDrawer />
+      </Drawer>
     </div>
   )
 }

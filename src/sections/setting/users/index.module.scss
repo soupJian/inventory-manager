@@ -178,3 +178,31 @@
     background: #000000;
   }
 }
+.drawer {
+  .label {
+    font-family: 'Rubik';
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 14px;
+    color: #000000;
+  }
+  .subLabel {
+    font-family: 'Rubik';
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    color: #000000;
+  }
+  .drawerBtn {
+    margin-top: 32px;
+    padding: 10px 20px;
+    height: 45px;
+    border-radius: 8px;
+    font-family: 'Lato';
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 14px;
+    color: #ffffff;
+    background: #000000;
+  }
+}
