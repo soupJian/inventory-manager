@@ -15,12 +15,6 @@ import { Icon } from '../../../components/commons'
 import UserCreateEdit from './user-create-edit'
 import { CloseOutlined } from '@ant-design/icons'
 import styles from '../users.module.scss'
-import 'antd/lib/dropdown/style/index.css'
-import 'antd/lib/pagination/style/index.css'
-import 'antd/lib/checkbox/style/index.css'
-import 'antd/lib/input/style/index.css'
-import 'antd/lib/button/style/index.css'
-import 'antd/lib/checkbox/style/index.css'
 
 const UserModule = ({ data }) => {
   const [showSelectedView, setShowSelectedView] = useState(false)
@@ -132,7 +126,7 @@ const UserModule = ({ data }) => {
             overlayClassName={styles.dropDownItem}
           >
             <Space style={{ cursor: 'pointer' }}>
-              {record.access}
+              <div style={{ minWidth: '100px' }}>{record.access}</div>
               <DownOutlined />
             </Space>
           </Dropdown>

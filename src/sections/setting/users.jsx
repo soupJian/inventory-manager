@@ -8,18 +8,12 @@ import styles from './users.module.scss'
 const { Option } = Select
 
 const Users = () => {
-  const [headerSelect, setHeaderSelect] = useState('Users')
+  const [selectValue, setSelectValue] = useState('Users')
   const [userList, setUserList] = useState([])
+  const [accessList, setAccessList] = useState([])
   // create user  modal
   const [showCreateUserModal, setShowCreateUser] = useState(false)
-
-  // 下载
-  const download = () => {
-    if (headerSelect == 'Contact') {
-      console.log(filterData)
-    }
-  }
-  useEffect(() => {
+  const getUserList = () => {
     const list = [
       {
         key: '1',
@@ -39,7 +33,35 @@ const Users = () => {
       }
     ]
     setUserList(list)
+  }
+  const getAccessList = () => {
+    const list = [
+      {
+        id: '1',
+        accessName: 'Super Admin',
+        type: 'System created',
+        userList: ['Ray Cai', 'soupjian']
+      },
+      {
+        id: '2',
+        accessName: 'Admin',
+        type: 'System created',
+        userList: ['Cathy Lastname', 'soupjian']
+      },
+      {
+        id: '3',
+        accessName: 'Viewer',
+        type: 'Viewer',
+        userList: ['Xianyou Yang', 'soupjian']
+      }
+    ]
+    setAccessList(list)
+  }
+  useEffect(() => {
+    getUserList()
+    getAccessList()
   }, [])
+
   return (
     <div className={styles.users}>
       {/* header-search */}
@@ -50,11 +72,11 @@ const Users = () => {
             <Col>
               <Select
                 className={styles.selectWrap}
-                value={headerSelect}
+                value={selectValue}
                 style={{
                   width: 200
                 }}
-                onChange={(value) => setHeaderSelect(value)}
+                onChange={(value) => setSelectValue(value)}
               >
                 <Option value="Users">Users</Option>
                 <Option value="Access">Access</Option>
@@ -63,18 +85,30 @@ const Users = () => {
           </Row>
         </Col>
         <Col>
-          <Button
-            className={styles.exportBtn}
-            onClick={() => setShowCreateUser(true)}
-          >
-            Create user
-          </Button>
+          {selectValue == 'Users' && (
+            <Button
+              className={styles.exportBtn}
+              onClick={() => setShowCreateUser(true)}
+            >
+              Create user
+            </Button>
+          )}
+          {selectValue == 'Access' && (
+            <Button
+              className={styles.exportBtn}
+              onClick={() => setShowCreateUser(true)}
+            >
+              Create access
+            </Button>
+          )}
         </Col>
       </Row>
       {/* container */}
       <div className={styles.container}>
-        {headerSelect == 'Users' && <UserModule data={userList} />}
-        {headerSelect == 'Access' && <UserAccess />}
+        {selectValue == 'Users' && <UserModule data={userList} />}
+        {selectValue == 'Access' && accessList.length > 0 && (
+          <UserAccess data={accessList} />
+        )}
       </div>
       {/* modal 这里制作全局的导出，哥哥 select 模块 导出在其对应模块*/}
       <Modal
