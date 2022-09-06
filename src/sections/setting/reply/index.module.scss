@@ -1,0 +1,59 @@
+.reply {
+  width: 900px;
+  margin: 0 auto;
+  .title {
+    margin: 29px 0 24px 0;
+    font-family: 'Rubik';
+    font-weight: 500;
+    font-size: 19px;
+    line-height: 19px;
+    color: #000000;
+  }
+  .panel-content {
+    font-family: 'Lato';
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 28px;
+    color: #262626;
+  }
+  .editBtn {
+    height: 36px;
+    background-color: #000000;
+    border-radius: 10px;
+    font-family: 'Lato';
+    font-weight: 500;
+    font-size: 14px;
+    color: #fff;
+  }
+  :global {
+    .ant-collapse-header {
+      background-color: #fff;
+    }
+    .ant-collapse-ghost > .ant-collapse-item {
+      border-bottom: 1px solid #d9d9d9;
+    }
+    .ant-collapse-content-box {
+      background-color: #fff;
+    }
+  }
+}
+.modal {
+  color: red;
+  .labelTitle {
+    margin-bottom: 10px;
+    font-family: 'Rubik';
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 14px;
+    color: #000000;
+  }
+  .editBtn {
+    height: 36px;
+    background: #000000;
+    border-radius: 10px;
+    font-family: 'Lato';
+    font-weight: 500;
+    font-size: 14px;
+    color: #fff;
+  }
+}
