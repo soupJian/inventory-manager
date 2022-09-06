@@ -205,4 +205,10 @@
     color: #ffffff;
     background: #000000;
   }
+  :global {
+    .ant-switch-checked {
+      border-radius: 10px;
+      background: #77d755;
+    }
+  }
 }

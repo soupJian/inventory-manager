@@ -3,12 +3,13 @@ import { Table, Dropdown, Menu, Space, Button } from 'antd'
 import { Icon } from '../../../../components/commons'
 import { DownOutlined } from '@ant-design/icons'
 
-const UserAccess = ({ data }) => {
-  console.log(data)
+const UserAccess = ({ data, editUserAccess }) => {
+  console.log('access')
   const columns = [
     {
       title: 'ACCESS NAME',
-      dataIndex: 'accessName'
+      dataIndex: 'accessName',
+      render: (_, record) => <>{record.access.accessName}</>
     },
     {
       title: 'TYPE',
@@ -43,9 +44,14 @@ const UserAccess = ({ data }) => {
                 <DownOutlined />
               </Space>
             </Dropdown>
-            {record.accessName != 'Super Admin' &&
-              record.accessName != 'Admin' && (
-                <Button style={{ marginLeft: '40px' }}>
+            {record.access.accessName != 'Super Admin' &&
+              record.access.accessName != 'Admin' && (
+                <Button
+                  style={{ marginLeft: '40px' }}
+                  onClick={() => {
+                    editUserAccess(record)
+                  }}
+                >
                   <Space>
                     <Icon name="edit" width="11px" height="11px"></Icon>
                     Edit
@@ -60,4 +66,4 @@ const UserAccess = ({ data }) => {
   return <Table columns={columns} dataSource={data} rowKey="id" />
 }
 
-export default UserAccess
+export default React.memo(UserAccess)

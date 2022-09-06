@@ -17,6 +17,7 @@ import { CloseOutlined } from '@ant-design/icons'
 import styles from '../index.module.scss'
 
 const UserModule = ({ data }) => {
+  console.log('user')
   const [showSelectedView, setShowSelectedView] = useState(false)
   // 选择的表格数据
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
@@ -238,4 +239,4 @@ const UserModule = ({ data }) => {
   )
 }
 
-export default UserModule
+export default React.memo(UserModule)

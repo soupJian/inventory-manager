@@ -66,4 +66,4 @@ const UserCreateEdit = ({ type, modalInfo }) => {
   )
 }
 
-export default UserCreateEdit
+export default React.memo(UserCreateEdit)

@@ -1,35 +1,17 @@
-import React from 'react'
-import { Row, Col, Input, Switch, Divider, Button } from 'antd'
+import React, { useState } from 'react'
+import { Row, Col, Input, Switch, Divider, Button, message } from 'antd'
 import styles from '../index.module.scss'
-import { useState } from 'react'
 
-// type string view , add , disabled
-const AccessDrawer = ({ type }) => {
-  const [defaultAccess, setDefaultAccess] = useState({
-    accessName: '',
-    description: '',
-    inventory: {
-      inventory: false,
-      warehousing: false,
-      products: false,
-      shipping: false,
-      orders: false
-    },
-    customerServices: {
-      'form-email': false,
-      chats: false,
-      deals: false,
-      tickets: false,
-      tasks: false,
-      dashboard: false
-    },
-    general: {
-      assets: false,
-      fastReply: false,
-      other: false,
-      history: false
-    }
-  })
+// type string  edit  create
+const AccessDrawer = (props) => {
+  const {
+    type,
+    access,
+    handleChangeAccessSwitch,
+    handleInputAccess,
+    createAccess
+  } = props
+
   return (
     <div className={styles.drawer}>
       <Row gutter={[0, 10]}>
@@ -37,7 +19,11 @@ const AccessDrawer = ({ type }) => {
           access Name*
         </Col>
         <Col span={24}>
-          <Input />
+          <Input
+            name="accessName"
+            value={access.accessName}
+            onChange={handleInputAccess}
+          />
         </Col>
       </Row>
       {/* inventory */}
@@ -46,7 +32,11 @@ const AccessDrawer = ({ type }) => {
           Short description*
         </Col>
         <Col span={24}>
-          <Input />
+          <Input
+            name="description"
+            value={access.description}
+            onChange={handleInputAccess}
+          />
         </Col>
       </Row>
       <Row style={{ margin: '40px 0 23px' }}>
@@ -59,7 +49,12 @@ const AccessDrawer = ({ type }) => {
           <Row justify="space-between">
             <Col className={styles.subLabel}>Inventory</Col>
             <Col>
-              <Switch />
+              <Switch
+                onChange={(value) =>
+                  handleChangeAccessSwitch(value, 'inventory')
+                }
+                checked={access.inventory}
+              />
             </Col>
           </Row>
         </Col>
@@ -67,7 +62,12 @@ const AccessDrawer = ({ type }) => {
           <Row justify="space-between">
             <Col className={styles.subLabel}>Warehousing</Col>
             <Col>
-              <Switch />
+              <Switch
+                onChange={(value) =>
+                  handleChangeAccessSwitch(value, 'warehousing')
+                }
+                checked={access.warehousing}
+              />
             </Col>
           </Row>
         </Col>
@@ -75,7 +75,12 @@ const AccessDrawer = ({ type }) => {
           <Row justify="space-between">
             <Col className={styles.subLabel}>Products</Col>
             <Col>
-              <Switch />
+              <Switch
+                onChange={(value) =>
+                  handleChangeAccessSwitch(value, 'products')
+                }
+                checked={access.products}
+              />
             </Col>
           </Row>
         </Col>
@@ -83,7 +88,12 @@ const AccessDrawer = ({ type }) => {
           <Row justify="space-between">
             <Col className={styles.subLabel}>Shipping</Col>
             <Col>
-              <Switch />
+              <Switch
+                onChange={(value) =>
+                  handleChangeAccessSwitch(value, 'shipping')
+                }
+                checked={access.shipping}
+              />
             </Col>
           </Row>
         </Col>
@@ -91,7 +101,10 @@ const AccessDrawer = ({ type }) => {
           <Row justify="space-between">
             <Col className={styles.subLabel}>Orders</Col>
             <Col>
-              <Switch />
+              <Switch
+                onChange={(value) => handleChangeAccessSwitch(value, 'orders')}
+                checked={access.orders}
+              />
             </Col>
           </Row>
         </Col>
@@ -108,7 +121,12 @@ const AccessDrawer = ({ type }) => {
           <Row justify="space-between">
             <Col className={styles.subLabel}>Forms & Emails</Col>
             <Col>
-              <Switch />
+              <Switch
+                onChange={(value) =>
+                  handleChangeAccessSwitch(value, 'form-email')
+                }
+                checked={access['form-email']}
+              />
             </Col>
           </Row>
         </Col>
@@ -116,7 +134,10 @@ const AccessDrawer = ({ type }) => {
           <Row justify="space-between">
             <Col className={styles.subLabel}>Chats</Col>
             <Col>
-              <Switch />
+              <Switch
+                onChange={(value) => handleChangeAccessSwitch(value, 'chats')}
+                checked={access.chats}
+              />
             </Col>
           </Row>
         </Col>
@@ -124,7 +145,10 @@ const AccessDrawer = ({ type }) => {
           <Row justify="space-between">
             <Col className={styles.subLabel}>Deals</Col>
             <Col>
-              <Switch />
+              <Switch
+                onChange={(value) => handleChangeAccessSwitch(value, 'deals')}
+                checked={access.deals}
+              />
             </Col>
           </Row>
         </Col>
@@ -132,7 +156,10 @@ const AccessDrawer = ({ type }) => {
           <Row justify="space-between">
             <Col className={styles.subLabel}>Tickets</Col>
             <Col>
-              <Switch />
+              <Switch
+                onChange={(value) => handleChangeAccessSwitch(value, 'tickets')}
+                checked={access.tickets}
+              />
             </Col>
           </Row>
         </Col>
@@ -140,7 +167,10 @@ const AccessDrawer = ({ type }) => {
           <Row justify="space-between">
             <Col className={styles.subLabel}>Tasks</Col>
             <Col>
-              <Switch />
+              <Switch
+                onChange={(value) => handleChangeAccessSwitch(value, 'tasks')}
+                checked={access.tasks}
+              />
             </Col>
           </Row>
         </Col>
@@ -148,7 +178,12 @@ const AccessDrawer = ({ type }) => {
           <Row justify="space-between">
             <Col className={styles.subLabel}>Dashboard</Col>
             <Col>
-              <Switch />
+              <Switch
+                onChange={(value) =>
+                  handleChangeAccessSwitch(value, 'dashboard')
+                }
+                checked={access.dashboard}
+              />
             </Col>
           </Row>
         </Col>
@@ -165,7 +200,10 @@ const AccessDrawer = ({ type }) => {
           <Row justify="space-between">
             <Col className={styles.subLabel}>Settings - Assets</Col>
             <Col>
-              <Switch />
+              <Switch
+                onChange={(value) => handleChangeAccessSwitch(value, 'assets')}
+                checked={access.assets}
+              />
             </Col>
           </Row>
         </Col>
@@ -173,7 +211,12 @@ const AccessDrawer = ({ type }) => {
           <Row justify="space-between">
             <Col className={styles.subLabel}>Settings - Fast Reply</Col>
             <Col>
-              <Switch />
+              <Switch
+                onChange={(value) =>
+                  handleChangeAccessSwitch(value, 'fastReply')
+                }
+                checked={access.fastReply}
+              />
             </Col>
           </Row>
         </Col>
@@ -181,7 +224,10 @@ const AccessDrawer = ({ type }) => {
           <Row justify="space-between">
             <Col className={styles.subLabel}>Settings - Other</Col>
             <Col>
-              <Switch />
+              <Switch
+                onChange={(value) => handleChangeAccessSwitch(value, 'other')}
+                checked={access.other}
+              />
             </Col>
           </Row>
         </Col>
@@ -189,18 +235,23 @@ const AccessDrawer = ({ type }) => {
           <Row justify="space-between">
             <Col className={styles.subLabel}>Activity history</Col>
             <Col>
-              <Switch />
+              <Switch
+                onChange={(value) => handleChangeAccessSwitch(value, 'history')}
+                checked={access.history}
+              />
             </Col>
           </Row>
         </Col>
       </Row>
       <Row justify="end">
         <Col>
-          <Button className={styles.drawerBtn}>Create</Button>
+          <Button className={styles.drawerBtn} onClick={() => createAccess()}>
+            {type == 'create' ? 'Create' : 'Save'}
+          </Button>
         </Col>
       </Row>
     </div>
   )
 }
 
-export default AccessDrawer
+export default React.memo(AccessDrawer)
