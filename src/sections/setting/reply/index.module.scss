@@ -25,7 +25,24 @@
     font-size: 14px;
     color: #fff;
   }
-
+  .panel-file {
+    margin: 10px 0;
+    .file-btn {
+      background-color: rgba(46, 190, 189, 0.1);
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-family: 'Rubik';
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+      color: #2ebebd;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      .attachments-close {
+        margin-left: 12px;
+      }
+    }
+  }
   :global {
     .ant-collapse-header {
       background-color: #fff;

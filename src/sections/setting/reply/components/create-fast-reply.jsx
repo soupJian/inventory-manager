@@ -31,8 +31,7 @@ const CreateFastReply = () => {
   const handleUpload = (info) => {
     const list = info.fileList.map((item) => {
       return {
-        ...item,
-        url: `${item.uid}.${item.name.split('.')[1]}`
+        ...item
       }
     })
     console.log(list)
