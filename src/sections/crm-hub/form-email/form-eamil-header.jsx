@@ -15,7 +15,7 @@ const FromEmailHeader = () => {
     <Row justify="space-between" className={styles['header-wrap']}>
       <Col className={styles.title}>Forms & Emails</Col>
       <Col>
-        <Space>
+        <Space align="middle">
           <Button size="large">+ LOG eamil</Button>
           <Select
             mode="multiple"

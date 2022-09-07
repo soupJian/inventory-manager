@@ -145,24 +145,28 @@ const FormEmail = () => {
       <Head>
         <title>CRM Hub | Form & email</title>
       </Head>
-      <div className={styles.FormEmail}>
-        <FromEmailHeader />
-        <Row gutter={[16]} className={styles.FormEmailContent}>
-          <Col span={12} style={{ height: '100%' }}>
-            <FromEmailList
-              emailList={emailList}
-              selectedIndex={selectedIndex}
-              chooseSelectIndex={(index) => chooseSelectIndex(index)}
-            />
-          </Col>
-          <Col span={12} style={{ height: '100%' }}>
-            <FromEmailDetail
-              email={emailList[selectedIndex]}
-              handleDeleteEmail={handleDeleteEmail}
-            />
-          </Col>
-        </Row>
-      </div>
+      <Row className={styles.FormEmail}>
+        <Col span={24}>
+          <FromEmailHeader />
+        </Col>
+        <Col span={24} className={styles.FormEmailContent}>
+          <Row gutter={16} className={styles.FormEmailContainer}>
+            <Col span={12} style={{ height: '100%' }}>
+              <FromEmailList
+                emailList={emailList}
+                selectedIndex={selectedIndex}
+                chooseSelectIndex={(index) => chooseSelectIndex(index)}
+              />
+            </Col>
+            <Col span={12} style={{ height: '100%' }}>
+              <FromEmailDetail
+                email={emailList[selectedIndex]}
+                handleDeleteEmail={handleDeleteEmail}
+              />
+            </Col>
+          </Row>
+        </Col>
+      </Row>
     </>
   )
 }
