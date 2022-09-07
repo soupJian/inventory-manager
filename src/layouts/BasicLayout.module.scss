@@ -1,0 +1,25 @@
+.mainLayout {
+  .sider {
+    overflow: auto;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+  }
+  .siteLayout {
+    height: 100vh;
+  }
+  :global {
+    .ant-layout-sider {
+      background-color: #fff;
+    }
+    .ant-layout-header {
+      background: unset;
+      padding: unset;
+    }
+    .ant-layout-sider-trigger {
+      background-color: #ccc;
+    }
+  }
+}

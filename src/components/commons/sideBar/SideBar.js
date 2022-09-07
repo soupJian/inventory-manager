@@ -37,7 +37,7 @@ const SideBar = ({ user }) => {
         disabled={!user}
         active={user && router.pathname === '/inventory'}
       >
-        <Icon name="inventory" />{' '}
+        <Icon name="inventory" />
       </SpanLogo>
     ),
     getItem(
@@ -47,7 +47,7 @@ const SideBar = ({ user }) => {
         disabled={!user}
         active={user && router.pathname === '/warehouse'}
       >
-        <Icon name="warehouse" />{' '}
+        <Icon name="warehouse" />
       </SpanLogo>
     ),
     getItem(
@@ -104,26 +104,24 @@ const SideBar = ({ user }) => {
   }, [router.route])
   return (
     <SideBarWrapper className={styles.SideBarWrapper}>
-      <Content className={styles.content}>
-        <CompanyLogo onClick={() => router.push('/')}>
-          <Image
-            src={logo}
-            alt="logo"
-            layout="responsive"
-            objectFit="contain"
-            priority={true}
-          />
-        </CompanyLogo>
-        <Menu
-          openKeys={[`${openKeys}`]}
-          selectedKeys={[`${defaultSelectedKeys}`]}
-          mode="inline"
-          items={menuItems}
-          onOpenChange={(key) => {
-            setOpenKeys(key[1])
-          }}
+      <CompanyLogo onClick={() => router.push('/')}>
+        <Image
+          src={logo}
+          alt="logo"
+          layout="responsive"
+          objectFit="contain"
+          priority={true}
         />
-      </Content>
+      </CompanyLogo>
+      <Menu
+        openKeys={[`${openKeys}`]}
+        selectedKeys={[`${defaultSelectedKeys}`]}
+        mode="inline"
+        items={menuItems}
+        onOpenChange={(key) => {
+          setOpenKeys(key[1])
+        }}
+      />
     </SideBarWrapper>
   )
 }
@@ -132,14 +130,7 @@ export default SideBar
 
 const SideBarWrapper = styled.aside`
   flex: 1 0 auto;
-  max-width: 231px;
-  min-width: 231px;
   background-color: #ffffff;
-`
-
-const Content = styled.div`
-  height: 100%;
-  padding: 39px 16px;
 `
 
 const CompanyLogo = styled.div`
@@ -147,42 +138,7 @@ const CompanyLogo = styled.div`
   cursor: pointer;
 `
 
-const NavItems = styled.ul`
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  margin-top: 84px;
-`
-const SpanText = styled.span`
-  margin-left: 15px;
-  color: ${({ disabled, theme }) =>
-    disabled ? theme.colors.secondaryText : 'inherit'};
-`
 const SpanLogo = styled.span`
   filter: ${({ active, disabled }) =>
     disabled ? 'none' : active ? 'invert(100%) brightness(0%)' : 'none'};
-`
-
-const NavItem = styled.li`
-  width: 100%;
-  padding: 14px 24px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  color: #000;
-  font-size: ${({ theme }) => theme.font.size.s};
-  font-weight: ${({ theme, active }) =>
-    active ? theme.font.weight.bold : theme.font.weight.normal};
-  background-color: ${({ theme, active }) =>
-    active ? theme.colors.menuBackground : 'transparent'};
-  transition: all 0.15s ease-in-out;
-  cursor: pointer;
-  pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
-
-  &:not(:last-of-type) {
-    margin-bottom: 32px;
-  }
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.menuBackground};
-  }
 `
