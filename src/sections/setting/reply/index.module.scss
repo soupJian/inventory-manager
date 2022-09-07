@@ -25,6 +25,7 @@
     font-size: 14px;
     color: #fff;
   }
+
   :global {
     .ant-collapse-header {
       background-color: #fff;
@@ -37,6 +38,13 @@
     }
   }
 }
+.modalWrap {
+  :global {
+    .ant-modal-body {
+      padding: 0 24px 24px;
+    }
+  }
+}
 .modal {
   .labelTitle {
     margin-bottom: 10px;
@@ -46,6 +54,33 @@
     line-height: 14px;
     color: #000000;
   }
+  .contentWrap {
+    position: relative;
+  }
+  .uploadWrap {
+    position: absolute;
+    bottom: 11px;
+    left: 11px;
+  }
+  .fileWrap {
+    margin-top: 10px;
+    .file-btn {
+      background-color: rgba(46, 190, 189, 0.1);
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-family: 'Rubik';
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+      color: #2ebebd;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      .attachments-close {
+        margin-left: 12px;
+      }
+    }
+  }
+
   .editBtn {
     height: 36px;
     background: #000000;

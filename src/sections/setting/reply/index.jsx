@@ -3,6 +3,7 @@ import { Collapse, Button, Row, Col, Space, Modal } from 'antd'
 import { Icon } from '../../../components/commons'
 import styles from './index.module.scss'
 import EditChat from './components/edit-chat'
+import CreateFastReply from './components/create-fast-reply'
 const { Panel } = Collapse
 
 const Reply = () => {
@@ -12,6 +13,8 @@ const Reply = () => {
   const [showEdit, setShowEdit] = useState(false)
   // 当前编辑的信息
   const [editCurrent, setEditCurrent] = useState(null)
+  // create fast reply
+  const [showFastReply, setShowFastReply] = useState(false)
   // 获取数据
   const getChatList = () => {
     const list = [
@@ -47,6 +50,17 @@ const Reply = () => {
   }, [])
   return (
     <div className={styles.reply}>
+      <Row justify="end">
+        <Col>
+          <Button
+            className={styles.editBtn}
+            onClick={() => setShowFastReply(true)}
+            style={{ marginTop: '24px' }}
+          >
+            Create fast reply
+          </Button>
+        </Col>
+      </Row>
       <div className={styles.title}>Chat fast reply</div>
       <Collapse ghost expandIconPosition="end">
         {chatList.map((item) => {
@@ -78,6 +92,16 @@ const Reply = () => {
         destroyOnClose
       >
         <EditChat detail={editCurrent} saveEditChat={saveEditChat} />
+      </Modal>
+      <Modal
+        title="New fast reply"
+        visible={showFastReply}
+        footer={false}
+        onCancel={() => setShowFastReply(false)}
+        destroyOnClose
+        wrapClassName={styles.modalWrap}
+      >
+        <CreateFastReply />
       </Modal>
     </div>
   )
