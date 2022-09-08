@@ -7,7 +7,8 @@ import styles from './BasicLayout.module.scss'
 const { Header, Content, Footer, Sider } = Layout
 import 'antd/lib/tooltip/style/index.css'
 const BasicLayout = ({ children }) => {
-  const user = useSelector((store) => store.user.user)
+  const user = useSelector((store) => store.user)
+  console.log(user)
   const [collapsed, setCollapsed] = useState(false)
   return (
     <>

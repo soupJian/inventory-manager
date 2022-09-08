@@ -31,7 +31,7 @@ const inventoryReducer = (state, {type, payload}) => {
 }
 
 const Inventory = ({router}) => {
-    const user = useSelector(state => state.user.user)
+    const user = useSelector(state => state.user)
     const [inventoryState, dispatch] = useReducer(inventoryReducer, {
         page: parseInt(router.query.page) || 1,
         status: router.query.status ? router.query.status.split(",") : [],

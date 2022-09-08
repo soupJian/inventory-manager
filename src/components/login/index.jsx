@@ -33,16 +33,14 @@ const Login = () => {
         req
       dispatch(
         loginUser({
-          user: {
-            info: {
-              id: user_id,
-              displayName: user_display_name,
-              email: user_email,
-              nickname: user_nicename
-            },
-            isLoggedIn: true,
-            accessToken: token
-          }
+          info: {
+            id: user_id,
+            displayName: user_display_name,
+            email: user_email,
+            nickname: user_nicename
+          },
+          isLoggedIn: true,
+          accessToken: token
         })
       )
       setLoading(false)
