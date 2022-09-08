@@ -1,5 +1,4 @@
-import { Providers } from '../components'
-// import Layout from '../components/layout/Layout'
+import Providers from '../components/providers'
 import BasicLayout from '../layouts/BasicLayout'
 import '../styles/globals.css'
 import 'antd/lib/style/index.css'

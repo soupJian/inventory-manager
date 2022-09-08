@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react'
 import { Menu } from 'antd'
 import styled from 'styled-components'
 import logo from '../../../../public/images/company-logo.png'
-import Icon from '../icons/Icon'
+import { Icon } from '../../../components/commons'
 // 有时候本地加载 menu 样式 加载不成功，故手动导入
 import 'antd/lib/menu/style/index.css'
-import styles from './SideBar.module.scss'
+import styles from './index.module.scss'
 
 const SideBar = ({ user }) => {
   const router = useRouter()

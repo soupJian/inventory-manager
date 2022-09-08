@@ -1,4 +1,4 @@
-export default {
+const icons = {
   inventory: '/images/icons/icon-inventory.png',
   product: '/images/icons/icon-product.png',
   warehouse: '/images/icons/icon-warehouse.png',
@@ -43,3 +43,4 @@ export default {
   'edit-active': '/images/icons/icon-edit-active.png',
   'user-deactivate': '/images/icons/icon-user-deactivate.png'
 }
+export default icons

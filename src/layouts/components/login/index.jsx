@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { loginUser } from '../../store/slices/userSlice'
-import { User } from '../../utils/utils'
+import { loginUser } from '../../../store/slices/userSlice'
+import { User } from '../../../utils/utils'
 import { Row, Col, Input, Button, message, Spin } from 'antd'
 import styles from './index.module.scss'
 
