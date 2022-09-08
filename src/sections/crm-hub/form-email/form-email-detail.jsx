@@ -142,7 +142,7 @@ const FromEmailDetail = (props) => {
             </div>
           </div>
           {/* 消息通知 */}
-          <Row className={styles.notice} align="middle">
+          <Row className={styles.notice} align="middle" gutter={5}>
             <Col>
               <Icon name="notification" width="20px" height="20px" />
             </Col>

@@ -1,6 +1,7 @@
 .header-select {
   background-color: #fff;
   padding: 0 16px 14px;
+  margin: 0 !important;
   .selectText {
     font-family: 'Rubik';
     font-weight: 400;
@@ -26,6 +27,7 @@
 
 .container {
   padding: 25px 24px 0;
+  margin: 0 !important;
   .pipelineItem {
     padding: 16px 20px;
     display: inline-block;

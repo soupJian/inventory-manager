@@ -16,6 +16,7 @@
 .list {
   background-color: #fff;
   height: 100%;
+  padding: 30px 21px 0 17px;
   overflow-y: scroll;
   &.active {
     background-color: rgba(44, 136, 221, 0.08);
@@ -73,7 +74,7 @@
   .notice {
     margin-top: 17px;
     padding: 12px 18px;
-    width: 428px;
+    max-width: 428px;
     border-radius: 10px;
     background-color: rgba(44, 136, 221, 0.13);
     font-family: 'Rubik';
