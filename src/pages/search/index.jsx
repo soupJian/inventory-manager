@@ -19,19 +19,19 @@ import {
   TableRow,
   Text,
   Wrapper
-} from '../components/commons'
+} from '../../components/commons'
 import {
   Api,
   ISOStringToReadableDate,
   objectsToQueryString
-} from '../utils/utils'
-import emptySearchLogo from '../../public/images/no-results.png'
+} from '../../utils/utils'
+import emptySearchLogo from '../../../public/images/no-results.png'
 import {
   ExpandedItemTableHeaders,
   ItemTableHeaders,
   ProductTableHeaders,
   statusList
-} from '../constants/pageConstants/search'
+} from '../../constants/pageConstants/search'
 const api = new Api()
 
 const SearchPage = ({ router }) => {

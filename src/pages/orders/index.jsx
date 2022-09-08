@@ -18,17 +18,17 @@ import {
   Tabs,
   Text,
   Wrapper
-} from '../components/commons'
+} from '../../components/commons'
 import {
   dateList,
   ShippedTableHeaders,
   UnShippedTableHeaders
-} from '../constants/pageConstants/orders'
+} from '../../constants/pageConstants/orders'
 import {
   Api,
   ISOStringToReadableDate,
   objectsToQueryString
-} from '../utils/utils'
+} from '../../utils/utils'
 
 const api = new Api()
 const orderReducer = (state, { type, payload }) => {

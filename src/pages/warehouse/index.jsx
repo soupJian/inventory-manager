@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useState } from 'react'
 import styled from 'styled-components'
-import scannerLogo from '../../public/images/scanner.png'
+import scannerLogo from '../../../public/images/scanner.png'
 import Image from 'next/image'
 import {
   Alert,
@@ -21,22 +21,22 @@ import {
   TableRow,
   Tabs,
   Wrapper
-} from '../components/commons'
+} from '../../components/commons'
 import {
   Api,
   ISOStringToReadableDate,
   objectsToQueryString
-} from '../utils/utils'
+} from '../../utils/utils'
 import {
   dateList,
   itemTemplate,
   settledHeaders,
   unSettledHeaders
-} from '../constants/pageConstants/warehouse'
-import Tooltip from '../components/commons/Tooltip/Tooltip'
+} from '../../constants/pageConstants/warehouse'
+import Tooltip from '../../components/commons/Tooltip/Tooltip'
 import { useSelector } from 'react-redux'
 import { withRouter } from 'next/router'
-import { locations } from '../constants/pageConstants/locations'
+import { locations } from '../../constants/pageConstants/locations'
 
 const api = new Api()
 
