@@ -22,11 +22,12 @@ const BasicLayout = ({ children }) => {
             collapsible
             collapsed={collapsed}
             onCollapse={(value) => setCollapsed(value)}
+            width={collapsed ? 103 : 231}
           >
-            <SideBar />
+            <SideBar collapsed={collapsed} />
           </Sider>
           <Layout
-            style={{ marginLeft: collapsed ? '80px' : '200px' }}
+            style={{ marginLeft: collapsed ? '103px' : '231px' }}
             className={styles.siteLayout}
           >
             <Header>

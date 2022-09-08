@@ -1,7 +1,7 @@
 import Providers from '../components/providers'
 import BasicLayout from '../layouts/BasicLayout'
-import '../styles/globals.css'
 import 'antd/lib/style/index.css'
+import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
   return (

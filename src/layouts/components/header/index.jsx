@@ -178,7 +178,7 @@ const DisplayName = styled.h4`
   margin-top: 16px;
   white-space: nowrap;
 `
-const UserName = styled.p`
+const UserName = styled.div`
   font-size: ${({ theme }) => theme.font.size.xs};
   font-family: ${({ theme }) => theme.font.family.secondary};
   color: #000000;

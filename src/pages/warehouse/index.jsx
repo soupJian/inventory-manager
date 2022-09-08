@@ -1231,7 +1231,7 @@ const Warehouse = ({ router }) => {
 
 export default withRouter(Warehouse)
 
-const Text = styled.p`
+const Text = styled.div`
   margin-left: 10px;
   font-size: ${({ theme }) => theme.font.size.s};
   font-weight: ${({ theme }) => theme.font.weight.normal};
@@ -1357,14 +1357,14 @@ const Button = styled.button`
   border: none;
 `
 
-const ErrorMessage = styled.p`
+const ErrorMessage = styled.div`
   font-size: ${({ theme }) => theme.font.size.xs};
   font-family: ${({ theme }) => theme.font.family.primary};
   line-height: ${({ theme }) => theme.font.lineHeight.tight};
   color: ${({ theme }) => theme.colors.error};
 `
 
-const HeaderText = styled.p`
+const HeaderText = styled.div`
   font-size: ${({ theme }) => theme.font.size.xsss};
   font-family: ${({ theme }) => theme.font.family.primary};
   line-height: ${({ theme }) => theme.font.lineHeight.tight};

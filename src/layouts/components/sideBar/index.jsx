@@ -9,7 +9,7 @@ import { Icon } from '../../../components/commons'
 import 'antd/lib/menu/style/index.css'
 import styles from './index.module.scss'
 
-const SideBar = ({ user }) => {
+const SideBar = ({ collapsed }) => {
   const router = useRouter()
   // 默认展示的 menuItem
   const [defaultSelectedKeys, setDefaultSelectedKeys] = useState('')
@@ -33,57 +33,40 @@ const SideBar = ({ user }) => {
     getItem(
       'Inventory',
       '/inventory',
-      <SpanLogo
-        disabled={!user}
-        active={user && router.pathname === '/inventory'}
-      >
-        <Icon name="inventory" />
-      </SpanLogo>
+      <Icon name="inventory" width="24px" height="24px" />
     ),
     getItem(
       'Warehousing',
       '/warehouse',
-      <SpanLogo
-        disabled={!user}
-        active={user && router.pathname === '/warehouse'}
-      >
-        <Icon name="warehouse" />
-      </SpanLogo>
+      <Icon name="warehouse" width="24px" height="24px" />
     ),
     getItem(
       'Products',
       '/products',
-      <SpanLogo
-        disabled={!user}
-        active={user && router.pathname.includes('/products')}
-      >
-        <Icon name="product" />
-      </SpanLogo>
+      <Icon name="product" width="24px" height="24px" />
     ),
     getItem(
       'Orders',
       '/orders',
-      <SpanLogo disabled={!user} active={user && router.pathname === '/orders'}>
-        <Icon name="orders" />
-      </SpanLogo>
+      <Icon name="orders" width="24px" height="24px" />
     ),
-    getItem('CRM Hub', '/crm-hub', <Icon name="crmhub" />, [
-      getItem('Forms & Emails', '/crm-hub/form-email'),
-      getItem('Deals', '/crm-hub/deals'),
-      getItem('Chats', '/crm-hub/chats'),
-      getItem('Tickets', '/crm-hub/tickets'),
-      getItem('Task', '/crm-hub/task'),
-      getItem('Dashboard', '/crm-hub/dashboard')
-    ]),
+    getItem(
+      'CRM Hub',
+      '/crm-hub',
+      <Icon name="crmhub" width="24px" height="24px" />,
+      [
+        getItem('Forms & Emails', '/crm-hub/form-email'),
+        getItem('Deals', '/crm-hub/deals'),
+        getItem('Chats', '/crm-hub/chats'),
+        getItem('Tickets', '/crm-hub/tickets'),
+        getItem('Task', '/crm-hub/task'),
+        getItem('Dashboard', '/crm-hub/dashboard')
+      ]
+    ),
     getItem(
       'Setting',
       '/setting',
-      <SpanLogo
-        disabled={!user}
-        active={user && router.pathname === '/setting'}
-      >
-        <Icon name="setting" />
-      </SpanLogo>
+      <Icon name="setting" width="24px" height="24px" />
     )
   ]
   // 路由改变 需要判断是否展开 menu
@@ -103,16 +86,27 @@ const SideBar = ({ user }) => {
     }
   }, [router.route])
   return (
-    <SideBarWrapper className={styles.SideBarWrapper}>
-      <CompanyLogo onClick={() => router.push('/')}>
+    <SideBarWrapper
+      className={styles.SideBarWrapper}
+      style={{ width: collapsed ? 'unset' : '200px', margin: 'auto' }}
+    >
+      <div
+        className={styles.companyLogo}
+        onClick={() => router.push('/')}
+        style={{ width: collapsed ? '87px' : '166px' }}
+      >
         <Image
-          src={logo}
+          src={
+            collapsed
+              ? '/images/company-logo-collapsed.png'
+              : '/images/company-logo.png'
+          }
           alt="logo"
-          layout="responsive"
+          layout="fill"
           objectFit="contain"
           priority={true}
         />
-      </CompanyLogo>
+      </div>
       <Menu
         openKeys={[`${openKeys}`]}
         selectedKeys={[`${defaultSelectedKeys}`]}
@@ -131,14 +125,4 @@ export default SideBar
 const SideBarWrapper = styled.aside`
   flex: 1 0 auto;
   background-color: #ffffff;
-`
-
-const CompanyLogo = styled.div`
-  width: 160px;
-  cursor: pointer;
-`
-
-const SpanLogo = styled.span`
-  filter: ${({ active, disabled }) =>
-    disabled ? 'none' : active ? 'invert(100%) brightness(0%)' : 'none'};
 `
