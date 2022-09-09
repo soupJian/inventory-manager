@@ -1,11 +1,9 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { loginUser } from '../../../store/slices/userSlice'
-import { User } from '../../../utils/utils'
+import { login } from '../../../service/user'
 import { Row, Col, Input, Button, message, Spin } from 'antd'
 import styles from './index.module.scss'
-
-const user = new User()
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -23,30 +21,31 @@ const Login = () => {
       return
     }
     setLoading(true)
-    const req = await user.login(credentials)
-    if (req.message) {
-      setError(true)
-      setErrorMessage(req.message)
-      setLoading(false)
-    } else {
-      const { token, user_display_name, user_email, user_id, user_nicename } =
-        req
-      dispatch(
-        loginUser({
-          info: {
-            id: user_id,
-            displayName: user_display_name,
-            email: user_email,
-            nickname: user_nicename
-          },
-          isLoggedIn: true,
-          accessToken: token
-        })
-      )
-      setLoading(false)
-      setCredentials({ username: '', password: '' })
-      setError(false)
-      setErrorMessage('')
+    const res = await login(credentials)
+    setLoading(false)
+    if (res) {
+      if (res.message) {
+        setError(true)
+        setErrorMessage(res.message)
+      } else {
+        const { token, user_display_name, user_email, user_id, user_nicename } =
+          res
+        dispatch(
+          loginUser({
+            info: {
+              id: user_id,
+              displayName: user_display_name,
+              email: user_email,
+              nickname: user_nicename
+            },
+            isLoggedIn: true,
+            accessToken: token
+          })
+        )
+        setCredentials({ username: '', password: '' })
+        setError(false)
+        setErrorMessage('')
+      }
     }
   }
 
