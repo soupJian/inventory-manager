@@ -17,12 +17,14 @@ import { CloseOutlined } from '@ant-design/icons'
 import styles from '../index.module.scss'
 
 const UserModule = ({ data }) => {
-  console.log('user')
   const [showSelectedView, setShowSelectedView] = useState(false)
   // 选择的表格数据
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   // deactivate modal
-  const [showDeactiveModal, setShowDeactivateModal] = useState(false)
+  const [modalInfo, setModalInfo] = useState({
+    show: false,
+    type: 'group' // 点击右小角按钮 是 group  表格单行 是 single
+  })
   // edit modal
   const [showEditModal, setShowEditModal] = useState(false)
   const [editModalInfo, setEditModalInfo] = useState(null)
@@ -43,7 +45,8 @@ const UserModule = ({ data }) => {
   }
   // deactivate
   const handleDeactivate = () => {
-    console.log(selectedRowKeys)
+    console.log(modalInfo)
+    // setSho
   }
   const changeUserAccess = (e, record) => {
     console.log(e.target.value)
@@ -145,18 +148,33 @@ const UserModule = ({ data }) => {
     {
       title: '',
       render: (_, record) => (
-        <Button
-          size="small"
-          onClick={() => {
-            setEditModalInfo(record)
-            setShowEditModal(true)
-          }}
-        >
-          <Space>
-            <Icon name="edit" width="11px" height="11px"></Icon>
-            Edit
-          </Space>
-        </Button>
+        <>
+          <Button
+            size="small"
+            onClick={() => {
+              setEditModalInfo(record)
+              setShowEditModal(true)
+            }}
+          >
+            <Space>
+              <Icon name="edit" width="11px" height="11px"></Icon>
+              Edit
+            </Space>
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              setModalInfo({
+                ...modalInfo,
+                type: 'single',
+                show: true
+              })
+            }}
+          >
+            deactivate
+          </Button>
+        </>
       )
     }
   ]
@@ -185,7 +203,15 @@ const UserModule = ({ data }) => {
             </span>
           </Col>
           <Col>
-            <Button onClick={setShowDeactivateModal}>
+            <Button
+              onClick={() => {
+                setModalInfo({
+                  ...modalInfo,
+                  show: true,
+                  type: 'group'
+                })
+              }}
+            >
               <Space>
                 <Icon name="user-deactivate" width="22px" height="22px" />
                 Deactivate
@@ -196,15 +222,21 @@ const UserModule = ({ data }) => {
       )}
       <Modal
         title=""
-        visible={showDeactiveModal}
+        visible={modalInfo.show}
         okText="Save"
         footer={false}
         // onOK={() => ()}
-        onCancel={() => setShowDeactivateModal(false)}
+        onCancel={() =>
+          setModalInfo({
+            ...modalInfo,
+            show: false
+          })
+        }
         wrapClassName={styles.modal}
       >
         <div className={styles.modalSubTitle}>
-          Are you sure you want to deactivate these users?
+          Are you sure you want to deactivate{' '}
+          {`${modalInfo.type == 'group' ? 'these' : 'this'}`} users?
         </div>
         <Row justify="center">
           <Col>
@@ -217,7 +249,12 @@ const UserModule = ({ data }) => {
               </Button>
               <Button
                 className={styles.cancelBtn}
-                onClick={() => setShowDeactivateModal(false)}
+                onClick={() =>
+                  setModalInfo({
+                    ...modalInfo,
+                    show: false
+                  })
+                }
               >
                 NO
               </Button>

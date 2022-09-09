@@ -30,10 +30,8 @@ const UserCreateEdit = ({ type, modalInfo }) => {
       >
         <Select>
           <Option value="Management">Management</Option>
-          <Option value="Customer Representative">
-            Customer Representative
-          </Option>
-          <Option value="Viewer">Viewer</Option>
+          <Option value="Customer Service">Customer Service</Option>
+          <Option value="Warehouse">Warehouse</Option>
         </Select>
       </Form.Item>
       {/* 创建 user 才有eamil信息 */}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Row, Col, Select, Drawer, Button, Modal, message } from 'antd'
-import UserModule from './components/users-user'
+import UserModule from './components/users-module'
 import UserAccess from './components/user-access'
 import UserCreateEdit from './components/user-create-edit'
 import AccessDrawer from './components/access-drawer'
@@ -29,7 +29,7 @@ const defaultAccess = {
 }
 
 const Users = () => {
-  const [selectValue, setSelectValue] = useState('Access')
+  const [selectValue, setSelectValue] = useState('Users')
   const [userList, setUserList] = useState([])
   const [accessList, setAccessList] = useState([])
   // create user  modal
