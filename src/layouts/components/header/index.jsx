@@ -165,13 +165,14 @@ const UserAction = styled.div`
 const PopoverConent = styled.div`
   padding: 20px 16px;
   background-color: #ffffff;
+  line-height: 20px;
 `
 
-const Label = styled.h6`
+const Label = styled.div`
   font-size: ${({ theme }) => theme.font.size.xsss};
   color: ${({ theme }) => theme.colors.secondaryText};
 `
-const DisplayName = styled.h4`
+const DisplayName = styled.div`
   font-size: ${({ theme }) => theme.font.size.s};
   font-weight: ${({ theme }) => theme.font.weight.bold};
   color: ${({ theme }) => theme.colors.primaryText};

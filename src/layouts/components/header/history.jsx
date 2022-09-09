@@ -94,6 +94,7 @@ const Content = styled.div`
   padding: 56px 16px 0px;
   display: flex;
   flex-direction: column;
+  line-height: 20px;
 `
 const CloseWrapper = styled.div`
   position: absolute;
