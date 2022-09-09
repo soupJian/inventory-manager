@@ -34,11 +34,13 @@ const Users = () => {
   const [accessList, setAccessList] = useState([])
   // create user  modal
   const [showCreateUserModal, setShowCreateUser] = useState(false)
-  // create access modal
-  const [showCreateAccessModal, setShowCreateAccessModal] = useState(false)
   // 弹窗抽屉数据
-  const [access, setAccess] = useState(defaultAccess)
-  const [accessType, setAccessType] = useState('create')
+  // const [access, setAccess] = useState(defaultAccess)
+  const [accessInfo, setAccessInfo] = useState({
+    type: 'create', // create 和 edit,
+    access: defaultAccess,
+    show: false
+  })
   const getUserList = () => {
     const list = [
       {
@@ -93,35 +95,55 @@ const Users = () => {
     setAccessList(list)
   }
   // 编辑用户 权限
-  const editUserAccess = useCallback((record) => {
-    setShowCreateAccessModal(true)
-    setAccessType('edit')
-    setAccess(record.access)
-  }, [])
+  const editUserAccess = useCallback(
+    (record) => {
+      setAccessInfo({
+        ...accessInfo,
+        show: true,
+        type: 'edit',
+        access: record.access
+      })
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
   // 编辑权限 switch
   const handleChangeAccessSwitch = useCallback((value, key) => {
-    setAccess((access) => {
-      const newAccess = { ...access }
-      newAccess[key] = value
-      return newAccess
+    setAccessInfo((info) => {
+      const newInfo = { ...info }
+      newInfo.access[key] = value
+      return newInfo
     })
   }, [])
   // 编辑权限 输入框
   const handleInputAccess = useCallback((e) => {
-    setAccess((access) => {
-      const newAccess = { ...access }
-      newAccess[e.target.name] = e.target.value
-      return newAccess
+    setAccessInfo((info) => {
+      const newInfo = { ...info }
+      newInfo.access[e.target.name] = e.target.value
+      console.log(newInfo)
+      return newInfo
     })
   }, [])
+  // 查看用户 access
+  const showAccessDetail = (access) => {
+    setAccessInfo({
+      ...accessInfo,
+      show: true,
+      type: 'edit'
+      // access: access
+    })
+  }
   // create access
   const createAccess = useCallback(() => {
-    if (access.accessName.trim() == '' || access.description == '') {
+    if (
+      accessInfo.access.accessName.trim() == '' ||
+      accessInfo.access.description.trim() == ''
+    ) {
       message.warn('Please complete the information.')
       return
     }
-    console.log(access)
-  }, [access])
+    console.log(accessInfo.access)
+  }, [accessInfo.access])
 
   useEffect(() => {
     getUserList()
@@ -163,9 +185,12 @@ const Users = () => {
             <Button
               className={styles.exportBtn}
               onClick={() => {
-                setShowCreateAccessModal(true)
-                setAccessType('create')
-                setAccess(defaultAccess)
+                setAccessInfo({
+                  ...accessInfo,
+                  show: true,
+                  type: 'create',
+                  access: defaultAccess
+                })
               }}
             >
               Create access
@@ -175,7 +200,9 @@ const Users = () => {
       </Row>
       {/* container */}
       <div className={styles.container}>
-        {selectValue == 'Users' && <UserModule data={userList} />}
+        {selectValue == 'Users' && (
+          <UserModule data={userList} showAccessDetail={showAccessDetail} />
+        )}
         {selectValue == 'Access' && accessList.length > 0 && (
           <UserAccess data={accessList} editUserAccess={editUserAccess} />
         )}
@@ -196,12 +223,17 @@ const Users = () => {
         title="Create access"
         placement="left"
         width={500}
-        onClose={() => setShowCreateAccessModal(false)}
-        visible={showCreateAccessModal}
+        onClose={() =>
+          setAccessInfo({
+            ...accessInfo,
+            show: false
+          })
+        }
+        visible={accessInfo.show}
       >
         <AccessDrawer
-          type={accessType}
-          access={access}
+          type={accessInfo.type}
+          accessInfo={accessInfo}
           handleInputAccess={handleInputAccess}
           handleChangeAccessSwitch={handleChangeAccessSwitch}
           createAccess={createAccess}

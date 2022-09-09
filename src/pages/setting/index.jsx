@@ -15,7 +15,7 @@ import styles from './index.module.scss'
 const { TabPane } = Tabs
 const tabslist = ['Assigning', 'Pipeline', 'Assets', 'Users', 'Reply']
 const Settings = () => {
-  const [active, setActive] = useState('Reply')
+  const [active, setActive] = useState('Assigning')
   const handleChangeTabs = (key) => {
     setActive(key)
   }

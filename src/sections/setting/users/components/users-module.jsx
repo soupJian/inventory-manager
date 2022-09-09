@@ -16,7 +16,7 @@ import UserCreateEdit from './user-create-edit'
 import { CloseOutlined } from '@ant-design/icons'
 import styles from '../index.module.scss'
 
-const UserModule = ({ data }) => {
+const UserModule = ({ data, showAccessDetail }) => {
   const [showSelectedView, setShowSelectedView] = useState(false)
   // 选择的表格数据
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
@@ -76,7 +76,13 @@ const UserModule = ({ data }) => {
                     </Col>
                     <Col className={styles.title}>
                       <Space>
-                        Admin <a>Details</a>
+                        Admin
+                        <a
+                          className={styles.link}
+                          onClick={() => showAccessDetail('Admin')}
+                        >
+                          Details
+                        </a>
                       </Space>
                     </Col>
                     <Col span={22} offset={2} className={styles.subTitle}>
@@ -90,7 +96,7 @@ const UserModule = ({ data }) => {
                     </Col>
                     <Col className={styles.title}>
                       <Space>
-                        Admin <a>Details</a>
+                        Admin <a className={styles.link}>Details</a>
                       </Space>
                     </Col>
                     <Col span={22} offset={2} className={styles.subTitle}>

@@ -6,12 +6,12 @@ import styles from '../index.module.scss'
 const AccessDrawer = (props) => {
   const {
     type,
-    access,
+    accessInfo,
     handleChangeAccessSwitch,
     handleInputAccess,
     createAccess
   } = props
-
+  console.log(accessInfo)
   return (
     <div className={styles.drawer}>
       <Row gutter={[0, 10]}>
@@ -21,7 +21,7 @@ const AccessDrawer = (props) => {
         <Col span={24}>
           <Input
             name="accessName"
-            value={access.accessName}
+            value={accessInfo.access.accessName}
             onChange={handleInputAccess}
           />
         </Col>
@@ -34,7 +34,7 @@ const AccessDrawer = (props) => {
         <Col span={24}>
           <Input
             name="description"
-            value={access.description}
+            value={accessInfo.access.description}
             onChange={handleInputAccess}
           />
         </Col>
@@ -53,7 +53,7 @@ const AccessDrawer = (props) => {
                 onChange={(value) =>
                   handleChangeAccessSwitch(value, 'inventory')
                 }
-                checked={access.inventory}
+                checked={accessInfo.access.inventory}
               />
             </Col>
           </Row>
@@ -66,7 +66,7 @@ const AccessDrawer = (props) => {
                 onChange={(value) =>
                   handleChangeAccessSwitch(value, 'warehousing')
                 }
-                checked={access.warehousing}
+                checked={accessInfo.access.warehousing}
               />
             </Col>
           </Row>
@@ -79,7 +79,7 @@ const AccessDrawer = (props) => {
                 onChange={(value) =>
                   handleChangeAccessSwitch(value, 'products')
                 }
-                checked={access.products}
+                checked={accessInfo.access.products}
               />
             </Col>
           </Row>
@@ -92,7 +92,7 @@ const AccessDrawer = (props) => {
                 onChange={(value) =>
                   handleChangeAccessSwitch(value, 'shipping')
                 }
-                checked={access.shipping}
+                checked={accessInfo.access.shipping}
               />
             </Col>
           </Row>
@@ -103,7 +103,7 @@ const AccessDrawer = (props) => {
             <Col>
               <Switch
                 onChange={(value) => handleChangeAccessSwitch(value, 'orders')}
-                checked={access.orders}
+                checked={accessInfo.access.orders}
               />
             </Col>
           </Row>
@@ -125,7 +125,7 @@ const AccessDrawer = (props) => {
                 onChange={(value) =>
                   handleChangeAccessSwitch(value, 'form-email')
                 }
-                checked={access['form-email']}
+                checked={accessInfo.access['form-email']}
               />
             </Col>
           </Row>
@@ -136,7 +136,7 @@ const AccessDrawer = (props) => {
             <Col>
               <Switch
                 onChange={(value) => handleChangeAccessSwitch(value, 'chats')}
-                checked={access.chats}
+                checked={accessInfo.access.chats}
               />
             </Col>
           </Row>
@@ -147,7 +147,7 @@ const AccessDrawer = (props) => {
             <Col>
               <Switch
                 onChange={(value) => handleChangeAccessSwitch(value, 'deals')}
-                checked={access.deals}
+                checked={accessInfo.access.deals}
               />
             </Col>
           </Row>
@@ -158,7 +158,7 @@ const AccessDrawer = (props) => {
             <Col>
               <Switch
                 onChange={(value) => handleChangeAccessSwitch(value, 'tickets')}
-                checked={access.tickets}
+                checked={accessInfo.access.tickets}
               />
             </Col>
           </Row>
@@ -169,7 +169,7 @@ const AccessDrawer = (props) => {
             <Col>
               <Switch
                 onChange={(value) => handleChangeAccessSwitch(value, 'tasks')}
-                checked={access.tasks}
+                checked={accessInfo.access.tasks}
               />
             </Col>
           </Row>
@@ -182,7 +182,7 @@ const AccessDrawer = (props) => {
                 onChange={(value) =>
                   handleChangeAccessSwitch(value, 'dashboard')
                 }
-                checked={access.dashboard}
+                checked={accessInfo.access.dashboard}
               />
             </Col>
           </Row>
@@ -202,7 +202,7 @@ const AccessDrawer = (props) => {
             <Col>
               <Switch
                 onChange={(value) => handleChangeAccessSwitch(value, 'assets')}
-                checked={access.assets}
+                checked={accessInfo.access.assets}
               />
             </Col>
           </Row>
@@ -215,7 +215,7 @@ const AccessDrawer = (props) => {
                 onChange={(value) =>
                   handleChangeAccessSwitch(value, 'fastReply')
                 }
-                checked={access.fastReply}
+                checked={accessInfo.access.fastReply}
               />
             </Col>
           </Row>
@@ -226,7 +226,7 @@ const AccessDrawer = (props) => {
             <Col>
               <Switch
                 onChange={(value) => handleChangeAccessSwitch(value, 'other')}
-                checked={access.other}
+                checked={accessInfo.access.other}
               />
             </Col>
           </Row>
@@ -237,7 +237,7 @@ const AccessDrawer = (props) => {
             <Col>
               <Switch
                 onChange={(value) => handleChangeAccessSwitch(value, 'history')}
-                checked={access.history}
+                checked={accessInfo.access.history}
               />
             </Col>
           </Row>
