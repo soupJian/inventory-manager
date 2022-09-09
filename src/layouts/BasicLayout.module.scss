@@ -18,12 +18,15 @@
       width: 72px;
       margin: 40px auto;
       .ant-menu-item {
-        padding: 11px 24px;
+        padding: 0 calc(50% - 24px / 2);
       }
       .ant-menu-submenu {
         .ant-menu-submenu-title {
-          padding-top: 11px;
+          padding: 0 calc(50% - 24px / 2);
         }
+      }
+      .ant-menu-item-icon {
+        vertical-align: middle;
       }
     }
     .ant-layout-header {
