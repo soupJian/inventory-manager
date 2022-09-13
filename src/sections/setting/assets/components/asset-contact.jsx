@@ -196,6 +196,7 @@ const AssetsContact = ({ data }) => {
         pagination={{
           showTotal: (total) => `Showing ${total} of ${data.length} deals`
         }}
+        rowKey="id"
       />
       {showSelectedView && selectedRowKeys.length > 0 && (
         <Row className={styles.view} align="middle" justify="space-between">

@@ -21,7 +21,7 @@ const Assets = () => {
   useEffect(() => {
     const list = [
       {
-        key: '1',
+        id: '1',
         name: '汤建',
         company: '炜辰科技',
         email: 'soupjian@163.com',
@@ -30,7 +30,7 @@ const Assets = () => {
         createDate: '2022/09/01'
       },
       {
-        key: '2',
+        id: '2',
         name: '汤建',
         company: '炜辰科技',
         email: 'soupjian@163.com',
@@ -39,7 +39,7 @@ const Assets = () => {
         createDate: '2022/08/30'
       },
       {
-        key: '3',
+        id: '3',
         name: '汤建',
         company: '炜辰科技',
         email: 'soupjian@163.com',
