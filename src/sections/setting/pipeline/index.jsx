@@ -9,7 +9,7 @@ import styles from './index.module.scss'
 //js =---------
 const { Option } = Select
 const Pipeline = () => {
-  const [headerSelect, setHeaderSelect] = useState('Reverse logistics')
+  const [headerSelect, setHeaderSelect] = useState('Sales pipeline')
   return (
     <div>
       {/* header-search */}

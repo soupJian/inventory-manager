@@ -12,19 +12,23 @@ const PipelineSales = () => {
   const [supportList, setSupportList] = useState([
     {
       name: 'Waiting on us',
-      color: '#FF7B7B'
+      color: '#FF7B7B',
+      edit: true
     },
     {
       name: 'Waiting on contact',
-      color: '#FABF66'
+      color: '#FABF66',
+      edit: true
     },
     {
       name: 'Resolved',
-      color: '#2EBEBD'
+      color: '#2EBEBD',
+      edit: false
     },
     {
-      name: 'Closed lost',
-      color: '#B7B7B7'
+      name: 'Unresolved',
+      color: '#B7B7B7',
+      edit: false
     }
   ])
   const [statusName, setStatusName] = useState('')
@@ -66,7 +70,8 @@ const PipelineSales = () => {
       const index = newList.findIndex((item) => item.name == afterValue)
       newList.splice(index + 1, 0, {
         name: statusName,
-        color: newColors[0]
+        color: newColors[0],
+        edit: true
       })
       return newList
     })
@@ -79,7 +84,7 @@ const PipelineSales = () => {
         <Row gutter={[0, 28]} align="middle">
           {supportList
             .filter((_, i) => i < 5)
-            .map((item, index) => {
+            .map((item) => {
               return (
                 <PipelineEdit
                   key={item.name}
@@ -87,16 +92,7 @@ const PipelineSales = () => {
                   supportList={supportList}
                   updatePipeline={updateSalesPipeline}
                   // 最后两个 closed lost 和 closed won 不允许编辑
-                  disabled={
-                    supportList.findIndex(
-                      (current) => current.name == item.name
-                    ) ==
-                      supportList.length - 1 ||
-                    supportList.findIndex(
-                      (current) => current.name == item.name
-                    ) ==
-                      supportList.length - 2
-                  }
+                  disabled={!item.edit}
                 />
               )
             })}
@@ -111,17 +107,7 @@ const PipelineSales = () => {
                 item={item}
                 supportList={supportList}
                 updatePipeline={updateSalesPipeline}
-                // 最后两个 closed lost 和 closed won 不允许编辑
-                disabled={
-                  supportList.findIndex(
-                    (current) => current.name == item.name
-                  ) ==
-                    supportList.length - 1 ||
-                  supportList.findIndex(
-                    (current) => current.name == item.name
-                  ) ==
-                    supportList.length - 2
-                }
+                disabled={!item.edit}
               />
             )
           })}
@@ -157,11 +143,7 @@ const PipelineSales = () => {
                   onChange={(value) => setAfterValue(value)}
                 >
                   {supportList
-                    .filter(
-                      (_, i) =>
-                        i != supportList.length - 1 &&
-                        i != supportList.length - 2
-                    )
+                    .filter((current) => current.edit)
                     .map((item) => {
                       return (
                         <Option key={item.name} value={item.name}>

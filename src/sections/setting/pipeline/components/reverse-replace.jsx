@@ -12,35 +12,43 @@ const ReverseReturn = () => {
   const [salesList, setSaleslist] = useState([
     {
       name: 'Request initiated',
-      color: '#FF7B7B'
+      color: '#FF7B7B',
+      edit: true
     },
     {
       name: 'Collect info',
-      color: '#FABF66'
+      color: '#FABF66',
+      edit: true
     },
     {
       name: 'Claim submitted',
-      color: '#2C88DD'
+      color: '#2C88DD',
+      edit: true
     },
     {
       name: 'Label requested',
-      color: '#77D755'
+      color: '#77D755',
+      edit: true
     },
     {
       name: 'Label sent',
-      color: '#8781FF'
+      color: '#8781FF',
+      edit: true
     },
     {
       name: 'Replacement shipped',
-      color: '#3BC7F3'
+      color: '#3BC7F3',
+      edit: true
     },
     {
       name: 'Return received',
-      color: '#E4D54B'
+      color: '#E4D54B',
+      edit: true
     },
     {
       name: 'Closed',
-      color: '#2EBEBD'
+      color: '#2EBEBD',
+      edit: false
     }
   ])
   const [statusName, setStatusName] = useState('')
@@ -82,7 +90,8 @@ const ReverseReturn = () => {
       const index = newList.findIndex((item) => item.name == afterValue)
       newList.splice(index + 1, 0, {
         name: statusName,
-        color: newColors[0]
+        color: newColors[0],
+        edit: true
       })
       return newList
     })
@@ -95,20 +104,14 @@ const ReverseReturn = () => {
         <Row gutter={[0, 28]} align="middle">
           {salesList
             .filter((_, i) => i < 5)
-            .map((item, index) => {
+            .map((item) => {
               return (
                 <PipelineEdit
                   key={item.name}
                   item={item}
                   salesList={salesList}
                   updatePipeline={updateSalesPipeline}
-                  // 最后两个 closed lost 和 closed won 不允许编辑
-                  disabled={
-                    salesList.findIndex(
-                      (current) => current.name == item.name
-                    ) ==
-                    salesList.length - 1
-                  }
+                  disabled={!item.edit}
                 />
               )
             })}
@@ -123,11 +126,7 @@ const ReverseReturn = () => {
                 item={item}
                 salesList={salesList}
                 updatePipeline={updateSalesPipeline}
-                // 最后两个 closed lost 和 closed won 不允许编辑
-                disabled={
-                  salesList.findIndex((current) => current.name == item.name) ==
-                  salesList.length - 1
-                }
+                disabled={!item.edit}
               />
             )
           })}
@@ -163,10 +162,7 @@ const ReverseReturn = () => {
                   onChange={(value) => setAfterValue(value)}
                 >
                   {salesList
-                    .filter(
-                      (_, i) =>
-                        i != salesList.length - 1 && i != salesList.length - 2
-                    )
+                    .filter((current) => current.edit)
                     .map((item) => {
                       return (
                         <Option key={item.name} value={item.name}>
