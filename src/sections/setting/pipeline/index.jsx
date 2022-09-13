@@ -9,9 +9,9 @@ import styles from './index.module.scss'
 //js =---------
 const { Option } = Select
 const Pipeline = () => {
-  const [headerSelect, setHeaderSelect] = useState('Sales pipeline')
+  const [headerSelect, setHeaderSelect] = useState('Reverse logistics')
   return (
-    <div className={styles.assiging}>
+    <div>
       {/* header-search */}
       <Row className={styles['header-select']} align="middle" gutter={10}>
         <Col className={styles.selectText}>Select</Col>
