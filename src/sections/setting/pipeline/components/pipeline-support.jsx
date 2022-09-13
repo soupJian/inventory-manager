@@ -9,25 +9,17 @@ import PipelineEdit from './pipeline-edit'
 const { Option } = Select
 
 const PipelineSales = () => {
-  const [salesList, setSaleslist] = useState([
+  const [supportList, setSupportList] = useState([
     {
-      name: 'Interest showed',
+      name: 'Waiting on us',
       color: '#FF7B7B'
     },
     {
-      name: 'Initial mockup',
+      name: 'Waiting on contact',
       color: '#FABF66'
     },
     {
-      name: 'Mockup revising',
-      color: '#2C88DD'
-    },
-    {
-      name: 'Invoice sent',
-      color: '#77D755'
-    },
-    {
-      name: 'Closed won',
+      name: 'Resolved',
       color: '#2EBEBD'
     },
     {
@@ -39,8 +31,8 @@ const PipelineSales = () => {
   const [afterValue, setAfterValue] = useState(null)
   // 编辑 slaes pipeline
   const updateSalesPipeline = (oldValue, newValue) => {
-    setSaleslist((list) => {
-      const index = salesList.findIndex((item) => item.name == oldValue)
+    setSupportList((list) => {
+      const index = supportList.findIndex((item) => item.name == oldValue)
       const newList = [...list]
       newList[index].name = newValue
       return newList
@@ -52,15 +44,15 @@ const PipelineSales = () => {
       message.error('please select status!')
       return
     }
-    const index = salesList.findIndex((item) => item.name == statusName)
+    const index = supportList.findIndex((item) => item.name == statusName)
     if (index >= 0) {
       message.error(`${statusName} is already exist!`)
       return
     }
-    if (salesList.length >= 10) {
+    if (supportList.length >= 10) {
       return
     }
-    setSaleslist((list) => {
+    setSupportList((list) => {
       const newList = [...list]
       const newColors = [...pipelineColors]
       // 过滤已经使用过的颜色
@@ -85,25 +77,25 @@ const PipelineSales = () => {
     <Row gutter={20} className={styles.container}>
       <Col span={8}>
         <Row gutter={[0, 28]} align="middle">
-          {salesList
+          {supportList
             .filter((_, i) => i < 5)
             .map((item, index) => {
               return (
                 <PipelineEdit
                   key={item.name}
                   item={item}
-                  salesList={salesList}
+                  supportList={supportList}
                   updatePipeline={updateSalesPipeline}
                   // 最后两个 closed lost 和 closed won 不允许编辑
                   disabled={
-                    salesList.findIndex(
+                    supportList.findIndex(
                       (current) => current.name == item.name
                     ) ==
-                      salesList.length - 1 ||
-                    salesList.findIndex(
+                      supportList.length - 1 ||
+                    supportList.findIndex(
                       (current) => current.name == item.name
                     ) ==
-                      salesList.length - 2
+                      supportList.length - 2
                   }
                 />
               )
@@ -112,19 +104,23 @@ const PipelineSales = () => {
       </Col>
       <Col span={8}>
         <Row gutter={[0, 28]} align="middle">
-          {salesList.slice(5, 10).map((item) => {
+          {supportList.slice(5, 10).map((item) => {
             return (
               <PipelineEdit
                 key={item.name}
                 item={item}
-                salesList={salesList}
+                supportList={supportList}
                 updatePipeline={updateSalesPipeline}
                 // 最后两个 closed lost 和 closed won 不允许编辑
                 disabled={
-                  salesList.findIndex((current) => current.name == item.name) ==
-                    salesList.length - 1 ||
-                  salesList.findIndex((current) => current.name == item.name) ==
-                    salesList.length - 2
+                  supportList.findIndex(
+                    (current) => current.name == item.name
+                  ) ==
+                    supportList.length - 1 ||
+                  supportList.findIndex(
+                    (current) => current.name == item.name
+                  ) ==
+                    supportList.length - 2
                 }
               />
             )
@@ -142,7 +138,7 @@ const PipelineSales = () => {
               placeholder="Type status name"
               onChange={(e) => setStatusName(e.target.value)}
               className={styles.addInput}
-              disabled={salesList.length >= 10}
+              disabled={supportList.length >= 10}
             />
           </Col>
           {statusName != '' && (
@@ -160,10 +156,11 @@ const PipelineSales = () => {
                   placeholder="Select status"
                   onChange={(value) => setAfterValue(value)}
                 >
-                  {salesList
+                  {supportList
                     .filter(
                       (_, i) =>
-                        i != salesList.length - 1 && i != salesList.length - 2
+                        i != supportList.length - 1 &&
+                        i != supportList.length - 2
                     )
                     .map((item) => {
                       return (
