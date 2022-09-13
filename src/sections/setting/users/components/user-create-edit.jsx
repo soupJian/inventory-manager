@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Form, Input, Select } from 'antd'
 const { Option } = Select
 import styles from '../index.module.scss'
-const UserCreateEdit = ({ type, modalInfo }) => {
+const UserCreateEdit = ({ type, modalInfo, accessList }) => {
   const [form] = Form.useForm()
   const formSubmit = (values) => {
     console.log(values)
@@ -50,9 +50,16 @@ const UserCreateEdit = ({ type, modalInfo }) => {
         rules={[{ required: true, message: 'please select access' }]}
       >
         <Select>
-          <Option value="Super admin">Super admin</Option>
-          <Option value="Admin">Admin</Option>
-          <Option value="Viewer">Viewer</Option>
+          {accessList.map((item) => {
+            return (
+              <Option
+                key={item.access.accessName}
+                value={item.access.accessName}
+              >
+                {item.access.accessName}
+              </Option>
+            )
+          })}
         </Select>
       </Form.Item>
       <Form.Item style={{ textAlign: 'right' }}>

@@ -16,7 +16,7 @@ import UserCreateEdit from './user-create-edit'
 import { CloseOutlined } from '@ant-design/icons'
 import styles from '../index.module.scss'
 
-const UserModule = ({ data, showAccessDetail }) => {
+const UserModule = ({ data, showAccessDetail, accessList }) => {
   const [showSelectedView, setShowSelectedView] = useState(false)
   // 选择的表格数据
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
@@ -52,7 +52,7 @@ const UserModule = ({ data, showAccessDetail }) => {
     console.log(e.target.value)
     console.log(record)
   }
-  const DropMenu = ({ value, changeUserAccess }) => {
+  const DropMenu = ({ value, changeUserAccess, accessList }) => {
     return (
       <Menu
         items={[
@@ -61,48 +61,31 @@ const UserModule = ({ data, showAccessDetail }) => {
             label: (
               <Radio.Group value={value}>
                 <Space direction="vertical" onChange={changeUserAccess}>
-                  <Row>
-                    <Col span={2}>
-                      <Radio value="Super Admin"></Radio>
-                    </Col>
-                    <Col className={styles.title}>Super admin</Col>
-                    <Col span={22} offset={2} className={styles.subTitle}>
-                      Access to all data, can read and edit all data
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col span={2}>
-                      <Radio value="Admin"></Radio>
-                    </Col>
-                    <Col className={styles.title}>
-                      <Space>
-                        Admin
-                        <a
-                          className={styles.link}
-                          onClick={() => showAccessDetail('Admin')}
-                        >
-                          Details
-                        </a>
-                      </Space>
-                    </Col>
-                    <Col span={22} offset={2} className={styles.subTitle}>
-                      Access to all data, can read and edit except for super
-                      admin
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col span={2}>
-                      <Radio value="Viewer"></Radio>
-                    </Col>
-                    <Col className={styles.title}>
-                      <Space>
-                        Admin <a className={styles.link}>Details</a>
-                      </Space>
-                    </Col>
-                    <Col span={22} offset={2} className={styles.subTitle}>
-                      Can read but not edit data
-                    </Col>
-                  </Row>
+                  {accessList.map((item) => {
+                    return (
+                      <Row key={item.id}>
+                        <Col span={2}>
+                          <Radio value={item.access.accessName}></Radio>
+                        </Col>
+                        <Col className={styles.title}>
+                          <Space>
+                            {item.access.accessName}
+                            {item.access.accessName != 'Super Admin' && (
+                              <a
+                                className={styles.link}
+                                onClick={() => showAccessDetail(item.access)}
+                              >
+                                Details
+                              </a>
+                            )}
+                          </Space>
+                        </Col>
+                        <Col span={22} offset={2} className={styles.subTitle}>
+                          {item.access.description}
+                        </Col>
+                      </Row>
+                    )
+                  })}
                 </Space>
               </Radio.Group>
             )
@@ -112,78 +95,94 @@ const UserModule = ({ data, showAccessDetail }) => {
     )
   }
   // menu table 的 columns
-  const columns = [
-    {
-      title: 'FULL NAME',
-      dataIndex: 'fullName'
-    },
-    {
-      title: 'ROLE',
-      dataIndex: 'role'
-    },
-    {
-      title: 'ACCESS',
-      dataIndex: 'access',
-      render: (_, record) => {
-        return (
-          <Dropdown
-            overlay={
-              <DropMenu
-                value={record.access}
-                changeUserAccess={(e) => changeUserAccess(e, record)}
-              />
-            }
-            overlayClassName={styles.dropDownItem}
-          >
-            <Space style={{ cursor: 'pointer' }}>
-              <div style={{ minWidth: '100px' }}>{record.access}</div>
-              <DownOutlined />
-            </Space>
-          </Dropdown>
+  const columns = (accessList) => {
+    return [
+      {
+        title: 'FULL NAME',
+        dataIndex: 'fullName'
+      },
+      {
+        title: 'ROLE',
+        dataIndex: 'role'
+      },
+      {
+        title: 'ACCESS',
+        dataIndex: 'access',
+        render: (_, record) => {
+          return (
+            <Dropdown
+              overlay={
+                <DropMenu
+                  accessList={accessList}
+                  value={record.access}
+                  changeUserAccess={(e) => changeUserAccess(e, record)}
+                />
+              }
+              overlayClassName={styles.dropDownItem}
+            >
+              <Space style={{ cursor: 'pointer' }}>
+                <div style={{ minWidth: '100px' }}>{record.access}</div>
+                <DownOutlined />
+              </Space>
+            </Dropdown>
+          )
+        }
+      },
+      {
+        title: 'EMAIL',
+        dataIndex: 'email'
+      },
+      {
+        title: 'ADDED ON',
+        dataIndex: 'addedOn'
+      },
+      {
+        title: '',
+        render: (_, record) => (
+          <>
+            <Button
+              size="small"
+              onClick={() => {
+                setEditModalInfo(record)
+                setShowEditModal(true)
+              }}
+            >
+              <Space>
+                <Icon name="edit" width="11px" height="11px"></Icon>
+                Edit
+              </Space>
+            </Button>
+            <Button
+              type="link"
+              size="small"
+              onClick={() => {
+                setModalInfo({
+                  ...modalInfo,
+                  type: 'single',
+                  show: true
+                })
+              }}
+            >
+              deactivate
+            </Button>
+            {/* <Button
+              type="link"
+              size="small"
+              onClick={() => {
+                setModalInfo({
+                  ...modalInfo,
+                  type: 'single',
+                  show: true
+                })
+              }}
+            >
+              activate
+            </Button> */}
+          </>
         )
       }
-    },
-    {
-      title: 'EMAIL',
-      dataIndex: 'email'
-    },
-    {
-      title: 'ADDED ON',
-      dataIndex: 'addedOn'
-    },
-    {
-      title: '',
-      render: (_, record) => (
-        <>
-          <Button
-            size="small"
-            onClick={() => {
-              setEditModalInfo(record)
-              setShowEditModal(true)
-            }}
-          >
-            <Space>
-              <Icon name="edit" width="11px" height="11px"></Icon>
-              Edit
-            </Space>
-          </Button>
-          <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              setModalInfo({
-                ...modalInfo,
-                type: 'single',
-                show: true
-              })
-            }}
-          >
-            deactivate
-          </Button>
-        </>
-      )
-    }
-  ]
+    ]
+  }
 
   return (
     <div className={styles.tableWrap}>
@@ -192,11 +191,12 @@ const UserModule = ({ data, showAccessDetail }) => {
           selectedRowKeys,
           onChange: onSelectChange
         }}
-        columns={columns}
+        columns={columns(accessList)}
         dataSource={data}
         pagination={{
           showTotal: (total) => `Showing ${total} of ${data.length} deals`
         }}
+        rowKey="id"
       />
       {showSelectedView && selectedRowKeys.length > 0 && (
         <Row className={styles.view} align="middle" justify="space-between">
@@ -276,7 +276,11 @@ const UserModule = ({ data, showAccessDetail }) => {
         wrapClassName={styles.modal}
         destroyOnClose
       >
-        <UserCreateEdit type="edit" modalInfo={editModalInfo} />
+        <UserCreateEdit
+          type="edit"
+          modalInfo={editModalInfo}
+          accessList={accessList}
+        />
       </Modal>
     </div>
   )

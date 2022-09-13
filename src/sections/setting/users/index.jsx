@@ -44,7 +44,7 @@ const Users = () => {
   const getUserList = () => {
     const list = [
       {
-        key: '1',
+        id: '1',
         fullName: '汤建',
         role: 'Customer Service',
         access: 'Admin',
@@ -52,7 +52,7 @@ const Users = () => {
         addedOn: '2022/09/01'
       },
       {
-        key: '2',
+        id: '2',
         fullName: 'soupjian',
         role: 'Vierer',
         access: 'Super Admin',
@@ -68,7 +68,7 @@ const Users = () => {
         id: '1',
         access: {
           accessName: 'Super Admin',
-          description: 'Super Admin'
+          description: 'Access to all data, can read and edit all data'
         },
         type: 'System created',
         userList: ['Ray Cai', 'soupjian']
@@ -77,7 +77,8 @@ const Users = () => {
         id: '2',
         access: {
           accessName: 'Admin',
-          description: 'Admin'
+          description:
+            'Access to all data, can read and edit except for super admin'
         },
         type: 'System created',
         userList: ['Cathy Lastname', 'soupjian']
@@ -86,7 +87,7 @@ const Users = () => {
         id: '3',
         access: {
           accessName: 'Viewer',
-          description: 'Viewer'
+          description: 'Can read but not edit data'
         },
         type: 'Viewer',
         userList: ['Xianyou Yang', 'soupjian']
@@ -127,7 +128,7 @@ const Users = () => {
   // 查看用户 access
   const showAccessDetail = (access) => {
     setAccessInfo({
-      ...accessInfo,
+      access,
       show: true,
       type: 'edit'
       // access: access
@@ -201,7 +202,11 @@ const Users = () => {
       {/* container */}
       <div className={styles.container}>
         {selectValue == 'Users' && (
-          <UserModule data={userList} showAccessDetail={showAccessDetail} />
+          <UserModule
+            data={userList}
+            showAccessDetail={showAccessDetail}
+            accessList={accessList}
+          />
         )}
         {selectValue == 'Access' && accessList.length > 0 && (
           <UserAccess data={accessList} editUserAccess={editUserAccess} />
@@ -220,7 +225,7 @@ const Users = () => {
       </Modal>
       {/* access detail */}
       <Drawer
-        title="Create access"
+        title={accessInfo.type == 'create' ? 'create  access' : 'view  access'}
         placement="left"
         width={500}
         onClose={() =>
