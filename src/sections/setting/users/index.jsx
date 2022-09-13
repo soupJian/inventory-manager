@@ -49,7 +49,8 @@ const Users = () => {
         role: 'Customer Service',
         access: 'Admin',
         email: 'soupjian@163',
-        addedOn: '2022/09/01'
+        addedOn: '2022/09/01',
+        status: 0
       },
       {
         id: '2',
@@ -57,7 +58,8 @@ const Users = () => {
         role: 'Vierer',
         access: 'Super Admin',
         email: 'soupjian@163',
-        addedOn: '2022/09/01'
+        addedOn: '2022/09/01',
+        status: 1
       }
     ]
     setUserList(list)

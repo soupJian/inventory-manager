@@ -152,32 +152,36 @@ const UserModule = ({ data, showAccessDetail, accessList }) => {
                 Edit
               </Space>
             </Button>
-            <Button
-              type="link"
-              size="small"
-              onClick={() => {
-                setModalInfo({
-                  ...modalInfo,
-                  type: 'single',
-                  show: true
-                })
-              }}
-            >
-              deactivate
-            </Button>
-            {/* <Button
-              type="link"
-              size="small"
-              onClick={() => {
-                setModalInfo({
-                  ...modalInfo,
-                  type: 'single',
-                  show: true
-                })
-              }}
-            >
-              activate
-            </Button> */}
+            {record.status == 0 && (
+              <Button
+                type="link"
+                size="small"
+                onClick={() => {
+                  setModalInfo({
+                    ...modalInfo,
+                    type: 'single',
+                    show: true
+                  })
+                }}
+              >
+                deactivate
+              </Button>
+            )}
+            {record.status == 1 && (
+              <Button
+                type="link"
+                size="small"
+                onClick={() => {
+                  setModalInfo({
+                    ...modalInfo,
+                    type: 'single',
+                    show: true
+                  })
+                }}
+              >
+                activate
+              </Button>
+            )}
           </>
         )
       }
