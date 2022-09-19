@@ -40,7 +40,9 @@ const UserAccess = ({ data, editUserAccess }) => {
               }
             >
               <Space style={{ cursor: 'pointer' }}>
-                <div style={{ minWidth: '100px' }}>{record.userList[0]}</div>
+                <div style={{ minWidth: '100px' }}>
+                  {record.userList[0] || ''}
+                </div>
                 <DownOutlined />
               </Space>
             </Dropdown>

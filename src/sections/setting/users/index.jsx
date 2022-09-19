@@ -223,7 +223,11 @@ const Users = () => {
         wrapClassName={styles.modal}
         destroyOnClose
       >
-        <UserCreateEdit type="create" modalInfo={null} />
+        <UserCreateEdit
+          type="create"
+          modalInfo={null}
+          accessList={accessList}
+        />
       </Modal>
       {/* access detail */}
       <Drawer
