@@ -1,24 +1,24 @@
 import Image from "next/image"
 import styled from "styled-components"
-import { Box, Flex, Icon, Input, Loader, Text, Wrapper } from "../../commons"
+import { Box, Flex, Icon, Input, Loader, Text, Wrapper } from "../../components/commons"
 import imagePlaceholder from "../../../../public/images/image-placeholder.png"
-import { itemTemplate } from "../../../constants/pageConstants/warehouse"
 
-const Product = ({loading, product, backLink, onDelete, showEditModal, parts}) => {
-    //if(!product) return <> </>
+const Item = ({loading, item, backLink, onDelete, showEditModal}) => {
+    if(!item) return <> </>
+    console.log({loading})
     return (
-        <Wrapper styles={{position: "relative"}} height="auto" padding="21px 33px">
+        <Wrapper styles={{position: "relative"}} padding="21px 33px">
             {
                 loading && 
                 <LoadingWrapper>
                     <Loader size={100} />
-                    <Text>Loading Product...</Text>
+                    <Text>Loading Item...</Text>
                 </LoadingWrapper>
             }
             <Flex alignItems="center" justifyContent="space-between">
                 <Flex alignItems="center">
                     <Icon onClick={backLink} styles={{"cursor": "pointer", "margin-right": "41px"}} name="chevron" height="22px" width="14px" />
-                    <Text as="h1" weight="500" size="24px">{product.Name}</Text>
+                    <Text as="h1" weight="500" size="24px">{item.Name}</Text>
                 </Flex>
                 <Flex>
                     <ActionButton onClick={() => showEditModal(true)} bg="#000000">
@@ -29,12 +29,12 @@ const Product = ({loading, product, backLink, onDelete, showEditModal, parts}) =
                     </ActionButton>
                 </Flex>
             </Flex>
-            <Wrapper padding="37px 0 0 55px">
+            <Wrapper height="auto" padding="37px 0 0 55px">
                 <Flex gap="20px" justifyContent="flex-start">
                     {
-                        product?.Image &&
+                        item?.Image &&
                         <ImageWrapper>
-                            <Image src={product.Image} alt="product image" width={136} height={136} layout="responsive" objectFit="contain" />
+                            <Image src={item.Image} alt="item image" width={136} height={136} layout="responsive" objectFit="contain" />
                         </ImageWrapper>
                     }
                     <Box 
@@ -52,22 +52,27 @@ const Product = ({loading, product, backLink, onDelete, showEditModal, parts}) =
                     </Box>
                 </Flex>
                 <Wrapper padding="55px 0 0">
-                    <Flex direction="column" alignItems="flex-start" justifyContent="flex-start" gap="20px">
+                    <Flex direction="column" alignItems="flex-start" justifyContent="flex-start" gap="30px">
                         <Flex alignItems="flex-start" justifyContent="flex-start" gap="60px">
                             <AttrGroup>
                                 <AttrName>
                                     ITEM NAME
                                 </AttrName>
                                 <AttrValue>
-                                    {product.Name}
+                                    {item.Name}
                                 </AttrValue>
                             </AttrGroup>
                             <AttrGroup>
                                 <AttrName>
-                                    SKU
+                                    LOCATION
                                 </AttrName>
                                 <AttrValue>
-                                    {product.SKU}
+                                    {
+                                        item.Location?.length ?
+                                            item.Location.join(";")
+                                        :
+                                            "Unsettled"
+                                    }
                                 </AttrValue>
                             </AttrGroup>
                             <AttrGroup>
@@ -75,34 +80,35 @@ const Product = ({loading, product, backLink, onDelete, showEditModal, parts}) =
                                     US COST
                                 </AttrName>
                                 <AttrValue>
-                                    $ {product.TotalCost}
+                                    $ {item.TotalCost}
                                 </AttrValue>
                             </AttrGroup>
                         </Flex>
-                        {
-                            product.Parts?.length > 0 && 
-                            <Flex alignItems="flex-start" justifyContent="flex-start" gap="60px">
-                                <AttrGroup>
-                                    <AttrName>
-                                        PARTS
-                                    </AttrName>
-                                    <Flex alignItems="flex-start" justifyContent="flex-start" gap="8px">
-                                        {
-                                            parts?.map((part, idx) => (
-                                                <AttrValue key={part.item.Name + idx}> {part.item.Name} x{part.count},</AttrValue>
-                                            ))
-                                        }
-                                    </Flex>
-                                </AttrGroup>
-                            </Flex>
-                        }
+                        <Flex alignItems="flex-start" justifyContent="flex-start" gap="60px">
+                            <AttrGroup>
+                                <AttrName>
+                                    BARCODE
+                                </AttrName>
+                                <AttrValue>
+                                    {item.Barcode}
+                                </AttrValue>
+                            </AttrGroup>
+                            <AttrGroup>
+                                <AttrName>
+                                    SKU
+                                </AttrName>
+                                <AttrValue>
+                                    {item.SKU}
+                                </AttrValue>
+                            </AttrGroup>
+                        </Flex>
                         <Flex alignItems="flex-start" justifyContent="flex-start" gap="60px">
                             <AttrGroup>
                                 <AttrName>
                                     STOCK
                                 </AttrName>
                                 <AttrValue>
-                                    {product.Stock}
+                                    {item.Stock}
                                 </AttrValue>
                             </AttrGroup>
                             <AttrGroup>
@@ -110,7 +116,7 @@ const Product = ({loading, product, backLink, onDelete, showEditModal, parts}) =
                                     RESERVED
                                 </AttrName>
                                 <AttrValue>
-                                    {product.Reserved}
+                                    {item.Reserved}
                                 </AttrValue>
                             </AttrGroup>
                             <AttrGroup>
@@ -118,7 +124,7 @@ const Product = ({loading, product, backLink, onDelete, showEditModal, parts}) =
                                     AVAILABLE
                                 </AttrName>
                                 <AttrValue>
-                                    {product.Available}
+                                    {item.Available}
                                 </AttrValue>
                             </AttrGroup>
                             <AttrGroup>
@@ -126,7 +132,7 @@ const Product = ({loading, product, backLink, onDelete, showEditModal, parts}) =
                                     REORDER ALERT
                                 </AttrName>
                                 <AttrValue>
-                                    {product.ReorderAlert}
+                                    {item.ReorderAlert}
                                 </AttrValue>
                             </AttrGroup>
                         </Flex>
@@ -136,7 +142,7 @@ const Product = ({loading, product, backLink, onDelete, showEditModal, parts}) =
                             </AttrName>
                             <Flex alignItems="flex-start" justifyContent="flex-start" gap="10px">
                                 {
-                                    product?.Tags?.map((tag) => (
+                                    item?.Tags?.map((tag) => (
                                         <Tag key={tag}>
                                             <AttrValue>
                                                 {tag}
@@ -153,7 +159,7 @@ const Product = ({loading, product, backLink, onDelete, showEditModal, parts}) =
     )
 }
 
-export default Product
+export default Item
 
 const LoadingWrapper = styled.div`
     position: absolute;
@@ -167,8 +173,8 @@ const LoadingWrapper = styled.div`
     align-items: center;
     justify-content: center;
     gap: 16px;
+    z-index: 5;
 `
-
 const ActionButton = styled.button`
     padding: 14px;
     margin: 0 5px;

@@ -3,7 +3,7 @@ import { useEffect, useReducer, useState } from "react"
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { BaseButton, Button, Dialog, Filter, Flex, FloatingBar, Icon, Input, Loader, Modal, Pagination, Tab, Table, TableCell, TableRow, Tabs, Text, Wrapper, Popover } from "../../components/commons"
-import WarehouseUnit from "../../components/pageComponents/inventory/WarehouseUnit";
+import WarehouseUnit from "../../sections/inventory/WarehouseUnit";
 import { ExpandedTableHeaders, itemTemplate, statusList, TableHeaders } from "../../constants/pageConstants/inventory";
 import { locations } from "../../constants/pageConstants/locations";
 import { Api, ISOStringToReadableDate, objectsToQueryString } from "../../utils/utils";

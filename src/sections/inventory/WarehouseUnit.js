@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { Flex, Text, Wrapper } from "../../commons"
+import { Flex, Text, Wrapper } from "../../components/commons"
 
 const WarehouseUnit = ({children, unit, label, xLabel, yLabel}) => {
     return (

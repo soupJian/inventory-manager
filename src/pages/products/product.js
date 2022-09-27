@@ -16,7 +16,7 @@ import {
   Text,
   Wrapper
 } from '../../components/commons'
-import { Product } from '../../components/pageComponents'
+import Product  from '../../sections/product/Product'
 import { productTemplate } from '../../constants/pageConstants/products'
 import { Api } from '../../utils/utils'
 const api = new Api()
