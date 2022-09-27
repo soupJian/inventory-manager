@@ -23,6 +23,9 @@ const BasicLayout = ({ children }) => {
             collapsed={collapsed}
             onCollapse={(value) => setCollapsed(value)}
             width={collapsed ? 103 : 231}
+            style={{
+              zIndex: 99
+            }}
           >
             <SideBar collapsed={collapsed} />
           </Sider>

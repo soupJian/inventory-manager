@@ -10,6 +10,9 @@
     overflow-y: auto;
     overflow-x: hidden;
   }
+  .siteLayout{
+    width: unset !important;
+  }
   :global {
     .ant-layout-sider {
       background-color: #fff;
