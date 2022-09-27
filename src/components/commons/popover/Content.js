@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from "styled-components"
 import { useClickOutside } from "../../../hooks"
 
@@ -10,7 +11,7 @@ const Content = ({children, closeOnClickOutside, wrapperRef, styles}) => {
     )
 }
 
-export default Content
+export default React.memo(Content)
 
 const ContentWrapper = styled.div`
     position: absolute;

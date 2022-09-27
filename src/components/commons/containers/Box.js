@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from "styled-components"
 
 const Box = ({as = "div", children, width, height, borderType, styles, backgroundColor, ...rest}) => {
@@ -8,7 +9,7 @@ const Box = ({as = "div", children, width, height, borderType, styles, backgroun
     )
 }
 
-export default Box
+export default React.memo(Box)
 
 const BoxWrapper = styled.div`
     display: flex;

@@ -1,3 +1,4 @@
+import React from 'react'
 import Image from "next/image"
 import styled from "styled-components"
 import logo from "../../../public/images/company-logo.png"
@@ -16,7 +17,7 @@ const LoadingScreen = () => {
     )
 }
 
-export default LoadingScreen
+export default React.memo(LoadingScreen)
 
 const Wrapper = styled.div`
     position: fixed;

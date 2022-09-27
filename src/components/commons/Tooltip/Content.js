@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from "styled-components"
 
 const Content = ({children, styles, place}) => {
@@ -8,7 +9,7 @@ const Content = ({children, styles, place}) => {
     )
 }
 
-export default Content
+export default React.memo(Content)
 
 const ContentWrapper = styled.div`
     position: absolute;

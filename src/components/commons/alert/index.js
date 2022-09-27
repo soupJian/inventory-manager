@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from "styled-components"
 
 const Alert = ({children, type="notification", styles}) => {
@@ -8,7 +9,7 @@ const Alert = ({children, type="notification", styles}) => {
     )
 }
 
-export default Alert
+export default React.memo(Alert)
 
 const AlertWrapper = styled.div`
     padding: 12px 18px;

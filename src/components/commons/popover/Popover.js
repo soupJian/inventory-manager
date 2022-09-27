@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import React,{ useRef } from "react"
 import styled from "styled-components"
 import Content from "./Content"
 
@@ -15,7 +15,7 @@ const Popover = ({children,content, isOpen, onClose, wrapperStyles, contentStyle
     )
 }
 
-export default Popover
+export default React.memo(Popover)
 
 const PopoverWrapper = styled.div`
     position: relative;

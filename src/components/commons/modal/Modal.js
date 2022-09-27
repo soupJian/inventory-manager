@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import React,{ useRef } from "react"
 import styled from "styled-components"
 import { Icon, Loader } from ".."
 import { useClickOutside } from "../../../hooks"
@@ -38,7 +38,7 @@ const Modal = ({children, loading, contentStyles, title, bgColor = "#ffffff", on
     )
 }
 
-export default Modal;
+export default React.memo(Modal);
 
 const ModalWrapper = styled.div`
     position: fixed;

@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from "styled-components"
 
 const Dialog = ({children, styles}) => {
@@ -8,7 +9,7 @@ const Dialog = ({children, styles}) => {
     )
 }
 
-export default Dialog
+export default React.memo(Dialog)
 
 const DialogWrapper = styled.div`
     position: fixed;

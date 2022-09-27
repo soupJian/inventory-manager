@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from "styled-components"
 
 const Backdrop = () => {
@@ -8,7 +9,7 @@ const Backdrop = () => {
     )
 }
 
-export default Backdrop
+export default React.memo(Backdrop)
 
 const Wrapper = styled.div`
     position: fixed;

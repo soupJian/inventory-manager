@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from "styled-components"
 import { Loader } from ".."
 import { BaseButton } from "../styled-elements"
@@ -19,7 +20,7 @@ const Button = ({styles, type, kind, minHeight, minWidth, onClick, children, end
     )
 }
 
-export default Button
+export default React.memo(Button)
 
 const StyledButton = styled(BaseButton)`
     padding: 18px 26px;

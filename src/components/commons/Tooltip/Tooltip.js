@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Content from "./Content";
 
@@ -17,7 +17,7 @@ const Tooltip = ({children, content, wrapperStyles, contentStyles, place}) => {
     )
 }
 
-export default Tooltip;
+export default React.memo(Tooltip);
 
 const TooltipWrapper = styled.div`
     position: relative;

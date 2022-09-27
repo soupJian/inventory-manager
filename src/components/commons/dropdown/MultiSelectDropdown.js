@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React,{ useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Checkbox, Flex } from ".."
 
@@ -61,7 +61,7 @@ const MultiSelectDropdown = ({ name, activeIndex, options = [], value = [], onSe
     )
 }
 
-export default MultiSelectDropdown;
+export default React.memo(MultiSelectDropdown)
 
 const Wrapper = styled.div`
     min-width: 120px;

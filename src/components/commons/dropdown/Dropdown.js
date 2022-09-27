@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React,{ useEffect, useRef, useState } from "react";
 import styled from "styled-components"
 
 const Dropdown = ({ activeIndex, options = [], value, selected, onSelect, wrapperClassName, wrapperStyles, headerStyles, optionListStyles, optionStyles, icon}) => {
@@ -54,7 +54,7 @@ const Dropdown = ({ activeIndex, options = [], value, selected, onSelect, wrappe
 }
 
 
-export default Dropdown
+export default React.memo(Dropdown)
 
 const Wrapper = styled.div`
     min-width: 120px;

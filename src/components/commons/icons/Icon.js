@@ -1,3 +1,4 @@
+import React from 'react'
 import Image from "next/image"
 import styled from "styled-components"
 import icons from "../../../constants/icons"
@@ -12,7 +13,7 @@ const Icon = ({name, width, height, styles, hoverStyles, quality, ...rest}) => {
     )
 }
 
-export default Icon
+export default React.memo(Icon)
 
 const IconWrapper = styled.div`
     width: ${({wrapperWidth}) => wrapperWidth ? wrapperWidth : "24px"};

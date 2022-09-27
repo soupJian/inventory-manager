@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from 'styled-components'
 import Icon from '../icons/Icon'
 
@@ -173,7 +174,7 @@ const Pagination = ({
   )
 }
 
-export default Pagination
+export default React.memo(Pagination)
 
 const PaginationWrapper = styled.div`
   width: 100%;

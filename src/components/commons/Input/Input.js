@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from "styled-components"
 
 const Input = ({wrapperStyles, inputStyles, placeholderStyles, type = "text", startIcon, endIcon, ...rest}) => {
@@ -14,7 +15,7 @@ const Input = ({wrapperStyles, inputStyles, placeholderStyles, type = "text", st
     )
 }
 
-export default Input
+export default React.memo(Input)
 
 const Wrapper = styled.div`
     display: flex;

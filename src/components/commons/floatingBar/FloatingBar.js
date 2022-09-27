@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from "styled-components"
 
 const FloatingBar = ({children,styles}) => {
@@ -8,7 +9,7 @@ const FloatingBar = ({children,styles}) => {
     )
 }
 
-export default FloatingBar
+export default React.memo(FloatingBar)
 
 const FloatingBarWrapper = styled.div`
     max-width: 750px;

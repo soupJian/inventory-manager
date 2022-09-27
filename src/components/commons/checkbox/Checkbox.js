@@ -1,3 +1,4 @@
+import React from 'react'
 import Image from "next/image"
 import styled from "styled-components"
 
@@ -15,7 +16,7 @@ const Checkbox = ({selected, onSelect, size = 16, inputId}) => {
     )
 }
 
-export default Checkbox
+export default React.memo(Checkbox)
 
 
 const Wrapper = styled.div`

@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from "styled-components"
 import { MultiSelectDropdown } from ".."
 import Dropdown from "../dropdown/Dropdown"
@@ -34,7 +35,7 @@ const Filter = ({label, list, name, value, activeIndex, onSelect, multiSelect,wr
     )
 }
 
-export default Filter
+export default React.memo(Filter)
 
 const Wrapper = styled.div`
     display: flex;

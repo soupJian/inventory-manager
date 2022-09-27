@@ -1,3 +1,4 @@
+import React from 'react'
 import styled, { keyframes } from "styled-components"
 
 const Loader = ({size = 30, color, styles}) => {
@@ -6,7 +7,7 @@ const Loader = ({size = 30, color, styles}) => {
     )
 }
 
-export default Loader
+export default React.memo(Loader)
 
 const spin = keyframes`
     0% { transform: rotate(0deg); }
