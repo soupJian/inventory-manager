@@ -768,6 +768,8 @@ const Warehouse = ({ router }) => {
                         src="/images/scanner.png"
                         alt="scan"
                         layout="responsive"
+                        width={96}
+                        height={96}
                       />
                     </LogoBox>
                     <Text>Click to start scanning</Text>

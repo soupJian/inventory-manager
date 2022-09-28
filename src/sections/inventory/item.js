@@ -80,7 +80,7 @@ const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
               <Image
                 src="/images/image-placeholder.png"
                 alt="scan"
-                layout="responsive"
+                layout="fill"
               />
             </Wrapper>
             <Text>Upload</Text>

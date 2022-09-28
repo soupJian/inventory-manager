@@ -295,9 +295,9 @@ const SearchPage = ({ router }) => {
                     onSelect={() => addSelection(item.SKU)}
                     dataId={item.SKU + idx}
                     key={item.SKU + idx}
-                    redirectOnClick={() =>
-                      router.push(`/inventory/item?sku=${item.SKU}`)
-                    }
+                    // redirectOnClick={() =>
+                    //   router.push(`/inventory/item?sku=${item.SKU}`)
+                    // }
                     expandedContent={
                       <Wrapper padding="4px 0">
                         <Table
