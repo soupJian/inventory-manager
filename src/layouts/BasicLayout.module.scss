@@ -10,16 +10,28 @@
     overflow-y: auto;
     overflow-x: hidden;
   }
-  .siteLayout{
+  .siteLayout {
     width: unset !important;
   }
   :global {
     .ant-layout-sider {
       background-color: #fff;
     }
+    .ant-layout-sider-collapsed {
+      width: 104px !important;
+      flex: 0 0 104px !important;
+      max-width: 104px !important;
+      min-width: 104px !important;
+      .ant-layout-sider-trigger {
+        width: 104px !important;
+      }
+    }
+    .ant-menu-root {
+      margin-top: 52px !important;
+    }
     .ant-layout-sider-children .ant-menu.ant-menu-inline-collapsed {
       width: 72px;
-      margin: 40px auto;
+      margin: 0 auto;
       .ant-menu-item {
         padding: 0 calc(50% - 24px / 2);
       }
@@ -41,6 +53,7 @@
     }
     .ant-layout-header {
       height: 72px;
+      line-height: unset;
     }
     .ant-layout-content {
       min-height: calc(100vh - 72px);

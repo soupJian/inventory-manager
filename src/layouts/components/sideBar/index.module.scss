@@ -6,7 +6,7 @@
   }
   .companyLogo {
     position: relative;
-    margin: 39px auto;
+    margin: 39px 0 0 16px;
     height: 66px;
     cursor: pointer;
   }
@@ -16,10 +16,10 @@
     .ant-menu-vertical-left {
       border-right: none;
     }
-    .ant-menu-root,
     .ant-menu-item,
     .ant-menu-submenu {
-      margin-top: 40px;
+      margin-top: 32px;
+      margin-bottom: 0 !important;
       min-height: 46px;
       line-height: 46px;
       border-radius: 10px;

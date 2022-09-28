@@ -103,7 +103,7 @@ const SideBar = ({ collapsed }) => {
           }
           alt="logo"
           layout="fill"
-          objectFit="contain"
+          objectFit="cover"
           priority={true}
         />
       </div>

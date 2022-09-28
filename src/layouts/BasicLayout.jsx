@@ -22,7 +22,7 @@ const BasicLayout = ({ children }) => {
             collapsible
             collapsed={collapsed}
             onCollapse={(value) => setCollapsed(value)}
-            width={collapsed ? 103 : 231}
+            width={collapsed ? 104 : 231}
             style={{
               zIndex: 99
             }}
@@ -30,7 +30,7 @@ const BasicLayout = ({ children }) => {
             <SideBar collapsed={collapsed} />
           </Sider>
           <Layout
-            style={{ marginLeft: collapsed ? '103px' : '231px' }}
+            style={{ marginLeft: collapsed ? '104px' : '231px' }}
             className={styles.siteLayout}
           >
             <Header>
