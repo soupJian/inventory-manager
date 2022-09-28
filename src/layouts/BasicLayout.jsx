@@ -27,15 +27,15 @@ const BasicLayout = ({ children }) => {
               zIndex: 99
             }}
           >
-            <SideBar collapsed={collapsed} />
+            <SideBar collapsed={collapsed} user={user} />
           </Sider>
           <Layout
             style={{ marginLeft: collapsed ? '104px' : '231px' }}
             className={styles.siteLayout}
           >
-            <Header>
+            {/* <Header>
               <LayoutHeader user={user} />
-            </Header>
+            </Header> */}
             <Content>{children}</Content>
           </Layout>
         </Layout>

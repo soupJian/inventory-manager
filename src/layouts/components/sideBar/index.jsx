@@ -1,21 +1,33 @@
+import React, { useEffect, useState } from 'react'
+// next
 import Image from 'next/image'
+// hooks
+import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { Menu } from 'antd'
-import styled from 'styled-components'
-import logo from '../../../../public/images/company-logo.png'
+// antd
+import { Menu, Popover } from 'antd'
+// components
 import { Icon } from '../../../components/commons'
-// 有时候本地加载 menu 样式 加载不成功，故手动导入
+import History from '../header/history'
+// redux
+import { logoutUser } from '../../../store/slices/userSlice'
+// css ----------
 import 'antd/lib/menu/style/index.css'
+import styled from 'styled-components'
 import styles from './index.module.scss'
 
-const SideBar = ({ collapsed }) => {
+const SideBar = ({ collapsed, user }) => {
   const router = useRouter()
+  const dispatch = useDispatch()
   // 默认展示的 menuItem
   const [defaultSelectedKeys, setDefaultSelectedKeys] = useState('')
   const [openKeys, setOpenKeys] = useState('')
+  const [toggleHistory, setToggleHistory] = useState(false)
+  const Logout = () => {
+    dispatch(logoutUser())
+  }
   // 点击侧边栏 crm hub 事件
-  function getItem(label, key, icon, children) {
+  const getItem = (label, key, icon, children) => {
     return {
       key,
       icon,
@@ -28,7 +40,7 @@ const SideBar = ({ collapsed }) => {
       }
     }
   }
-  // 侧边栏 menu
+  // 侧边栏 menu 路由等...
   const menuItems = [
     getItem(
       'Inventory',
@@ -36,7 +48,7 @@ const SideBar = ({ collapsed }) => {
       <Icon name="inventory" width="24px" height="24px" />
     ),
     getItem(
-      'Warehousing',
+      'Warehouse',
       '/warehouse',
       <Icon name="warehouse" width="24px" height="24px" />
     ),
@@ -116,13 +128,83 @@ const SideBar = ({ collapsed }) => {
           setOpenKeys(key[1])
         }}
       />
+      <div className={styles.userAction}>
+        <Menu mode="inline">
+          <Popover
+            placement="rightTop"
+            content={
+              <PopoverConent>
+                <Label>Account Info</Label>
+                <DisplayName>{user.info.displayName}</DisplayName>
+                <UserName>Username: {user.info.email}</UserName>
+                <SignoutBtn onClick={Logout}>Sign out</SignoutBtn>
+              </PopoverConent>
+            }
+          >
+            <Menu.Item
+              title={collapsed ? '' : 'User Center'}
+              icon={<Icon name="user" width="24px" height="24px" />}
+              style={{ paddingLeft: '24px', background: '#fff' }}
+            >
+              User Center
+            </Menu.Item>
+          </Popover>
+          <Menu.Item
+            title="Activites"
+            icon={<Icon name="clock" width="24px" height="24px" />}
+            onClick={() => setToggleHistory(!toggleHistory)}
+          >
+            Activites
+          </Menu.Item>
+        </Menu>
+      </div>
+      <History
+        user={user}
+        show={toggleHistory}
+        onClose={() => setToggleHistory(false)}
+      />
     </SideBarWrapper>
   )
 }
 
-export default SideBar
+export default React.memo(SideBar)
 
 const SideBarWrapper = styled.aside`
   flex: 1 0 auto;
   background-color: #ffffff;
+`
+const PopoverConent = styled.div`
+  padding: 20px 16px;
+  background-color: #ffffff;
+  line-height: 20px;
+  z-index: 999;
+`
+
+const Label = styled.div`
+  font-size: ${({ theme }) => theme.font.size.xsss};
+  color: ${({ theme }) => theme.colors.secondaryText};
+`
+const DisplayName = styled.div`
+  font-size: ${({ theme }) => theme.font.size.s};
+  font-weight: ${({ theme }) => theme.font.weight.bold};
+  color: ${({ theme }) => theme.colors.primaryText};
+  margin-top: 16px;
+  white-space: nowrap;
+`
+const UserName = styled.div`
+  font-size: ${({ theme }) => theme.font.size.xs};
+  font-family: ${({ theme }) => theme.font.family.secondary};
+  color: #000000;
+  margin-top: 6px;
+  white-space: nowrap;
+`
+const SignoutBtn = styled.button`
+  margin-top: 16px;
+  min-width: auto;
+  color: ${({ theme }) => theme.colors.accentText};
+  font-size: ${({ theme }) => theme.font.size.s};
+  font-weight: 400;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 `

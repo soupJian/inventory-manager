@@ -2,12 +2,7 @@ import { Router, useRouter } from 'next/router'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import {
-  Dropdown,
-  Icon,
-  Popover,
-  BaseButton
-} from '../../../components/commons'
+import { Dropdown, Icon, Popover } from '../../../components/commons'
 import { logoutUser } from '../../../store/slices/userSlice'
 import History from './history'
 

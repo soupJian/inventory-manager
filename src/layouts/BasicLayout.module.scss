@@ -2,11 +2,10 @@
   height: 100%;
   .sider {
     overflow: auto;
-    height: calc(100vh - 48px);
     position: fixed;
     left: 0;
     top: 0;
-    bottom: 0;
+    bottom: 48px;
     overflow-y: auto;
     overflow-x: hidden;
   }
@@ -26,24 +25,7 @@
         width: 104px !important;
       }
     }
-    .ant-menu-root {
-      margin-top: 52px !important;
-    }
-    .ant-layout-sider-children .ant-menu.ant-menu-inline-collapsed {
-      width: 72px;
-      margin: 0 auto;
-      .ant-menu-item {
-        padding: 0 calc(50% - 24px / 2);
-      }
-      .ant-menu-submenu {
-        .ant-menu-submenu-title {
-          padding: 0 calc(50% - 24px / 2);
-        }
-      }
-      .ant-menu-item-icon {
-        vertical-align: middle;
-      }
-    }
+
     .ant-layout-header {
       background: unset;
       padding: unset;
@@ -56,7 +38,8 @@
       line-height: unset;
     }
     .ant-layout-content {
-      min-height: calc(100vh - 72px);
+      // min-height: calc(100vh - 72px);
+      min-height: 100vh;
     }
   }
 }
