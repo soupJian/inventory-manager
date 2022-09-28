@@ -1,6 +1,5 @@
 import { useEffect, useReducer, useState } from 'react'
 import styled from 'styled-components'
-import scannerLogo from '../../../public/images/scanner.png'
 import Image from 'next/image'
 import {
   Alert,
@@ -765,7 +764,11 @@ const Warehouse = ({ router }) => {
                     }}
                   >
                     <LogoBox>
-                      <Image src={scannerLogo} alt="scan" layout="responsive" />
+                      <Image
+                        src="/images/scanner.png"
+                        alt="scan"
+                        layout="responsive"
+                      />
                     </LogoBox>
                     <Text>Click to start scanning</Text>
                   </Box>

@@ -142,6 +142,7 @@ const SideBar = ({ collapsed, user }) => {
             }
           >
             <Menu.Item
+              key="User Center"
               title={collapsed ? '' : 'User Center'}
               icon={<Icon name="user" width="24px" height="24px" />}
               style={{ paddingLeft: '24px', background: '#fff' }}
@@ -150,6 +151,7 @@ const SideBar = ({ collapsed, user }) => {
             </Menu.Item>
           </Popover>
           <Menu.Item
+            key="Activites"
             title="Activites"
             icon={<Icon name="clock" width="24px" height="24px" />}
             onClick={() => setToggleHistory(!toggleHistory)}

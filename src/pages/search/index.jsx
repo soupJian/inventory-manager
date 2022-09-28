@@ -20,12 +20,7 @@ import {
   Text,
   Wrapper
 } from '../../components/commons'
-import {
-  Api,
-  ISOStringToReadableDate,
-  objectsToQueryString
-} from '../../utils/utils'
-import emptySearchLogo from '../../../public/images/no-results.png'
+import { Api, ISOStringToReadableDate } from '../../utils/utils'
 import {
   ExpandedItemTableHeaders,
   ItemTableHeaders,
@@ -265,7 +260,11 @@ const SearchPage = ({ router }) => {
           >
             <Box borderType="solid" styles={{ 'border-width': '2px' }}>
               <LogoBox>
-                <Image src={emptySearchLogo} alt="scan" layout="responsive" />
+                <Image
+                  src="/images/no-results.png"
+                  alt="scan"
+                  layout="responsive"
+                />
               </LogoBox>
               <Text color="#000000" size="18px">
                 No results found
