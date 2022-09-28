@@ -8,7 +8,7 @@ import DealsLostIn from '../../../sections/crm-hub/dashboard/deals-lost-in'
 import DealsSource from '../../../sections/crm-hub/dashboard/deals-source'
 import NewContact from '../../../sections/crm-hub/dashboard/new-contact'
 import BestSellers from '../../../sections/crm-hub/dashboard/best-sellers'
-import NoOfSales from '../../../sections/crm-hub/dashboard/No-of-sales'
+import NoOfSales from '../../../sections/crm-hub/dashboard/no-of-sales'
 import NoofSalesAmount from '../../../sections/crm-hub/dashboard/no-of-sales-amount'
 import * as echarts from 'echarts'
 
