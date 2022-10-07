@@ -16,7 +16,9 @@ export const userSlice = createSlice({
       state.accessToken = action.payload.accessToken
     },
     logoutUser: (state) => {
-      state.user = { ...initialState }
+      state.info = initialState.info
+      state.isLoggedIn = initialState.isLoggedIn
+      state.accessToken = initialState.accessToken
     }
   }
 })
