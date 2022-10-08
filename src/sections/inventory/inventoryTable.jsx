@@ -69,7 +69,7 @@ const InventoryTable = ({
             mode="multiple"
             className={styles.selectStatusWrap}
             allowClear
-            placeholder="Please select"
+            placeholder="ALL status"
             onChange={handleStatus}
           >
             {statusList.map((item) => {
