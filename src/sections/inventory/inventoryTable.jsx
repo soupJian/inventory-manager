@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState, useReducer } from 'react'
 import {
   BaseButton,
   Button,
-  Dialog,
   Filter,
   Flex,
   FloatingBar,
@@ -22,33 +21,258 @@ import {
   TableHeaders
 } from '../../constants/pageConstants/inventory'
 import { Row, Col, Popover, Select, Space } from 'antd'
+import { Api } from '../../utils/utils'
 import { PlusCircleFilled } from '@ant-design/icons'
 import { locations } from '../../constants/pageConstants/locations'
+import { itemTemplate } from '../../constants/pageConstants/inventory'
 import styled from 'styled-components'
 import styles from './index.module.scss'
+const api = new Api()
 
 const { Option } = Select
+const inventoryReducer = (state, { type, payload }) => {
+  switch (type) {
+    case 'changeStatus':
+      return { ...state, status: payload }
+    case 'changePageType':
+      return { ...state, pageType: payload, page: 1 }
+    case 'changePaginateNumber':
+      return { ...state, page: payload }
+    default:
+      return state
+  }
+}
 
-const InventoryTable = ({
-  loadingTable,
-  inventorySKUs,
-  inventoryState,
-  handleStatus,
-  inventoryData,
-  itemsPerPage,
-  handlePage,
-  dialog,
-  selection,
-  newItemModal,
-  newItemLoading,
-  submitNewItem,
-  newItemError,
-  newItem,
-  handleNewLocationList,
-  newItemHandler,
-  setNewItemModal,
-  removeTag
-}) => {
+const InventoryTable = ({ user, newItemModal, setNewItemModal, setDialog }) => {
+  const [inventoryState, dispatch] = useReducer(inventoryReducer, {
+    page: 1,
+    status: []
+  })
+  const [loadingTable, setLoadingTable] = useState(false)
+  const [inventorySKUs, setInventorySKUs] = useState([])
+  const [inventoryData, setInventoryData] = useState(null)
+  // const [status, setStatus] = useState([])
+  const [selection, setSelection] = useState([])
+  const [itemsPerPage, setItemsPerPage] = useState(10)
+  const [newItem, setNewItem] = useState({ ...itemTemplate })
+  const [newItemLoading, setNewItemLoading] = useState(false)
+  const [newItemError, setNewItemError] = useState('')
+  const fetchSKUs = () => {
+    setLoadingTable(true)
+    api
+      .getAllInventory(
+        `projectionExpression=SKU${
+          inventoryState.status.length
+            ? `&status=${inventoryState.status.join(',')}`
+            : ''
+        }`,
+        { Authorization: `Bearer ${user.accessToken}` }
+      )
+      .then((data) => {
+        setInventorySKUs(data.Items)
+        setLoadingTable(false)
+      })
+      .catch((err) => {
+        console.log(err)
+        setLoadingTable(false)
+      })
+  }
+  const handlePage = (page) => {
+    dispatch({ type: 'changePaginateNumber', payload: page })
+  }
+  const handleStatus = (val) => {
+    dispatch({ type: 'changeStatus', payload: val })
+  }
+  const confirmAction = (cb, message) => {
+    setDialog({
+      message,
+      show: true,
+      onConfirm: () => {
+        cb()
+        return setDialog({ message: '', onConfirm: '', show: false })
+      }
+    })
+  }
+  const newItemHandler = (e, nestedKey) => {
+    console.log(e.target.name, e.target.type)
+    if (nestedKey) {
+      return setNewItem({
+        ...newItem,
+        [nestedKey]: {
+          ...newItem[nestedKey],
+          [e.target.name]: parseInt(e.target.value)
+        }
+      })
+    } else if (e.target.name === 'Tags') {
+      let newTags = [...newItem.Tags]
+      if (e.target.value[e.target.value.length - 1] == ',') {
+        newTags.push(e.target.value.slice(0, -1))
+        setNewItem({ ...newItem, TagsInput: '', Tags: newTags })
+      } else {
+        setNewItem({ ...newItem, TagsInput: e.target.value })
+      }
+    } else {
+      if (e.target.type === 'number') {
+        return setNewItem({
+          ...newItem,
+          [e.target.name]: parseInt(e.target.value)
+        })
+      } else {
+        return setNewItem({ ...newItem, [e.target.name]: e.target.value })
+      }
+    }
+  }
+  const removeTag = (tag) => {
+    const idx = newItem.Tags.indexOf(tag)
+    if (idx >= 0) {
+      let newTags = [...newItem.Tags]
+      newTags.splice(idx, 1)
+      setNewItem({ ...newItem, TagsInput: newTags.join(','), Tags: newTags })
+    }
+  }
+  const handleNewLocationList = (name, val) => {
+    console.log({ name })
+    const idx = newItem.Location.findIndex((loc) => loc === val)
+    let newLocationList = [...newItem.Location]
+    if (idx >= 0) {
+      newLocationList.splice(idx, 1)
+      setNewItem({ ...newItem, [name]: newLocationList })
+    } else {
+      setNewItem({ ...newItem, [name]: [...newLocationList, val] })
+    }
+  }
+  const addSelection = (sku) => {
+    const idx = selection.indexOf(sku)
+    const newSelection = [...selection]
+
+    if (idx < 0) {
+      return setSelection([...selection, sku])
+    } else {
+      newSelection.splice(idx, 1)
+      return setSelection(newSelection)
+    }
+  }
+  const selectAll = () => {
+    const skus = inventoryData?.Items?.map((item) => item.SKU)
+    if (selection.length === inventoryData?.Items.length) setSelection([])
+    else setSelection(skus)
+  }
+  const clearSelectedItems = () => {
+    setLoadingTable(true)
+    const itemsToBeCleared = inventoryData.Items.filter((item) =>
+      selection.includes(item.SKU)
+    )
+    Promise.all(
+      itemsToBeCleared.map((item) => {
+        return api.updateInventory(
+          { ...item, Stock: 0, Reserved: 0, Available: 0 },
+          { Authorization: `Bearer ${user.accessToken}` }
+        )
+      })
+    )
+      .then((values) => {
+        setLoadingTable(false)
+        setSelection([])
+        fetchSKUs()
+      })
+      .catch((err) => {
+        setLoadingTable(false)
+      })
+  }
+  const deleteSelectedItems = () => {
+    setLoadingTable(true)
+    Promise.all(
+      selection.map((item) => {
+        return api.deleteInventory(item, {
+          Authorization: `Bearer ${user.accessToken}`
+        })
+      })
+    )
+      .then((values) => {
+        setLoadingTable(false)
+        setSelection([])
+        fetchSKUs()
+      })
+      .catch((err) => {
+        console.log(err)
+        setLoadingTable(false)
+      })
+  }
+  const submitNewItem = (e) => {
+    setNewItemLoading(true)
+    setNewItemError('')
+    e.preventDefault()
+    if (!newItem.Name || !newItem.Barcode) {
+      setNewItemLoading(false)
+      setNewItemError('Required')
+    } else {
+      const TotalCost = Object.values(newItem.Cost).reduce(
+        (total, cost) => total + parseInt(cost),
+        0
+      )
+      const settledInfo = {
+        Settled: !!newItem.Location.length,
+        SettledTime: newItem.Location.length ? new Date() : ''
+      }
+      let data = {
+        ...newItem,
+        ...settledInfo,
+        Updated: new Date(),
+        Recieved: new Date(),
+        Created: new Date(),
+        TotalCost
+      }
+      delete data['TagsInput']
+      api
+        .updateInventory(data, { Authorization: `Bearer ${user.accessToken}` })
+        .then((data) => {
+          fetchSKUs()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+        .finally(() => {
+          setNewItemLoading(false)
+          setNewItemModal(false)
+          setNewItemError('')
+          setNewItem({ ...itemTemplate })
+        })
+    }
+  }
+  useEffect(() => {
+    const skusToShow = inventorySKUs?.slice(
+      inventoryState.page * itemsPerPage - itemsPerPage,
+      inventoryState.page * itemsPerPage
+    )
+    if (skusToShow?.length) {
+      setLoadingTable(true)
+      let str = ''
+      skusToShow.forEach((i) => {
+        Object.values(i).map((val) => {
+          str += val + ','
+        })
+      })
+      api
+        .getMultipleInventory(`skus=${str}`, {
+          Authorization: `Bearer ${user.accessToken}`
+        })
+        .then((data) => {
+          setInventoryData(data)
+          setLoadingTable(false)
+        })
+        .catch((err) => {
+          console.log(err)
+          setLoadingTable(false)
+        })
+    } else {
+      setInventoryData({})
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inventoryState.page, inventorySKUs])
+  useEffect(() => {
+    fetchSKUs()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inventoryState.status.length])
   return (
     <>
       <Flex
@@ -185,47 +409,7 @@ const InventoryTable = ({
             </TableRow>
           ))}
         </Table>
-        {dialog.message && dialog.show && (
-          <Dialog>
-            <Wrapper padding="60px 54px">
-              <Text size="20px">{dialog.message}</Text>
-              <Flex
-                gap="16px"
-                styles={{
-                  width: '100%',
-                  'max-width': '416px',
-                  'margin-top': '24px'
-                }}
-              >
-                <BaseButton
-                  styles={{ flex: '1', 'border-radius': '8px' }}
-                  minWidth="auto"
-                  kind="primary"
-                  onClick={() => dialog.onConfirm()}
-                >
-                  Yes
-                </BaseButton>
-                <BaseButton
-                  styles={{
-                    flex: '1',
-                    'background-color': '#ffffff',
-                    'border-radius': '8px'
-                  }}
-                  minWidth="auto"
-                  onClick={() =>
-                    setDialog({
-                      message: '',
-                      onConfirm: '',
-                      show: false
-                    })
-                  }
-                >
-                  No
-                </BaseButton>
-              </Flex>
-            </Wrapper>
-          </Dialog>
-        )}
+
         {selection.length > 0 && (
           <FloatingBar styles={{ position: 'fixed' }}>
             <Flex alignItems="center" justifyContent="space-between">
