@@ -23,6 +23,7 @@ import {
 } from '../../constants/pageConstants/inventory'
 import { Row, Col } from 'antd'
 import { PlusCircleFilled } from '@ant-design/icons'
+import { locations } from '../../constants/pageConstants/locations'
 import styled from 'styled-components'
 import styles from './index.module.scss'
 
@@ -36,7 +37,15 @@ const InventoryTable = ({
   handlePage,
   dialog,
   selection,
-  newItemModal
+  newItemModal,
+  newItemLoading,
+  submitNewItem,
+  newItemError,
+  newItem,
+  handleNewLocationList,
+  newItemHandler,
+  setNewItemModal,
+  removeTag
 }) => {
   return (
     <>
@@ -353,7 +362,7 @@ const InventoryTable = ({
                   }}
                 >
                   <InputGroup>
-                    <Label htmlFor="warehouse-recieving-sku">COUNT</Label>
+                    <Label htmlFor="warehouse-recieving-sku">STOCK</Label>
                     <Input
                       wrapperStyles={{
                         'margin-top': '16px',
@@ -363,12 +372,13 @@ const InventoryTable = ({
                       placeholder="0"
                       value={newItem.Stock}
                       onChange={(e) => newItemHandler(e)}
+                      min={0}
                       name="Stock"
                       type="number"
                       id="warehouse-new-item-count"
                     />
                   </InputGroup>
-                  <InputGroup>
+                  {/* <InputGroup>
                     <Label htmlFor="warehouse-recieving-sku">AVAILABLE</Label>
                     <Input
                       wrapperStyles={{
@@ -399,7 +409,7 @@ const InventoryTable = ({
                       type="number"
                       id="warehouse-new-item-reserved"
                     />
-                  </InputGroup>
+                  </InputGroup> */}
                   <InputGroup>
                     <Label htmlFor="warehouse-recieving-sku">
                       REORDER ALERT
@@ -415,6 +425,7 @@ const InventoryTable = ({
                       onChange={(e) => newItemHandler(e)}
                       name="ReorderAlert"
                       type="number"
+                      min={0}
                       id="warehouse-new-item-reorder-alert"
                     />
                   </InputGroup>
@@ -445,6 +456,90 @@ const InventoryTable = ({
                   </InputGroup>
                 </Flex>
                 <Wrapper padding="24px 0 0">
+                  <Flex
+                    alignItems="stretch"
+                    justifyContent="flex-start"
+                    styles={{
+                      width: '100%',
+                      'margin-top': '16px',
+                      gap: '9px'
+                    }}
+                  >
+                    <InputGroup>
+                      <ModifiedLabel htmlFor="warehouse-recieving-sku">
+                        WEIGHT (LB.)
+                      </ModifiedLabel>
+                      <Input
+                        wrapperStyles={{
+                          'margin-top': '16px',
+                          'min-height': '59px'
+                        }}
+                        inputStyles={{ width: '100%' }}
+                        placeholder="0"
+                        value={newItem.weight}
+                        onChange={(e) => newItemHandler(e, 'attr')}
+                        name="weight"
+                        type="number"
+                        min={0}
+                      />
+                    </InputGroup>
+                    <InputGroup>
+                      <ModifiedLabel htmlFor="warehouse-recieving-sku">
+                        LENGTH (IN.)
+                      </ModifiedLabel>
+                      <Input
+                        wrapperStyles={{
+                          'margin-top': '16px',
+                          'min-height': '59px'
+                        }}
+                        inputStyles={{ width: '100%' }}
+                        placeholder="0"
+                        value={newItem.length}
+                        onChange={(e) => newItemHandler(e, 'attr')}
+                        name="length"
+                        type="number"
+                        min={0}
+                      />
+                    </InputGroup>
+                    <InputGroup>
+                      <ModifiedLabel htmlFor="warehouse-recieving-sku">
+                        WIDTH (IN.)
+                      </ModifiedLabel>
+                      <Input
+                        wrapperStyles={{
+                          'margin-top': '16px',
+                          'min-height': '59px'
+                        }}
+                        inputStyles={{ width: '100%' }}
+                        placeholder="0"
+                        value={newItem.width}
+                        onChange={(e) => newItemHandler(e, 'attr')}
+                        name="width"
+                        type="number"
+                        min={0}
+                      />
+                    </InputGroup>
+                    <InputGroup>
+                      <ModifiedLabel htmlFor="warehouse-recieving-sku">
+                        HEIGHT (IN.)
+                      </ModifiedLabel>
+                      <Input
+                        wrapperStyles={{
+                          'margin-top': '16px',
+                          'min-height': '59px'
+                        }}
+                        inputStyles={{ width: '100%' }}
+                        placeholder="0"
+                        value={newItem.height}
+                        onChange={(e) => newItemHandler(e, 'attr')}
+                        name="height"
+                        type="number"
+                        min={0}
+                      />
+                    </InputGroup>
+                  </Flex>
+                </Wrapper>
+                <Wrapper padding="24px 0 0">
                   <Label htmlFor="warehouse-recieving-sku">US COST</Label>
                   <Flex
                     alignItems="stretch"
@@ -470,6 +565,7 @@ const InventoryTable = ({
                         onChange={(e) => newItemHandler(e, 'Cost')}
                         name="ItemCost"
                         type="number"
+                        min={0}
                         id="warehouse-new-item-cost"
                       />
                     </InputGroup>
@@ -488,6 +584,7 @@ const InventoryTable = ({
                         onChange={(e) => newItemHandler(e, 'Cost')}
                         name="CustomEntryDuty"
                         type="number"
+                        min={0}
                         id="warehouse-new-item-ced"
                       />
                     </InputGroup>
@@ -506,6 +603,7 @@ const InventoryTable = ({
                         onChange={(e) => newItemHandler(e, 'Cost')}
                         name="OceanFreight"
                         type="number"
+                        min={0}
                         id="warehouse-new-item-of"
                       />
                     </InputGroup>
@@ -524,6 +622,7 @@ const InventoryTable = ({
                         onChange={(e) => newItemHandler(e, 'Cost')}
                         name="WarehouseDelivery"
                         type="number"
+                        min={0}
                         id="warehouse-new-item-wd"
                       />
                     </InputGroup>
@@ -542,6 +641,7 @@ const InventoryTable = ({
                         onChange={(e) => newItemHandler(e, 'Cost')}
                         name="CustomerShipping"
                         type="number"
+                        min={0}
                         id="warehouse-new-item-cs"
                       />
                     </InputGroup>

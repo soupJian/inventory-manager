@@ -51,7 +51,7 @@ export const ExpandedTableHeaders = [
 
 export const itemTemplate = {
   SKU: '',
-  Available: 0,
+  // Available: 0,
   Barcode: '',
   Cost: {
     CustomEntryDuty: 0,
@@ -64,7 +64,7 @@ export const itemTemplate = {
   Location: [],
   Name: '',
   ReorderAlert: 0,
-  Reserved: 0,
+  // Reserved: 0,
   Settled: false,
   SettledTime: '',
   Sortable: 1,
@@ -72,5 +72,11 @@ export const itemTemplate = {
   Tags: [],
   TagsInput: '',
   TotalCost: 0,
-  Updated: ''
+  Updated: '',
+  attr: {
+    weight: 0,
+    length: 0,
+    width: 0,
+    height: 0
+  }
 }

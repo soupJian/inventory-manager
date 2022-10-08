@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux'
 import Login from './components/login'
 import { Layout } from 'antd'
 import SideBar from './components/sideBar'
-import LayoutHeader from './components/header'
+// import LayoutHeader from './components/header'
 import styles from './BasicLayout.module.scss'
 import 'antd/lib/tooltip/style/index.css'
 
-const { Header, Content, Sider } = Layout
+const { Content, Sider } = Layout
 
 const BasicLayout = ({ children }) => {
   const user = useSelector((store) => store.user)

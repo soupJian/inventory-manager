@@ -201,9 +201,13 @@ const Inventory = ({ router }) => {
         Cost: { ...newItem.Cost, [e.target.name]: parseInt(e.target.value) }
       })
     } else if (e.target.name === 'Tags') {
-      let newTags = e.target.value.split(',')
-      newTags.pop()
-      setNewItem({ ...newItem, TagsInput: e.target.value, Tags: newTags })
+      let newTags = [...newItem.Tags]
+      if (e.target.value[e.target.value.length - 1] == ',') {
+        newTags.push(e.target.value.slice(0, -1))
+        setNewItem({ ...newItem, TagsInput: '', Tags: newTags })
+      } else {
+        setNewItem({ ...newItem, TagsInput: e.target.value })
+      }
     } else {
       if (e.target.type === 'number') {
         return setNewItem({
@@ -422,18 +426,30 @@ const Inventory = ({ router }) => {
             Items
           </Tab>
           <Tab
-            onClick={() =>
-              dispatch({ type: 'changePageType', payload: 'warehouse' })
-            }
-            active={'warehouse' === inventoryState.pageType}
+            onClick={() => dispatch({ type: 'changePageType', payload: 'map' })}
+            active={'map' === inventoryState.pageType}
             idx={1}
           >
-            Warehouse
+            Map
           </Tab>
         </Tabs>
         {inventoryState.pageType === 'inventory' && (
           <Flex styles={{ gap: '9px' }}>
-            {/* <Button onClick={() => setNewItemModal(true)} minWidth="auto" kind="primary" startIcon={<Icon name="add" width="18px" height="19px" styles={{"margin-right": "12px"}} /> }>New</Button> */}
+            {/* <Button
+              onClick={() => setNewItemModal(true)}
+              minWidth="auto"
+              kind="primary"
+              startIcon={
+                <Icon
+                  name="add"
+                  width="18px"
+                  height="19px"
+                  styles={{ 'margin-right': '12px' }}
+                />
+              }
+            >
+              New
+            </Button> */}
             <Input
               inputStyles={{ height: '100%' }}
               type="text"
@@ -461,6 +477,14 @@ const Inventory = ({ router }) => {
           dialog={dialog}
           selection={selection}
           newItemModal={newItemModal}
+          newItemLoading={newItemLoading}
+          submitNewItem={submitNewItem}
+          newItemErro={newItemError}
+          newItem={newItem}
+          handleNewLocationList={handleNewLocationList}
+          newItemHandler={newItemHandler}
+          setNewItemModal={setNewItemModal}
+          removeTag={removeTag}
         />
       ) : (
         <Wrapper padding="35px 0">
