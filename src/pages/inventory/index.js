@@ -54,7 +54,7 @@ const Inventory = () => {
         </Tabs>
         {activeTab === 'inventory' && (
           <Flex styles={{ gap: '9px' }}>
-            <Button
+            {/* <Button
               onClick={() => setNewItemModal(true)}
               minWidth="auto"
               kind="primary"
@@ -68,7 +68,7 @@ const Inventory = () => {
               }
             >
               New
-            </Button>
+            </Button> */}
             <Input
               type="text"
               className={styles.searchInput}
