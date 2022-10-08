@@ -21,11 +21,13 @@ import {
   statusList,
   TableHeaders
 } from '../../constants/pageConstants/inventory'
-import { Row, Col } from 'antd'
+import { Row, Col, Popover, Select, Space } from 'antd'
 import { PlusCircleFilled } from '@ant-design/icons'
 import { locations } from '../../constants/pageConstants/locations'
 import styled from 'styled-components'
 import styles from './index.module.scss'
+
+const { Option } = Select
 
 const InventoryTable = ({
   loadingTable,
@@ -53,13 +55,28 @@ const InventoryTable = ({
         justifyContent="flex-end"
         styles={{ 'margin-top': '27px', gap: '12px' }}
       >
-        <Filter
+        {/* <Filter
           value={inventoryState.status}
           label="Status"
           list={statusList}
           multiSelect
           onSelect={handleStatus}
-        />
+        /> */}
+        <Space>
+          <span className={styles.lable}>Status</span>
+          <Select
+            showArrow
+            mode="multiple"
+            className={styles.selectStatusWrap}
+            allowClear
+            placeholder="Please select"
+            onChange={handleStatus}
+          >
+            {statusList.map((item) => {
+              return <Option key={item.value}>{item.label}</Option>
+            })}
+          </Select>
+        </Space>
       </Flex>
       <Wrapper style={{ marginTop: '23px' }} padding="0">
         <Table
@@ -151,9 +168,12 @@ const InventoryTable = ({
                       <>
                         {item[header.key][0]}
                         {item[header.key].length > 1 && (
-                          <PlusCircleFilled
-                            title={item[header.key].join(';')}
-                          />
+                          <Popover
+                            content={item[header.key].join(';')}
+                            trigger="hover"
+                          >
+                            <PlusCircleFilled style={{ marginLeft: '4px' }} />
+                          </Popover>
                         )}
                       </>
                     ) : (

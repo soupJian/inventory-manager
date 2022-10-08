@@ -6,7 +6,7 @@ import {
   Button,
   Flex,
   Icon,
-  Input,
+  // Input,
   Loader,
   Tab,
   Tabs,
@@ -21,7 +21,10 @@ import {
   ISOStringToReadableDate,
   objectsToQueryString
 } from '../../utils/utils'
+import { SearchOutlined } from '@ant-design/icons'
+import { Input } from 'antd'
 import InventoryTable from '../../sections/inventory/inventoryTable'
+import styles from './index.module.scss'
 const api = new Api()
 
 const inventoryReducer = (state, { type, payload }) => {
@@ -43,7 +46,7 @@ const Inventory = ({ router }) => {
   const user = useSelector((state) => state.user)
   const [inventoryState, dispatch] = useReducer(inventoryReducer, {
     page: parseInt(router.query.page) || 1,
-    status: router.query.status ? router.query.status.split(',') : [],
+    status: [],
     pageType: router.query.pageType ? router.query.pageType : 'inventory'
   })
   const [loadingTable, setLoadingTable] = useState(false)
@@ -56,7 +59,7 @@ const Inventory = ({ router }) => {
   const [newItemModal, setNewItemModal] = useState(false)
   const [newItemLoading, setNewItemLoading] = useState(false)
   const [newItemError, setNewItemError] = useState('')
-  //warehouse
+  // map
   const [warehouseData, setWarehouseData] = useState({})
   const [loadingWarehouse, setLoadingWarehouse] = useState(false)
   const [locatedItem, setLocatedItem] = useState({})
@@ -154,44 +157,7 @@ const Inventory = ({ router }) => {
 
   const handleStatus = (val) => {
     console.log(val)
-    const idx = inventoryState.status.findIndex((data) => data === val)
-    let newStatus = [...inventoryState.status]
-    if (idx >= 0) {
-      newStatus.splice(idx, 1)
-      if (newStatus.length) {
-        console.log(newStatus, '----> has status')
-
-        dispatch({ type: 'changeStatus', payload: newStatus })
-        router.replace(
-          `/inventory?${objectsToQueryString({
-            ...router.query,
-            status: newStatus.join(',')
-          })}`,
-          null,
-          { shallow: true }
-        )
-      } else {
-        console.log(newStatus, '----> no status')
-        dispatch({ type: 'changeStatus', payload: newStatus })
-        let params = { ...router.query }
-        delete params['status']
-        router.replace(
-          `/inventory?${objectsToQueryString({ ...params })}`,
-          null,
-          { shallow: true }
-        )
-      }
-    } else {
-      router.replace(
-        `/inventory?${objectsToQueryString({
-          ...router.query,
-          status: [...newStatus, val].join(',')
-        })}`,
-        null,
-        { shallow: true }
-      )
-      dispatch({ type: 'changeStatus', payload: [...newStatus, val] })
-    }
+    dispatch({ type: 'changeStatus', payload: val })
   }
   const newItemHandler = (e, nestedKey) => {
     console.log(e.target.name, e.target.type)
@@ -451,10 +417,10 @@ const Inventory = ({ router }) => {
               New
             </Button> */}
             <Input
-              inputStyles={{ height: '100%' }}
               type="text"
+              className={styles.searchInput}
               placeholder="Search name or SKU"
-              startIcon={<Icon name="search" width="30px" height="30px" />}
+              prefix={<SearchOutlined />}
             />
           </Flex>
         )}
@@ -502,7 +468,7 @@ const Inventory = ({ router }) => {
               <InputGroup>
                 <Label htmlFor="warehouse-barcode">Locate item</Label>
                 <Input
-                  inputStyles={{ height: '100%' }}
+                  // inputStyles={{ height: '100%' }}
                   startIcon={<Icon name="search" width="30px" height="30px" />}
                   wrapperStyles={{ 'margin-top': '16px', 'min-height': '59px' }}
                   placeholder="Type barcode"

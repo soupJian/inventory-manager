@@ -13,6 +13,22 @@
   font-family: 'Lato';
   font-weight: 400;
   font-size: 14px;
-  line-height: 17px;
+  line-height: 14px;
   color: #000000;
+}
+.lable {
+  font-family: 'Lato';
+  font-weight: 500;
+  font-size: 17px;
+  color: #808080;
+}
+.selectStatusWrap {
+  min-width: 326px;
+  height: 45px;
+  :global {
+    .ant-select-selector {
+      height: 100%;
+      border-radius: 10px !important;
+    }
+  }
 }
