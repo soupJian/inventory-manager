@@ -154,8 +154,6 @@ const Map = ({ user }) => {
   const [locatedItemInput, setLocatedItemInput] = useState('')
   const [locatedItemError, setLocatedItemError] = useState('')
   const [locateItemLoading, setLocateItemLoading] = useState(false)
-  const [showLocationPopover, setShowLocationPopover] = useState(false)
-  const [activeLocationKey, setActiveLocationKey] = useState([])
 
   const locateItem = () => {
     setLocateItemLoading(true)
@@ -186,10 +184,6 @@ const Map = ({ user }) => {
       locateItem()
     }
     e.preventDefault()
-  }
-  const handleGridItem = (val) => {
-    setActiveLocationKey(val)
-    setShowLocationPopover(true)
   }
   const fetchItems = () => {
     setLoadingWarehouse(true)
