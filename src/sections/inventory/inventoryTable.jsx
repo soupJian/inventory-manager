@@ -393,10 +393,20 @@ const InventoryTable = ({ user, newItemModal, setNewItemModal, setDialog }) => {
                         {item[header.key][0]}
                         {item[header.key].length > 1 && (
                           <Popover
-                            content={item[header.key].join(';')}
+                            // content={item[header.key].join(';')}
+                            content={
+                              <Wrapper>
+                                <HeaderText>All Locations</HeaderText>
+                                <Flex>
+                                  {item[header.key].map((loc) => (
+                                    <SpanText key={loc}>{loc};</SpanText>
+                                  ))}
+                                </Flex>
+                              </Wrapper>
+                            }
                             trigger="hover"
                           >
-                            <PlusCircleFilled style={{ marginLeft: '4px' }} />
+                            <PlusCircleFilled style={{ marginLeft: '4px',fontSize:'18px' }} />
                           </Popover>
                         )}
                       </>
@@ -973,4 +983,20 @@ const Tag = styled.button`
   background-color: transparent;
   filter: invert(100%) brightness(0%);
   cursor: pointer;
+`
+const HeaderText = styled.div`
+  font-size: ${({ theme }) => theme.font.size.xsss};
+  font-family: ${({ theme }) => theme.font.family.primary};
+  line-height: ${({ theme }) => theme.font.lineHeight.tight};
+  color: ${({ theme }) => theme.colors.secondaryText};
+  white-space: nowrap;
+  margin-bottom: 16px;
+`
+const SpanText = styled.span`
+  font-size: ${({ theme }) => theme.font.size.xss};
+  font-family: ${({ theme }) => theme.font.family.primary};
+  line-height: ${({ theme }) => theme.font.lineHeight.tight};
+  color: ${({ theme }) => theme.colors.primaryText};
+  white-space: nowrap;
+  margin-right: 4px;
 `
