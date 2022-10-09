@@ -6,14 +6,147 @@ import {
   Input,
   Loader,
   Text,
-  Wrapper,
-  Popover
+  Wrapper
 } from '../../components/commons'
+import { Popover } from 'antd'
 import WarehouseUnit from './WarehouseUnit'
 import styled from 'styled-components'
 import { Api, ISOStringToReadableDate } from '../../utils/utils'
 const api = new Api()
 
+const warshouseMap = [
+  {
+    unit: 'A',
+    label: 'Against the left wall',
+    xLabel: ['A1', 'A2', 'A3', 'A4'],
+    yLabel: ['R1', 'R2', 'R3']
+  },
+  {
+    unit: 'B',
+    label: 'In the center facing the left',
+    xLabel: ['B1', 'B2', 'B3', 'B4'],
+    yLabel: ['R1', 'R2', 'R3']
+  },
+  {
+    unit: 'C',
+    label: 'In the center facing the right',
+    xLabel: ['C1', 'C2', 'C3', 'C4'],
+    yLabel: ['R1', 'R2', 'R3', 'R4']
+  },
+  {
+    unit: 'D',
+    label: 'Against the right wall and near entrance',
+    xLabel: ['D1', 'D2', 'D3'],
+    yLabel: ['R1', 'R2', 'R3', 'R4']
+  },
+  {
+    unit: 'E',
+    label: 'Against the right wall',
+    xLabel: ['E1'],
+    yLabel: ['R1', 'R2', 'R3']
+  }
+]
+
+const WarehouseUnitRender = ({ warehouseData, unitItem }) => {
+  return (
+    <WarehouseUnit
+      unit={unitItem.unit}
+      label={unitItem.label}
+      yLabel={unitItem.yLabel}
+      xLabel={unitItem.xLabel}
+    >
+      {unitItem.yLabel.reverse().map((row) => (
+        <GridRow key={row + unitItem.unit}>
+          {unitItem.xLabel.map((col) => (
+            <Popover
+              trigger="hover"
+              placement="bottom"
+              key={[col, row].join('-')}
+              content={
+                <Wrapper padding="0" styles={{ 'min-width': '340px' }}>
+                  <Text family="Rubik" weight="500" size="16px" color="#000000">
+                    {[col, row].join('-')}
+                  </Text>
+                  {warehouseData[[col, row].join('-')]?.length && (
+                    <Wrapper padding="20px 0 0">
+                      {warehouseData[[col, row].join('-')]?.map((item) => (
+                        <Text
+                          key={item.SKU}
+                          styles={{ 'margin-top': '10px' }}
+                          as="div"
+                          family="Rubik"
+                          weight="400"
+                          size="15px"
+                          color="#000000"
+                        >
+                          {item.Name}
+                        </Text>
+                      ))}
+                    </Wrapper>
+                  )}
+                  {warehouseData[[col, row].join('-')]?.length && (
+                    <Wrapper padding="16px 0 0">
+                      <Text color="#999999" as="p" size="15px" weight="500">
+                        Last Settled
+                      </Text>
+                      <Flex
+                        direction="column"
+                        alignItems="flex-start"
+                        gap="10px"
+                        styles={{ 'margin-top': '10px' }}
+                      >
+                        {
+                          <>
+                            <Text
+                              color="#999999"
+                              as="p"
+                              size="15px"
+                              weight="400"
+                            >
+                              {ISOStringToReadableDate(
+                                [
+                                  ...warehouseData[[col, row].join('-')]?.sort(
+                                    (a, b) =>
+                                      -a.SettledTime.localeCompare(
+                                        b.SettledTime
+                                      )
+                                  )
+                                ][0].SettledTime
+                              )}
+                            </Text>
+                            <Text
+                              color="#000000"
+                              as="p"
+                              size="15px"
+                              weight="400"
+                            >
+                              {
+                                [
+                                  ...warehouseData[[col, row].join('-')]?.sort(
+                                    (a, b) =>
+                                      -a.SettledTime.localeCompare(
+                                        b.SettledTime
+                                      )
+                                  )
+                                ][0].Name
+                              }
+                            </Text>
+                          </>
+                        }
+                      </Flex>
+                    </Wrapper>
+                  )}
+                </Wrapper>
+              }
+            >
+              <GridItem></GridItem>
+            </Popover>
+          ))}
+        </GridRow>
+      ))}
+    </WarehouseUnit>
+  )
+}
 const Map = ({ user }) => {
   const [loadingWarehouse, setLoadingWarehouse] = useState(false)
   const [warehouseData, setWarehouseData] = useState({})
@@ -186,688 +319,38 @@ const Map = ({ user }) => {
             alignItems="flex-start"
             gap="58px"
           >
-            <WarehouseUnit
-              unit="A"
-              label="Against the left wall"
-              yLabel={['R1', 'R2', 'R3'].reverse()}
-              xLabel={['A1', 'A2', 'A3', 'A4']}
-            >
-              {['R1', 'R2', 'R3'].reverse().map((row) => (
-                <GridRow key={row + 'A'}>
-                  {['A1', 'A2', 'A3', 'A4'].map((col) => (
-                    <Popover
-                      isOpen={
-                        showLocationPopover &&
-                        activeLocationKey === [col, row].join('-')
-                      }
-                      key={[col, row].join('-')}
-                      onClose={() => setShowLocationPopover(false)}
-                      contentStyles={{
-                        'background-color': '#ffffff',
-                        padding: '24px',
-                        transform: 'translate(50%, 100%)'
-                      }}
-                      content={
-                        <Wrapper padding="0" styles={{ 'min-width': '340px' }}>
-                          <Text
-                            family="Rubik"
-                            weight="500"
-                            size="16px"
-                            color="#000000"
-                          >
-                            {[col, row].join('-')}
-                          </Text>
-                          {warehouseData[[col, row].join('-')]?.length && (
-                            <Wrapper padding="20px 0 0">
-                              {warehouseData[[col, row].join('-')]?.map(
-                                (item) => (
-                                  <Text
-                                    key={item.SKU}
-                                    styles={{ 'margin-top': '10px' }}
-                                    as="div"
-                                    family="Rubik"
-                                    weight="400"
-                                    size="15px"
-                                    color="#000000"
-                                  >
-                                    {item.Name}
-                                  </Text>
-                                )
-                              )}
-                            </Wrapper>
-                          )}
-                          {warehouseData[[col, row].join('-')]?.length && (
-                            <Wrapper padding="16px 0 0">
-                              <Text
-                                color="#999999"
-                                as="p"
-                                size="15px"
-                                weight="500"
-                              >
-                                Last Settled
-                              </Text>
-                              <Flex
-                                direction="column"
-                                alignItems="flex-start"
-                                gap="10px"
-                                styles={{ 'margin-top': '10px' }}
-                              >
-                                {
-                                  <>
-                                    <Text
-                                      color="#999999"
-                                      as="p"
-                                      size="15px"
-                                      weight="400"
-                                    >
-                                      {ISOStringToReadableDate(
-                                        [
-                                          ...warehouseData[
-                                            [col, row].join('-')
-                                          ]?.sort(
-                                            (a, b) =>
-                                              -a.SettledTime.localeCompare(
-                                                b.SettledTime
-                                              )
-                                          )
-                                        ][0].SettledTime
-                                      )}
-                                    </Text>
-                                    <Text
-                                      color="#000000"
-                                      as="p"
-                                      size="15px"
-                                      weight="400"
-                                    >
-                                      {
-                                        [
-                                          ...warehouseData[
-                                            [col, row].join('-')
-                                          ]?.sort(
-                                            (a, b) =>
-                                              -a.SettledTime.localeCompare(
-                                                b.SettledTime
-                                              )
-                                          )
-                                        ][0].Name
-                                      }
-                                    </Text>
-                                  </>
-                                }
-                              </Flex>
-                            </Wrapper>
-                          )}
-                        </Wrapper>
-                      }
-                    >
-                      <GridItem
-                        onMouseLeave={() => setShowLocationPopover(false)}
-                        active={
-                          (showLocationPopover &&
-                            activeLocationKey === [col, row].join('-')) ||
-                          (locatedItem?.Items?.length &&
-                            locatedItem?.Items[0]?.Location.filter(
-                              (val) => val === [col, row].join('-')
-                            ).length)
-                        }
-                        onClick={(e) =>
-                          handleGridItem([row, col].reverse().join('-'))
-                        }
-                        data-location={[row, col].join('-')}
-                      ></GridItem>
-                    </Popover>
-                  ))}
-                </GridRow>
-              ))}
-            </WarehouseUnit>
-            <WarehouseUnit
-              unit="B"
-              label="In the center facing the right"
-              xLabel={['B1', 'B2', 'B3', 'B4']}
-              yLabel={['R1', 'R2', 'R3'].reverse()}
-            >
-              {['R1', 'R2', 'R3'].reverse().map((row) => (
-                <GridRow key={row + 'B'}>
-                  {['B1', 'B2', 'B3', 'B4'].map((col) => (
-                    <Popover
-                      isOpen={
-                        showLocationPopover &&
-                        activeLocationKey === [col, row].join('-')
-                      }
-                      key={[col, row].join('-')}
-                      onClose={() => setShowLocationPopover(false)}
-                      contentStyles={{
-                        'background-color': '#ffffff',
-                        padding: '24px',
-                        transform: 'translate(50%, 100%)'
-                      }}
-                      content={
-                        <Wrapper padding="0" styles={{ 'min-width': '340px' }}>
-                          <Text
-                            family="Rubik"
-                            weight="500"
-                            size="16px"
-                            color="#000000"
-                          >
-                            {[col, row].join('-')}
-                          </Text>
-                          {warehouseData[[col, row].join('-')]?.length && (
-                            <Wrapper padding="20px 0 0">
-                              {warehouseData[[col, row].join('-')]?.map(
-                                (item) => (
-                                  <Text
-                                    key={item.SKU}
-                                    styles={{ 'margin-top': '10px' }}
-                                    as="div"
-                                    family="Rubik"
-                                    weight="400"
-                                    size="15px"
-                                    color="#000000"
-                                  >
-                                    {item.Name}
-                                  </Text>
-                                )
-                              )}
-                            </Wrapper>
-                          )}
-                          {warehouseData[[col, row].join('-')]?.length && (
-                            <Wrapper padding="16px 0 0">
-                              <Text
-                                color="#999999"
-                                as="p"
-                                size="15px"
-                                weight="500"
-                              >
-                                Last Settled
-                              </Text>
-                              <Flex
-                                direction="column"
-                                alignItems="flex-start"
-                                gap="10px"
-                                styles={{ 'margin-top': '10px' }}
-                              >
-                                {
-                                  <>
-                                    <Text
-                                      color="#999999"
-                                      as="p"
-                                      size="15px"
-                                      weight="400"
-                                    >
-                                      {ISOStringToReadableDate(
-                                        [
-                                          ...warehouseData[
-                                            [col, row].join('-')
-                                          ]?.sort(
-                                            (a, b) =>
-                                              -a.SettledTime.localeCompare(
-                                                b.SettledTime
-                                              )
-                                          )
-                                        ][0].SettledTime
-                                      )}
-                                    </Text>
-                                    <Text
-                                      color="#000000"
-                                      as="p"
-                                      size="15px"
-                                      weight="400"
-                                    >
-                                      {
-                                        [
-                                          ...warehouseData[
-                                            [col, row].join('-')
-                                          ]?.sort(
-                                            (a, b) =>
-                                              -a.SettledTime.localeCompare(
-                                                b.SettledTime
-                                              )
-                                          )
-                                        ][0].Name
-                                      }
-                                    </Text>
-                                  </>
-                                }
-                              </Flex>
-                            </Wrapper>
-                          )}
-                        </Wrapper>
-                      }
-                    >
-                      <GridItem
-                        onMouseLeave={() => setShowLocationPopover(false)}
-                        active={
-                          (showLocationPopover &&
-                            activeLocationKey === [col, row].join('-')) ||
-                          (locatedItem?.Items?.length &&
-                            locatedItem?.Items[0]?.Location.filter(
-                              (val) => val === [col, row].join('-')
-                            ).length)
-                        }
-                        onClick={(e) =>
-                          handleGridItem([row, col].reverse().join('-'))
-                        }
-                        data-location={[row, col].join('-')}
-                      ></GridItem>
-                    </Popover>
-                  ))}
-                </GridRow>
-              ))}
-            </WarehouseUnit>
+            <WarehouseUnitRender
+              warehouseData={warehouseData}
+              unitItem={warshouseMap[0]}
+            />
+            <WarehouseUnitRender
+              warehouseData={warehouseData}
+              unitItem={warshouseMap[1]}
+            />
           </Flex>
           <Flex
             styles={{ 'margin-bottom': '50px', 'max-width': '1100px' }}
             alignItems="flex-start"
             gap="58px"
           >
-            <WarehouseUnit
-              unit="C"
-              label="In the center facing the left"
-              xLabel={['C1', 'C2', 'C3', 'C4']}
-              yLabel={['R1', 'R2', 'R3', 'R4'].reverse()}
-            >
-              {['R1', 'R2', 'R3', 'R4'].reverse().map((row) => (
-                <GridRow key={row + 'C'}>
-                  {['C1', 'C2', 'C3', 'C4'].map((col) => (
-                    <Popover
-                      isOpen={
-                        showLocationPopover &&
-                        activeLocationKey === [col, row].join('-')
-                      }
-                      key={[col, row].join('-')}
-                      onClose={() => setShowLocationPopover(false)}
-                      contentStyles={{
-                        'background-color': '#ffffff',
-                        padding: '24px',
-                        transform: 'translate(50%, 100%)'
-                      }}
-                      content={
-                        <Wrapper padding="0" styles={{ 'min-width': '340px' }}>
-                          <Text
-                            family="Rubik"
-                            weight="500"
-                            size="16px"
-                            color="#000000"
-                          >
-                            {[col, row].join('-')}
-                          </Text>
-                          {warehouseData[[col, row].join('-')]?.length && (
-                            <Wrapper padding="20px 0 0">
-                              {warehouseData[[col, row].join('-')]?.map(
-                                (item) => (
-                                  <Text
-                                    key={item.SKU}
-                                    styles={{ 'margin-top': '10px' }}
-                                    as="div"
-                                    family="Rubik"
-                                    weight="400"
-                                    size="15px"
-                                    color="#000000"
-                                  >
-                                    {item.Name}
-                                  </Text>
-                                )
-                              )}
-                            </Wrapper>
-                          )}
-                          {warehouseData[[col, row].join('-')]?.length && (
-                            <Wrapper padding="16px 0 0">
-                              <Text
-                                color="#999999"
-                                as="p"
-                                size="15px"
-                                weight="500"
-                              >
-                                Last Settled
-                              </Text>
-                              <Flex
-                                direction="column"
-                                alignItems="flex-start"
-                                gap="10px"
-                                styles={{ 'margin-top': '10px' }}
-                              >
-                                {
-                                  <>
-                                    <Text
-                                      color="#999999"
-                                      as="p"
-                                      size="15px"
-                                      weight="400"
-                                    >
-                                      {ISOStringToReadableDate(
-                                        [
-                                          ...warehouseData[
-                                            [col, row].join('-')
-                                          ]?.sort(
-                                            (a, b) =>
-                                              -a.SettledTime.localeCompare(
-                                                b.SettledTime
-                                              )
-                                          )
-                                        ][0].SettledTime
-                                      )}
-                                    </Text>
-                                    <Text
-                                      color="#000000"
-                                      as="p"
-                                      size="15px"
-                                      weight="400"
-                                    >
-                                      {
-                                        [
-                                          ...warehouseData[
-                                            [col, row].join('-')
-                                          ]?.sort(
-                                            (a, b) =>
-                                              -a.SettledTime.localeCompare(
-                                                b.SettledTime
-                                              )
-                                          )
-                                        ][0].Name
-                                      }
-                                    </Text>
-                                  </>
-                                }
-                              </Flex>
-                            </Wrapper>
-                          )}
-                        </Wrapper>
-                      }
-                    >
-                      <GridItem
-                        onMouseLeave={() => setShowLocationPopover(false)}
-                        active={
-                          (showLocationPopover &&
-                            activeLocationKey === [col, row].join('-')) ||
-                          (locatedItem?.Items?.length &&
-                            locatedItem?.Items[0]?.Location.filter(
-                              (val) => val === [col, row].join('-')
-                            ).length)
-                        }
-                        onClick={(e) =>
-                          handleGridItem([row, col].reverse().join('-'))
-                        }
-                        data-location={[row, col].join('-')}
-                      ></GridItem>
-                    </Popover>
-                  ))}
-                </GridRow>
-              ))}
-            </WarehouseUnit>
-            <WarehouseUnit
-              unit="D"
-              label="Against the right wall and near entrance"
-              xLabel={['D1', 'D2', 'D3']}
-              yLabel={['R1', 'R2', 'R3', 'R4'].reverse()}
-            >
-              {['R1', 'R2', 'R3', 'R4'].reverse().map((row) => (
-                <GridRow key={row + 'B'}>
-                  {['D1', 'D2', 'D3'].map((col) => (
-                    <Popover
-                      isOpen={
-                        showLocationPopover &&
-                        activeLocationKey === [col, row].join('-')
-                      }
-                      key={[col, row].join('-')}
-                      onClose={() => setShowLocationPopover(false)}
-                      contentStyles={{
-                        'background-color': '#ffffff',
-                        padding: '24px',
-                        transform: 'translate(50%, 100%)'
-                      }}
-                      content={
-                        <Wrapper padding="0" styles={{ 'min-width': '340px' }}>
-                          <Text
-                            family="Rubik"
-                            weight="500"
-                            size="16px"
-                            color="#000000"
-                          >
-                            {[col, row].join('-')}
-                          </Text>
-                          {warehouseData[[col, row].join('-')]?.length && (
-                            <Wrapper padding="20px 0 0">
-                              {warehouseData[[col, row].join('-')]?.map(
-                                (item) => (
-                                  <Text
-                                    key={item.SKU}
-                                    styles={{ 'margin-top': '10px' }}
-                                    as="div"
-                                    family="Rubik"
-                                    weight="400"
-                                    size="15px"
-                                    color="#000000"
-                                  >
-                                    {item.Name}
-                                  </Text>
-                                )
-                              )}
-                            </Wrapper>
-                          )}
-                          {warehouseData[[col, row].join('-')]?.length && (
-                            <Wrapper padding="16px 0 0">
-                              <Text
-                                color="#999999"
-                                as="p"
-                                size="15px"
-                                weight="500"
-                              >
-                                Last Settled
-                              </Text>
-                              <Flex
-                                direction="column"
-                                alignItems="flex-start"
-                                gap="10px"
-                                styles={{ 'margin-top': '10px' }}
-                              >
-                                {
-                                  <>
-                                    <Text
-                                      color="#999999"
-                                      as="p"
-                                      size="15px"
-                                      weight="400"
-                                    >
-                                      {ISOStringToReadableDate(
-                                        [
-                                          ...warehouseData[
-                                            [col, row].join('-')
-                                          ]?.sort(
-                                            (a, b) =>
-                                              -a.SettledTime.localeCompare(
-                                                b.SettledTime
-                                              )
-                                          )
-                                        ][0].SettledTime
-                                      )}
-                                    </Text>
-                                    <Text
-                                      color="#000000"
-                                      as="p"
-                                      size="15px"
-                                      weight="400"
-                                    >
-                                      {
-                                        [
-                                          ...warehouseData[
-                                            [col, row].join('-')
-                                          ]?.sort(
-                                            (a, b) =>
-                                              -a.SettledTime.localeCompare(
-                                                b.SettledTime
-                                              )
-                                          )
-                                        ][0].Name
-                                      }
-                                    </Text>
-                                  </>
-                                }
-                              </Flex>
-                            </Wrapper>
-                          )}
-                        </Wrapper>
-                      }
-                    >
-                      <GridItem
-                        onMouseLeave={() => setShowLocationPopover(false)}
-                        active={
-                          (showLocationPopover &&
-                            activeLocationKey === [col, row].join('-')) ||
-                          (locatedItem?.Items?.length &&
-                            locatedItem?.Items[0]?.Location.filter(
-                              (val) => val === [col, row].join('-')
-                            ).length)
-                        }
-                        onClick={(e) =>
-                          handleGridItem([row, col].reverse().join('-'))
-                        }
-                        data-location={[row, col].join('-')}
-                      ></GridItem>
-                    </Popover>
-                  ))}
-                </GridRow>
-              ))}
-            </WarehouseUnit>
+            <WarehouseUnitRender
+              warehouseData={warehouseData}
+              unitItem={warshouseMap[2]}
+            />
+            <WarehouseUnitRender
+              warehouseData={warehouseData}
+              unitItem={warshouseMap[3]}
+            />
           </Flex>
           <Flex
             styles={{ 'margin-bottom': '50px' }}
             alignItems="flex-start"
             gap="58px"
           >
-            <WarehouseUnit
-              unit="E"
-              label="Against the right wall"
-              xLabel={['E1']}
-              yLabel={['R1', 'R2', 'R3'].reverse()}
-            >
-              {['R1', 'R2', 'R3'].reverse().map((row, idx) => (
-                <GridRow key={row + 'E'}>
-                  {['E1'].map((col) => (
-                    <Popover
-                      isOpen={
-                        showLocationPopover &&
-                        activeLocationKey === [col, row].join('-')
-                      }
-                      key={[col, row].join('-')}
-                      onClose={() => setShowLocationPopover(false)}
-                      contentStyles={{
-                        'background-color': '#ffffff',
-                        padding: '24px',
-                        transform: 'translate(50%, 100%)'
-                      }}
-                      content={
-                        <Wrapper padding="0" styles={{ 'min-width': '340px' }}>
-                          <Text
-                            family="Rubik"
-                            weight="500"
-                            size="16px"
-                            color="#000000"
-                          >
-                            {[col, row].join('-')}
-                          </Text>
-                          {warehouseData[[col, row].join('-')]?.length && (
-                            <Wrapper padding="20px 0 0">
-                              {warehouseData[[col, row].join('-')]?.map(
-                                (item) => (
-                                  <Text
-                                    key={item.SKU}
-                                    styles={{ 'margin-top': '10px' }}
-                                    as="div"
-                                    family="Rubik"
-                                    weight="400"
-                                    size="15px"
-                                    color="#000000"
-                                  >
-                                    {item.Name}
-                                  </Text>
-                                )
-                              )}
-                            </Wrapper>
-                          )}
-                          {warehouseData[[col, row].join('-')]?.length && (
-                            <Wrapper padding="16px 0 0">
-                              <Text
-                                color="#999999"
-                                as="p"
-                                size="15px"
-                                weight="500"
-                              >
-                                Last Settled
-                              </Text>
-                              <Flex
-                                direction="column"
-                                alignItems="flex-start"
-                                gap="10px"
-                                styles={{ 'margin-top': '10px' }}
-                              >
-                                {
-                                  <>
-                                    <Text
-                                      color="#999999"
-                                      as="p"
-                                      size="15px"
-                                      weight="400"
-                                    >
-                                      {ISOStringToReadableDate(
-                                        [
-                                          ...warehouseData[
-                                            [col, row].join('-')
-                                          ]?.sort(
-                                            (a, b) =>
-                                              -a.SettledTime.localeCompare(
-                                                b.SettledTime
-                                              )
-                                          )
-                                        ][0].SettledTime
-                                      )}
-                                    </Text>
-                                    <Text
-                                      color="#000000"
-                                      as="p"
-                                      size="15px"
-                                      weight="400"
-                                    >
-                                      {
-                                        [
-                                          ...warehouseData[
-                                            [col, row].join('-')
-                                          ]?.sort(
-                                            (a, b) =>
-                                              -a.SettledTime.localeCompare(
-                                                b.SettledTime
-                                              )
-                                          )
-                                        ][0].Name
-                                      }
-                                    </Text>
-                                  </>
-                                }
-                              </Flex>
-                            </Wrapper>
-                          )}
-                        </Wrapper>
-                      }
-                    >
-                      <GridItem
-                        onMouseLeave={() => setShowLocationPopover(false)}
-                        active={
-                          (showLocationPopover &&
-                            activeLocationKey === [col, row].join('-')) ||
-                          (locatedItem?.Items?.length &&
-                            locatedItem?.Items[0]?.Location.filter(
-                              (val) => val === [col, row].join('-')
-                            ).length)
-                        }
-                        onClick={(e) =>
-                          handleGridItem([row, col].reverse().join('-'))
-                        }
-                        data-location={[row, col].join('-')}
-                      ></GridItem>
-                    </Popover>
-                  ))}
-                </GridRow>
-              ))}
-            </WarehouseUnit>
+            <WarehouseUnitRender
+              warehouseData={warehouseData}
+              unitItem={warshouseMap[4]}
+            />
           </Flex>
         </Wrapper>
       </Wrapper>
@@ -910,7 +393,7 @@ const GridRow = styled.div`
   width: fit-content;
   display: flex;
   flex-wrap: nowrap;
-  &:not(:last-of-type) > div > div:first-of-type {
+  & > div {
     border-bottom: 1px solid #999999;
   }
   & > div:not(:last-of-type) {

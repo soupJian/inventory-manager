@@ -20,6 +20,7 @@ import {
 import { Api, ISOStringToReadableDate } from '../../utils/utils'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+import styles from './index.module.scss'
 
 const api = new Api()
 
@@ -161,6 +162,7 @@ const Settline = () => {
       <Wrapper padding="22px 0">
         {activeTab === 'settled' ? (
           <Table
+            className={styles.table}
             loading={loadingTable}
             name="warehousing-settled"
             headers={settledHeaders}
@@ -227,6 +229,7 @@ const Settline = () => {
           </Table>
         ) : (
           <Table
+            className={styles.table}
             loading={loadingTable}
             name="warehousing-unsettled"
             headers={unSettledHeaders}
