@@ -601,9 +601,9 @@ const Warehouse = ({ router }) => {
           >
             <Icon name="notification" width="20px" height="20px" />
             <Text>
-              For new products without SKU/Barcode,{' '}
+            For new items not registered,{' '}
               <TriggeringText onClick={() => router.push('/products')}>
-                create one first
+                Add the item first
               </TriggeringText>{' '}
             </Text>
           </Alert>
@@ -624,7 +624,7 @@ const Warehouse = ({ router }) => {
                 active={1 === recievingType}
                 idx={1}
               >
-                Type SKU/Barcode
+                Type Name/SKU/Barcode
               </Tab>
             </Tabs>
             {recievingType ? (
@@ -686,7 +686,7 @@ const Warehouse = ({ router }) => {
                     />
                   </CustomInputGroup>
                 </Flex>
-                <Wrapper padding="16px 0">
+                {/* <Wrapper padding="16px 0">
                   <Alert
                     type="notification"
                     styles={{
@@ -705,7 +705,7 @@ const Warehouse = ({ router }) => {
                       </TriggeringText>{' '}
                     </Text>
                   </Alert>
-                </Wrapper>
+                </Wrapper> */}
                 {lookUpLoading && <Loader size={30} />}
                 {lookUpError && <ErrorMessage>{lookUpError}</ErrorMessage>}
                 {lookedUpItem && !lookUpLoading && (
@@ -1182,9 +1182,8 @@ const Warehouse = ({ router }) => {
               <Text>
                 Can’t find the item.
                 <TriggeringText onClick={() => setNewItemModal(true)}>
-                  {' '}
                   Add it to the system
-                </TriggeringText>{' '}
+                </TriggeringText>
               </Text>
             </Alert>
           </Wrapper>

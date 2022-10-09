@@ -322,7 +322,7 @@ const Map = ({ user }) => {
             </WarehouseUnit>
             <WarehouseUnit
               unit="B"
-              label="In the center facing the left"
+              label="In the center facing the right"
               xLabel={['B1', 'B2', 'B3', 'B4']}
               yLabel={['R1', 'R2', 'R3'].reverse()}
             >
