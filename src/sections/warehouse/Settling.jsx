@@ -11,7 +11,6 @@ import {
   Tabs,
   Wrapper
 } from '../../components/commons'
-import styled from 'styled-components'
 import Tooltip from '../../components/commons/Tooltip/Tooltip'
 import {
   dateList,
@@ -19,12 +18,13 @@ import {
   unSettledHeaders
 } from '../../constants/pageConstants/warehouse'
 import { Api, ISOStringToReadableDate } from '../../utils/utils'
-const api = new Api()
 import { useSelector } from 'react-redux'
+import styled from 'styled-components'
+
+const api = new Api()
 
 const Settline = () => {
   const user = useSelector((state) => state.user)
-
   const [activeTab, setActiveTab] = useState('notsettled')
   const [date, setDate] = useState('365')
   const [loadingTable, setLoadingTable] = useState(false)
@@ -42,15 +42,21 @@ const Settline = () => {
   const handlePage = (page) => {
     setPage(page)
   }
-  const handleSettledItemsToShow = () => {
+  const handleSettledItemsToShow = (list, page) => {
     setLoadingTable(true)
-    const dataToShow = settledItems.slice(page * 10 - 10, page * 10)
+    const dataToShow = list.slice(
+      page * itemsPerPage - itemsPerPage,
+      page * itemsPerPage
+    )
     setSettledItemsToShow(dataToShow)
     setLoadingTable(false)
   }
-  const handleUnSettledItemsToShow = () => {
+  const handleUnSettledItemsToShow = (list, page) => {
     setLoadingTable(true)
-    const dataToShow = unSettledItems.slice(page * 10 - 10, page * 10)
+    const dataToShow = list.slice(
+      page * itemsPerPage - itemsPerPage,
+      page * itemsPerPage
+    )
     setUnSettledItemsToShow(dataToShow)
     setLoadingTable(false)
   }
@@ -101,6 +107,7 @@ const Settline = () => {
       })
       .then((data) => {
         setSettledItems(data.Items)
+        handleSettledItemsToShow(data.Items, 1)
       })
     api
       .getUnsettledInventory(`date=${date}`, {
@@ -109,6 +116,7 @@ const Settline = () => {
       .then((data) => {
         let locationListObj = {}
         setUnSettledItems(data.Items)
+        handleUnSettledItemsToShow(data.Items, 1)
         data.Items?.forEach((item) => (locationListObj[item.SKU] = []))
         setLocationList(locationListObj)
       })
@@ -116,9 +124,9 @@ const Settline = () => {
   }, [date])
   useEffect(() => {
     if (activeTab === 'settled') {
-      handleSettledItemsToShow()
+      handleSettledItemsToShow(settledItems, page)
     } else {
-      handleUnSettledItemsToShow()
+      handleUnSettledItemsToShow(unSettledItems, page)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, page])
@@ -152,129 +160,123 @@ const Settline = () => {
       </Flex>
       <Wrapper padding="22px 0">
         {activeTab === 'settled' ? (
-          <>
-            <Table
-              loading={loadingTable}
-              name="warehousing-settled"
-              headers={settledHeaders}
-              paginationComponent={
-                <Wrapper padding="32px 0 0">
-                  <Pagination
-                    itemsInPage={settledItemsToShow?.length}
-                    totalItems={settledItems?.length}
-                    totalPages={Math.ceil(settledItems?.length / itemsPerPage)}
-                    onPageChange={handlePage}
-                    currentPage={page}
-                  />{' '}
-                </Wrapper>
-              }
-            >
-              {settledItemsToShow.map((item, idx) => (
-                <TableRow idx={idx} height="72px" key={item.SKU}>
-                  {settledHeaders.map((i) => (
-                    <TableCell key={i.key}>
-                      {i.key === 'SettledTime' ? (
-                        ISOStringToReadableDate(item[i.key])
-                      ) : i.key === 'Location' ? (
-                        <Flex justifyContent="flex-start">
-                          {item[i.key][0]}
-                          {item[i.key].length > 1 && (
-                            <Tooltip
-                              wrapperStyles={{ 'margin-left': '4px' }}
-                              contentStyles={{
-                                'background-color': '#ffffff'
-                              }}
-                              place="top"
-                              content={
-                                <Wrapper>
-                                  <HeaderText>All Locations</HeaderText>
-                                  <Flex>
-                                    {item[i.key].map((loc) => (
-                                      <SpanText key={loc}>{loc};</SpanText>
-                                    ))}
-                                  </Flex>
-                                </Wrapper>
-                              }
-                            >
-                              <Button
-                                styles={{
-                                  padding: '3px',
-                                  'background-color': '#000000',
-                                  'border-radius': '50%',
-                                  width: '20px',
-                                  height: '20px'
-                                }}
-                              >
-                                <Icon name="add" width="100%" height="100%" />
-                              </Button>
-                            </Tooltip>
-                          )}
-                        </Flex>
-                      ) : (
-                        item[i.key]
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
-            </Table>
-          </>
-        ) : (
-          <>
-            <Table
-              loading={loadingTable}
-              name="warehousing-unsettled"
-              headers={unSettledHeaders}
-              paginationComponent={
-                <Wrapper padding="32px 0 0">
-                  <Pagination
-                    itemsInPage={unSettledItemsToShow?.length}
-                    totalItems={unSettledItems?.length}
-                    totalPages={Math.ceil(
-                      unSettledItems?.length / itemsPerPage
-                    )}
-                    onPageChange={handlePage}
-                    currentPage={page}
-                  />{' '}
-                </Wrapper>
-              }
-            >
-              {unSettledItemsToShow.map((item, idx) => (
-                <TableRow idx={idx} height="72px" key={item.SKU}>
-                  {unSettledHeaders.map((i) => (
-                    <TableCell key={i.key}>
-                      {i.key === 'Location' ? (
-                        <Flex
-                          styles={{ 'max-width': '260px' }}
-                          gap="10px"
-                          alignItems="stretch"
-                          justifyContent="flex-start"
-                        >
-                          <Filter
-                            wrapperStyles={{
-                              flex: '1 0 auto',
-                              width: '100%'
+          <Table
+            loading={loadingTable}
+            name="warehousing-settled"
+            headers={settledHeaders}
+            paginationComponent={
+              <Wrapper padding="32px 0 0">
+                <Pagination
+                  itemsInPage={settledItemsToShow?.length}
+                  totalItems={settledItems?.length}
+                  totalPages={Math.ceil(settledItems?.length / itemsPerPage)}
+                  onPageChange={handlePage}
+                  currentPage={page}
+                />
+              </Wrapper>
+            }
+          >
+            {settledItemsToShow.map((item, idx) => (
+              <TableRow idx={idx} height="72px" key={item.SKU}>
+                {settledHeaders.map((i) => (
+                  <TableCell key={i.key}>
+                    {i.key === 'SettledTime' ? (
+                      ISOStringToReadableDate(item[i.key])
+                    ) : i.key === 'Location' ? (
+                      <Flex justifyContent="flex-start">
+                        {item[i.key][0]}
+                        {item[i.key].length > 1 && (
+                          <Tooltip
+                            wrapperStyles={{ 'margin-left': '4px' }}
+                            contentStyles={{
+                              'background-color': '#ffffff'
                             }}
-                            name={item.SKU}
-                            value={locationList[item.SKU]}
-                            label=""
-                            list={locations}
-                            multiSelect
-                            onSelect={handleLocationList}
-                          />
-                          <SettleButton onClick={() => saveLocations(item.SKU)}>
-                            Settle
-                          </SettleButton>
-                        </Flex>
-                      ) : (
-                        item[i.key]
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
-            </Table>
-          </>
+                            place="top"
+                            content={
+                              <Wrapper>
+                                <HeaderText>All Locations</HeaderText>
+                                <Flex>
+                                  {item[i.key].map((loc) => (
+                                    <SpanText key={loc}>{loc};</SpanText>
+                                  ))}
+                                </Flex>
+                              </Wrapper>
+                            }
+                          >
+                            <Button
+                              styles={{
+                                padding: '3px',
+                                'background-color': '#000000',
+                                'border-radius': '50%',
+                                width: '20px',
+                                height: '20px'
+                              }}
+                            >
+                              <Icon name="add" width="100%" height="100%" />
+                            </Button>
+                          </Tooltip>
+                        )}
+                      </Flex>
+                    ) : (
+                      item[i.key]
+                    )}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </Table>
+        ) : (
+          <Table
+            loading={loadingTable}
+            name="warehousing-unsettled"
+            headers={unSettledHeaders}
+            paginationComponent={
+              <Wrapper padding="32px 0 0">
+                <Pagination
+                  itemsInPage={unSettledItemsToShow?.length}
+                  totalItems={unSettledItems?.length}
+                  totalPages={Math.ceil(unSettledItems?.length / itemsPerPage)}
+                  onPageChange={handlePage}
+                  currentPage={page}
+                />{' '}
+              </Wrapper>
+            }
+          >
+            {unSettledItemsToShow.map((item, idx) => (
+              <TableRow idx={idx} height="72px" key={item.SKU}>
+                {unSettledHeaders.map((i) => (
+                  <TableCell key={i.key}>
+                    {i.key === 'Location' ? (
+                      <Flex
+                        styles={{ 'max-width': '260px' }}
+                        gap="10px"
+                        alignItems="stretch"
+                        justifyContent="flex-start"
+                      >
+                        <Filter
+                          wrapperStyles={{
+                            flex: '1 0 auto',
+                            width: '100%'
+                          }}
+                          name={item.SKU}
+                          value={locationList[item.SKU]}
+                          label=""
+                          list={locations}
+                          multiSelect
+                          onSelect={handleLocationList}
+                        />
+                        <SettleButton onClick={() => saveLocations(item.SKU)}>
+                          Settle
+                        </SettleButton>
+                      </Flex>
+                    ) : (
+                      item[i.key]
+                    )}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </Table>
         )}
       </Wrapper>
     </Wrapper>
