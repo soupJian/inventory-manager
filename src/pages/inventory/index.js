@@ -16,6 +16,7 @@ import { SearchOutlined } from '@ant-design/icons'
 import { Input } from 'antd'
 import InventoryTable from '../../sections/inventory/inventoryTable'
 import InventoryMap from '../../sections/inventory/inventoryMap'
+import AddANewItem from '../../components/add-a-new-Item'
 import styles from './index.module.scss'
 
 const Inventory = () => {
@@ -27,6 +28,10 @@ const Inventory = () => {
     show: false
   })
   const [newItemModal, setNewItemModal] = useState(false)
+  const [updataTableData, setUpdateTableData] = useState(false)
+  const submitNewItemFinally = () => {
+    setUpdateTableData(true)
+  }
   return (
     <Wrapper
       styles={{ 'min-height': '100%' }}
@@ -36,9 +41,7 @@ const Inventory = () => {
       <Flex styles={{ 'flex-wrap': 'nowrap' }} justifyContent="space-between">
         <Tabs>
           <Tab
-            onClick={() =>
-              dispatch({ type: 'changePageType', payload: 'inventory' })
-            }
+            onClick={() => setActiveTab('inventory')}
             active={'inventory' === activeTab}
             idx={0}
           >
@@ -54,7 +57,7 @@ const Inventory = () => {
         </Tabs>
         {activeTab === 'inventory' && (
           <Flex styles={{ gap: '9px' }}>
-            {/* <Button
+            <Button
               onClick={() => setNewItemModal(true)}
               minWidth="auto"
               kind="primary"
@@ -68,7 +71,7 @@ const Inventory = () => {
               }
             >
               New
-            </Button> */}
+            </Button>
             <Input
               type="text"
               className={styles.searchInput}
@@ -82,9 +85,8 @@ const Inventory = () => {
       {activeTab === 'inventory' ? (
         <InventoryTable
           user={user}
-          newItemModal={newItemModal}
-          setNewItemModal={setNewItemModal}
           setDialog={setDialog}
+          updataTableData={updataTableData}
         />
       ) : (
         <InventoryMap user={user} />
@@ -129,6 +131,12 @@ const Inventory = () => {
             </Flex>
           </Wrapper>
         </Dialog>
+      )}
+      {newItemModal && (
+        <AddANewItem
+          setNewItemModal={setNewItemModal}
+          submitNewItemFinally={submitNewItemFinally}
+        />
       )}
     </Wrapper>
   )
