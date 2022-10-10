@@ -3,10 +3,8 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import {
   BaseButton,
-  Button,
   Dialog,
   Flex,
-  Icon,
   Tab,
   Tabs,
   Text,
@@ -30,7 +28,9 @@ const Inventory = () => {
   const [newItemModal, setNewItemModal] = useState(false)
   const [updataTableData, setUpdateTableData] = useState(false)
   const submitNewItemFinally = () => {
-    setUpdateTableData(true)
+    setUpdateTableData((update) => {
+      return !update
+    })
   }
   return (
     <Wrapper
@@ -57,7 +57,7 @@ const Inventory = () => {
         </Tabs>
         {activeTab === 'inventory' && (
           <Flex styles={{ gap: '9px' }}>
-            <Button
+            {/* <Button
               onClick={() => setNewItemModal(true)}
               minWidth="auto"
               kind="primary"
@@ -71,7 +71,7 @@ const Inventory = () => {
               }
             >
               New
-            </Button>
+            </Button> */}
             <Input
               type="text"
               className={styles.searchInput}

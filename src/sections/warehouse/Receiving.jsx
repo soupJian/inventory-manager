@@ -4,28 +4,18 @@ import {
   Alert,
   Box,
   Button as ButtonV1,
-  Dropdown,
-  Filter,
   Flex,
   Icon,
   Input,
   Loader,
   Modal,
-  Pagination,
-  Popover,
   Tab,
-  Table,
-  TableCell,
-  TableRow,
   Tabs,
   Wrapper
 } from '../../components/commons'
 import styled from 'styled-components'
-import {
-  Api,
-  ISOStringToReadableDate,
-  objectsToQueryString
-} from '../../utils/utils'
+import AddANewItem from '../../components/add-a-new-Item'
+import { Api, objectsToQueryString } from '../../utils/utils'
 import { useSelector } from 'react-redux'
 
 const api = new Api()
@@ -33,7 +23,7 @@ const api = new Api()
 const Receiving = () => {
   const user = useSelector((state) => state.user)
 
-  const [recievingType, setRecievingType] = useState(0)
+  const [activeTab, setActiveTab] = useState('scan')
   const [scanning, setScanning] = useState(false)
   const [scan, setScan] = useState(false)
   const [sku, setSku] = useState('')
@@ -42,6 +32,7 @@ const Receiving = () => {
   const [lookedUpItemCount, setLookedUpItemCount] = useState(0)
   const [lookUpLoading, setLookUpLoading] = useState(false)
   const [lookUpError, setLookUpError] = useState('')
+  const [newItemModal, setNewItemModal] = useState(false)
   const startScan = () => {
     setScan(true)
     setScanning(true)
@@ -94,81 +85,6 @@ const Receiving = () => {
         })
     }
   }
-  const newItemHandler = (e, nestedKey) => {
-    if (nestedKey) {
-      return setNewItem({
-        ...newItem,
-        Cost: { ...newItem.Cost, [e.target.name]: parseInt(e.target.value) }
-      })
-    } else if (e.target.name === 'Tags') {
-      let newTags = e.target.value.split(',')
-      newTags.pop()
-      setNewItem({ ...newItem, TagsInput: e.target.value, Tags: newTags })
-    } else {
-      if (e.target.type === 'number') {
-        return setNewItem({
-          ...newItem,
-          [e.target.name]: parseInt(e.target.value)
-        })
-      } else {
-        return setNewItem({ ...newItem, [e.target.name]: e.target.value })
-      }
-    }
-  }
-
-  const submitNewItem = (e) => {
-    setNewItemLoading(true)
-    setNewItemError('')
-    e.preventDefault()
-    if (!newItem.Name || !newItem.Barcode) {
-      setNewItemLoading(false)
-      setNewItemError('Required')
-    } else {
-      const TotalCost = Object.values(newItem.Cost).reduce(
-        (total, cost) => total + parseInt(cost),
-        0
-      )
-      const settledInfo = {
-        Settled: !!newItem.Location.length,
-        SettledTime: newItem.Location.length ? new Date() : ''
-      }
-      let data = {
-        ...newItem,
-        ...settledInfo,
-        Recieved: new Date(),
-        Updated: new Date(),
-        Created: new Date(),
-        TotalCost
-      }
-      delete data['TagsInput']
-      api
-        .updateInventory(data, { Authorization: `Bearer ${user.accessToken}` })
-        .then((data) => {
-          setNewItemLoading(false)
-          setNewItemModal(false)
-          setNewItemError('')
-          setNewItem({ ...itemTemplate })
-        })
-    }
-  }
-  const removeTag = (tag) => {
-    const idx = newItem.Tags.indexOf(tag)
-    if (idx >= 0) {
-      let newTags = [...newItem.Tags]
-      newTags.splice(idx, 1)
-      setNewItem({ ...newItem, TagsInput: newTags.join(','), Tags: newTags })
-    }
-  }
-  const handleNewLocationList = (name, val) => {
-    const idx = newItem.Location.findIndex((loc) => loc === val)
-    let newLocationList = [...newItem.Location]
-    if (idx >= 0) {
-      newLocationList.splice(idx, 1)
-      setNewItem({ ...newItem, [name]: newLocationList })
-    } else {
-      setNewItem({ ...newItem, [name]: [...newLocationList, val] })
-    }
-  }
   useEffect(() => {
     if (lookedUpItem) setLookedUpItemCount(lookedUpItem.Stock)
   }, [lookedUpItem])
@@ -185,10 +101,10 @@ const Receiving = () => {
       >
         <Icon name="notification" width="20px" height="20px" />
         <Text>
-          For new items not registered,{' '}
-          <TriggeringText onClick={() => router.push('/products')}>
+          For new items not registered,
+          <TriggeringText onClick={() => setNewItemModal(true)}>
             Add the item first
-          </TriggeringText>{' '}
+          </TriggeringText>
         </Text>
       </Alert>
 
@@ -196,22 +112,22 @@ const Receiving = () => {
         <Tabs>
           <Tab
             contentStyles={{ 'font-size': '18px' }}
-            onClick={() => setRecievingType(0)}
-            active={0 === recievingType}
+            onClick={() => setActiveTab('scan')}
+            active={'scan' === activeTab}
             idx={0}
           >
             Scan
           </Tab>
           <Tab
             contentStyles={{ 'font-size': '18px' }}
-            onClick={() => setRecievingType(1)}
-            active={1 === recievingType}
+            onClick={() => setActiveTab('type')}
+            active={'type' === activeTab}
             idx={1}
           >
             Type Name/SKU/Barcode
           </Tab>
         </Tabs>
-        {recievingType ? (
+        {activeTab == 'type' && (
           <>
             <Flex
               alignItems="flex-start"
@@ -284,9 +200,8 @@ const Receiving = () => {
               <Text>
                 Can’t find the item.
                 <TriggeringText onClick={() => setNewItemModal(true)}>
-                  {' '}
                   Add it to the system
-                </TriggeringText>{' '}
+                </TriggeringText>
               </Text>
             </Alert>
           </Wrapper> */}
@@ -331,7 +246,8 @@ const Receiving = () => {
               </Wrapper>
             )}
           </>
-        ) : (
+        )}
+        {activeTab == 'scan' && (
           <>
             <Flex
               alignItems="flex-start"
@@ -361,341 +277,12 @@ const Receiving = () => {
           </>
         )}
       </Wrapper>
-      {/* {newItemModal && (
-      <Modal
-        loading={newItemLoading}
-        title={'Add a new item'}
-        closeOnClickOutside={false}
-        onClose={() => setNewItemModal(false)}
-      >
-        <Wrapper padding="32px 0 0" styles={{ width: '632px' }}>
-          <Form onSubmit={submitNewItem}>
-            <InputGroup>
-              <Label htmlFor="warehouse-recieving-sku">Name*</Label>
-              <Input
-                wrapperStyles={{
-                  'margin-top': '16px',
-                  'min-height': '59px',
-                  border:
-                    newItemError && !newItem.Name
-                      ? '2px solid #CB0000'
-                      : ''
-                }}
-                inputStyles={{ width: '100%' }}
-                placeholderStyles={{
-                  color: newItemError && !newItem.Name ? '#CB0000' : ''
-                }}
-                placeholder={
-                  newItemError && !newItem.Name ? 'Required' : 'Type'
-                }
-                value={newItem.Name}
-                onChange={(e) => newItemHandler(e)}
-                name="Name"
-                type="text"
-                id="warehouse-new-item-name"
-              />
-            </InputGroup>
-            <Flex
-              alignItems="flex-start"
-              justifyContent="flex-start"
-              styles={{
-                width: '100%',
-                'margin-top': '24px',
-                gap: '24px'
-              }}
-            >
-              <InputGroup>
-                <Label htmlFor="warehouse-recieving-sku">SKU</Label>
-                <Input
-                  wrapperStyles={{
-                    'margin-top': '16px',
-                    'min-height': '59px'
-                  }}
-                  inputStyles={{ width: '100%' }}
-                  placeholder="Type"
-                  value={newItem.SKU}
-                  onChange={(e) => newItemHandler(e)}
-                  name="SKU"
-                  type="text"
-                  id="warehouse-new-item-sku"
-                />
-              </InputGroup>
-              <InputGroup>
-                <Label htmlFor="warehouse-recieving-sku">BARCODE*</Label>
-                <Input
-                  wrapperStyles={{
-                    'margin-top': '16px',
-                    'min-height': '59px',
-                    border:
-                      newItemError && !newItem.Barcode
-                        ? '2px solid #CB0000'
-                        : ''
-                  }}
-                  inputStyles={{ width: '100%' }}
-                  placeholderStyles={{
-                    color:
-                      newItemError && !newItem.Barcode ? '#CB0000' : ''
-                  }}
-                  placeholder={
-                    newItemError && !newItem.Barcode ? 'Required' : 'Type'
-                  }
-                  value={newItem.Barcode}
-                  onChange={(e) => newItemHandler(e)}
-                  name="Barcode"
-                  type="text"
-                  id="warehouse-new-item-barcode"
-                />
-              </InputGroup>
-            </Flex>
-            <Flex
-              alignItems="flex-start"
-              justifyContent="flex-start"
-              styles={{
-                width: '100%',
-                'margin-top': '24px',
-                gap: '24px'
-              }}
-            >
-              <InputGroup>
-                <Label htmlFor="warehouse-recieving-sku">COUNT</Label>
-                <Input
-                  wrapperStyles={{
-                    'margin-top': '16px',
-                    'min-height': '59px'
-                  }}
-                  inputStyles={{ width: '100%' }}
-                  placeholder="0"
-                  value={newItem.Stock}
-                  onChange={(e) => newItemHandler(e)}
-                  name="Stock"
-                  type="number"
-                  id="warehouse-new-item-count"
-                />
-              </InputGroup>
-              <InputGroup>
-                <Label htmlFor="warehouse-recieving-sku">AVAILABLE</Label>
-                <Input
-                  wrapperStyles={{
-                    'margin-top': '16px',
-                    'min-height': '59px'
-                  }}
-                  inputStyles={{ width: '100%' }}
-                  placeholder="0"
-                  value={newItem.Available}
-                  onChange={(e) => newItemHandler(e)}
-                  name="Available"
-                  type="number"
-                  id="warehouse-new-item-available"
-                />
-              </InputGroup>
-              <InputGroup>
-                <Label htmlFor="warehouse-recieving-sku">RESERVED</Label>
-                <Input
-                  wrapperStyles={{
-                    'margin-top': '16px',
-                    'min-height': '59px'
-                  }}
-                  inputStyles={{ width: '100%' }}
-                  placeholder="0"
-                  value={newItem.Reserved}
-                  onChange={(e) => newItemHandler(e)}
-                  name="Reserved"
-                  type="number"
-                  id="warehouse-new-item-reserved"
-                />
-              </InputGroup>
-              <InputGroup>
-                <Label htmlFor="warehouse-recieving-sku">
-                  REORDER ALERT
-                </Label>
-                <Input
-                  wrapperStyles={{
-                    'margin-top': '16px',
-                    'min-height': '59px'
-                  }}
-                  inputStyles={{ width: '100%' }}
-                  placeholder="0"
-                  value={newItem.ReorderAlert}
-                  onChange={(e) => newItemHandler(e)}
-                  name="ReorderAlert"
-                  type="number"
-                  id="warehouse-new-item-reorder-alert"
-                />
-              </InputGroup>
-            </Flex>
-            <Flex
-              alignItems="flex-start"
-              justifyContent="flex-start"
-              styles={{
-                width: '100%',
-                'margin-top': '24px',
-                gap: '24px'
-              }}
-            >
-              <InputGroup>
-                <Label htmlFor="warehouse-recieving-sku">LOCATION</Label>
-                <Filter
-                  wrapperStyles={{ width: '100%', 'margin-top': '10px' }}
-                  name="Location"
-                  value={newItem.Location}
-                  label=""
-                  list={locations}
-                  multiSelect
-                  onSelect={handleNewLocationList}
-                />
-              </InputGroup>
-            </Flex>
-            <Wrapper padding="24px 0 0">
-              <Label htmlFor="warehouse-recieving-sku">US COST</Label>
-              <Flex
-                alignItems="stretch"
-                justifyContent="flex-start"
-                styles={{
-                  width: '100%',
-                  'margin-top': '16px',
-                  gap: '9px'
-                }}
-              >
-                <InputGroup>
-                  <ModifiedLabel htmlFor="warehouse-recieving-sku">
-                    ITEM COST ($)
-                  </ModifiedLabel>
-                  <Input
-                    wrapperStyles={{
-                      'margin-top': '16px',
-                      'min-height': '59px'
-                    }}
-                    inputStyles={{ width: '100%' }}
-                    placeholder="0"
-                    value={newItem.Cost.ItemCost}
-                    onChange={(e) => newItemHandler(e, 'Cost')}
-                    name="ItemCost"
-                    type="number"
-                    id="warehouse-new-item-cost"
-                  />
-                </InputGroup>
-                <InputGroup>
-                  <ModifiedLabel htmlFor="warehouse-recieving-sku">
-                    CUSTOM ENTRY DUTY ($)
-                  </ModifiedLabel>
-                  <Input
-                    wrapperStyles={{
-                      'margin-top': '16px',
-                      'min-height': '59px'
-                    }}
-                    inputStyles={{ width: '100%' }}
-                    placeholder="0"
-                    value={newItem.Cost.CustomEntryDuty}
-                    onChange={(e) => newItemHandler(e, 'Cost')}
-                    name="CustomEntryDuty"
-                    type="number"
-                    id="warehouse-new-item-ced"
-                  />
-                </InputGroup>
-                <InputGroup>
-                  <ModifiedLabel htmlFor="warehouse-recieving-sku">
-                    OCEAN FREIGHT ($)
-                  </ModifiedLabel>
-                  <Input
-                    wrapperStyles={{
-                      'margin-top': '16px',
-                      'min-height': '59px'
-                    }}
-                    inputStyles={{ width: '100%' }}
-                    placeholder="0"
-                    value={newItem.Cost.OceanFreight}
-                    onChange={(e) => newItemHandler(e, 'Cost')}
-                    name="OceanFreight"
-                    type="number"
-                    id="warehouse-new-item-of"
-                  />
-                </InputGroup>
-                <InputGroup>
-                  <ModifiedLabel htmlFor="warehouse-recieving-sku">
-                    WAREHOUSE DELIVERY ($)
-                  </ModifiedLabel>
-                  <Input
-                    wrapperStyles={{
-                      'margin-top': '16px',
-                      'min-height': '59px'
-                    }}
-                    inputStyles={{ width: '100%' }}
-                    placeholder="0"
-                    value={newItem.Cost.WarehouseDelivery}
-                    onChange={(e) => newItemHandler(e, 'Cost')}
-                    name="WarehouseDelivery"
-                    type="number"
-                    id="warehouse-new-item-wd"
-                  />
-                </InputGroup>
-                <InputGroup>
-                  <ModifiedLabel htmlFor="warehouse-recieving-sku">
-                    CUSTOMER SHIPPING ($)
-                  </ModifiedLabel>
-                  <Input
-                    wrapperStyles={{
-                      'margin-top': '16px',
-                      'min-height': '59px'
-                    }}
-                    inputStyles={{ width: '100%' }}
-                    placeholder="0"
-                    value={newItem.Cost.CustomerShipping}
-                    onChange={(e) => newItemHandler(e, 'Cost')}
-                    name="CustomerShipping"
-                    type="number"
-                    id="warehouse-new-item-cs"
-                  />
-                </InputGroup>
-              </Flex>
-            </Wrapper>
-            <Wrapper padding="24px 0 0">
-              <Label htmlFor="warehouse-recieving-sku">
-                TAGS (use comma to seperate)
-              </Label>
-              <CustomInput>
-                <Tags>
-                  {newItem.Tags?.map((tag) => {
-                    if (tag.length) {
-                      return (
-                        <Tag
-                          onClick={(e) => removeTag(tag)}
-                          type="button"
-                          key={tag}
-                        >
-                          {tag}
-                          <Icon
-                            name="close-rounded"
-                            width="12px"
-                            height="12px"
-                          />{' '}
-                        </Tag>
-                      )
-                    }
-                  })}
-                </Tags>
-                <input
-                  type="text"
-                  name="Tags"
-                  value={newItem.TagsInput}
-                  onChange={(e) => newItemHandler(e)}
-                />
-              </CustomInput>
-            </Wrapper>
-            <Flex
-              styles={{
-                'max-width': '78px',
-                'margin-left': 'auto',
-                'margin-top': '24px'
-              }}
-            >
-              <ButtonV1 type="submit" kind="primary">
-                Save
-              </ButtonV1>
-            </Flex>
-          </Form>
-        </Wrapper>
-      </Modal>
-    )} */}
+      {newItemModal && (
+        <AddANewItem
+          setNewItemModal={setNewItemModal}
+          submitNewItemFinally={() => null}
+        />
+      )}
     </Wrapper>
   )
 }
