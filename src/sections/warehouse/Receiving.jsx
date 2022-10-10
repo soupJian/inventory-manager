@@ -11,11 +11,13 @@ import {
   Modal,
   Tab,
   Tabs,
-  Wrapper
+  Wrapper,
+  Filter
 } from '../../components/commons'
 import styled from 'styled-components'
 import AddANewItem from '../../components/add-a-new-Item'
 import { Api, objectsToQueryString } from '../../utils/utils'
+import { locations } from '../../constants/pageConstants/warehouse'
 import { useSelector } from 'react-redux'
 
 const api = new Api()
@@ -26,10 +28,14 @@ const Receiving = () => {
   const [activeTab, setActiveTab] = useState('scan')
   const [scanning, setScanning] = useState(false)
   const [scan, setScan] = useState(false)
+
   const [sku, setSku] = useState('')
   const [barcode, setBarcode] = useState('')
+  const [name, setName] = useState('')
+
   const [lookedUpItem, setLookedUpItem] = useState(null)
   const [lookedUpItemCount, setLookedUpItemCount] = useState(0)
+  const [lookedUpItemLocation, setLookedUpItemLocation] = useState([])
   const [lookUpLoading, setLookUpLoading] = useState(false)
   const [lookUpError, setLookUpError] = useState('')
   const [newItemModal, setNewItemModal] = useState(false)
@@ -38,19 +44,23 @@ const Receiving = () => {
     setScanning(true)
   }
   const lookUpItem = async (key) => {
-    console.log(key)
     setLookedUpItem(null)
     setLookUpLoading(true)
     setLookUpError('')
     let param = {}
     if (key === 'sku') {
       setBarcode('')
+      setName('')
       param = { [key]: sku }
-    } else {
+    } else if (key == 'barcode') {
       setSku('')
+      setName('')
       param = { [key]: barcode }
+    } else {
+      setBarcode('')
+      setName('')
+      param = { [key]: name }
     }
-    console.log(param)
     api
       .getInventory(objectsToQueryString(param), {
         Authorization: `Bearer ${user.accessToken}`
@@ -63,10 +73,24 @@ const Receiving = () => {
         }
         setLookUpLoading(false)
         setLookedUpItem(data.Items[0])
+        setLookedUpItemCount(data.Items[0].Stock)
+        setLookedUpItemLocation(data.Items[0].Location)
       })
       .catch((err) => {
         setLookUpLoading(false)
       })
+  }
+  const handleLocationList = (val) => {
+    setLookedUpItemLocation((list) => {
+      const newList = [...list]
+      const idx = newList.findIndex((loc) => loc === val)
+      if (idx >= 0) {
+        newList.splice(idx, 1)
+      } else {
+        newList.push(val)
+      }
+      return newList
+    })
   }
   const saveItem = () => {
     if (lookUpItem) {
@@ -76,7 +100,8 @@ const Receiving = () => {
           {
             ...lookedUpItem,
             Updated: new Date(),
-            Stock: parseInt(lookedUpItemCount)
+            Stock: parseInt(lookedUpItemCount),
+            Location: lookedUpItemLocation
           },
           { Authorization: `Bearer ${user.accessToken}` }
         )
@@ -85,9 +110,6 @@ const Receiving = () => {
         })
     }
   }
-  useEffect(() => {
-    if (lookedUpItem) setLookedUpItemCount(lookedUpItem.Stock)
-  }, [lookedUpItem])
   return (
     <Wrapper height="auto" padding="38px 0">
       <Alert
@@ -134,6 +156,32 @@ const Receiving = () => {
               justifyContent="flex-start"
               styles={{ width: '100%', 'padding-top': '58px', gap: '40px' }}
             >
+              <CustomInputGroup>
+                <Label htmlFor="warehouse-recieving-name">NAME</Label>
+                <Input
+                  readOnly={lookUpLoading}
+                  endIcon={
+                    <LookupBtn
+                      disabled={lookUpLoading}
+                      onClick={() => lookUpItem('name')}
+                    >
+                      Look up
+                    </LookupBtn>
+                  }
+                  wrapperStyles={{
+                    'margin-top': '16px',
+                    'min-height': '59px'
+                  }}
+                  inputStyles={{ width: '100%' }}
+                  placeholder="Type"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  name="sku"
+                  type="text"
+                  id="warehouse-recieving-name"
+                />
+              </CustomInputGroup>
+              <Separator>or</Separator>
               <CustomInputGroup>
                 <Label htmlFor="warehouse-recieving-sku">SKU</Label>
                 <Input
@@ -213,11 +261,13 @@ const Receiving = () => {
                   Intaking: <strong>{lookedUpItem.Name}</strong>
                 </LookedUpItemName>
 
-                <Wrapper
+                <Flex
                   padding="0"
-                  styles={{ 'max-width': '335px', 'margin-top': '39px' }}
+                  justifyContent="flex-start"
+                  gap="69px"
+                  styles={{ 'margin-top': '39px' }}
                 >
-                  <InputGroup>
+                  <InputGroup style={{ maxWidth: '335px' }}>
                     <Label htmlFor="warehouse-recieving-barcode">count</Label>
                     <Input
                       wrapperStyles={{
@@ -230,19 +280,36 @@ const Receiving = () => {
                       onChange={(e) => setLookedUpItemCount(e.target.value)}
                       name="item-count"
                       type="number"
+                      min={0}
                       id="warehouse-recieving-lookedup-item"
                     />
                   </InputGroup>
-                  <ButtonV1
-                    loading={lookUpLoading}
-                    onClick={saveItem}
-                    styles={{ 'margin-top': '36px' }}
-                    minWidth="78px"
-                    kind="primary"
-                  >
-                    Save
-                  </ButtonV1>
-                </Wrapper>
+                  <InputGroup style={{ maxWidth: '335px' }}>
+                    <Label htmlFor="warehouse-recieving-sku">
+                      LOCATION(OPTIONAL)
+                    </Label>
+                    <Filter
+                      wrapperStyles={{
+                        width: '100%',
+                        'margin-top': '10px'
+                      }}
+                      value={lookedUpItemLocation}
+                      label=""
+                      list={locations}
+                      multiSelect
+                      onSelect={handleLocationList}
+                    />
+                  </InputGroup>
+                </Flex>
+                <ButtonV1
+                  loading={lookUpLoading}
+                  onClick={saveItem}
+                  styles={{ 'margin-top': '36px' }}
+                  minWidth="78px"
+                  kind="primary"
+                >
+                  Save
+                </ButtonV1>
               </Wrapper>
             )}
           </>
@@ -401,6 +468,7 @@ const LookupBtn = styled.button`
   }
 `
 const Separator = styled.div`
+  margin-top: 24px;
   font-family: ${({ theme }) => theme.font.family.primary};
   font-size: 22px;
   font-weight: ${({ theme }) => theme.font.weight.medium};
