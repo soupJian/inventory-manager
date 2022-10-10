@@ -9,7 +9,8 @@ import {
   TableCell,
   TableRow,
   Text,
-  Wrapper
+  Wrapper,
+  Modal
 } from '../../components/commons'
 import {
   ExpandedTableHeaders,
@@ -20,6 +21,7 @@ import { Row, Col, Popover, Select, Space, Button, Checkbox } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
 import { Api } from '../../utils/utils'
 import { PlusCircleFilled } from '@ant-design/icons'
+import { formatMoney } from '../../utils/formatMoney'
 import styled from 'styled-components'
 import styles from './index.module.scss'
 const api = new Api()
@@ -43,8 +45,6 @@ const InventoryTable = ({ user, setDialog, updataTableData }) => {
     page: 1,
     status: []
   })
-  const [openDropDown, setOpenDropDown] = useState(false)
-  const [selectHeader, setSelectHeader] = useState([])
   const [TableHeaders, setTableHeaders] = useState(defaultTableHeaders)
   const [loadingTable, setLoadingTable] = useState(false)
   const [inventorySKUs, setInventorySKUs] = useState([])
@@ -52,6 +52,15 @@ const InventoryTable = ({ user, setDialog, updataTableData }) => {
   // const [status, setStatus] = useState([])
   const [selection, setSelection] = useState([])
   const [itemsPerPage, setItemsPerPage] = useState(10)
+  const [costInfo, setCostInfo] = useState({
+    show: false,
+    CustomEntryDuty: 0,
+    CustomerShipping: 0,
+    ItemCost: 0,
+    OceanFreight: 0,
+    WarehouseDelivery: 0,
+    total: 0
+  })
   const fetchSKUs = () => {
     setLoadingTable(true)
     api
@@ -176,7 +185,6 @@ const InventoryTable = ({ user, setDialog, updataTableData }) => {
     else setSelection(skus)
   }
   const handleSelectTableColumn = (values) => {
-    console.log(values)
     setTableHeaders((list) => {
       const newList = [...list]
       newList.forEach((item) => {
@@ -334,7 +342,19 @@ const InventoryTable = ({ user, setDialog, updataTableData }) => {
                 return (
                   <div key={header.key}>
                     {header.key === 'TotalCost' ? (
-                      '$' + item[header.key]
+                      <span
+                        className={styles.cost}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setCostInfo({
+                            show: true,
+                            ...item.Cost,
+                            total: item[header.key]
+                          })
+                        }}
+                      >
+                        {'$' + formatMoney(item[header.key])}
+                      </span>
                     ) : header.key === 'Location' ? (
                       <>
                         {item[header.key][0]}
@@ -430,6 +450,98 @@ const InventoryTable = ({ user, setDialog, updataTableData }) => {
               </Flex>
             </Flex>
           </FloatingBar>
+        )}
+        {costInfo.show && (
+          <Modal
+            onClose={() =>
+              setCostInfo({
+                show: false
+              })
+            }
+          >
+            <div className={styles.costModal}>
+              <div className={styles.title}>
+                US Cost: ${formatMoney(costInfo.total)}
+              </div>
+              <Row gutter={[16, 16]}>
+                <Col>
+                  <div style={{ width: '110px' }} className={styles.subTitle}>
+                    ITEM COST
+                  </div>
+                  <div className={styles.number}>
+                    ${`${formatMoney(costInfo.ItemCost)}`}
+                    <span style={{ marginLeft: '2px' }}>
+                      (
+                      {`${parseInt(
+                        (costInfo.ItemCost / costInfo.total) * 100
+                      )}`}
+                      %)
+                    </span>
+                  </div>
+                </Col>
+                <Col>
+                  <div style={{ width: '147px' }} className={styles.subTitle}>
+                    CUSTOM ENTRY DUTY
+                  </div>
+                  <div className={styles.number}>
+                    ${`${formatMoney(costInfo.CustomEntryDuty)}`}
+                    <span style={{ marginLeft: '2px' }}>
+                      (
+                      {`${parseInt(
+                        (costInfo.CustomEntryDuty / costInfo.total) * 100
+                      )}`}
+                      %)
+                    </span>
+                  </div>
+                </Col>
+                <Col>
+                  <div className={styles.subTitle} style={{ width: '134px' }}>
+                    ocean Freight
+                  </div>
+                  <div className={styles.number}>
+                    ${`${formatMoney(costInfo.OceanFreight)}`}
+                    <span style={{ marginLeft: '2px' }}>
+                      (
+                      {`${parseInt(
+                        (costInfo.OceanFreight / costInfo.total) * 100
+                      )}`}
+                      %)
+                    </span>
+                  </div>
+                </Col>
+                <Col>
+                  <div style={{ width: '158px' }} className={styles.subTitle}>
+                    WAREHOUSE DELIVERY
+                  </div>
+                  <div className={styles.number}>
+                    ${`${formatMoney(costInfo.WarehouseDelivery)}`}
+                    <span style={{ marginLeft: '2px' }}>
+                      (
+                      {`${parseInt(
+                        (costInfo.WarehouseDelivery / costInfo.total) * 100
+                      )}`}
+                      %)
+                    </span>
+                  </div>
+                </Col>
+                <Col>
+                  <div style={{ width: '171px' }} className={styles.subTitle}>
+                    customer shipping
+                  </div>
+                  <div className={styles.number}>
+                    ${`${formatMoney(costInfo.CustomerShipping)}`}
+                    <span style={{ marginLeft: '2px' }}>
+                      (
+                      {`${parseInt(
+                        (costInfo.CustomerShipping / costInfo.total) * 100
+                      )}`}
+                      %)
+                    </span>
+                  </div>
+                </Col>
+              </Row>
+            </div>
+          </Modal>
         )}
       </Wrapper>
     </>

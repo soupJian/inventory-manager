@@ -37,3 +37,35 @@
   border-radius: 10px;
   border: 1px solid #000000;
 }
+.cost {
+  font-family: 'Lato';
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 18px;
+  text-decoration-line: underline;
+  color: #2c88dd;
+  cursor: pointer;
+}
+.costModal {
+  width: 630px;
+  .title {
+    font-family: 'Rubik';
+    font-weight: 500;
+    font-size: 20px;
+    color: #000000;
+    margin-bottom: 32px;
+  }
+  .subTitle {
+    font-family: 'Rubik';
+    font-weight: 500;
+    font-size: 14px;
+    color: #808080;
+  }
+  .number {
+    font-family: 'Lato';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #262626;
+  }
+}
