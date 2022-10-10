@@ -14,9 +14,10 @@ import {
 import {
   ExpandedTableHeaders,
   statusList,
-  TableHeaders
+  defaultTableHeaders
 } from '../../constants/pageConstants/inventory'
-import { Row, Col, Popover, Select, Space } from 'antd'
+import { Row, Col, Popover, Select, Space, Button, Checkbox } from 'antd'
+import { DownOutlined } from '@ant-design/icons'
 import { Api } from '../../utils/utils'
 import { PlusCircleFilled } from '@ant-design/icons'
 import styled from 'styled-components'
@@ -42,6 +43,9 @@ const InventoryTable = ({ user, setDialog, updataTableData }) => {
     page: 1,
     status: []
   })
+  const [openDropDown, setOpenDropDown] = useState(false)
+  const [selectHeader, setSelectHeader] = useState([])
+  const [TableHeaders, setTableHeaders] = useState(defaultTableHeaders)
   const [loadingTable, setLoadingTable] = useState(false)
   const [inventorySKUs, setInventorySKUs] = useState([])
   const [inventoryData, setInventoryData] = useState(null)
@@ -171,6 +175,16 @@ const InventoryTable = ({ user, setDialog, updataTableData }) => {
     if (selection.length === inventoryData?.Items.length) setSelection([])
     else setSelection(skus)
   }
+  const handleSelectTableColumn = (values) => {
+    console.log(values)
+    setTableHeaders((list) => {
+      const newList = [...list]
+      newList.forEach((item) => {
+        item.show = values.includes(item.label)
+      })
+      return newList
+    })
+  }
   useEffect(() => {
     fetchMultipleInventory(inventorySKUs)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -207,6 +221,32 @@ const InventoryTable = ({ user, setDialog, updataTableData }) => {
               return <Option key={item.value}>{item.label}</Option>
             })}
           </Select>
+          <Popover
+            content={
+              <Checkbox.Group
+                onChange={handleSelectTableColumn}
+                value={TableHeaders.filter((item) => item.show).map(
+                  (i) => i.label
+                )}
+              >
+                <Row style={{ width: '158px' }} gutter={[0, 16]}>
+                  {TableHeaders.map((item) => {
+                    return (
+                      <Col span={24} key={item.label}>
+                        <Checkbox value={item.value} disabled={item.disabled}>
+                          {item.label}
+                        </Checkbox>
+                      </Col>
+                    )
+                  })}
+                </Row>
+              </Checkbox.Group>
+            }
+          >
+            <Button className={styles.selectTableButton}>
+              Show columns <DownOutlined />
+            </Button>
+          </Popover>
         </Space>
       </Flex>
       <Wrapper style={{ marginTop: '23px' }} padding="0">
@@ -216,7 +256,7 @@ const InventoryTable = ({ user, setDialog, updataTableData }) => {
           // selectable
           // selectedAll={selection.length === inventoryData?.Items?.length}
           // onSelectAll={selectAll}
-          headers={TableHeaders}
+          headers={TableHeaders.filter((item) => item.show)}
           className={styles.tableWarp}
           paginationComponent={
             <Wrapper>
@@ -290,7 +330,7 @@ const InventoryTable = ({ user, setDialog, updataTableData }) => {
                 </Wrapper>
               }
             >
-              {TableHeaders.map((header) => {
+              {TableHeaders.filter((item) => item.show).map((header) => {
                 return (
                   <div key={header.key}>
                     {header.key === 'TotalCost' ? (

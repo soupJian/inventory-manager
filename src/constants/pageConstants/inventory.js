@@ -26,17 +26,30 @@ export const categoryList = [
     value: 'all'
   }
 ]
-
-export const TableHeaders = [
-  { label: 'Item Name', key: 'Name' },
-  { label: 'SKU', key: 'SKU' },
-  { label: 'system ID', key: 'SystemId' },
+// disabled 表头不可取消展示
+// value和label保持一致
+export const defaultTableHeaders = [
+  {
+    label: 'Item Name',
+    key: 'Name',
+    value: 'Item Name',
+    disabled: true,
+    show: true
+  },
+  { label: 'SKU', key: 'SKU', value: 'SKU', show: true },
+  { label: 'system ID', key: 'SystemId', value: 'system ID', show: true },
   // { label: 'Stock', key: 'Stock' },
   // { label: 'Reserved', key: 'Reserved' },
-  { label: 'Available', key: 'Available' },
-  { label: 'Location', key: 'Location' },
-  { label: 'barcode', key: 'Barcode' },
-  { label: 'Us Cost', key: 'TotalCost' }
+  {
+    label: 'Available',
+    key: 'Available',
+    value: 'Available',
+    disabled: true,
+    show: true
+  },
+  { label: 'Location', key: 'Location', value: 'Location', show: true },
+  { label: 'Barcode', key: 'Barcode', value: 'Barcode', show: true },
+  { label: 'Us Cost', key: 'TotalCost', value: 'Us Cost', show: true }
 ]
 export const ExpandedTableHeaders = [
   // {label: "Barcode", key: "Barcode"},
