@@ -307,7 +307,7 @@ const AddANewItem = ({ setNewItemModal, submitNewItemFinally }) => {
                   }}
                   inputStyles={{ width: '100%' }}
                   placeholder="0"
-                  value={newItem.weight}
+                  value={newItem.attr.weight}
                   onChange={(e) => newItemHandler(e, 'attr')}
                   name="weight"
                   type="number"
@@ -325,7 +325,7 @@ const AddANewItem = ({ setNewItemModal, submitNewItemFinally }) => {
                   }}
                   inputStyles={{ width: '100%' }}
                   placeholder="0"
-                  value={newItem.length}
+                  value={newItem.attr.length}
                   onChange={(e) => newItemHandler(e, 'attr')}
                   name="length"
                   type="number"
@@ -343,7 +343,7 @@ const AddANewItem = ({ setNewItemModal, submitNewItemFinally }) => {
                   }}
                   inputStyles={{ width: '100%' }}
                   placeholder="0"
-                  value={newItem.width}
+                  value={newItem.attr.width}
                   onChange={(e) => newItemHandler(e, 'attr')}
                   name="width"
                   type="number"
@@ -361,7 +361,7 @@ const AddANewItem = ({ setNewItemModal, submitNewItemFinally }) => {
                   }}
                   inputStyles={{ width: '100%' }}
                   placeholder="0"
-                  value={newItem.height}
+                  value={newItem.attr.height}
                   onChange={(e) => newItemHandler(e, 'attr')}
                   name="height"
                   type="number"
