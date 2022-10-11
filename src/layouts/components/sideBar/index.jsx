@@ -84,7 +84,21 @@ const SideBar = ({ collapsed, user }) => {
   const actionItems = [
     {
       key: 'user cebter',
-      icon: <Icon name="user" width="24px" height="24px" />,
+      icon: (
+        <Popover
+          placement="rightTop"
+          content={
+            <PopoverConent>
+              <Label>Account Info</Label>
+              <DisplayName>{user.info.displayName}</DisplayName>
+              <UserName>Username: {user.info.email}</UserName>
+              <SignoutBtn onClick={Logout}>Sign out</SignoutBtn>
+            </PopoverConent>
+          }
+        >
+          <Icon name="user" width="24px" height="24px" />
+        </Popover>
+      ),
       label: (
         <Popover
           placement="rightTop"
