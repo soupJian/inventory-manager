@@ -2,7 +2,7 @@ import { message } from 'antd'
 import axios from 'axios'
 // const baseURL = 'https://oypcwmk5j1.execute-api.us-west-2.amazonaws.com/v1'
 const baseURL =
-  process.env.NODE_ENV == 'products'
+  process.env.NODE_ENV == 'productions'
     ? 'https://oypcwmk5j1.execute-api.us-west-2.amazonaws.com/v1'
     : '/api'
 // 创建一个axios实例
