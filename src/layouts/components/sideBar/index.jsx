@@ -81,6 +81,35 @@ const SideBar = ({ collapsed, user }) => {
       <Icon name="setting" width="24px" height="24px" />
     )
   ]
+  const actionItems = [
+    {
+      key: 'user cebter',
+      icon: <Icon name="user" width="24px" height="24px" />,
+      label: (
+        <Popover
+          placement="rightTop"
+          content={
+            <PopoverConent>
+              <Label>Account Info</Label>
+              <DisplayName>{user.info.displayName}</DisplayName>
+              <UserName>Username: {user.info.email}</UserName>
+              <SignoutBtn onClick={Logout}>Sign out</SignoutBtn>
+            </PopoverConent>
+          }
+        >
+          User Center
+        </Popover>
+      )
+    },
+    {
+      key: 'Activites',
+      label: 'Activites',
+      icon: <Icon name="clock" width="24px" height="24px" />,
+      onClick: () => {
+        setToggleHistory(!toggleHistory)
+      }
+    }
+  ]
   // 路由改变 需要判断是否展开 menu
   useEffect(() => {
     setDefaultSelectedKeys(router.route)
@@ -129,36 +158,7 @@ const SideBar = ({ collapsed, user }) => {
         }}
       />
       <div className={styles.userAction}>
-        <Menu mode="inline">
-          <Popover
-            placement="rightTop"
-            content={
-              <PopoverConent>
-                <Label>Account Info</Label>
-                <DisplayName>{user.info.displayName}</DisplayName>
-                <UserName>Username: {user.info.email}</UserName>
-                <SignoutBtn onClick={Logout}>Sign out</SignoutBtn>
-              </PopoverConent>
-            }
-          >
-            <Menu.Item
-              key="User Center"
-              title={collapsed ? '' : 'User Center'}
-              icon={<Icon name="user" width="24px" height="24px" />}
-              style={{ paddingLeft: '24px', background: '#fff' }}
-            >
-              User Center
-            </Menu.Item>
-          </Popover>
-          <Menu.Item
-            key="Activites"
-            title="Activites"
-            icon={<Icon name="clock" width="24px" height="24px" />}
-            onClick={() => setToggleHistory(!toggleHistory)}
-          >
-            Activites
-          </Menu.Item>
-        </Menu>
+        <Menu mode="inline" items={actionItems} />
       </div>
       <History
         user={user}
