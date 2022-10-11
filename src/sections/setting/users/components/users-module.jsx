@@ -1,22 +1,12 @@
 import React, { useState } from 'react'
 import { DownOutlined } from '@ant-design/icons'
-import {
-  Table,
-  Row,
-  Col,
-  Button,
-  Modal,
-  Space,
-  Dropdown,
-  Menu,
-  Radio
-} from 'antd'
+import { Table, Row, Col, Button, Modal, Space, Popover, Radio } from 'antd'
 import { Icon } from '../../../../components/commons'
 import UserCreateEdit from './user-create-edit'
 import { CloseOutlined } from '@ant-design/icons'
 import styles from '../index.module.scss'
 
-const UserModule = ({ data, showAccessDetail, accessList }) => {
+const UserModule = ({ data, showAccessDetail, accessList, loading }) => {
   const [showSelectedView, setShowSelectedView] = useState(false)
   // 选择的表格数据
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
@@ -54,44 +44,35 @@ const UserModule = ({ data, showAccessDetail, accessList }) => {
   }
   const DropMenu = ({ value, changeUserAccess, accessList }) => {
     return (
-      <Menu
-        items={[
-          {
-            key: '1',
-            label: (
-              <Radio.Group value={value}>
-                <Space direction="vertical" onChange={changeUserAccess}>
-                  {accessList.map((item) => {
-                    return (
-                      <Row key={item.id}>
-                        <Col span={2}>
-                          <Radio value={item.access.accessName}></Radio>
-                        </Col>
-                        <Col className={styles.title}>
-                          <Space>
-                            {item.access.accessName}
-                            {item.access.accessName != 'Super Admin' && (
-                              <a
-                                className={styles.link}
-                                onClick={() => showAccessDetail(item.access)}
-                              >
-                                Details
-                              </a>
-                            )}
-                          </Space>
-                        </Col>
-                        <Col span={22} offset={2} className={styles.subTitle}>
-                          {item.access.description}
-                        </Col>
-                      </Row>
-                    )
-                  })}
-                </Space>
-              </Radio.Group>
+      <Radio.Group value={value}>
+        <Space direction="vertical" onChange={changeUserAccess}>
+          {accessList.map((item) => {
+            return (
+              <Row key={item.id}>
+                <Col span={3}>
+                  <Radio value={item.id}></Radio>
+                </Col>
+                <Col span={21} className={styles.title}>
+                  <Space>
+                    {item.accessName}
+                    {item.accessName != 'Super Admin' && (
+                      <a
+                        className={styles.link}
+                        onClick={() => showAccessDetail(item.access)}
+                      >
+                        Details
+                      </a>
+                    )}
+                  </Space>
+                </Col>
+                <Col span={21} offset={3} className={styles.subTitle}>
+                  {item.description}
+                </Col>
+              </Row>
             )
-          }
-        ]}
-      />
+          })}
+        </Space>
+      </Radio.Group>
     )
   }
   // menu table 的 columns
@@ -103,15 +84,16 @@ const UserModule = ({ data, showAccessDetail, accessList }) => {
       },
       {
         title: 'ROLE',
-        dataIndex: 'role'
+        dataIndex: 'userRole'
       },
       {
         title: 'ACCESS',
         dataIndex: 'access',
         render: (_, record) => {
           return (
-            <Dropdown
-              overlay={
+            <Popover
+              placement="bottom"
+              content={
                 <DropMenu
                   accessList={accessList}
                   value={record.access}
@@ -121,10 +103,12 @@ const UserModule = ({ data, showAccessDetail, accessList }) => {
               overlayClassName={styles.dropDownItem}
             >
               <Space style={{ cursor: 'pointer' }}>
-                <div style={{ minWidth: '100px' }}>{record.access}</div>
+                <div style={{ minWidth: '100px' }}>
+                  {record.accessInfo.accessName}
+                </div>
                 <DownOutlined />
               </Space>
-            </Dropdown>
+            </Popover>
           )
         }
       },
@@ -134,7 +118,7 @@ const UserModule = ({ data, showAccessDetail, accessList }) => {
       },
       {
         title: 'ADDED ON',
-        dataIndex: 'addedOn'
+        dataIndex: 'created'
       },
       {
         title: '',
@@ -201,6 +185,7 @@ const UserModule = ({ data, showAccessDetail, accessList }) => {
           showTotal: (total) => `Showing ${total} of ${data.length} deals`
         }}
         rowKey="id"
+        loading={loading}
       />
       {showSelectedView && selectedRowKeys.length > 0 && (
         <Row className={styles.view} align="middle" justify="space-between">

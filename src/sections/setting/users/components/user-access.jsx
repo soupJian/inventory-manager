@@ -3,17 +3,22 @@ import { Table, Dropdown, Menu, Space, Button } from 'antd'
 import { Icon } from '../../../../components/commons'
 import { DownOutlined } from '@ant-design/icons'
 
-const UserAccess = ({ data, editUserAccess }) => {
-  console.log('access')
+const UserAccess = ({ data, editUserAccess, loading }) => {
   const columns = [
     {
       title: 'ACCESS NAME',
       dataIndex: 'accessName',
-      render: (_, record) => <>{record.access.accessName}</>
+      render: (_, record) => <>{record.accessName}</>
     },
     {
       title: 'TYPE',
-      dataIndex: 'type'
+      render: (_, record) => {
+        return (
+          <span>
+            {record.defaultAccess ? 'System created' : 'User created'}
+          </span>
+        )
+      }
     },
     {
       title: 'USERLIST',
@@ -30,7 +35,7 @@ const UserAccess = ({ data, editUserAccess }) => {
                       label: (
                         <Space direction="vertical">
                           {record.userList.map((item) => {
-                            return <span key={item}>{item}</span>
+                            return <span key={item.id}>{item.fullName}</span>
                           })}
                         </Space>
                       )
@@ -41,13 +46,15 @@ const UserAccess = ({ data, editUserAccess }) => {
             >
               <Space style={{ cursor: 'pointer' }}>
                 <div style={{ minWidth: '100px' }}>
-                  {record.userList[0] || ''}
+                  {record.userList.length > 0
+                    ? record.userList[0].fullName
+                    : ''}
                 </div>
                 <DownOutlined />
               </Space>
             </Dropdown>
-            {record.access.accessName != 'Super Admin' &&
-              record.access.accessName != 'Admin' && (
+            {record.accessName != 'Super Admin' &&
+              record.accessName != 'Admin' && (
                 <Button
                   style={{ marginLeft: '40px' }}
                   onClick={() => {
@@ -65,7 +72,9 @@ const UserAccess = ({ data, editUserAccess }) => {
       }
     }
   ]
-  return <Table columns={columns} dataSource={data} rowKey="id" />
+  return (
+    <Table columns={columns} dataSource={data} rowKey="id" loading={loading} />
+  )
 }
 
 export default React.memo(UserAccess)

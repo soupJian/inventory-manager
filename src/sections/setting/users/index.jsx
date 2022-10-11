@@ -5,6 +5,8 @@ import UserAccess from './components/user-access'
 import UserCreateEdit from './components/user-create-edit'
 import AccessDrawer from './components/access-drawer'
 import styles from './index.module.scss'
+// api
+import { getAllUser, getAllAccess } from '../../../service/setting-user'
 
 const { Option } = Select
 
@@ -32,6 +34,7 @@ const Users = () => {
   const [selectValue, setSelectValue] = useState('Users')
   const [userList, setUserList] = useState([])
   const [accessList, setAccessList] = useState([])
+  const [loadiing, setLoading] = useState(true)
   // create user  modal
   const [showCreateUserModal, setShowCreateUser] = useState(false)
   // 弹窗抽屉数据
@@ -41,61 +44,26 @@ const Users = () => {
     access: defaultAccess,
     show: false
   })
-  const getUserList = () => {
-    const list = [
-      {
-        id: '1',
-        fullName: '汤建',
-        role: 'Customer Service',
-        access: 'Admin',
-        email: 'soupjian@163',
-        addedOn: '2022/09/01',
-        status: 0
-      },
-      {
-        id: '2',
-        fullName: 'soupjian',
-        role: 'Vierer',
-        access: 'Super Admin',
-        email: 'soupjian@163',
-        addedOn: '2022/09/01',
-        status: 1
-      }
-    ]
-    setUserList(list)
-  }
-  const getAccessList = () => {
-    const list = [
-      {
-        id: '1',
-        access: {
-          accessName: 'Super Admin',
-          description: 'Access to all data, can read and edit all data'
-        },
-        type: 'System created',
-        userList: ['Ray Cai', 'soupjian']
-      },
-      {
-        id: '2',
-        access: {
-          accessName: 'Admin',
-          description:
-            'Access to all data, can read and edit except for super admin'
-        },
-        type: 'System created',
-        userList: ['Cathy Lastname', 'soupjian']
-      },
-      {
-        id: '3',
-        access: {
-          accessName: 'Viewer',
-          description: 'Can read but not edit data'
-        },
-        type: 'Viewer',
-        userList: ['Xianyou Yang', 'soupjian']
-      }
-    ]
-    setAccessList(list)
+  const getData = async () => {
+    const userRes = await getAllUser()
+    const accessRes = await getAllAccess()
+    setUserList(
+      userRes.Items.map((item) => {
+        return {
+          ...item,
+          accessInfo: accessRes.Items.filter((i) => i.id === item.access)[0]
+        }
+      })
+    )
+    setAccessList(
+      accessRes.Items.map((item) => {
+        return {
+          ...item,
+          userList: userRes.Items.filter((i) => i.access === item.id)
+        }
+      })
+    )
+    setLoading(false)
   }
   // 编辑用户 权限
   const editUserAccess = useCallback(
@@ -149,8 +117,7 @@ const Users = () => {
   }, [accessInfo.access])
 
   useEffect(() => {
-    getUserList()
-    getAccessList()
+    getData()
   }, [])
 
   return (
@@ -208,10 +175,15 @@ const Users = () => {
             data={userList}
             showAccessDetail={showAccessDetail}
             accessList={accessList}
+            loading={loadiing}
           />
         )}
         {selectValue == 'Access' && accessList.length > 0 && (
-          <UserAccess data={accessList} editUserAccess={editUserAccess} />
+          <UserAccess
+            data={accessList}
+            editUserAccess={editUserAccess}
+            loading={loadiing}
+          />
         )}
       </div>
       {/* modal 这里制作全局的导出，哥哥 select 模块 导出在其对应模块*/}
