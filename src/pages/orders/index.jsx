@@ -29,6 +29,7 @@ import {
   ISOStringToReadableDate,
   objectsToQueryString
 } from '../../utils/utils'
+import styles from './index.module.scss'
 
 const api = new Api()
 const orderReducer = (state, { type, payload }) => {
@@ -224,6 +225,7 @@ const Orders = ({ router }) => {
             loading={loadingTable}
             name="shipped-items"
             headers={UnShippedTableHeaders}
+            className={styles.tableWarp}
             paginationComponent={
               <Wrapper padding="32px 0 0">
                 <Pagination
@@ -266,6 +268,7 @@ const Orders = ({ router }) => {
               loading={loadingTable}
               name="shipped-items"
               headers={ShippedTableHeaders}
+              className={styles.tableWarp}
               paginationComponent={
                 <Wrapper padding="32px 0 0">
                   <Pagination
