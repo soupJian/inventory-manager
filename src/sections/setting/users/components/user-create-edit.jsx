@@ -2,10 +2,12 @@ import React from 'react'
 import { Button, Form, Input, Select } from 'antd'
 const { Option } = Select
 import styles from '../index.module.scss'
-const UserCreateEdit = ({ type, modalInfo, accessList }) => {
+const UserCreateEdit = ({ type, modalInfo, accessList, submit }) => {
   const [form] = Form.useForm()
   const formSubmit = (values) => {
-    console.log(values)
+    const user = { ...modalInfo, ...values }
+    user.accessInfo && delete user.accessInfo
+    submit(user)
   }
 
   return (
@@ -13,7 +15,12 @@ const UserCreateEdit = ({ type, modalInfo, accessList }) => {
       form={form}
       layout="vertical"
       onFinish={formSubmit}
-      initialValues={modalInfo}
+      // 有modalInfo表示是编辑，没有表示是新增
+      initialValues={
+        modalInfo
+          ? { ...modalInfo, access: modalInfo.accessInfo.accessName }
+          : null
+      }
       preserve={false}
     >
       <Form.Item
@@ -25,7 +32,7 @@ const UserCreateEdit = ({ type, modalInfo, accessList }) => {
       </Form.Item>
       <Form.Item
         label="ROLE"
-        name="role"
+        name="userRole"
         rules={[{ required: true, message: 'please select role' }]}
       >
         <Select>
@@ -39,7 +46,14 @@ const UserCreateEdit = ({ type, modalInfo, accessList }) => {
         <Form.Item
           name="email"
           label="EMAIL"
-          rules={[{ required: true, message: 'please input eamil' }]}
+          rules={[
+            { required: true, message: 'please input eamil' },
+            {
+              pattern:
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              message: 'error eamil !'
+            }
+          ]}
         >
           <Input />
         </Form.Item>
@@ -52,11 +66,8 @@ const UserCreateEdit = ({ type, modalInfo, accessList }) => {
         <Select>
           {accessList.map((item) => {
             return (
-              <Option
-                key={item.access.accessName}
-                value={item.access.accessName}
-              >
-                {item.access.accessName}
+              <Option key={item.accessName} value={item.id}>
+                {item.accessName}
               </Option>
             )
           })}

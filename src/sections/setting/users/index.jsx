@@ -6,7 +6,11 @@ import UserCreateEdit from './components/user-create-edit'
 import AccessDrawer from './components/access-drawer'
 import styles from './index.module.scss'
 // api
-import { getAllUser, getAllAccess } from '../../../service/setting-user'
+import {
+  getAllUser,
+  getAllAccess,
+  putCreateUser
+} from '../../../service/setting-user'
 
 const { Option } = Select
 
@@ -34,7 +38,7 @@ const Users = () => {
   const [selectValue, setSelectValue] = useState('Users')
   const [userList, setUserList] = useState([])
   const [accessList, setAccessList] = useState([])
-  const [loadiing, setLoading] = useState(true)
+  const [loadiing, setLoading] = useState(false)
   // create user  modal
   const [showCreateUserModal, setShowCreateUser] = useState(false)
   // 弹窗抽屉数据
@@ -45,6 +49,7 @@ const Users = () => {
     show: false
   })
   const getData = async () => {
+    setLoading(true)
     const userRes = await getAllUser()
     const accessRes = await getAllAccess()
     setUserList(
@@ -115,6 +120,14 @@ const Users = () => {
     }
     console.log(accessInfo.access)
   }, [accessInfo.access])
+  const createUser = async (user) => {
+    const res = await putCreateUser(user)
+    console.log(res)
+    if (res.message) {
+      getData()
+      setShowCreateUser(false)
+    }
+  }
 
   useEffect(() => {
     getData()
@@ -176,6 +189,7 @@ const Users = () => {
             showAccessDetail={showAccessDetail}
             accessList={accessList}
             loading={loadiing}
+            getData={getData}
           />
         )}
         {selectValue == 'Access' && accessList.length > 0 && (
@@ -183,6 +197,7 @@ const Users = () => {
             data={accessList}
             editUserAccess={editUserAccess}
             loading={loadiing}
+            getData={getData}
           />
         )}
       </div>
@@ -199,6 +214,7 @@ const Users = () => {
           type="create"
           modalInfo={null}
           accessList={accessList}
+          submit={createUser}
         />
       </Modal>
       {/* access detail */}

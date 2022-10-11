@@ -17,3 +17,26 @@ export const getAllAccess = () => {
     url: '/accesses'
   })
 }
+/**
+ * 更新user
+ * @param {*} user
+ * @returns
+ */
+export const updateUser = (user) => {
+  return request({
+    url: '/user',
+    method: 'post',
+    data: {
+      user
+    }
+  })
+}
+export const putCreateUser = (user) => {
+  return request({
+    url: '/user',
+    method: 'put',
+    data: {
+      ...user
+    }
+  })
+}

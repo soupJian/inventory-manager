@@ -5,15 +5,23 @@ import { Icon } from '../../../../components/commons'
 import UserCreateEdit from './user-create-edit'
 import { CloseOutlined } from '@ant-design/icons'
 import styles from '../index.module.scss'
+import { updateUser } from '../../../../service/setting-user'
 
-const UserModule = ({ data, showAccessDetail, accessList, loading }) => {
+const UserModule = ({
+  data,
+  showAccessDetail,
+  accessList,
+  loading,
+  getData
+}) => {
   const [showSelectedView, setShowSelectedView] = useState(false)
   // 选择的表格数据
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   // deactivate modal
   const [modalInfo, setModalInfo] = useState({
     show: false,
-    type: 'group' // 点击右小角按钮 是 group  表格单行 是 single
+    type: 'group', // 点击右小角按钮 是 group  表格单行 是 single
+    user: null
   })
   // edit modal
   const [showEditModal, setShowEditModal] = useState(false)
@@ -34,9 +42,24 @@ const UserModule = ({ data, showAccessDetail, accessList, loading }) => {
     setShowSelectedView(false)
   }
   // deactivate
-  const handleDeactivate = () => {
-    console.log(modalInfo)
-    // setSho
+  const handleDeactivate = async () => {
+    if (modalInfo.type == 'single') {
+      const user = { ...modalInfo.user }
+      user.accessInfo && delete user.accessInfo
+      const res = await updateUser({
+        ...user,
+        active: !modalInfo.user.active
+      })
+      if (res) {
+        setModalInfo({
+          ...modalInfo,
+          show: false
+        })
+        getData()
+      }
+    } else {
+      console.log(selectedRowKeys)
+    }
   }
   const changeUserAccess = (e, record) => {
     console.log(e.target.value)
@@ -74,6 +97,13 @@ const UserModule = ({ data, showAccessDetail, accessList, loading }) => {
         </Space>
       </Radio.Group>
     )
+  }
+  const updateCurrentUser = async (user) => {
+    const res = await updateUser(user)
+    if (res.message) {
+      getData()
+      setShowEditModal(false)
+    }
   }
   // menu table 的 columns
   const columns = (accessList) => {
@@ -136,34 +166,21 @@ const UserModule = ({ data, showAccessDetail, accessList, loading }) => {
                 Edit
               </Space>
             </Button>
-            {record.status == 0 && (
+            {record.active && (
               <Button
                 type="link"
                 size="small"
+                disabled={!record.active}
                 onClick={() => {
                   setModalInfo({
                     ...modalInfo,
                     type: 'single',
-                    show: true
+                    show: true,
+                    user: record
                   })
                 }}
               >
                 deactivate
-              </Button>
-            )}
-            {record.status == 1 && (
-              <Button
-                type="link"
-                size="small"
-                onClick={() => {
-                  setModalInfo({
-                    ...modalInfo,
-                    type: 'single',
-                    show: true
-                  })
-                }}
-              >
-                activate
               </Button>
             )}
           </>
@@ -269,6 +286,7 @@ const UserModule = ({ data, showAccessDetail, accessList, loading }) => {
           type="edit"
           modalInfo={editModalInfo}
           accessList={accessList}
+          submit={updateCurrentUser}
         />
       </Modal>
     </div>
