@@ -9,7 +9,9 @@ import styles from './index.module.scss'
 import {
   getAllUser,
   getAllAccess,
-  putCreateUser
+  putCreateUser,
+  updateAccess,
+  putCreateAccess
 } from '../../../service/setting-user'
 
 const { Option } = Select
@@ -17,21 +19,7 @@ const { Option } = Select
 const defaultAccess = {
   accessName: '',
   description: '',
-  inventory: false,
-  warehousing: false,
-  products: false,
-  shipping: false,
-  orders: false,
-  'form-email': false,
-  chats: false,
-  deals: false,
-  tickets: false,
-  tasks: false,
-  dashboard: false,
-  assets: false,
-  fastReply: false,
-  other: false,
-  history: false
+  accesses: []
 }
 
 const Users = () => {
@@ -73,21 +61,27 @@ const Users = () => {
   // 编辑用户 权限
   const editUserAccess = useCallback(
     (record) => {
+      console.log(record)
       setAccessInfo({
         ...accessInfo,
         show: true,
         type: 'edit',
-        access: record.access
+        access: record
       })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
   // 编辑权限 switch
-  const handleChangeAccessSwitch = useCallback((value, key) => {
+  const handleChangeAccessSwitch = useCallback((name, value) => {
     setAccessInfo((info) => {
-      const newInfo = { ...info }
-      newInfo.access[key] = value
+      const newInfo = JSON.parse(JSON.stringify(info))
+      if (value) {
+        newInfo.access.accesses.push(name)
+      } else {
+        const index = newInfo.access.accesses.findIndex((item) => item == name)
+        newInfo.access.accesses.splice(index, 1)
+      }
       return newInfo
     })
   }, [])
@@ -110,7 +104,7 @@ const Users = () => {
     })
   }
   // create access
-  const createAccess = useCallback(() => {
+  const createAccess = async () => {
     if (
       accessInfo.access.accessName.trim() == '' ||
       accessInfo.access.description.trim() == ''
@@ -118,8 +112,30 @@ const Users = () => {
       message.warn('Please complete the information.')
       return
     }
-    console.log(accessInfo.access)
-  }, [accessInfo.access])
+    if (accessInfo.type == 'edit') {
+      //edit
+      const newAccess = { ...accessInfo.access }
+      delete newAccess.userList
+      const res = await updateAccess(newAccess)
+      if (res.message == 'SUCCESS') {
+        getData()
+        setAccessInfo({
+          ...accessInfo,
+          show: false
+        })
+      }
+    } else {
+      // create
+      const res = await putCreateAccess(accessInfo.access)
+      if (res.message == 'SUCCESS') {
+        getData()
+        setAccessInfo({
+          ...accessInfo,
+          show: false
+        })
+      }
+    }
+  }
   const createUser = async (user) => {
     const res = await putCreateUser(user)
     console.log(res)

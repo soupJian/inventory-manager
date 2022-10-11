@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Row, Col, Input, Switch, Divider, Button, message } from 'antd'
 import styles from '../index.module.scss'
 
@@ -11,7 +11,21 @@ const AccessDrawer = (props) => {
     handleInputAccess,
     createAccess
   } = props
-  console.log(accessInfo)
+  const SwitchItem = ({ label, name }) => {
+    return (
+      <Col span={24}>
+        <Row justify="space-between">
+          <Col className={styles.subLabel}>{label}</Col>
+          <Col>
+            <Switch
+              onChange={(value) => handleChangeAccessSwitch(name, value)}
+              checked={accessInfo.access.accesses.includes(name)}
+            />
+          </Col>
+        </Row>
+      </Col>
+    )
+  }
   return (
     <div className={styles.drawer}>
       <Row gutter={[0, 10]}>
@@ -45,69 +59,11 @@ const AccessDrawer = (props) => {
         </Col>
       </Row>
       <Row gutter={[0, 30]}>
-        <Col span={24}>
-          <Row justify="space-between">
-            <Col className={styles.subLabel}>Inventory</Col>
-            <Col>
-              <Switch
-                onChange={(value) =>
-                  handleChangeAccessSwitch(value, 'inventory')
-                }
-                checked={accessInfo.access.inventory}
-              />
-            </Col>
-          </Row>
-        </Col>
-        <Col span={24}>
-          <Row justify="space-between">
-            <Col className={styles.subLabel}>Warehousing</Col>
-            <Col>
-              <Switch
-                onChange={(value) =>
-                  handleChangeAccessSwitch(value, 'warehousing')
-                }
-                checked={accessInfo.access.warehousing}
-              />
-            </Col>
-          </Row>
-        </Col>
-        <Col span={24}>
-          <Row justify="space-between">
-            <Col className={styles.subLabel}>Products</Col>
-            <Col>
-              <Switch
-                onChange={(value) =>
-                  handleChangeAccessSwitch(value, 'products')
-                }
-                checked={accessInfo.access.products}
-              />
-            </Col>
-          </Row>
-        </Col>
-        <Col span={24}>
-          <Row justify="space-between">
-            <Col className={styles.subLabel}>Shipping</Col>
-            <Col>
-              <Switch
-                onChange={(value) =>
-                  handleChangeAccessSwitch(value, 'shipping')
-                }
-                checked={accessInfo.access.shipping}
-              />
-            </Col>
-          </Row>
-        </Col>
-        <Col span={24}>
-          <Row justify="space-between">
-            <Col className={styles.subLabel}>Orders</Col>
-            <Col>
-              <Switch
-                onChange={(value) => handleChangeAccessSwitch(value, 'orders')}
-                checked={accessInfo.access.orders}
-              />
-            </Col>
-          </Row>
-        </Col>
+        <SwitchItem label="Inventory" name="inventory" />
+        <SwitchItem label="Warehousing" name="warehousing" />
+        <SwitchItem label="Products" name="products" />
+        <SwitchItem label="Shipping" name="shipping" />
+        <SwitchItem label="Orders" name="orders" />
       </Row>
       <Divider></Divider>
       {/* Customer Services */}
@@ -117,76 +73,12 @@ const AccessDrawer = (props) => {
         </Col>
       </Row>
       <Row gutter={[0, 30]}>
-        <Col span={24}>
-          <Row justify="space-between">
-            <Col className={styles.subLabel}>Forms & Emails</Col>
-            <Col>
-              <Switch
-                onChange={(value) =>
-                  handleChangeAccessSwitch(value, 'form-email')
-                }
-                checked={accessInfo.access['form-email']}
-              />
-            </Col>
-          </Row>
-        </Col>
-        <Col span={24}>
-          <Row justify="space-between">
-            <Col className={styles.subLabel}>Chats</Col>
-            <Col>
-              <Switch
-                onChange={(value) => handleChangeAccessSwitch(value, 'chats')}
-                checked={accessInfo.access.chats}
-              />
-            </Col>
-          </Row>
-        </Col>
-        <Col span={24}>
-          <Row justify="space-between">
-            <Col className={styles.subLabel}>Deals</Col>
-            <Col>
-              <Switch
-                onChange={(value) => handleChangeAccessSwitch(value, 'deals')}
-                checked={accessInfo.access.deals}
-              />
-            </Col>
-          </Row>
-        </Col>
-        <Col span={24}>
-          <Row justify="space-between">
-            <Col className={styles.subLabel}>Tickets</Col>
-            <Col>
-              <Switch
-                onChange={(value) => handleChangeAccessSwitch(value, 'tickets')}
-                checked={accessInfo.access.tickets}
-              />
-            </Col>
-          </Row>
-        </Col>
-        <Col span={24}>
-          <Row justify="space-between">
-            <Col className={styles.subLabel}>Tasks</Col>
-            <Col>
-              <Switch
-                onChange={(value) => handleChangeAccessSwitch(value, 'tasks')}
-                checked={accessInfo.access.tasks}
-              />
-            </Col>
-          </Row>
-        </Col>
-        <Col span={24}>
-          <Row justify="space-between">
-            <Col className={styles.subLabel}>Dashboard</Col>
-            <Col>
-              <Switch
-                onChange={(value) =>
-                  handleChangeAccessSwitch(value, 'dashboard')
-                }
-                checked={accessInfo.access.dashboard}
-              />
-            </Col>
-          </Row>
-        </Col>
+        <SwitchItem label="Forms & Emails" name="formEmail" />
+        <SwitchItem label="Chats" name="chats" />
+        <SwitchItem label="Deals" name="deals" />
+        <SwitchItem label="Tickets" name="tickets" />
+        <SwitchItem label="Tasks" name="tasks" />
+        <SwitchItem label="Dashboard" name="dashboard" />
       </Row>
       <Divider />
       {/* GENERAL */}
@@ -196,52 +88,10 @@ const AccessDrawer = (props) => {
         </Col>
       </Row>
       <Row gutter={[0, 30]}>
-        <Col span={24}>
-          <Row justify="space-between">
-            <Col className={styles.subLabel}>Settings - Assets</Col>
-            <Col>
-              <Switch
-                onChange={(value) => handleChangeAccessSwitch(value, 'assets')}
-                checked={accessInfo.access.assets}
-              />
-            </Col>
-          </Row>
-        </Col>
-        <Col span={24}>
-          <Row justify="space-between">
-            <Col className={styles.subLabel}>Settings - Fast Reply</Col>
-            <Col>
-              <Switch
-                onChange={(value) =>
-                  handleChangeAccessSwitch(value, 'fastReply')
-                }
-                checked={accessInfo.access.fastReply}
-              />
-            </Col>
-          </Row>
-        </Col>
-        <Col span={24}>
-          <Row justify="space-between">
-            <Col className={styles.subLabel}>Settings - Other</Col>
-            <Col>
-              <Switch
-                onChange={(value) => handleChangeAccessSwitch(value, 'other')}
-                checked={accessInfo.access.other}
-              />
-            </Col>
-          </Row>
-        </Col>
-        <Col span={24}>
-          <Row justify="space-between">
-            <Col className={styles.subLabel}>Activity history</Col>
-            <Col>
-              <Switch
-                onChange={(value) => handleChangeAccessSwitch(value, 'history')}
-                checked={accessInfo.access.history}
-              />
-            </Col>
-          </Row>
-        </Col>
+        <SwitchItem label="Settings - Assets" name="assets" />
+        <SwitchItem label="Settings - Fast Reply" name="fastReply" />
+        <SwitchItem label="Settings - Other" name="other" />
+        <SwitchItem label="Activity history" name="history" />
       </Row>
       <Row justify="end">
         <Col>

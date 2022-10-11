@@ -8,15 +8,7 @@ export const getAllUser = () => {
     url: '/users'
   })
 }
-/**
- * 获取所有的access
- * @returns
- */
-export const getAllAccess = () => {
-  return request({
-    url: '/accesses'
-  })
-}
+
 /**
  * 更新user
  * @param {*} user
@@ -31,12 +23,47 @@ export const updateUser = (user) => {
     }
   })
 }
+/**
+ * 创建一个user
+ */
 export const putCreateUser = (user) => {
   return request({
     url: '/user',
     method: 'put',
+    data: { user }
+  })
+}
+/**
+ * 获取所有的access
+ * @returns
+ */
+export const getAllAccess = () => {
+  return request({
+    url: '/accesses'
+  })
+}
+
+/**
+ * 更新user
+ * @param {*} access
+ * @returns
+ */
+export const updateAccess = (access) => {
+  return request({
+    url: '/access',
+    method: 'post',
     data: {
-      ...user
+      access
     }
+  })
+}
+/**
+ * 创建一个access
+ */
+export const putCreateAccess = (access) => {
+  return request({
+    url: '/access',
+    method: 'put',
+    data: { access }
   })
 }
