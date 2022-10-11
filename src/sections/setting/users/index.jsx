@@ -9,10 +9,11 @@ import styles from './index.module.scss'
 import {
   getAllUser,
   getAllAccess,
-  putCreateUser,
+  postCreateUser,
   updateAccess,
-  putCreateAccess
+  postCreateAccess
 } from '../../../service/setting-user'
+import { v4 as uuidv4 } from 'uuid'
 
 const { Option } = Select
 
@@ -117,7 +118,7 @@ const Users = () => {
       const newAccess = { ...accessInfo.access }
       delete newAccess.userList
       const res = await updateAccess(newAccess)
-      if (res.message == 'SUCCESS') {
+      if (res.message == 'success') {
         getData()
         setAccessInfo({
           ...accessInfo,
@@ -126,8 +127,12 @@ const Users = () => {
       }
     } else {
       // create
-      const res = await putCreateAccess(accessInfo.access)
-      if (res.message == 'SUCCESS') {
+      const res = await postCreateAccess({
+        ...accessInfo.access,
+        id: uuidv4(),
+        defaultAccess: false
+      })
+      if (res.message == 'success') {
         getData()
         setAccessInfo({
           ...accessInfo,
@@ -137,8 +142,12 @@ const Users = () => {
     }
   }
   const createUser = async (user) => {
-    const res = await putCreateUser(user)
-    console.log(res)
+    const res = await postCreateUser({
+      ...user,
+      id: uuidv4(),
+      created: new Date().toISOString(),
+      active: true
+    })
     if (res.message) {
       getData()
       setShowCreateUser(false)

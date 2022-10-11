@@ -17,20 +17,18 @@ export const getAllUser = () => {
 export const updateUser = (user) => {
   return request({
     url: '/user',
-    method: 'post',
-    data: {
-      user
-    }
+    method: 'put',
+    data: user
   })
 }
 /**
  * 创建一个user
  */
-export const putCreateUser = (user) => {
+export const postCreateUser = (user) => {
   return request({
     url: '/user',
-    method: 'put',
-    data: { user }
+    method: 'post',
+    data: user
   })
 }
 /**
@@ -51,19 +49,17 @@ export const getAllAccess = () => {
 export const updateAccess = (access) => {
   return request({
     url: '/access',
-    method: 'post',
-    data: {
-      access
-    }
+    method: 'put',
+    data: access
   })
 }
 /**
  * 创建一个access
  */
-export const putCreateAccess = (access) => {
+export const postCreateAccess = (access) => {
   return request({
     url: '/access',
-    method: 'put',
-    data: { access }
+    method: 'post',
+    data: access
   })
 }

@@ -61,9 +61,16 @@ const UserModule = ({
       console.log(selectedRowKeys)
     }
   }
-  const changeUserAccess = (e, record) => {
-    console.log(e.target.value)
-    console.log(record)
+  const changeUserAccess = async (e, record) => {
+    const user = JSON.parse(JSON.stringify(record))
+    delete user.accessInfo
+    const res = await updateUser({
+      ...user,
+      access: e.target.value
+    })
+    if (res.message == 'success') {
+      getData()
+    }
   }
   const DropMenu = ({ value, changeUserAccess, accessList }) => {
     return (
@@ -81,7 +88,7 @@ const UserModule = ({
                     {item.accessName != 'Super Admin' && (
                       <a
                         className={styles.link}
-                        onClick={() => showAccessDetail(item.access)}
+                        onClick={() => showAccessDetail(item)}
                       >
                         Details
                       </a>
