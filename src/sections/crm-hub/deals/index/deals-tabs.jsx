@@ -37,12 +37,12 @@ const DealsTabs = ({ showListType }) => {
     console.log(key)
   }
   // menu 状态表格筛选
-  const tableMenuChange = (pagination, filters, sorter, extr) => {}
+  const tableMenuChange = (pagination, filters, sorter, extra) => {}
   // filter状态表格筛选
   const tableFilterChange = (pagination, filters, sorter, extra) => {
     // 过滤后的数据
     // console.log(extra.currentDataSource)
-    // setFilterData(extra.currentDataSource)
+    setFilterData(extra.currentDataSource)
   }
 
   // 选择表格 checkbox 的事件

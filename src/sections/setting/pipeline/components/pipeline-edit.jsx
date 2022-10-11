@@ -8,6 +8,7 @@ const PipelineEdit = ({ item, updatePipeline, salesList, disabled }) => {
   const [edit, setEdit] = useState(false)
   const [value, setValue] = useState('')
   const save = () => {
+    console.log(value)
     if (value.trim() == '') {
       message.warn('pipeline 不能为空')
       return
@@ -44,7 +45,7 @@ const PipelineEdit = ({ item, updatePipeline, salesList, disabled }) => {
             styles={{ cursor: 'pointer' }}
             onClick={() => {
               setEdit(true)
-              setValue(item.value)
+              setValue(item.name)
             }}
           />
         )}

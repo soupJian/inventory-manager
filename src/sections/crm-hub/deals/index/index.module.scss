@@ -39,7 +39,6 @@
   }
 }
 .deals-content-wrap {
-  height: calc(100% - 110px);
   margin: 0 20px;
   .deals-content {
     background-color: #fff;
@@ -112,8 +111,8 @@
   }
 }
 .dealsfilterwrap {
-  height: calc(100vh - 240px);
-  max-height: calc(100vh - 240px);
+  height: calc(100vh - 196px);
+  max-height: calc(100vh - 196px);
   overflow-y: auto;
   background-color: #f4f5f7;
   min-width: 240px;
