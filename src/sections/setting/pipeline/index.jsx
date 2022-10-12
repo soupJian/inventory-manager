@@ -1,15 +1,55 @@
-import React, { useState } from 'react'
-import { Row, Col, Select, message } from 'antd'
+import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { toggleLoading } from '../../../store/slices/globalSlice'
+import { Row, Col, Select } from 'antd'
 // components -----------
-import PipelineSales from './components/pipeline-sales.jsx'
-import PipelineReverse from './components/pipeline-reverse'
-import PipelineSupport from './components/pipeline-support'
-
+import PipelineItem from './components/pipeline-item.jsx'
+// api
+import {
+  getSalesPipeline,
+  getSupportPipeline,
+  getReturnPipeline,
+  getReplacePipeline,
+  getReturnReplacePipeline
+} from '../../../service/setting-pipeline'
 import styles from './index.module.scss'
+import { pipelineReturn, headerSelectOption } from '../../../constants/setting'
 //js =---------
 const { Option } = Select
+
 const Pipeline = () => {
+  const dispatch = useDispatch()
   const [headerSelect, setHeaderSelect] = useState('Sales pipeline')
+  const [reverseActive, setReverseActive] = useState('Return')
+  const [list, setList] = useState([])
+  // 获取数据
+  const getData = async () => {
+    dispatch(toggleLoading())
+    let res = null
+    if (headerSelect == 'Sales pipeline') {
+      res = await getSalesPipeline()
+    } else if (headerSelect == 'Support pipeline') {
+      res = await getSupportPipeline()
+    } else {
+      // headerSelect == 'Reverse logistics'
+      if (reverseActive == 'Return') {
+        res = await getReturnPipeline()
+      } else if (reverseActive == 'Replace') {
+        res = await getReplacePipeline()
+      } else {
+        // reverseActive == 'Return & Replace'
+        res = await getReturnReplacePipeline()
+      }
+    }
+    // 开启loading
+    setList(res.Items)
+    // 关闭loading
+    dispatch(toggleLoading())
+  }
+  useEffect(() => {
+    getData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   return (
     <div>
       {/* header-search */}
@@ -22,18 +62,49 @@ const Pipeline = () => {
             style={{
               width: 200
             }}
-            onChange={(value) => setHeaderSelect(value)}
+            onChange={(value) => {
+              setHeaderSelect(value)
+              getData()
+            }}
           >
-            <Option value="Sales pipeline">Sales pipeline</Option>
-            <Option value="Support pipeline">Support pipeline</Option>
-            <Option value="Reverse logistics">Reverse logistics</Option>
+            {headerSelectOption.map((item) => {
+              return (
+                <Option value={item} key={item}>
+                  {item}
+                </Option>
+              )
+            })}
           </Select>
         </Col>
       </Row>
       {/* container */}
-      {headerSelect == 'Sales pipeline' && <PipelineSales />}
-      {headerSelect == 'Support pipeline' && <PipelineSupport />}
-      {headerSelect == 'Reverse logistics' && <PipelineReverse />}
+      {headerSelect == 'Sales pipeline' && (
+        <PipelineItem list={list} getData={getData} />
+      )}
+      {headerSelect == 'Support pipeline' && (
+        <PipelineItem list={list} getData={getData} />
+      )}
+      {headerSelect == 'Reverse logistics' && (
+        <>
+          <div className={styles['header-tabs']}>
+            {pipelineReturn.map((item) => {
+              return (
+                <div
+                  key={item}
+                  className={`${reverseActive == item ? styles.active : ''}`}
+                  onClick={() => {
+                    setReverseActive(item)
+                    getData()
+                  }}
+                >
+                  {item}
+                </div>
+              )
+            })}
+          </div>
+          <PipelineItem list={list} getData={getData} />
+        </>
+      )}
     </div>
   )
 }

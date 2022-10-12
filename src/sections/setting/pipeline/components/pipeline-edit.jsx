@@ -4,20 +4,20 @@ import { CloseOutlined, CheckOutlined } from '@ant-design/icons'
 import { Icon } from '../../../../components/commons'
 import styles from '../index.module.scss'
 
-const PipelineEdit = ({ item, updatePipeline, salesList, disabled }) => {
+const PipelineEdit = ({ item, updatePipeline, list, disabled }) => {
   const [edit, setEdit] = useState(false)
   const [value, setValue] = useState('')
   const save = () => {
-    console.log(value)
     if (value.trim() == '') {
       message.warn('pipeline 不能为空')
       return
     }
-    if (salesList.filter((item) => item.name == value).length > 0) {
+    if (list.filter((item) => item.salesStatus == value).length > 0) {
       message.error(`${value}已存在`)
       return
     }
-    updatePipeline(item.name, value.trim())
+    updatePipeline(item.salesStatus, value.trim())
+    setEdit(false)
     setValue('')
   }
   return (
@@ -31,10 +31,10 @@ const PipelineEdit = ({ item, updatePipeline, salesList, disabled }) => {
             <Input
               allowClear
               onChange={(e) => setValue(e.target.value)}
-              defaultValue={item.name}
+              defaultValue={item.salesStatus}
             />
           ) : (
-            <>{item.name}</>
+            <>{item.salesStatus}</>
           )}
         </div>
         {!disabled && (
@@ -45,7 +45,7 @@ const PipelineEdit = ({ item, updatePipeline, salesList, disabled }) => {
             styles={{ cursor: 'pointer' }}
             onClick={() => {
               setEdit(true)
-              setValue(item.name)
+              setValue(item.salesStatus)
             }}
           />
         )}

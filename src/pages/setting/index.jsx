@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
+import { withRouter } from 'next/router'
 // antd -----------------
 import { Tabs } from 'antd'
 // components --------------
@@ -14,11 +15,16 @@ import styles from './index.module.scss'
 //js --------
 const { TabPane } = Tabs
 const tabslist = ['Assigning', 'Pipeline', 'Assets', 'Users', 'Reply']
-const Settings = () => {
-  const [active, setActive] = useState('Assigning')
+const Settings = ({ router }) => {
+  const hash = router.asPath.split('#')[1]
+  const [active, setActive] = useState(hash || tabslist[0])
   const handleChangeTabs = (key) => {
     setActive(key)
   }
+  useEffect(() => {
+    router.replace(`/setting#${active}`, null, { shallow: true })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active])
   return (
     <>
       <Head>
@@ -27,7 +33,7 @@ const Settings = () => {
       <div className={styles.title}>Settings</div>
       <Tabs
         className={styles.tabs}
-        defaultActiveKey={active}
+        activeKey={active}
         onChange={handleChangeTabs}
       >
         {tabslist.map((item) => {
@@ -42,5 +48,4 @@ const Settings = () => {
     </>
   )
 }
-
-export default Settings
+export default withRouter(Settings)

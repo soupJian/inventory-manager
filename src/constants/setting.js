@@ -10,3 +10,9 @@ export const pipelineColors = [
   '#B7B7B7',
   '#2EBEBD'
 ]
+export const headerSelectOption = [
+  'Sales pipeline',
+  'Support pipeline',
+  'Reverse logistics'
+]
+export const pipelineReturn = ['Return', 'Replace', 'Return & Replace']

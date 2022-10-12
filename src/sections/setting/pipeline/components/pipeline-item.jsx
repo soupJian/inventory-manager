@@ -1,95 +1,70 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { toggleLoading } from '../../../../store/slices/globalSlice'
 import { Row, Col, Input, Select, Space, Button, message } from 'antd'
 import { DeleteOutlined, CheckOutlined } from '@ant-design/icons'
 import { pipelineColors } from '../../../../constants/setting'
-
+import { postSalesPipeline } from '../../../../service/setting-pipeline'
 import styles from '../index.module.scss'
 import PipelineEdit from './pipeline-edit'
+import { v4 as uuidv4 } from 'uuid'
 
 const { Option } = Select
 
-const ReverseReturn = () => {
-  const [salesList, setSaleslist] = useState([
-    {
-      name: 'Request initiated',
-      color: '#FF7B7B',
-      edit: true
-    },
-    {
-      name: 'Collect info',
-      color: '#FABF66',
-      edit: true
-    },
-    {
-      name: 'Claim submitted',
-      color: '#2C88DD',
-      edit: true
-    },
-    {
-      name: 'Label requested',
-      color: '#77D755',
-      edit: true
-    },
-    {
-      name: 'Label sent',
-      color: '#8781FF',
-      edit: true
-    },
-    {
-      name: 'Return shipped',
-      color: '#3BC7F3',
-      edit: true
-    },
-    {
-      name: 'Closed',
-      color: '#2EBEBD',
-      edit: false
-    }
-  ])
+const PipelineSales = ({ list, getData }) => {
+  const dispatch = useDispatch()
   const [statusName, setStatusName] = useState('')
   const [afterValue, setAfterValue] = useState(null)
   // 编辑 slaes pipeline
-  const updateSalesPipeline = (oldValue, newValue) => {
-    setSaleslist((list) => {
-      const index = salesList.findIndex((item) => item.name == oldValue)
-      const newList = [...list]
-      newList[index].name = newValue
-      return newList
-    })
+  const updateSalesPipeline = async (oldValue, newValue) => {
+    const index = list.findIndex((item) => item.salesStatus == oldValue)
+    const newList = JSON.parse(JSON.stringify(list))
+    newList[index].salesStatus = newValue
+    // 开启loading
+    dispatch(toggleLoading())
+    await postSalesPipeline(newList)
+    await getData()
+    // // 关闭loading
+    dispatch(toggleLoading())
   }
   // 创建 sale pipeline
-  const create = () => {
+  const create = async () => {
+    // 校验
     if (!afterValue) {
       message.error('please select status!')
       return
     }
-    const index = salesList.findIndex((item) => item.name == statusName)
+    const index = list.findIndex((item) => item.salesStatus == statusName)
     if (index >= 0) {
       message.error(`${statusName} is already exist!`)
       return
     }
-    if (salesList.length >= 10) {
+    if (list.length >= 10) {
       return
     }
-    setSaleslist((list) => {
-      const newList = [...list]
-      const newColors = [...pipelineColors]
-      // 过滤已经使用过的颜色
-      newList.forEach((item) => {
-        newColors.splice(
-          newColors.findIndex((color) => color == item.color),
-          1
-        )
-      })
-
-      const index = newList.findIndex((item) => item.name == afterValue)
-      newList.splice(index + 1, 0, {
-        name: statusName,
-        color: newColors[0],
-        edit: true
-      })
-      return newList
+    // 更新
+    const newList = [...list]
+    const newColors = [...pipelineColors]
+    // 过滤已经使用过的颜色
+    newList.forEach((item) => {
+      newColors.splice(
+        newColors.findIndex((color) => color == item.color),
+        1
+      )
     })
+    const i = newList.findIndex((item) => item.salesStatus == afterValue)
+    newList.splice(i + 1, 0, {
+      editable: true,
+      color: newColors[0],
+      salesStatus: statusName,
+      id: uuidv4()
+    })
+    // 开启loading
+    dispatch(toggleLoading())
+    await postSalesPipeline(newList)
+    await getData()
+    // 关闭loading
+    dispatch(toggleLoading())
     setStatusName('')
     setAfterValue(null)
   }
@@ -97,16 +72,16 @@ const ReverseReturn = () => {
     <Row gutter={20} className={styles.container}>
       <Col span={8}>
         <Row gutter={[0, 28]} align="middle">
-          {salesList
+          {list
             .filter((_, i) => i < 5)
             .map((item) => {
               return (
                 <PipelineEdit
-                  key={item.name}
+                  key={item.salesStatus}
                   item={item}
-                  salesList={salesList}
+                  list={list}
                   updatePipeline={updateSalesPipeline}
-                  disabled={!item.edit}
+                  disabled={!item.editable}
                 />
               )
             })}
@@ -114,15 +89,14 @@ const ReverseReturn = () => {
       </Col>
       <Col span={8}>
         <Row gutter={[0, 28]} align="middle">
-          {salesList.slice(5, 10).map((item) => {
+          {list.slice(5, 10).map((item) => {
             return (
               <PipelineEdit
-                key={item.name}
+                key={item.salesStatus}
                 item={item}
-                salesList={salesList}
+                list={list}
                 updatePipeline={updateSalesPipeline}
-                // 最后两个 closed lost 和 closed won 不允许编辑
-                disabled={!item.edit}
+                disabled={!item.editable}
               />
             )
           })}
@@ -139,7 +113,7 @@ const ReverseReturn = () => {
               placeholder="Type status name"
               onChange={(e) => setStatusName(e.target.value)}
               className={styles.addInput}
-              disabled={salesList.length >= 10}
+              disabled={list.length >= 10}
             />
           </Col>
           {statusName != '' && (
@@ -157,12 +131,12 @@ const ReverseReturn = () => {
                   placeholder="Select status"
                   onChange={(value) => setAfterValue(value)}
                 >
-                  {salesList
-                    .filter((current) => current.edit)
+                  {list
+                    .filter((current) => current.editable)
                     .map((item) => {
                       return (
-                        <Option key={item.name} value={item.name}>
-                          {item.name}
+                        <Option key={item.salesStatus} value={item.salesStatus}>
+                          {item.salesStatus}
                         </Option>
                       )
                     })}
@@ -198,4 +172,4 @@ const ReverseReturn = () => {
   )
 }
 
-export default ReverseReturn
+export default PipelineSales
