@@ -79,10 +79,10 @@ const Pipeline = () => {
       </Row>
       {/* container */}
       {headerSelect == 'Sales pipeline' && (
-        <PipelineItem list={list} getData={getData} />
+        <PipelineItem list={list} getData={getData} type="sales" />
       )}
       {headerSelect == 'Support pipeline' && (
-        <PipelineItem list={list} getData={getData} />
+        <PipelineItem list={list} getData={getData} type="support" />
       )}
       {headerSelect == 'Reverse logistics' && (
         <>
@@ -102,7 +102,7 @@ const Pipeline = () => {
               )
             })}
           </div>
-          <PipelineItem list={list} getData={getData} />
+          <PipelineItem list={list} getData={getData} type={reverseActive} />
         </>
       )}
     </div>

@@ -4,14 +4,20 @@ import { toggleLoading } from '../../../../store/slices/globalSlice'
 import { Row, Col, Input, Select, Space, Button, message } from 'antd'
 import { DeleteOutlined, CheckOutlined } from '@ant-design/icons'
 import { pipelineColors } from '../../../../constants/setting'
-import { postSalesPipeline } from '../../../../service/setting-pipeline'
+import {
+  postSalesPipeline,
+  postSupportPipeline,
+  postReturnPipeline,
+  postReplacePipeline,
+  postReturnReplacePipeline
+} from '../../../../service/setting-pipeline'
 import styles from '../index.module.scss'
 import PipelineEdit from './pipeline-edit'
 import { v4 as uuidv4 } from 'uuid'
 
 const { Option } = Select
 
-const PipelineSales = ({ list, getData }) => {
+const PipelineSales = ({ list, getData, type }) => {
   const dispatch = useDispatch()
   const [statusName, setStatusName] = useState('')
   const [afterValue, setAfterValue] = useState(null)
@@ -22,7 +28,18 @@ const PipelineSales = ({ list, getData }) => {
     newList[index].salesStatus = newValue
     // 开启loading
     dispatch(toggleLoading())
-    await postSalesPipeline(newList)
+    if (type == 'sales') {
+      await postSalesPipeline(newList)
+    } else if (type == 'support') {
+      await postSupportPipeline(newList)
+    } else if (type == 'Return') {
+      await postReturnPipeline(newList)
+    } else if (type == 'Replace') {
+      await postReplacePipeline(newList)
+    } else {
+      // type == Return & Replace
+      await postReturnReplacePipeline(newList)
+    }
     await getData()
     // // 关闭loading
     dispatch(toggleLoading())
@@ -61,7 +78,18 @@ const PipelineSales = ({ list, getData }) => {
     })
     // 开启loading
     dispatch(toggleLoading())
-    await postSalesPipeline(newList)
+    if (type == 'sales') {
+      await postSalesPipeline(newList)
+    } else if (type == 'support') {
+      await postSupportPipeline(newList)
+    } else if (type == 'Return') {
+      await postReturnPipeline(newList)
+    } else if (type == 'Replace') {
+      await postReplacePipeline(newList)
+    } else {
+      // type == Return & Replace
+      await postReturnReplacePipeline(newList)
+    }
     await getData()
     // 关闭loading
     dispatch(toggleLoading())
