@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import Login from './components/login'
 import { Layout } from 'antd'
 import SideBar from './components/sideBar'
+import Loading from '../components/loading'
 // import LayoutHeader from './components/header'
 import styles from './BasicLayout.module.scss'
 import 'antd/lib/tooltip/style/index.css'
@@ -11,7 +12,6 @@ const { Content, Sider } = Layout
 
 const BasicLayout = ({ children }) => {
   const user = useSelector((store) => store.user)
-  console.log(user)
   const [collapsed, setCollapsed] = useState(false)
   return (
     <>
@@ -37,6 +37,7 @@ const BasicLayout = ({ children }) => {
               <LayoutHeader user={user} />
             </Header> */}
             <Content>{children}</Content>
+            <Loading collapsed={collapsed} />
           </Layout>
         </Layout>
       ) : (

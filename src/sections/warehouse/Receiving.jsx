@@ -17,7 +17,7 @@ import {
 import styled from 'styled-components'
 import AddANewItem from '../../components/add-a-new-Item'
 import { Api, objectsToQueryString } from '../../utils/utils'
-import { locations } from '../../constants/pageConstants/warehouse'
+import { locations } from '../../constants/pageConstants/locations'
 import { useSelector } from 'react-redux'
 
 const api = new Api()

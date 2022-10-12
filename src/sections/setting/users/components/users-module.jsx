@@ -173,23 +173,20 @@ const UserModule = ({
                 Edit
               </Space>
             </Button>
-            {record.active && (
-              <Button
-                type="link"
-                size="small"
-                disabled={!record.active}
-                onClick={() => {
-                  setModalInfo({
-                    ...modalInfo,
-                    type: 'single',
-                    show: true,
-                    user: record
-                  })
-                }}
-              >
-                deactivate
-              </Button>
-            )}
+            <Button
+              type="link"
+              size="small"
+              onClick={() => {
+                setModalInfo({
+                  ...modalInfo,
+                  type: 'single',
+                  show: true,
+                  user: record
+                })
+              }}
+            >
+              {record.active ? 'deactivate' : 'active'}
+            </Button>
           </>
         )
       }
@@ -244,6 +241,7 @@ const UserModule = ({
         visible={modalInfo.show}
         okText="Save"
         footer={false}
+        centered
         // onOK={() => ()}
         onCancel={() =>
           setModalInfo({
@@ -254,8 +252,9 @@ const UserModule = ({
         wrapClassName={styles.modal}
       >
         <div className={styles.modalSubTitle}>
-          Are you sure you want to deactivate{' '}
-          {`${modalInfo.type == 'group' ? 'these' : 'this'}`} users?
+          Are you sure you want to{' '}
+          {modalInfo.user?.active ? 'deactive' : 'active'}{' '}
+          {`${modalInfo.type == 'group' ? 'these users' : 'this user'}`}?
         </div>
         <Row justify="center">
           <Col>

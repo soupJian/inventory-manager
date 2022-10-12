@@ -6,7 +6,8 @@ import storage from 'redux-persist/lib/storage'
 const persistConfig = {
   timeout: 500,
   key: 'root',
-  storage
+  storage,
+  blacklist: ['global']
 }
 
 const reducer = (state, action) => {

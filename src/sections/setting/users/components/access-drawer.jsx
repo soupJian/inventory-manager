@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col, Input, Switch, Divider, Button, message } from 'antd'
+import { Row, Col, Input, Switch, Divider, Button } from 'antd'
 import styles from '../index.module.scss'
 
 // type string  edit  create
@@ -60,8 +60,7 @@ const AccessDrawer = (props) => {
       </Row>
       <Row gutter={[0, 30]}>
         <SwitchItem label="Inventory" name="inventory" />
-        <SwitchItem label="Warehousing" name="warehousing" />
-        <SwitchItem label="Products" name="products" />
+        <SwitchItem label="Warehouse" name="warehouse" />
         <SwitchItem label="Shipping" name="shipping" />
         <SwitchItem label="Orders" name="orders" />
       </Row>
@@ -88,9 +87,11 @@ const AccessDrawer = (props) => {
         </Col>
       </Row>
       <Row gutter={[0, 30]}>
-        <SwitchItem label="Settings - Assets" name="assets" />
-        <SwitchItem label="Settings - Fast Reply" name="fastReply" />
-        <SwitchItem label="Settings - Other" name="other" />
+        <SwitchItem label="Settings - Assiging" name="settingAssiging" />
+        <SwitchItem label="Settings - Pipeline" name="settingPipeline" />
+        <SwitchItem label="Settings - Assets" name="settingAssets" />
+        <SwitchItem label="Settings - Users" name="settingUsers" />
+        <SwitchItem label="Settings - Reply" name="settingReply" />
         <SwitchItem label="Activity history" name="history" />
       </Row>
       <Row justify="end">

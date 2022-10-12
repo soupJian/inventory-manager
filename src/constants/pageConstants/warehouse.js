@@ -70,30 +70,3 @@ export const itemTemplate = {
   TotalCost: 0,
   Updated: ''
 }
-
-export const locations = [
-  {
-    label: 'Z23-F12',
-    value: 'Z23-F12'
-  },
-  {
-    label: 'Z11-D21',
-    value: 'Z11-D21'
-  },
-  {
-    label: 'Z13-E33',
-    value: 'Z13-E33'
-  },
-  {
-    label: 'Z22-A32',
-    value: 'Z22-A32'
-  },
-  {
-    label: 'Z18-F22',
-    value: 'Z18-F22'
-  },
-  {
-    label: 'Z11-F33',
-    value: 'Z11-F33'
-  }
-]
