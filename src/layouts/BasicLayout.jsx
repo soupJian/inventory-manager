@@ -12,6 +12,7 @@ const { Content, Sider } = Layout
 
 const BasicLayout = ({ children }) => {
   const user = useSelector((store) => store.user)
+  const global = useSelector((store) => store.global)
   const [collapsed, setCollapsed] = useState(false)
   return (
     <>
@@ -37,7 +38,12 @@ const BasicLayout = ({ children }) => {
               <LayoutHeader user={user} />
             </Header> */}
             <Content>{children}</Content>
-            <Loading collapsed={collapsed} />
+            {global.loading && (
+              <Loading
+                collapsed={collapsed}
+                left={collapsed ? '104px' : '231px'}
+              />
+            )}
           </Layout>
         </Layout>
       ) : (

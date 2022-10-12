@@ -1,20 +1,24 @@
 import React from 'react'
 import { Spin } from 'antd'
-import { useSelector } from 'react-redux'
 
-const Loading = ({ collapsed }) => {
-  const global = useSelector((store) => store.global)
+const Loading = ({
+  left = 0,
+  right = 0,
+  bottom = 0,
+  top = 0,
+  tip = 'Loading...'
+}) => {
   return (
     <Spin
-      spinning={global.loading}
       size="large"
+      tip={tip}
       style={{
-        backgroundColor: 'rgba(0,0,0,0.75)',
+        backgroundColor: 'rgba(0,0,0,0.5)',
         position: 'fixed',
-        left: collapsed ? '104px' : '231px',
-        right: 0,
-        bottom: 0,
-        top: 0,
+        left,
+        right,
+        bottom,
+        top,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',

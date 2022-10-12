@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { loginUser } from '../../../store/slices/userSlice'
 import { login } from '../../../service/user'
 import { Row, Col, Input, Button, message, Spin } from 'antd'
+import Loading from '../../../components/loading'
 import styles from './index.module.scss'
 
 const Login = () => {
@@ -95,13 +96,7 @@ const Login = () => {
             </Button>
           </div>
         </>
-        {loading && (
-          <Row justify="center" align="middle" className={styles.spinWrap}>
-            <Col>
-              <Spin tip="Loading..." size="large" />
-            </Col>
-          </Row>
-        )}
+        {loading && <Loading />}
       </Col>
     </Row>
   )
