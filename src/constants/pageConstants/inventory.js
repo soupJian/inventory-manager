@@ -12,6 +12,16 @@ export const statusList = [
     value: 'low'
   }
 ]
+export const sortByList = [
+  {
+    label: 'Available (high to low)',
+    value: 'height'
+  },
+  {
+    label: 'Available (low to high)',
+    value: 'log'
+  }
+]
 
 export const variantList = [
   {

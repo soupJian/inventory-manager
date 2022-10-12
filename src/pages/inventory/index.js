@@ -48,6 +48,13 @@ const Inventory = () => {
             Items
           </Tab>
           <Tab
+            onClick={() => setActiveTab('products')}
+            active={'products' === activeTab}
+            idx={0}
+          >
+            Products
+          </Tab>
+          <Tab
             onClick={() => setActiveTab('map')}
             active={'map' === activeTab}
             idx={1}
@@ -57,21 +64,6 @@ const Inventory = () => {
         </Tabs>
         {activeTab === 'inventory' && (
           <Flex styles={{ gap: '9px' }}>
-            {/* <Button
-              onClick={() => setNewItemModal(true)}
-              minWidth="auto"
-              kind="primary"
-              startIcon={
-                <Icon
-                  name="add"
-                  width="18px"
-                  height="19px"
-                  styles={{ 'margin-right': '12px' }}
-                />
-              }
-            >
-              New
-            </Button> */}
             <Input
               type="text"
               className={styles.searchInput}
@@ -82,15 +74,21 @@ const Inventory = () => {
         )}
       </Flex>
 
-      {activeTab === 'inventory' ? (
+      {activeTab === 'inventory' && (
         <InventoryTable
           user={user}
           setDialog={setDialog}
           updataTableData={updataTableData}
         />
-      ) : (
-        <InventoryMap user={user} />
       )}
+      {activeTab === 'products' && (
+        <InventoryTable
+          user={user}
+          setDialog={setDialog}
+          updataTableData={updataTableData}
+        />
+      )}
+      {activeTab === 'map' && <InventoryMap user={user} />}
       {dialog.message && dialog.show && (
         <Dialog>
           <Wrapper padding="60px 54px">

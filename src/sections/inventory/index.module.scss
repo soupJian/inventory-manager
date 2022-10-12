@@ -32,6 +32,20 @@
     }
   }
 }
+.selectSortByWrap {
+  min-width: 236px;
+  height: 45px;
+  :global {
+    .ant-select-selector {
+      height: 45px !important;
+      line-height: 45px !important;
+      border-radius: 10px !important;
+    }
+    .ant-select-selection-item {
+      line-height: 45px !important;
+    }
+  }
+}
 .selectTableButton {
   height: 45px;
   border-radius: 10px;
