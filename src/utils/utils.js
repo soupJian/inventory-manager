@@ -1,7 +1,6 @@
 export class Api {
   static BASE_URL = 'https://43kjv8b4z4.execute-api.us-west-2.amazonaws.com/v1'
   async getAllInventory(params, headers) {
-    console.log(`${Api.BASE_URL}/all-inventory?${params ? params : ''}`)
     return await fetch(
       `${Api.BASE_URL}/all-inventory?${params ? params : ''}`,
       {
@@ -23,7 +22,6 @@ export class Api {
     })
   }
   async getMultipleInventory(params, headers) {
-    console.log(`${Api.BASE_URL}/inventory-skus?${params ? params : ''}`)
     return await fetch(
       `${Api.BASE_URL}/inventory-skus?${params ? params : ''}`,
       {

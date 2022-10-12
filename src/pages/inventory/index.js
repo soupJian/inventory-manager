@@ -13,6 +13,7 @@ import {
 import { SearchOutlined } from '@ant-design/icons'
 import { Input } from 'antd'
 import InventoryTable from '../../sections/inventory/inventoryTable'
+import InventoryProduct from '../../sections/inventory/InventoryProduct'
 import InventoryMap from '../../sections/inventory/inventoryMap'
 import AddANewItem from '../../components/add-a-new-Item'
 import styles from './index.module.scss'
@@ -62,16 +63,24 @@ const Inventory = () => {
             Map
           </Tab>
         </Tabs>
-        {activeTab === 'inventory' && (
-          <Flex styles={{ gap: '9px' }}>
+        <Flex styles={{ gap: '9px' }}>
+          {activeTab == 'inventory' && (
             <Input
               type="text"
               className={styles.searchInput}
-              placeholder="Search name or SKU"
+              placeholder="Name, SKU, ID, Barcode"
               prefix={<SearchOutlined />}
             />
-          </Flex>
-        )}
+          )}
+          {activeTab == 'products' && (
+            <Input
+              type="text"
+              className={styles.searchInput}
+              placeholder="Name, SKU, ID, Tag"
+              prefix={<SearchOutlined />}
+            />
+          )}
+        </Flex>
       </Flex>
 
       {activeTab === 'inventory' && (
@@ -81,8 +90,9 @@ const Inventory = () => {
           updataTableData={updataTableData}
         />
       )}
+
       {activeTab === 'products' && (
-        <InventoryTable
+        <InventoryProduct
           user={user}
           setDialog={setDialog}
           updataTableData={updataTableData}
