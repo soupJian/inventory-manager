@@ -2,8 +2,7 @@ import { message } from 'antd'
 import { store } from '../store/store'
 import axios from 'axios'
 // const baseURL = 'https://oypcwmk5j1.execute-api.us-west-2.amazonaws.com/v1'
-const baseURL =
-  process.env.NODE_ENV ==  'https://oypcwmk5j1.execute-api.us-west-2.amazonaws.com/v1'
+const baseURL = 'https://oypcwmk5j1.execute-api.us-west-2.amazonaws.com/v1'
 // const token = localStorage.getItem('token')
 // 创建一个axios实例
 const request = axios.create({
