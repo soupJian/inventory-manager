@@ -13,7 +13,7 @@ import {
 import { SearchOutlined } from '@ant-design/icons'
 import { Input } from 'antd'
 import InventoryTable from '../../sections/inventory/inventoryTable'
-import InventoryProduct from '../../sections/inventory/InventoryProduct'
+import InventoryProduct from '../../sections/inventory/inventoryProduct'
 import InventoryMap from '../../sections/inventory/inventoryMap'
 import AddANewItem from '../../components/add-a-new-Item'
 import styles from './index.module.scss'

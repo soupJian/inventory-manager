@@ -45,7 +45,7 @@ const productReducer = (state, { type, payload }) => {
   }
 }
 
-const Products = () => {
+const InventoryProduct = () => {
   const user = useSelector((state) => state.user)
   const [productState, dispatch] = useReducer(productReducer, {
     page: 1,
@@ -852,7 +852,7 @@ const Products = () => {
   )
 }
 
-export default React.memo(Products)
+export default React.memo(InventoryProduct)
 
 const Form = styled.form`
   width: 100%;
