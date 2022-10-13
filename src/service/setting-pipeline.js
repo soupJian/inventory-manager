@@ -5,7 +5,7 @@ import request from '../utils/request'
  */
 export const getSalesPipeline = () => {
   return request({
-    url: '/sales-pipelines'
+    url: '/sales-pipeline'
   })
 }
 /**
@@ -16,9 +16,11 @@ export const getSalesPipeline = () => {
  */
 export const postSalesPipeline = (list) => {
   return request({
-    url: '/sales-pipelines',
-    method: 'POST',
-    data: list
+    url: '/sales-pipeline',
+    method: 'PUT',
+    data: {
+      pipelines: list
+    }
   })
 }
 
@@ -27,7 +29,7 @@ export const postSalesPipeline = (list) => {
  */
 export const getSupportPipeline = () => {
   return request({
-    url: '/support-pipelines'
+    url: '/support-pipeline'
   })
 }
 /**
@@ -38,9 +40,11 @@ export const getSupportPipeline = () => {
  */
 export const postSupportPipeline = (list) => {
   return request({
-    url: '/support-pipelines',
-    method: 'POST',
-    data: list
+    url: '/support-pipeline',
+    method: 'PUT',
+    data: {
+      pipelines: list
+    }
   })
 }
 /**
@@ -48,7 +52,7 @@ export const postSupportPipeline = (list) => {
  */
 export const getReplacePipeline = () => {
   return request({
-    url: '/replace-pipelines'
+    url: '/replace-pipeline'
   })
 }
 /**
@@ -59,9 +63,11 @@ export const getReplacePipeline = () => {
  */
 export const postReplacePipeline = (list) => {
   return request({
-    url: '/replace-pipelines',
-    method: 'POST',
-    data: list
+    url: '/replace-pipeline',
+    method: 'PUT',
+    data: {
+      pipelines: list
+    }
   })
 }
 /**
@@ -69,7 +75,7 @@ export const postReplacePipeline = (list) => {
  */
 export const getReturnPipeline = () => {
   return request({
-    url: '/return-pipelines'
+    url: '/return-pipeline'
   })
 }
 /**
@@ -80,9 +86,11 @@ export const getReturnPipeline = () => {
  */
 export const postReturnPipeline = (list) => {
   return request({
-    url: '/return-pipelines',
-    method: 'POST',
-    data: list
+    url: '/return-pipeline',
+    method: 'PUT',
+    data: {
+      pipelines: list
+    }
   })
 }
 /**
@@ -90,7 +98,7 @@ export const postReturnPipeline = (list) => {
  */
 export const getReturnReplacePipeline = () => {
   return request({
-    url: '/returnReplace-pipelines'
+    url: '/return-replace-pipeline'
   })
 }
 /**
@@ -101,8 +109,10 @@ export const getReturnReplacePipeline = () => {
  */
 export const postReturnReplacePipeline = (list) => {
   return request({
-    url: '/returnReplace-pipelines',
-    method: 'POST',
-    data: list
+    url: '/return-replace-pipeline',
+    method: 'PUT',
+    data: {
+      pipelines: list
+    }
   })
 }

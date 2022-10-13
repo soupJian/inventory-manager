@@ -42,14 +42,14 @@ const Pipeline = () => {
       }
     }
     // 开启loading
-    setList(res.Items)
+    setList(res.Item.pipelines)
     // 关闭loading
     dispatch(toggleLoading())
   }
   useEffect(() => {
     getData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [headerSelect, reverseActive])
   return (
     <div>
       {/* header-search */}
@@ -64,7 +64,6 @@ const Pipeline = () => {
             }}
             onChange={(value) => {
               setHeaderSelect(value)
-              getData()
             }}
           >
             {headerSelectOption.map((item) => {
@@ -94,7 +93,6 @@ const Pipeline = () => {
                   className={`${reverseActive == item ? styles.active : ''}`}
                   onClick={() => {
                     setReverseActive(item)
-                    getData()
                   }}
                 >
                   {item}

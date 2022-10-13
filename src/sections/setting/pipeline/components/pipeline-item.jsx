@@ -71,10 +71,9 @@ const PipelineSales = ({ list, getData, type }) => {
     })
     const i = newList.findIndex((item) => item.salesStatus == afterValue)
     newList.splice(i + 1, 0, {
-      editable: true,
       color: newColors[0],
-      salesStatus: statusName,
-      id: uuidv4()
+      editable: true,
+      salesStatus: statusName
     })
     // 开启loading
     dispatch(toggleLoading())
