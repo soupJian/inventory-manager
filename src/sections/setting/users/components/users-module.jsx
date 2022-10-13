@@ -29,7 +29,6 @@ const UserModule = ({
   // 表格选择 select Change
   const onSelectChange = (newSelectedRowKeys) => {
     // 对应的 key 数组 [1,2,3,4,6] 也就是对应的 id数组
-    console.log(newSelectedRowKeys)
     setSelectedRowKeys(newSelectedRowKeys)
     // 如果选中 数目 > 0 展示 view
     if (newSelectedRowKeys.length > 0) {
@@ -58,7 +57,17 @@ const UserModule = ({
         getData()
       }
     } else {
-      console.log(selectedRowKeys)
+      const selectList = data.filter(item=> selectedRowKeys.includes(item.id))
+      selectList.forEach(item => {
+        item.active = 'deactivate'
+      });
+      Promise.all(selectList.map(item=>updateUser(item))).then(res=>{
+        setModalInfo({
+          ...modalInfo,
+          show: false
+        })
+        getData()
+      })
     }
   }
   const changeUserAccess = async (e, record) => {
