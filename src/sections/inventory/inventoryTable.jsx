@@ -41,7 +41,7 @@ const inventoryReducer = (state, { type, payload }) => {
   }
 }
 
-const InventoryTable = ({ user, setDialog, updataTableData }) => {
+const InventoryTable = ({ user, setDialog, updataTableData, selectable }) => {
   const [inventoryState, dispatch] = useReducer(inventoryReducer, {
     page: 1,
     status: []
@@ -289,13 +289,13 @@ const InventoryTable = ({ user, setDialog, updataTableData }) => {
           </Popover>
         </Space>
       </Flex>
-      <Wrapper style={{ marginTop: '23px' }} padding="0">
+      <Wrapper style={{ marginTop: '27px' }} padding="0">
         <Table
           loading={loadingTable}
           name="inventory-items"
-          // selectable
-          // selectedAll={selection.length === inventoryData?.Items?.length}
-          // onSelectAll={selectAll}
+          selectable={selectable}
+          selectedAll={selection.length === inventoryData?.Items?.length}
+          onSelectAll={selectAll}
           headers={TableHeaders.filter((item) => item.show)}
           className={styles.tableWarp}
           paginationComponent={
@@ -315,9 +315,9 @@ const InventoryTable = ({ user, setDialog, updataTableData }) => {
               nested
               idx={idx}
               height="72px"
-              // selectable
-              // selected={selection.includes(item.SKU)}
-              // onSelect={() => addSelection(item.SKU)}
+              selectable={selectable}
+              selected={selection.includes(item.SKU)}
+              onSelect={() => addSelection(item.SKU)}
               dataId={item.SKU + idx}
               key={item.SKU + idx}
               // redirectOnClick={() =>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Flex, Icon, Input, Tab, Tabs, Wrapper } from '../../components/commons'
+import Managing from '../../sections/warehouse/Managing'
 import Receiving from '../../sections/warehouse/Receiving'
 import Settling from '../../sections/warehouse/Settling'
 
@@ -35,6 +36,13 @@ const Warehouse = () => {
           >
             Settling
           </Tab>
+          <Tab
+            onClick={() => setActiveTab('Managing')}
+            active={'Managing' === activeTab}
+            idx={1}
+          >
+            Managing
+          </Tab>
         </Tabs>
         {activeTab === 'Settling' && (
           <Input
@@ -46,6 +54,8 @@ const Warehouse = () => {
       </Flex>
       {activeTab === 'Settling' && <Settling />}
       {activeTab === 'Receiving' && <Receiving />}
+      {activeTab === 'Managing' && <Managing />}
+
       {/* <>
           <Flex
             alignItems="flex-start"

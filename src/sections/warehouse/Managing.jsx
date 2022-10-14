@@ -1,7 +1,9 @@
-import { withRouter } from 'next/router'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import {
+  Button,
+  Icon,
+  Input,
   BaseButton,
   Dialog,
   Flex,
@@ -11,16 +13,14 @@ import {
   Wrapper
 } from '../../components/commons'
 import { SearchOutlined } from '@ant-design/icons'
-import { Input } from 'antd'
-import InventoryTable from '../../sections/inventory/inventoryTable'
-import InventoryProduct from '../../sections/inventory/inventoryProduct'
-import InventoryMap from '../../sections/inventory/inventoryMap'
+import InventoryTable from '..//inventory/inventoryTable'
+import InventoryProduct from '../inventory/inventoryProduct'
 import AddANewItem from '../../components/add-a-new-Item'
 import styles from './index.module.scss'
 
-const Inventory = () => {
+const Managing = () => {
   const user = useSelector((state) => state.user)
-  const [activeTab, setActiveTab] = useState('inventory')
+  const [activeTab, setActiveTab] = useState('Items')
   const [dialog, setDialog] = useState({
     message: '',
     onConfirm: '',
@@ -34,73 +34,92 @@ const Inventory = () => {
     })
   }
   return (
-    <Wrapper
-      styles={{ 'min-height': '100%' }}
-      height="auto"
-      padding="21px 29px"
-    >
-      <Flex styles={{ 'flex-wrap': 'nowrap' }} justifyContent="space-between">
-        <Tabs>
-          <Tab
-            onClick={() => setActiveTab('inventory')}
-            active={'inventory' === activeTab}
-            idx={0}
-          >
-            Items
-          </Tab>
-          <Tab
-            onClick={() => setActiveTab('products')}
-            active={'products' === activeTab}
-            idx={0}
-          >
-            Products
-          </Tab>
-          <Tab
-            onClick={() => setActiveTab('map')}
-            active={'map' === activeTab}
-            idx={1}
-          >
-            Map
-          </Tab>
-        </Tabs>
-        <Flex styles={{ gap: '9px' }}>
-          {activeTab == 'inventory' && (
-            <Input
-              type="text"
-              className={styles.searchInput}
-              placeholder="Name, SKU, ID, Barcode"
-              prefix={<SearchOutlined />}
+    <Wrapper styles={{ 'min-height': '100%' }} height="auto" padding=" 0 ">
+      <Flex
+        styles={{ gap: '22px', position: 'absolute', right: '0', top: '-80px' }}
+      >
+        <Button
+          onClick={() => setNewItemModal(true)}
+          minWidth="auto"
+          kind="primary"
+          startIcon={
+            <Icon
+              name="add"
+              width="18px"
+              height="19px"
+              styles={{ 'margin-right': '12px' }}
             />
-          )}
-          {activeTab == 'products' && (
-            <Input
-              type="text"
-              className={styles.searchInput}
-              placeholder="Name, SKU, ID, Tag"
-              prefix={<SearchOutlined />}
-            />
-          )}
-        </Flex>
+          }
+          style={{ height: '45px' }}
+        >
+          New
+        </Button>
+        {activeTab == 'Items' && (
+          <Input
+            type="text"
+            className={styles.searchInput}
+            placeholder="Name, SKU, ID, Barcode"
+            startIcon={<Icon name="search" width="30px" height="19px" />}
+          />
+        )}
+        {activeTab == 'Products' && (
+          <Input
+            type="text"
+            className={styles.searchInput}
+            placeholder="Name, SKU, ID, Tag"
+            startIcon={<Icon name="search" width="30px" height="19px" />}
+          />
+        )}
+      </Flex>
+      <Flex
+        styles={{
+          'flex-wrap': 'nowrap',
+          position: 'absolute',
+          height: '45px',
+          zIndex: 1,
+          gap: '24px',
+          fontSize: '20px',
+          lineHeight: '20px',
+          fontWeight: '500'
+        }}
+        justifyContent="space-between"
+      >
+        <div
+          onClick={() => setActiveTab('Items')}
+          style={{
+            color: activeTab == 'Items' ? '#000000' : '#999999',
+            cursor: 'pointer'
+          }}
+        >
+          Items
+        </div>
+        <div
+          onClick={() => setActiveTab('Products')}
+          style={{
+            color: activeTab == 'Products' ? '#000000' : '#999999',
+            cursor: 'pointer'
+          }}
+        >
+          Products
+        </div>
       </Flex>
 
-      {activeTab === 'inventory' && (
+      {activeTab === 'Items' && (
         <InventoryTable
           user={user}
           setDialog={setDialog}
           updataTableData={updataTableData}
-          selectable={false}
+          selectable={true}
         />
       )}
-
-      {activeTab === 'products' && (
+      {activeTab === 'Products' && (
         <InventoryProduct
           user={user}
           setDialog={setDialog}
           updataTableData={updataTableData}
-          selectable={false}
+          selectable={true}
         />
       )}
-      {activeTab === 'map' && <InventoryMap user={user} />}
       {dialog.message && dialog.show && (
         <Dialog>
           <Wrapper padding="60px 54px">
@@ -152,4 +171,4 @@ const Inventory = () => {
   )
 }
 
-export default withRouter(Inventory)
+export default Managing

@@ -45,7 +45,7 @@ const productReducer = (state, { type, payload }) => {
   }
 }
 
-const InventoryProduct = () => {
+const InventoryProduct = ({ selectable }) => {
   const user = useSelector((state) => state.user)
   const [productState, dispatch] = useReducer(productReducer, {
     page: 1,
@@ -312,11 +312,7 @@ const InventoryProduct = () => {
     })
   }, [sortBy])
   return (
-    <Wrapper
-      styles={{ 'min-height': '100%' }}
-      height="auto"
-      padding="21px 29px"
-    >
+    <Wrapper styles={{ 'min-height': '100%', padding: '0' }} height="auto">
       {/* <Flex
         styles={{ 'flex-wrap': 'nowrap', 'align-items': 'flex-start' }}
         justifyContent="space-between"
@@ -420,8 +416,8 @@ const InventoryProduct = () => {
           loading={loadingTable}
           name="products-items"
           className={styles.tableWarp}
-          // selectable
-          // onSelectAll={selectAll}
+          selectable={selectable}
+          onSelectAll={selectAll}
           // selectedAll={selection.length === products?.Items?.length}
           headers={TableHeaders.filter((i) => i.show)}
           paginationComponent={
@@ -441,9 +437,9 @@ const InventoryProduct = () => {
               nested
               idx={idx}
               height="72px"
-              // selectable
-              // selected={selection.includes(item.SKU)}
-              // onSelect={() => addSelection(item.SKU)}
+              selectable={selectable}
+              selected={selection.includes(item.SKU)}
+              onSelect={() => addSelection(item.SKU)}
               dataId={item.SKU + idx}
               key={item.SKU + idx}
               // redirectOnClick={() =>
