@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import {
   Button,
   Filter,
@@ -10,10 +11,12 @@ import {
 } from '../../components/commons'
 import { itemTemplate } from '../../constants/pageConstants/inventory'
 import { locations } from '../../constants/pageConstants/locations'
-
+import { Api } from '../../utils/utils'
+const api = new Api()
 import styled from 'styled-components'
 
 const AddANewItem = ({ setNewItemModal, submitNewItemFinally }) => {
+  const user = useSelector((state) => state.user)
   const [newItem, setNewItem] = useState({ ...itemTemplate })
   const [newItemLoading, setNewItemLoading] = useState(false)
   const [newItemError, setNewItemError] = useState('')
@@ -50,7 +53,7 @@ const AddANewItem = ({ setNewItemModal, submitNewItemFinally }) => {
     if (idx >= 0) {
       let newTags = [...newItem.Tags]
       newTags.splice(idx, 1)
-      setNewItem({ ...newItem, TagsInput: newTags.join(','), Tags: newTags })
+      setNewItem({ ...newItem, TagsInput: '', Tags: newTags })
     }
   }
   const handleNewLocationList = (name, val) => {
