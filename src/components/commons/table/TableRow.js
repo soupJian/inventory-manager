@@ -15,6 +15,8 @@ const TableRow = ({
   dataId,
   expandedContent,
   children,
+  rowClick,
+  noShowExpand = false,
   ...rest
 }) => {
   const [expanded, setExpanded] = useState(false)
@@ -25,7 +27,9 @@ const TableRow = ({
           <TableRowWrapper
             {...rest}
             bgColor={idx && idx % 2 !== 0 ? '#F6F7F9' : 'transparent'}
-            onClick={() => setExpanded(true)}
+            onClick={() => {
+              noShowExpand ? rowClick() : setExpanded(true)
+            }}
             expanded={expanded}
           >
             {selectable && (

@@ -6,10 +6,6 @@ export const statusList = [
   {
     label: 'Out of stock',
     value: 'out'
-  },
-  {
-    label: 'Low stock',
-    value: 'low'
   }
 ]
 

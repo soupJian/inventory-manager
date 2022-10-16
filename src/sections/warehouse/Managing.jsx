@@ -110,6 +110,7 @@ const Managing = () => {
           setDialog={setDialog}
           updataTableData={updataTableData}
           selectable={true}
+          noShowExpand={true}
         />
       )}
       {activeTab === 'Products' && (
@@ -118,6 +119,7 @@ const Managing = () => {
           setDialog={setDialog}
           updataTableData={updataTableData}
           selectable={true}
+          noShowExpand={true}
         />
       )}
       {dialog.message && dialog.show && (

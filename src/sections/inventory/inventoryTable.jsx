@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useReducer } from 'react'
+import { useRouter } from 'next/router'
+
 import {
   BaseButton,
   Flex,
@@ -41,7 +43,15 @@ const inventoryReducer = (state, { type, payload }) => {
   }
 }
 
-const InventoryTable = ({ user, setDialog, updataTableData, selectable }) => {
+const InventoryTable = ({
+  user,
+  setDialog,
+  updataTableData,
+  selectable,
+  noShowExpand
+}) => {
+  const router = useRouter()
+
   const [inventoryState, dispatch] = useReducer(inventoryReducer, {
     page: 1,
     status: []
@@ -320,6 +330,8 @@ const InventoryTable = ({ user, setDialog, updataTableData, selectable }) => {
               onSelect={() => addSelection(item.SKU)}
               dataId={item.SKU + idx}
               key={item.SKU + idx}
+              noShowExpand={noShowExpand}
+              rowClick={() => router.push(`/inventory/item?sku=${item.SKU}`)}
               // redirectOnClick={() =>
               //   router.push(`/inventory/item?sku=${item.SKU}`)
               // }
@@ -337,17 +349,6 @@ const InventoryTable = ({ user, setDialog, updataTableData, selectable }) => {
                     <TableRow>
                       {ExpandedTableHeaders.map((header, idx) => (
                         <TableCell key={idx}>
-                          {/* {header.key === 'TotalCost' ? (
-                          '$' + item[header.key]
-                        ) : header.key === 'Location' ? (
-                          <>
-                            {item[header.key].map((i) => (
-                              <span key={i}>{i + '; '}</span>
-                            ))}
-                          </>
-                        ) : (
-                          item[header.key]
-                        )} */}
                           {header.key === 'Tags' ? (
                             <Row gutter={[10]}>
                               {item[header.key].map((tag) => {
@@ -417,6 +418,16 @@ const InventoryTable = ({ user, setDialog, updataTableData, selectable }) => {
                   </div>
                 )
               })}
+              {/* <TableCell
+                onClick={() => router.push(`/products/product?sku=${item.SKU}`)}
+              >
+                <Icon
+                  styles={{ transform: 'rotate(180deg)' }}
+                  name="chevron"
+                  width="8px"
+                  height="12px"
+                />
+              </TableCell> */}
             </TableRow>
           ))}
         </Table>
