@@ -53,8 +53,8 @@ const SideBar = ({ collapsed, user }) => {
       <Icon name="warehouse" width="24px" height="24px" />
     ),
     getItem(
-      'Orders',
-      '/orders',
+      'Shipping',
+      '/shipping',
       <Icon name="orders" width="24px" height="24px" />
     ),
     getItem(

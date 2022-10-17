@@ -82,4 +82,5 @@ const Label = styled.label`
   font-weight: ${({ theme }) => theme.font.weight.normal};
   line-height: ${({ theme }) => theme.font.lineHeight.tight};
   color: ${({ theme }) => theme.colors.secondaryText};
+  white-space: nowrap;
 `

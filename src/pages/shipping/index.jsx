@@ -23,7 +23,7 @@ import {
   dateList,
   ShippedTableHeaders,
   UnShippedTableHeaders
-} from '../../constants/pageConstants/orders'
+} from '../../constants/pageConstants/shipping'
 import {
   Api,
   ISOStringToReadableDate,
@@ -64,7 +64,7 @@ const Orders = ({ router }) => {
 
   const handlePage = (page) => {
     router.replace(
-      `/orders?${objectsToQueryString({ ...router.query, page })}`,
+      `/shipping?${objectsToQueryString({ ...router.query, page })}`,
       null,
       { shallow: true }
     )
@@ -75,7 +75,7 @@ const Orders = ({ router }) => {
     console.log('handle date', val)
     dispatch({ type: 'changedate', payload: val })
     router.replace(
-      `/orders?${objectsToQueryString({ ...router.query, date: val })}`,
+      `/shipping?${objectsToQueryString({ ...router.query, date: val })}`,
       null,
       { shallow: true }
     )
@@ -159,11 +159,11 @@ const Orders = ({ router }) => {
 
   useEffect(() => {
     if (!router.query.pageType) {
-      router.replace(`/orders?pageType=current&date=${orderState.date}`)
+      router.replace(`/shipping?pageType=current&date=${orderState.date}`)
       handleShippedOrdersToShow()
     } else if (router.query.pageType !== orderState.pageType) {
       router.replace(
-        `/orders?pageType=${orderState.pageType}&date=${orderState.date}`,
+        `/shipping?pageType=${orderState.pageType}&date=${orderState.date}`,
         null,
         { shallow: true }
       )
@@ -186,7 +186,7 @@ const Orders = ({ router }) => {
             active={'current' === orderState.pageType}
             idx={0}
           >
-            Current Orders
+            Shipping Orders
           </Tab>
           <Tab
             onClick={() =>
@@ -195,7 +195,7 @@ const Orders = ({ router }) => {
             active={'history' === orderState.pageType}
             idx={1}
           >
-            Order History
+            Shipping History
           </Tab>
         </Tabs>
         <Input
@@ -209,9 +209,9 @@ const Orders = ({ router }) => {
         justifyContent="flex-end"
         styles={{ 'margin-top': '27px', gap: '12px' }}
       >
-        <Button onClick={syncData} minWidth="70px" kind="primary">
+        {/* <Button onClick={syncData} minWidth="70px" kind="primary">
           Sync
-        </Button>
+        </Button> */}
         <Filter
           value={orderState.date}
           label={orderState.pageType === 'history' ? 'Ship date' : 'Order date'}

@@ -62,7 +62,6 @@ const AccessDrawer = (props) => {
         <SwitchItem label="Inventory" name="inventory" />
         <SwitchItem label="Warehouse" name="warehouse" />
         <SwitchItem label="Shipping" name="shipping" />
-        <SwitchItem label="Orders" name="orders" />
       </Row>
       <Divider></Divider>
       {/* Customer Services */}
