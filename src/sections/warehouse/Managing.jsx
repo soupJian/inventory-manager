@@ -13,7 +13,7 @@ import {
   Wrapper
 } from '../../components/commons'
 import { SearchOutlined } from '@ant-design/icons'
-import InventoryTable from '..//inventory/inventoryTable'
+import InventoryTable from '../inventory/inventoryTable'
 import InventoryProduct from '../inventory/inventoryProduct'
 import AddANewItem from '../../components/add-a-new-Item'
 import AddProduct from '../../components/add-a-new-product'

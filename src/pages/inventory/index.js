@@ -14,7 +14,6 @@ import { SearchOutlined } from '@ant-design/icons'
 import { Input } from 'antd'
 import InventoryTable from '../../sections/inventory/inventoryTable'
 import InventoryProduct from '../../sections/inventory/inventoryProduct'
-import InventoryMap from '../../sections/inventory/inventoryMap'
 import AddANewItem from '../../components/add-a-new-Item'
 import styles from './index.module.scss'
 
@@ -55,13 +54,6 @@ const Inventory = () => {
           >
             Products
           </Tab>
-          <Tab
-            onClick={() => setActiveTab('map')}
-            active={'map' === activeTab}
-            idx={1}
-          >
-            Map
-          </Tab>
         </Tabs>
         <Flex styles={{ gap: '9px' }}>
           {activeTab == 'inventory' && (
@@ -100,7 +92,6 @@ const Inventory = () => {
           selectable={false}
         />
       )}
-      {activeTab === 'map' && <InventoryMap user={user} />}
       {dialog.message && dialog.show && (
         <Dialog>
           <Wrapper padding="60px 54px">

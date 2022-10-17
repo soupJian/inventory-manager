@@ -10,6 +10,7 @@ import {
 } from '../../components/commons'
 import { Popover } from 'antd'
 import WarehouseUnit from './WarehouseUnit'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { Api, ISOStringToReadableDate } from '../../utils/utils'
 const api = new Api()
@@ -147,7 +148,8 @@ const WarehouseUnitRender = ({ warehouseData, unitItem }) => {
     </WarehouseUnit>
   )
 }
-const Map = ({ user }) => {
+const Map = () => {
+  const user = useSelector((state) => state.user)
   const [loadingWarehouse, setLoadingWarehouse] = useState(false)
   const [warehouseData, setWarehouseData] = useState({})
   const [locatedItem, setLocatedItem] = useState({})

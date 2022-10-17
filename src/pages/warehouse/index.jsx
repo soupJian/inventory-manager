@@ -3,6 +3,7 @@ import { Flex, Icon, Input, Tab, Tabs, Wrapper } from '../../components/commons'
 import Managing from '../../sections/warehouse/Managing'
 import Receiving from '../../sections/warehouse/Receiving'
 import Settling from '../../sections/warehouse/Settling'
+import WarehouseMap from '../../sections/warehouse/WarehouseMap'
 
 const Warehouse = () => {
   const [activeTab, setActiveTab] = useState('Receiving')
@@ -43,6 +44,13 @@ const Warehouse = () => {
           >
             Managing
           </Tab>
+          <Tab
+            onClick={() => setActiveTab('Map')}
+            active={'Map' === activeTab}
+            idx={1}
+          >
+            Map
+          </Tab>
         </Tabs>
         {activeTab === 'Settling' && (
           <Input
@@ -55,6 +63,7 @@ const Warehouse = () => {
       {activeTab === 'Settling' && <Settling />}
       {activeTab === 'Receiving' && <Receiving />}
       {activeTab === 'Managing' && <Managing />}
+      {activeTab === 'Map' && <WarehouseMap />}
 
       {/* <>
           <Flex
