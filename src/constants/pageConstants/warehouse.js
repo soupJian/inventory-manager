@@ -32,15 +32,17 @@ export const dateList = [
 export const settledHeaders = [
   { label: 'ITEM NAME', key: 'Name' },
   { label: 'SKU', key: 'SKU' },
-  { label: 'RECEIVED', key: 'Received' },
+  { label: 'BARCODE', key: 'Barcode' },
+  { label: 'RECEIVED ON', key: 'Received' },
   { label: 'COUNT', key: 'Stock' },
-  { label: 'SETTLED', key: 'SettledTime' },
+  { label: 'SETTLED ON', key: 'SettledTime' },
   { label: 'LOCATION', key: 'Location' }
 ]
 export const unSettledHeaders = [
   { label: 'ITEM NAME', key: 'Name' },
   { label: 'SKU', key: 'SKU' },
-  { label: 'RECEIVED', key: 'Received' },
+  { label: 'BARCODE', key: 'Barcode' },
+  { label: 'RECEIVED ON', key: 'Received' },
   { label: 'COUNT', key: 'Stock' },
   { label: 'LOCATION', key: 'Location' }
 ]
