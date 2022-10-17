@@ -1,3 +1,13 @@
 .table {
   padding: 30px 28px 26px 33px;
 }
+.dialogText {
+  text-align: center;
+  font-family: 'Rubik';
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 32px;
+  .location {
+    font-weight: 700;
+  }
+}

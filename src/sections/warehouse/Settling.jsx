@@ -9,7 +9,10 @@ import {
   TableCell,
   TableRow,
   Tabs,
-  Wrapper
+  Wrapper,
+  Dialog,
+  BaseButton,
+  Text
 } from '../../components/commons'
 import Tooltip from '../../components/commons/Tooltip/Tooltip'
 import {
@@ -38,6 +41,12 @@ const Settline = () => {
   const [unSettledItemsToShow, setUnSettledItemsToShow] = useState([])
   const [locationList, setLocationList] = useState([])
   const [itemsPerPage, setItemsPerPage] = useState(10)
+  const [dialog, setDialog] = useState({
+    name: '',
+    location: [],
+    onConfirm: () => null,
+    show: false
+  })
   const handleDate = (val) => {
     setDate(val)
   }
@@ -73,8 +82,7 @@ const Settline = () => {
       setLocationList({ ...locationList, [name]: [...newLocationList, val] })
     }
   }
-  const saveLocations = (key) => {
-    const locationsToBeSave = [...locationList[key].map((loc) => loc)]
+  const saveLocations = (key, locationsToBeSave) => {
     let item = unSettledItems.filter((item) => item.SKU === key)[0]
     api
       .updateInventory(
@@ -101,6 +109,18 @@ const Settline = () => {
             })
         }
       })
+  }
+  const confirmSettle = (item) => {
+    const locationsToBeSave = [...locationList[item.SKU].map((loc) => loc)]
+    if (locationsToBeSave.length == 0) {
+      return
+    }
+    setDialog({
+      name: item.Name,
+      location: locationsToBeSave,
+      onConfirm: () => saveLocations(item.SKU, locationsToBeSave),
+      show: true
+    })
   }
   useEffect(() => {
     api
@@ -229,58 +249,108 @@ const Settline = () => {
             ))}
           </Table>
         ) : (
-          <Table
-            className={styles.table}
-            loading={loadingTable}
-            name="warehousing-unsettled"
-            headers={unSettledHeaders}
-            paginationComponent={
-              <Wrapper padding="32px 0 0">
-                <Pagination
-                  itemsInPage={unSettledItemsToShow?.length}
-                  totalItems={unSettledItems?.length}
-                  totalPages={Math.ceil(unSettledItems?.length / itemsPerPage)}
-                  onPageChange={handlePage}
-                  currentPage={page}
-                />{' '}
-              </Wrapper>
-            }
-          >
-            {unSettledItemsToShow.map((item, idx) => (
-              <TableRow idx={idx} height="72px" key={item.SKU}>
-                {unSettledHeaders.map((i) => (
-                  <TableCell key={i.key}>
-                    {i.key === 'Location' ? (
-                      <Flex
-                        styles={{ 'max-width': '260px' }}
-                        gap="10px"
-                        alignItems="stretch"
-                        justifyContent="flex-start"
-                      >
-                        <Filter
-                          wrapperStyles={{
-                            flex: '1 0 auto',
-                            width: '100%'
-                          }}
-                          name={item.SKU}
-                          value={locationList[item.SKU]}
-                          label=""
-                          list={locations}
-                          multiSelect
-                          onSelect={handleLocationList}
-                        />
-                        <SettleButton onClick={() => saveLocations(item.SKU)}>
-                          Settle
-                        </SettleButton>
-                      </Flex>
-                    ) : (
-                      item[i.key]
+          <>
+            <Table
+              className={styles.table}
+              loading={loadingTable}
+              name="warehousing-unsettled"
+              headers={unSettledHeaders}
+              paginationComponent={
+                <Wrapper padding="32px 0 0">
+                  <Pagination
+                    itemsInPage={unSettledItemsToShow?.length}
+                    totalItems={unSettledItems?.length}
+                    totalPages={Math.ceil(
+                      unSettledItems?.length / itemsPerPage
                     )}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </Table>
+                    onPageChange={handlePage}
+                    currentPage={page}
+                  />
+                </Wrapper>
+              }
+            >
+              {unSettledItemsToShow.map((item, idx) => (
+                <TableRow idx={idx} height="72px" key={item.SKU}>
+                  {unSettledHeaders.map((i) => (
+                    <TableCell key={i.key}>
+                      {i.key === 'Location' ? (
+                        <Flex
+                          styles={{ 'max-width': '260px' }}
+                          gap="10px"
+                          alignItems="stretch"
+                          justifyContent="flex-start"
+                        >
+                          <Filter
+                            wrapperStyles={{
+                              flex: '1 0 auto',
+                              width: '100%'
+                            }}
+                            name={item.SKU}
+                            value={locationList[item.SKU]}
+                            label=""
+                            list={locations}
+                            multiSelect
+                            onSelect={handleLocationList}
+                          />
+                          <SettleButton onClick={() => confirmSettle(item)}>
+                            Settle
+                          </SettleButton>
+                        </Flex>
+                      ) : (
+                        item[i.key]
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </Table>
+            {dialog.show && (
+              <Dialog>
+                <Wrapper padding="60px 54px" style={{ minWidth: '557px' }}>
+                  <div className={styles.dialogText}>
+                    <div>{dialog.name}</div>
+                    <div className={styles.location}>
+                      {dialog.location.join(';')}
+                    </div>
+                  </div>
+                  <Flex
+                    gap="16px"
+                    styles={{
+                      width: '100%',
+                      'max-width': '416px',
+                      'margin-top': '24px'
+                    }}
+                  >
+                    <BaseButton
+                      styles={{ flex: '1', 'border-radius': '8px' }}
+                      minWidth="auto"
+                      kind="primary"
+                      onClick={() => dialog.onConfirm()}
+                    >
+                      Yes
+                    </BaseButton>
+                    <BaseButton
+                      styles={{
+                        flex: '1',
+                        'background-color': '#ffffff',
+                        'border-radius': '8px'
+                      }}
+                      minWidth="auto"
+                      onClick={() =>
+                        setDialog({
+                          message: '',
+                          onConfirm: '',
+                          show: false
+                        })
+                      }
+                    >
+                      No
+                    </BaseButton>
+                  </Flex>
+                </Wrapper>
+              </Dialog>
+            )}
+          </>
         )}
       </Wrapper>
     </Wrapper>
@@ -289,6 +359,7 @@ const Settline = () => {
 
 export default Settline
 const SettleButton = styled.button`
+  height: 40px;
   padding: 8px 16px;
   font-family: ${({ theme }) => theme.font.family.secondary};
   font-size: ${({ theme }) => theme.font.size.xs};
