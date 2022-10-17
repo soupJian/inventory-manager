@@ -44,29 +44,3 @@ export const unSettledHeaders = [
   { label: 'COUNT', key: 'Stock' },
   { label: 'LOCATION', key: 'Location' }
 ]
-
-export const itemTemplate = {
-  SKU: '',
-  Available: 0,
-  Barcode: '',
-  Cost: {
-    CustomEntryDuty: 0,
-    CustomerShipping: 0,
-    ItemCost: 0,
-    OceanFreight: 0,
-    WarehouseDelivery: 0
-  },
-  Created: '',
-  Location: [],
-  Name: '',
-  ReorderAlert: 0,
-  Reserved: 0,
-  Settled: false,
-  SettledTime: '',
-  Sortable: 1,
-  Stock: 0,
-  Tags: [],
-  TagsInput: '',
-  TotalCost: 0,
-  Updated: ''
-}

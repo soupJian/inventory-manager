@@ -17,6 +17,7 @@ import {
   settledHeaders,
   unSettledHeaders
 } from '../../constants/pageConstants/warehouse'
+import { locations } from '../../constants/pageConstants/locations'
 import { Api, ISOStringToReadableDate } from '../../utils/utils'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
