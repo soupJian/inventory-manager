@@ -16,6 +16,8 @@ import { SearchOutlined } from '@ant-design/icons'
 import InventoryTable from '..//inventory/inventoryTable'
 import InventoryProduct from '../inventory/inventoryProduct'
 import AddANewItem from '../../components/add-a-new-Item'
+import AddProduct from '../../components/add-a-new-product'
+
 import styles from './index.module.scss'
 
 const Managing = () => {
@@ -27,8 +29,9 @@ const Managing = () => {
     show: false
   })
   const [newItemModal, setNewItemModal] = useState(false)
+  const [newProductModal, setNewProductModal] = useState(false)
   const [updataTableData, setUpdateTableData] = useState(false)
-  const submitNewItemFinally = () => {
+  const submitNewFinally = () => {
     setUpdateTableData((update) => {
       return !update
     })
@@ -39,7 +42,13 @@ const Managing = () => {
         styles={{ gap: '22px', position: 'absolute', right: '0', top: '-80px' }}
       >
         <Button
-          onClick={() => setNewItemModal(true)}
+          onClick={() => {
+            if (activeTab == 'Items') {
+              setNewItemModal(true)
+            } else {
+              setNewProductModal(true)
+            }
+          }}
           minWidth="auto"
           kind="primary"
           startIcon={
@@ -166,7 +175,13 @@ const Managing = () => {
       {newItemModal && (
         <AddANewItem
           setNewItemModal={setNewItemModal}
-          submitNewItemFinally={submitNewItemFinally}
+          submitNewItemFinally={submitNewFinally}
+        />
+      )}
+      {newProductModal && (
+        <AddProduct
+          setNewProductModal={setNewProductModal}
+          submitnewProductFinally={submitNewFinally}
         />
       )}
     </Wrapper>

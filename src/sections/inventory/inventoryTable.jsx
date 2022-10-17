@@ -418,16 +418,20 @@ const InventoryTable = ({
                   </div>
                 )
               })}
-              {/* <TableCell
-                onClick={() => router.push(`/products/product?sku=${item.SKU}`)}
-              >
-                <Icon
-                  styles={{ transform: 'rotate(180deg)' }}
-                  name="chevron"
-                  width="8px"
-                  height="12px"
-                />
-              </TableCell> */}
+              {noShowExpand && (
+                <TableCell
+                  onClick={() =>
+                    router.push(`/products/product?sku=${item.SKU}`)
+                  }
+                >
+                  <Icon
+                    styles={{ transform: 'rotate(180deg)' }}
+                    name="chevron"
+                    width="8px"
+                    height="12px"
+                  />
+                </TableCell>
+              )}
             </TableRow>
           ))}
         </Table>
