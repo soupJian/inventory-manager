@@ -1,14 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button, Form, Input, Select } from 'antd'
 const { Option } = Select
 import styles from '../index.module.scss'
-const UserCreateEdit = ({ type, modalInfo, accessList, submit }) => {
+const UserCreateEdit = ({
+  type,
+  modalInfo,
+  accessList,
+  submit,
+  emailErrorMsg,
+  setEmailErrorMsg
+}) => {
   const [form] = Form.useForm()
   const formSubmit = (values) => {
     const user = { ...modalInfo, ...values }
     user.accessInfo && delete user.accessInfo
     submit(user)
   }
+  useEffect(() => {
+    // 表单提交后，判断 email 是否已经存在
+    emailErrorMsg != '' && form.validateFields(['email'])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [emailErrorMsg])
 
   return (
     <Form
@@ -52,10 +64,19 @@ const UserCreateEdit = ({ type, modalInfo, accessList, submit }) => {
               pattern:
                 /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
               message: 'error eamil !'
+            },
+            {
+              validator: (rule, value, callback) => {
+                if (emailErrorMsg != '') {
+                  callback(emailErrorMsg)
+                } else {
+                  callback()
+                }
+              }
             }
           ]}
         >
-          <Input />
+          <Input onChange={() => setEmailErrorMsg('')} />
         </Form.Item>
       )}
       <Form.Item

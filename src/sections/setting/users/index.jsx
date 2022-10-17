@@ -30,8 +30,9 @@ const Users = () => {
   const [loadiing, setLoading] = useState(false)
   // create user  modal
   const [showCreateUserModal, setShowCreateUser] = useState(false)
+  // 接口判断邮箱是否重复的等信息...
+  const [emailErrorMsg, setEmailErrorMsg] = useState('')
   // 弹窗抽屉数据
-  // const [access, setAccess] = useState(defaultAccess)
   const [accessInfo, setAccessInfo] = useState({
     type: 'create', // create 和 edit,
     access: defaultAccess,
@@ -148,9 +149,11 @@ const Users = () => {
       created: new Date().toISOString(),
       active: true
     })
-    if (res.message) {
+    if (res.message == 'success') {
       getData()
       setShowCreateUser(false)
+    } else {
+      setEmailErrorMsg(res.message)
     }
   }
 
@@ -226,7 +229,7 @@ const Users = () => {
           />
         )}
       </div>
-      {/* modal 这里制作全局的导出，哥哥 select 模块 导出在其对应模块*/}
+      {/* modal 这里制作全局的导出，各个 select 模块 导出在其对应模块*/}
       <Modal
         title="Create a user"
         visible={showCreateUserModal}
@@ -240,6 +243,8 @@ const Users = () => {
           modalInfo={null}
           accessList={accessList}
           submit={createUser}
+          emailErrorMsg={emailErrorMsg}
+          setEmailErrorMsg={setEmailErrorMsg}
         />
       </Modal>
       {/* access detail */}
