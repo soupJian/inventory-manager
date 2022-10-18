@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-
 import {
   Button,
   Flex,
@@ -12,7 +11,9 @@ import {
 } from '../../components/commons'
 import styled from 'styled-components'
 import { productTemplate } from '../../constants/pageConstants/products'
+import SearchInput from './search-input'
 import { Api } from '../../utils/utils'
+
 const api = new Api()
 
 const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
@@ -21,47 +22,23 @@ const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
   const [newProduct, setNewProduct] = useState({ ...productTemplate })
   const [newProductLoading, setNewProductLoading] = useState(false)
   const [newProductError, setNewProductError] = useState('')
-
   const [partsInput, setPartsInput] = useState([
-    { barcode: '', count: 1, item: {} }
+    { time: new Date().getTime(), count: 1, item: {} }
   ])
-  const [lookUpLoading, setLookUpLoading] = useState(false)
-  const [lookUpError, setLookUpError] = useState('')
-  const lookUpItem = (idx) => {
-    setLookUpLoading(true)
-    setLookUpError('')
-    console.log({ barcode: partsInput[idx]['barcode'] })
-    api
-      .getInventory(`barcode=${partsInput[idx]['barcode']}`, {
-        Authorization: `Bearer ${user.accessToken}`
-      })
-      .then((data) => {
-        if (data.Items && data.Items.length === 0) {
-          console.log('message')
-          setLookUpError("Sorry, We can't find the item!")
-        } else if (!data.Items && data.message) {
-          console.log('error')
-          setLookUpError(data.message)
-        } else {
-          let newPartsInput = [...partsInput]
-          let itemData = { item: data.Items[0] }
-          let inputData = { ...partsInput[idx], ...itemData }
-          newPartsInput.splice(idx, 1, inputData)
-          setPartsInput(newPartsInput)
-        }
-        setLookUpLoading(false)
-      })
-      .catch((err) => {
-        setLookUpLoading(false)
-      })
-  }
   const handlePartsInput = (idx, e) => {
     let data = [...partsInput]
     data[idx][e.target.name] = e.target.value
     setPartsInput(data)
   }
+  const selectPart = (selectItem, idx) => {
+    let newPartsInput = [...partsInput]
+    let itemData = { item: selectItem }
+    let inputData = { ...partsInput[idx], ...itemData }
+    newPartsInput.splice(idx, 1, inputData)
+    setPartsInput(newPartsInput)
+  }
   const addPart = () => {
-    let newField = { sku: '', count: 1, item: {} }
+    let newField = { time: new Date().getTime(), count: 1, item: {} }
     setPartsInput([...partsInput, newField])
   }
   const removePart = (idx) => {
@@ -100,10 +77,9 @@ const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
     }
   }
   const submitnewProduct = (e) => {
-    setNewProductLoading(true)
+    // setNewProductLoading(true)
     setNewProductError('')
     e.preventDefault()
-    console.log('submit')
     if (!newProduct.Name) {
       setNewProductLoading(false)
       setNewProductError('Required')
@@ -111,10 +87,13 @@ const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
       setNewProductLoading(false)
       setNewProductError('Required')
     } else {
-      const Parts = partsInput.map((part) => ({
-        SKU: part.item.SKU,
-        Quantity: parseInt(part.count)
-      }))
+      const Parts = partsInput
+        .filter((i) => i.item.SKU)
+        .map((part) => ({
+          SKU: part.item.SKU,
+          Quantity: parseInt(part.count),
+          item: part.item
+        }))
       let data = {
         ...newProduct,
         Updated: new Date(),
@@ -127,7 +106,6 @@ const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
         .updateProduct(data, { Authorization: `Bearer ${user.accessToken}` })
         .then((data) => {
           setNewProduct({ ...productTemplate })
-          fetchSKUs()
         })
         .catch((err) => {
           alert(err.message)
@@ -173,50 +151,30 @@ const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
                 <Flex alignItems="center" gap="10px">
                   <InputGroup>
                     <Label htmlFor="products-new-product-name">NAME</Label>
-                    <Input
-                      // endIcon={
-                      //   <LookupBtn
-                      //     disabled={lookUpLoading}
-                      //     onClick={() => lookUpItem(idx,'name')}
-                      //   >
-                      //     Look up
-                      //   </LookupBtn>
-                      // }
-                      wrapperStyles={{
-                        'margin-top': '16px',
-                        'min-height': '59px'
-                      }}
-                      inputStyles={{ width: '100%' }}
+                    <SearchInput
                       placeholder="Type"
-                      value={input.barcode}
-                      onChange={(e) => handlePartsInput(idx, e)}
-                      name="name"
-                      type="text"
+                      selectValue={input.item?.name}
+                      selectPart={selectPart}
+                      name="Name"
+                      itemKey="Name"
+                      idx={idx}
+                      key={input.time}
                       id={`product-part-${idx}`}
                     />
                   </InputGroup>
-                  <span>or</span>
+                  <span style={{ fontSize: '16px', fontWeight: '400' }}>
+                    or
+                  </span>
                   <InputGroup>
                     <Label htmlFor="products-new-product-name">SKU</Label>
-                    <Input
-                      // endIcon={
-                      //   <LookupBtn
-                      //     disabled={lookUpLoading}
-                      //     onClick={() => lookUpItem(idx)}
-                      //   >
-                      //     Look up
-                      //   </LookupBtn>
-                      // }
-                      wrapperStyles={{
-                        'margin-top': '16px',
-                        'min-height': '59px'
-                      }}
-                      inputStyles={{ width: '100%' }}
+                    <SearchInput
                       placeholder="Type"
-                      value={input.barcode}
-                      onChange={(e) => handlePartsInput(idx, e)}
+                      selectValue={input.item?.SKU}
+                      selectPart={selectPart}
                       name="sku"
-                      type="text"
+                      itemKey="SKU"
+                      idx={idx}
+                      key={input.time}
                       id={`product-part-${idx}`}
                     />
                   </InputGroup>
@@ -264,7 +222,10 @@ const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
               </Wrapper>
             ))}
             <Button
-              onClick={addPart}
+              onClick={(e) => {
+                e.preventDefault()
+                addPart()
+              }}
               minWidth="170px"
               styles={{
                 gap: '6px',
