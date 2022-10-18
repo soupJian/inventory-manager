@@ -60,7 +60,6 @@ const InventoryTable = ({
   const [loadingTable, setLoadingTable] = useState(false)
   const [inventorySKUs, setInventorySKUs] = useState([])
   const [inventoryData, setInventoryData] = useState(null)
-  // const [status, setStatus] = useState([])
   const [selection, setSelection] = useState([])
   const [itemsPerPage, setItemsPerPage] = useState(10)
   const [costInfo, setCostInfo] = useState({
@@ -258,7 +257,9 @@ const InventoryTable = ({
               return <Option key={item.value}>{item.label}</Option>
             })}
           </Select>
-          <span className={styles.lable}>Sort by</span>
+          <span className={styles.lable} style={{ whiteSpace: 'nowrap' }}>
+            Sort by
+          </span>
           <Select
             showArrow
             className={styles.selectSortByWrap}
@@ -419,18 +420,12 @@ const InventoryTable = ({
                 )
               })}
               {noShowExpand && (
-                <TableCell
-                  onClick={() =>
-                    router.push(`/products/product?sku=${item.SKU}`)
-                  }
-                >
-                  <Icon
-                    styles={{ transform: 'rotate(180deg)' }}
-                    name="chevron"
-                    width="8px"
-                    height="12px"
-                  />
-                </TableCell>
+                <Icon
+                  styles={{ transform: 'rotate(180deg)' }}
+                  name="chevron"
+                  width="8px"
+                  height="12px"
+                />
               )}
             </TableRow>
           ))}

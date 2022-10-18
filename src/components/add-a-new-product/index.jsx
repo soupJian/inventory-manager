@@ -149,9 +149,7 @@ const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
       onClose={() => setNewProductModal(false)}
     >
       <Wrapper padding="10px 0 0">
-        <Text>
-          Add the product parts by searching the part’s SKU or BARCODE
-        </Text>
+        <Text>Add the product parts by searching the part’s SKU or NAME</Text>
       </Wrapper>
       <Wrapper padding="22px 0 0" styles={{ width: '632px' }}>
         <Form onSubmit={submitnewProduct}>
@@ -174,7 +172,7 @@ const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
                 </Flex>
                 <Flex alignItems="center" gap="10px">
                   <InputGroup>
-                    <Label htmlFor="products-new-product-name">BARCODE</Label>
+                    <Label htmlFor="products-new-product-name">NAME</Label>
                     <Input
                       // endIcon={
                       //   <LookupBtn
@@ -189,10 +187,10 @@ const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
                         'min-height': '59px'
                       }}
                       inputStyles={{ width: '100%' }}
-                      placeholder="Type barcode to look up the part"
+                      placeholder="Type"
                       value={input.barcode}
                       onChange={(e) => handlePartsInput(idx, e)}
-                      name="barcode"
+                      name="name"
                       type="text"
                       id={`product-part-${idx}`}
                     />
@@ -214,10 +212,10 @@ const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
                         'min-height': '59px'
                       }}
                       inputStyles={{ width: '100%' }}
-                      placeholder="Type barcode to look up the part"
+                      placeholder="Type"
                       value={input.barcode}
                       onChange={(e) => handlePartsInput(idx, e)}
-                      name="barcode"
+                      name="sku"
                       type="text"
                       id={`product-part-${idx}`}
                     />

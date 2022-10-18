@@ -16,7 +16,7 @@ import {
   Text,
   Wrapper
 } from '../../components/commons'
-import Product  from '../../sections/product/Product'
+import Product from '../../sections/product/Product'
 import { productTemplate } from '../../constants/pageConstants/products'
 import { Api } from '../../utils/utils'
 const api = new Api()
@@ -40,7 +40,7 @@ const ProductPage = ({ router }) => {
   const [editProduct, setEditProduct] = useState({ ...productTemplate })
   const [editProductLoading, setEditProductLoading] = useState(false)
   const [editProductError, setEditProductError] = useState('')
-  if (!router.query.sku) router.push('/products')
+  if (!router.query.sku) router.push('/warehouse')
 
   const confirmAction = (cb, message) => {
     setDialog({

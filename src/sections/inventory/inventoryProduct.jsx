@@ -1,10 +1,12 @@
 import React from 'react'
 import { useEffect, useReducer, useState } from 'react'
+import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import {
+  BaseButton,
   Flex,
+  FloatingBar,
   Icon,
-  Input,
   Modal,
   Pagination,
   Table,
@@ -14,8 +16,6 @@ import {
   Wrapper
 } from '../../components/commons'
 import {
-  categoryList,
-  productTemplate,
   statusList,
   defaultTableHeaders,
   ExpandedTableHeaders
@@ -43,7 +43,15 @@ const productReducer = (state, { type, payload }) => {
   }
 }
 
-const InventoryProduct = ({ selectable, user, updataTableData }) => {
+const InventoryProduct = ({
+  user,
+  setDialog,
+  selectable,
+  updataTableData,
+  noShowExpand
+}) => {
+  const router = useRouter()
+
   const [productState, dispatch] = useReducer(productReducer, {
     page: 1,
     status: []
@@ -72,7 +80,7 @@ const InventoryProduct = ({ selectable, user, updataTableData }) => {
 
   const fetchSKUs = () => {
     setLoadingTable(true)
-    return api
+    api
       .getAllProducts(
         `projectionExpression=SKU${
           productState.status ? `&status=${productState.status.join(',')}` : ''
@@ -91,6 +99,57 @@ const InventoryProduct = ({ selectable, user, updataTableData }) => {
   }
   const handlePage = (page) => {
     dispatch({ type: 'changePaginateNumber', payload: page })
+  }
+  const confirmAction = (cb, message) => {
+    setDialog({
+      message,
+      show: true,
+      onConfirm: () => {
+        cb()
+        setDialog({ message: '', onConfirm: '', show: false })
+      }
+    })
+  }
+  const clearSelectedItems = () => {
+    setLoadingTable(true)
+    const itemsToBeCleared = products.Items.filter((item) =>
+      selection.includes(item.SKU)
+    )
+    Promise.all(
+      itemsToBeCleared.map((item) => {
+        return api.updateProduct(
+          { ...item, Stock: 0, Reserved: 0, Available: 0 },
+          { Authorization: `Bearer ${user.accessToken}` }
+        )
+      })
+    )
+      .then((values) => {
+        setLoadingTable(false)
+        setSelection([])
+        fetchSKUs()
+      })
+      .catch((err) => {
+        setLoadingTable(false)
+      })
+  }
+  const deleteSelectedItems = () => {
+    setLoadingTable(true)
+    Promise.all(
+      selection.map((item) => {
+        return api.deleteProduct(item, {
+          Authorization: `Bearer ${user.accessToken}`
+        })
+      })
+    )
+      .then((values) => {
+        setLoadingTable(false)
+        setSelection([])
+        fetchSKUs()
+      })
+      .catch((err) => {
+        console.log(err)
+        setLoadingTable(false)
+      })
   }
   const addSelection = (sku) => {
     const idx = selection.indexOf(sku)
@@ -115,7 +174,6 @@ const InventoryProduct = ({ selectable, user, updataTableData }) => {
     }
   }
   const handleSelectTableColumn = (values) => {
-    console.log(values)
     setTableHeaders((list) => {
       const newList = [...list]
       newList.forEach((item) => {
@@ -190,45 +248,6 @@ const InventoryProduct = ({ selectable, user, updataTableData }) => {
   }, [sortBy])
   return (
     <Wrapper styles={{ 'min-height': '100%', padding: '0' }} height="auto">
-      {/* <Flex
-        styles={{ 'flex-wrap': 'nowrap', 'align-items': 'flex-start' }}
-        justifyContent="space-between"
-      >
-        <Flex styles={{ justifyContent: 'flex-end' }}>
-          <Button
-            onClick={() => setNewProductModal(true)}
-            minWidth="auto"
-            kind="primary"
-            startIcon={
-              <Icon
-                name="add"
-                width="18px"
-                height="19px"
-                styles={{ 'margin-right': '12px' }}
-              />
-            }
-          >
-            New
-          </Button>
-          <Input
-            type="text"
-            placeholder="Search name or SKU"
-            startIcon={<Icon name="search" width="30px" height="30px" />}
-          />
-        </Flex>
-      </Flex>
-      <Flex
-        justifyContent="flex-end"
-        styles={{ 'margin-top': '27px', gap: '12px' }}
-      >
-        <Filter
-          value={productState.status}
-          label="Status"
-          list={statusList}
-          multiSelect
-          onSelect={handleStatus}
-        />
-      </Flex> */}
       <Flex
         justifyContent="flex-end"
         styles={{ 'margin-top': '27px', gap: '12px' }}
@@ -247,7 +266,9 @@ const InventoryProduct = ({ selectable, user, updataTableData }) => {
               return <Option key={item.value}>{item.label}</Option>
             })}
           </Select>
-          <span className={styles.lable}>Sort by</span>
+          <span className={styles.lable} style={{ whiteSpace: 'nowrap' }}>
+            Sort by
+          </span>
           <Select
             showArrow
             className={styles.selectSortByWrap}
@@ -295,7 +316,7 @@ const InventoryProduct = ({ selectable, user, updataTableData }) => {
           className={styles.tableWarp}
           selectable={selectable}
           onSelectAll={selectAll}
-          // selectedAll={selection.length === products?.Items?.length}
+          selectedAll={selection.length === products?.Items?.length}
           headers={TableHeaders.filter((i) => i.show)}
           paginationComponent={
             <Wrapper padding="32px 0 0">
@@ -319,6 +340,8 @@ const InventoryProduct = ({ selectable, user, updataTableData }) => {
               onSelect={() => addSelection(item.SKU)}
               dataId={item.SKU + idx}
               key={item.SKU + idx}
+              noShowExpand={noShowExpand}
+              rowClick={() => router.push(`/products/product?sku=${item.SKU}`)}
               // redirectOnClick={() =>
               //   router.push(`/inventory/item?sku=${item.SKU}`)
               // }
@@ -439,21 +462,79 @@ const InventoryProduct = ({ selectable, user, updataTableData }) => {
                   </div>
                 )
               })}
-              <TableCell
-                onClick={() => router.push(`/products/product?sku=${item.SKU}`)}
-              >
-                <Icon
-                  styles={{ transform: 'rotate(180deg)' }}
-                  name="chevron"
-                  width="8px"
-                  height="12px"
-                />
-              </TableCell>
+              <Icon
+                styles={{ transform: 'rotate(180deg)' }}
+                name="chevron"
+                width="8px"
+                height="12px"
+              />
             </TableRow>
           ))}
         </Table>
       </Wrapper>
-
+      {selection.length > 0 && (
+        <FloatingBar styles={{ position: 'fixed' }}>
+          <Flex alignItems="center" justifyContent="space-between">
+            <Flex alignItems="center">
+              <BaseButton
+                onClick={() => setSelection([])}
+                minWidth="auto"
+                minHeight="auto"
+                styles={{
+                  filter:
+                    'invert(92%) sepia(93%) saturate(0%) hue-rotate(202deg) brightness(106%) contrast(106%);'
+                }}
+              >
+                <Icon width="16px" height="16px" name="close" />
+              </BaseButton>
+              <Text styles={{ 'margin-left': '20px' }} color="#ffffff">
+                {selection.length}
+                {selection.length > 1 ? 'items selected' : 'item selected'}
+              </Text>
+            </Flex>
+            <Flex alignItems="center" gap="16px">
+              <BaseButton
+                onClick={() =>
+                  confirmAction(
+                    clearSelectedItems,
+                    'Are you sure you want to clear these products’ stock?'
+                  )
+                }
+                minWidth="auto"
+                minHeight="auto"
+                styles={{
+                  'background-color': '#ffffff',
+                  padding: '12px 14px',
+                  'border-radius': '8px',
+                  gap: '10px'
+                }}
+              >
+                <Icon name="clear" width="22px" height="22px" />
+                <Text>Clear</Text>
+              </BaseButton>
+              <BaseButton
+                onClick={() =>
+                  confirmAction(
+                    deleteSelectedItems,
+                    'Are you sure you want to delete these products?'
+                  )
+                }
+                minWidth="auto"
+                minHeight="auto"
+                styles={{
+                  'background-color': '#ffffff',
+                  padding: '12px 14px',
+                  'border-radius': '8px',
+                  gap: '10px'
+                }}
+              >
+                <Icon name="delete" width="22px" height="22px" />
+                <Text>Delete</Text>
+              </BaseButton>
+            </Flex>
+          </Flex>
+        </FloatingBar>
+      )}
       {costInfo.show && (
         <Modal
           onClose={() =>

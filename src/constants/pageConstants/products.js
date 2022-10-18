@@ -27,17 +27,17 @@ export const defaultTableHeaders = [
   },
   { label: 'SKU', key: 'SKU', value: 'SKU', show: true },
   { label: 'system ID', key: 'SystemId', value: 'system ID', show: true },
-  // {
-  //   label: 'Stock',
-  //   key: 'Stock',
-  //   value: 'Stock',
-  //   show: true
-  // },
+  {
+    label: 'Stock',
+    key: 'Stock',
+    value: 'Stock',
+    disabled: true,
+    show: true
+  },
   {
     label: 'Available',
     key: 'Available',
     value: 'Available',
-    disabled: true,
     show: true
   },
   // {
