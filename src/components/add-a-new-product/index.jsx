@@ -77,7 +77,7 @@ const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
     }
   }
   const submitnewProduct = (e) => {
-    // setNewProductLoading(true)
+    setNewProductLoading(true)
     setNewProductError('')
     e.preventDefault()
     if (!newProduct.Name) {
