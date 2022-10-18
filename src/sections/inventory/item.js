@@ -111,9 +111,17 @@ const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
                 </AttrValue>
               </AttrGroup>
               <AttrGroup>
+                <AttrName>BARCODE</AttrName>
+                <AttrValue>{item.Barcode}</AttrValue>
+              </AttrGroup>
+              <AttrGroup>
+                <AttrName>SYSTEM ID</AttrName>
+                <AttrValue>{item.systemId}</AttrValue>
+              </AttrGroup>
+              {/* <AttrGroup>
                 <AttrName>US COST</AttrName>
                 <AttrValue>$ {item.TotalCost}</AttrValue>
-              </AttrGroup>
+              </AttrGroup> */}
             </Flex>
             <Flex
               alignItems="flex-start"
@@ -121,7 +129,7 @@ const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
               gap="60px"
             >
               <AttrGroup>
-                <AttrName>BARCODE</AttrName>
+                <AttrName>DIMENSIONS</AttrName>
                 <AttrValue>{item.Barcode}</AttrValue>
               </AttrGroup>
               <AttrGroup>

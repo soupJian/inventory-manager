@@ -87,7 +87,7 @@ const AddANewItem = ({ setNewItemModal, submitNewItemFinally }) => {
         ...newItem,
         ...settledInfo,
         Updated: new Date(),
-        Recieved: new Date(),
+        Received: new Date(),
         Created: new Date(),
         TotalCost
       }

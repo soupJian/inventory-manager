@@ -1,4 +1,23 @@
 /**
+ * 格式化时间 去掉 T 和 Z
+ * @param {*} time
+ * @returns
+ */
+function formatNum(num) {
+  return num >= 10 ? num : `0${num}`
+}
+export const formatTimeStr = (time) => {
+  if (time) {
+    let date = new Date(time)
+    const year = date.getUTCFullYear() - 2000 // 年
+    const month = date.getMonth() + 1 // 月
+    const day = date.getDate() // 日 获取日是 getDate()方法 区别于 getDay()是星期
+    return `${formatNum(day)}/${formatNum(month)}/${year}`
+  } else {
+    return time
+  }
+}
+/**
  * 判断是不是今天
  *  判断 是不是同一年 同一月 的 同一天
  * @param {*} time

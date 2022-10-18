@@ -93,7 +93,7 @@ const AssetsContact = ({ data }) => {
       dataIndex: 'phone'
     },
     {
-      title: 'closed deals',
+      title: 'CLOSED DEALS',
       dataIndex: 'closedDeals'
     },
     {

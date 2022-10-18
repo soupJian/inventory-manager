@@ -25,6 +25,7 @@ import { Api, ISOStringToReadableDate } from '../../utils/utils'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import styles from './index.module.scss'
+import { formatTimeStr } from '../../utils/formatTime'
 
 const api = new Api()
 
@@ -96,17 +97,7 @@ const Settline = () => {
       )
       .then((data) => {
         if (data) {
-          api
-            .getUnsettledInventory(
-              {},
-              { Authorization: `Bearer ${user.accessToken}` }
-            )
-            .then((data) => {
-              let locationListObj = {}
-              setUnSettledItems(data.Items)
-              data.Items?.forEach((item) => (locationListObj[item.SKU] = []))
-              setLocationList(locationListObj)
-            })
+          getData()
         }
       })
   }
@@ -122,7 +113,7 @@ const Settline = () => {
       show: true
     })
   }
-  useEffect(() => {
+  const getData = () => {
     api
       .getSettledInventory(`date=${date}`, {
         Authorization: `Bearer ${user.accessToken}`
@@ -142,6 +133,9 @@ const Settline = () => {
         data.Items?.forEach((item) => (locationListObj[item.SKU] = []))
         setLocationList(locationListObj)
       })
+  }
+  useEffect(() => {
+    getData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date])
   useEffect(() => {
@@ -240,6 +234,8 @@ const Settline = () => {
                           </Tooltip>
                         )}
                       </Flex>
+                    ) : i.key === 'Received' ? (
+                      formatTimeStr(item[i.key])
                     ) : (
                       item[i.key]
                     )}
@@ -296,6 +292,8 @@ const Settline = () => {
                             Settle
                           </SettleButton>
                         </Flex>
+                      ) : i.key === 'Received' ? (
+                        formatTimeStr(item[i.key])
                       ) : (
                         item[i.key]
                       )}
