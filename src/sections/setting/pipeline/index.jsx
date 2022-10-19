@@ -11,7 +11,7 @@ import {
   getReturnPipeline,
   getReplacePipeline,
   getReturnReplacePipeline
-} from '../../../service/setting-pipeline'
+} from '../../../service/setting/setting-pipeline'
 import styles from './index.module.scss'
 import { pipelineReturn, headerSelectOption } from '../../../constants/setting'
 //js =---------

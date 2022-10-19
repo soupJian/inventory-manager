@@ -12,7 +12,7 @@ import {
   postCreateUser,
   updateAccess,
   postCreateAccess
-} from '../../../service/setting-user'
+} from '../../../service/setting/setting-user'
 import { v4 as uuidv4 } from 'uuid'
 
 const { Option } = Select

@@ -3,7 +3,7 @@ import { Row, Col, Select, Input, Button, Modal } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import AssetsContact from './components/asset-contact'
 import styles from './index.module.scss'
-import { getContacts } from '../../../service/setting-assets'
+import { getContacts } from '../../../service/setting/setting-assets'
 import { formatTimeStr } from '../../../utils/formatTime'
 import { exportExcel } from '../../../utils/export-excel'
 const { Option } = Select

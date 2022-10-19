@@ -5,7 +5,7 @@ import { Icon } from '../../../../components/commons'
 import UserCreateEdit from './user-create-edit'
 import { CloseOutlined } from '@ant-design/icons'
 import styles from '../index.module.scss'
-import { updateUser } from '../../../../service/setting-user'
+import { updateUser } from '../../../../service/setting/setting-user'
 
 const UserModule = ({
   data,
@@ -57,11 +57,13 @@ const UserModule = ({
         getData()
       }
     } else {
-      const selectList = data.filter(item=> selectedRowKeys.includes(item.id))
-      selectList.forEach(item => {
+      const selectList = data.filter((item) =>
+        selectedRowKeys.includes(item.id)
+      )
+      selectList.forEach((item) => {
         item.active = 'deactivate'
-      });
-      Promise.all(selectList.map(item=>updateUser(item))).then(res=>{
+      })
+      Promise.all(selectList.map((item) => updateUser(item))).then((res) => {
         setModalInfo({
           ...modalInfo,
           show: false

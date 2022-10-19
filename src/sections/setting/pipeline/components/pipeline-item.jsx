@@ -10,7 +10,7 @@ import {
   postReturnPipeline,
   postReplacePipeline,
   postReturnReplacePipeline
-} from '../../../../service/setting-pipeline'
+} from '../../../../service/setting/setting-pipeline'
 import styles from '../index.module.scss'
 import PipelineEdit from './pipeline-edit'
 import { v4 as uuidv4 } from 'uuid'
