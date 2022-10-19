@@ -29,26 +29,25 @@ const CreateFastReply = ({ updateData }) => {
     })
   }
   // 上传图片 或者文件
-  const handleUpload = (info) => {
-    const list = info.fileList.map((item) => {
-      return {
-        ...item
+  const handleUpload = (uplodaInfo) => {
+    const list = uplodaInfo.fileList.map((item) => {
+      if (item.url) {
+        return item
+      } else {
+        const url = window.URL.createObjectURL(item.originFileObj)
+        return {
+          fileName: item.name,
+          uid: item.uid,
+          originFileObj: item.originFileObj,
+          url,
+          isNewFile: true
+        }
       }
     })
-    console.log(list)
-    // fetch(
-    //   `https://beyond-diving.s3.us-west-2.amazonaws.com/reviews/${list[0].url}`,
-    //   {
-    //     method: 'PUT',
-    //     headers: {
-    //       'Access-Control-Allow-Headers': '*',
-    //       'Access-Control-Allow-Origin': '*',
-    //       'Content-Type': list[0].type
-    //     },
-    //     body: list[0].originFileObj
-    //   }
-    // )
-    setFileList(list)
+    setInfo({
+      ...info,
+      files: list
+    })
   }
   // 删除某个 附件
   const handleClearFileList = (index) => {

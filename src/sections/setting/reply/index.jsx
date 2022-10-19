@@ -62,25 +62,30 @@ const Reply = () => {
         getChatList()
       }
     } else {
-      console.log(info)
-      // Promise.all(info.files.map(item=>{
-      // const formData = new FormData();
-      //   formData.append('file', item.originFileObj);
-      //   return uploadImage()
-      // }))
-      // const newInfo = {
-      //   ...info,
-      //   files: info.files.map(item=>{
-      //     fileName: item.fileName
-      //     url: item.url
+      // const res = await Promise.all(
+      //   info.files.map(async (item) => {
+      //     if (!item.isNewFile) {
+      //       return {
+      //         fileName: item.fileName,
+      //         url: item.url
+      //       }
+      //     } else {
+      //       const formData = new FormData()
+      //       formData.append('file', item.originFileObj)
+      //       const url = await uploadImage(formData)
+      //       return {
+      //         fileName: item.fileName,
+      //         url: url
+      //       }
+      //     }
       //   })
+      // )
+      // const result = await updateEmailReply(info)
+      // if (result && res.message == 'success') {
+      //   setShowEdit(false)
+      //   dispatch(toggleLoading())
+      //   getEmailList()
       // }
-      const res = await updateEmailReply(info)
-      if (res && res.message == 'success') {
-        setShowEdit(false)
-        dispatch(toggleLoading())
-        getEmailList()
-      }
     }
   }
   const updateData = (type) => {
