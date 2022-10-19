@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Table, Row, Col, Button, Modal } from 'antd'
 import { Icon } from '../../../../components/commons'
 import { CloseOutlined } from '@ant-design/icons'
@@ -17,6 +17,7 @@ import {
   isSameYear,
   isLastYear
 } from '../../../../utils/formatTime'
+import { exportExcel } from '../../../../utils/export-excel'
 
 const AssetsContact = ({ data }) => {
   const [filterData, setFilterData] = useState([])
@@ -42,7 +43,7 @@ const AssetsContact = ({ data }) => {
   // menu 状态表格筛选 过滤后的数组 实现导出
   const tableChange = (pagination, filters, sorter, extr) => {
     // 如果进行了数据过滤就是一个过滤对象， 如果是 null 就表示 reset
-    if (filters.createDate) {
+    if (filters.created) {
       setIsFilter(true)
     } else {
       setIsFilter(false)
@@ -62,23 +63,49 @@ const AssetsContact = ({ data }) => {
   }
   // 导出 表格过滤后的数据
   const exportFilter = () => {
-    console.log(filterData)
     setShowExportModal(true)
     setExportType('filter')
   }
   // 下载
   const download = () => {
     if (exportType == 'filter') {
-      console.log(filterData)
+      exportExcel(
+        'contact',
+        filterData.map((item) => {
+          return {
+            NAME: item.fullName,
+            COMPANY: item.company,
+            EMAIL: item.email,
+            PHONE: item.phone,
+            'CLOSED DEALES': item.closedDeals,
+            'CREATE DATE': item.createdDate
+          }
+        })
+      )
     } else {
       console.log(selectedRowKeys)
+      const list = data.filter((item) => selectedRowKeys.includes(item.id))
+      exportExcel(
+        'contact',
+        list.map((item) => {
+          return {
+            NAME: item.fullName,
+            COMPANY: item.company,
+            EMAIL: item.email,
+            PHONE: item.phone,
+            'CLOSED DEALES': item.closedDeals,
+            'CREATE DATE': item.createdDate
+          }
+        })
+      )
     }
+    setShowExportModal(false)
   }
   // menu table 的 columns
   const columns = [
     {
       title: 'NAME',
-      dataIndex: 'name'
+      dataIndex: 'fullName'
     },
     {
       title: 'COMPANY',
@@ -98,7 +125,7 @@ const AssetsContact = ({ data }) => {
     },
     {
       title: 'CREATE DATE',
-      dataIndex: 'createDate',
+      dataIndex: 'created',
       filters: [
         {
           text: 'ALL time',
@@ -146,35 +173,35 @@ const AssetsContact = ({ data }) => {
             break
           case 2:
             // this week
-            flag = isThisWeek(record.createDate)
+            flag = isThisWeek(record.created)
             break
           case 3:
             // last week
-            flag = isLastWeek(record.createDate)
+            flag = isLastWeek(record.created)
             break
           case 4:
             // this month
-            flag = isThisMonth(record.createDate)
+            flag = isThisMonth(record.created)
             break
           case 5:
             // last month
-            flag = isLastMonth(record.createDate)
+            flag = isLastMonth(record.created)
             break
           case 6:
             // Last 90 days
-            flag = islastdays(90, record.createDate)
+            flag = islastdays(90, record.created)
             break
           case 7:
             // Last 180 days
-            flag = islastdays(180, record.createDate)
+            flag = islastdays(180, record.created)
             break
           case 8:
             // This year
-            flag = isSameYear(record.createDate)
+            flag = isSameYear(record.created)
             break
           case 9:
             // Last year
-            flag = isLastYear(record.createDate)
+            flag = isLastYear(record.created)
             break
           default:
             flag = true
@@ -230,7 +257,7 @@ const AssetsContact = ({ data }) => {
         wrapClassName={styles.modal}
       >
         <div className={styles.modalTitle}>Export to a file</div>
-        <div className={styles.fileFormat}>file format</div>
+        <div className={styles.fileFormat}>FILE FORMAT</div>
         <div className={styles.filewrap}>XLSX</div>
         <Row justify="end">
           <Col>

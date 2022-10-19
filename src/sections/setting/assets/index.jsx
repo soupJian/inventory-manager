@@ -3,7 +3,9 @@ import { Row, Col, Select, Input, Button, Modal } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import AssetsContact from './components/asset-contact'
 import styles from './index.module.scss'
-
+import { getContacts } from '../../../service/setting-assets'
+import { formatTimeStr } from '../../../utils/formatTime'
+import { exportExcel } from '../../../utils/export-excel'
 const { Option } = Select
 
 const Assets = () => {
@@ -15,40 +17,37 @@ const Assets = () => {
   // 下载
   const download = () => {
     if (headerSelect == 'Contact') {
-      console.log(filterData)
+      console.log(constactList)
+      exportExcel(
+        'contact',
+        constactList.map((item) => {
+          return {
+            NAME: item.fullName,
+            COMPANY: item.company,
+            EMAIL: item.email,
+            PHONE: item.phone,
+            'CLOSED DEALES': item.closedDeals,
+            'CREATE DATE': item.createdDate
+          }
+        })
+      )
+    }
+  }
+  const getData = async () => {
+    const res = await getContacts()
+    if (res.Items) {
+      setContactList(
+        res.Items.map((item) => {
+          return {
+            ...item,
+            createdDate: formatTimeStr(item.created, 'DD/MM/YYYY')
+          }
+        })
+      )
     }
   }
   useEffect(() => {
-    const list = [
-      {
-        id: '1',
-        name: '汤建',
-        company: '炜辰科技',
-        email: 'soupjian@163.com',
-        phone: '13479291739',
-        closedDeals: 200,
-        createDate: '2022/09/01'
-      },
-      {
-        id: '2',
-        name: '汤建',
-        company: '炜辰科技',
-        email: 'soupjian@163.com',
-        phone: '13479291739',
-        closedDeals: 200,
-        createDate: '2022/08/30'
-      },
-      {
-        id: '3',
-        name: '汤建',
-        company: '炜辰科技',
-        email: 'soupjian@163.com',
-        phone: '13479291739',
-        closedDeals: 200,
-        createDate: '2022/08/25'
-      }
-    ]
-    setContactList(list)
+    getData()
   }, [])
   return (
     <div className={styles.assets}>
@@ -101,7 +100,7 @@ const Assets = () => {
         wrapClassName={styles.modal}
       >
         <div className={styles.modalTitle}>Export to a file</div>
-        <div className={styles.fileFormat}>file format</div>
+        <div className={styles.fileFormat}>FILE FORMAT</div>
         <div className={styles.filewrap}>XLSX</div>
         <Row justify="end">
           <Col>

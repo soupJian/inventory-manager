@@ -235,7 +235,7 @@ const Settline = () => {
                         )}
                       </Flex>
                     ) : i.key === 'Received' ? (
-                      formatTimeStr(item[i.key])
+                      formatTimeStr(item[i.key], 'DD/MM/YY')
                     ) : (
                       item[i.key]
                     )}
@@ -293,7 +293,7 @@ const Settline = () => {
                           </SettleButton>
                         </Flex>
                       ) : i.key === 'Received' ? (
-                        formatTimeStr(item[i.key])
+                        formatTimeStr(item[i.key], 'DD/MM/YY')
                       ) : (
                         item[i.key]
                       )}

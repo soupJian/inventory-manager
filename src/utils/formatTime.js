@@ -6,15 +6,17 @@
 function formatNum(num) {
   return num >= 10 ? num : `0${num}`
 }
-export const formatTimeStr = (time) => {
-  if (time) {
-    let date = new Date(time)
-    const year = date.getUTCFullYear() - 2000 // 年
-    const month = date.getMonth() + 1 // 月
-    const day = date.getDate() // 日 获取日是 getDate()方法 区别于 getDay()是星期
+export const formatTimeStr = (time, type) => {
+  if (!time) return time
+  let date = new Date(time)
+  const year = date.getUTCFullYear() // 年
+  const month = date.getMonth() + 1 // 月
+  const day = date.getDate() // 日 获取日是 getDate()方法 区别于 getDay()是星期
+  if (type == 'DD/MM/YY') {
+    return `${formatNum(day)}/${formatNum(month)}/${year - 2000}`
+  }
+  if (type == 'DD/MM/YYYY') {
     return `${formatNum(day)}/${formatNum(month)}/${year}`
-  } else {
-    return time
   }
 }
 /**
