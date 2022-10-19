@@ -4,8 +4,9 @@ import { Icon } from '../../../../components/commons'
 import { CloseCircleFilled } from '@ant-design/icons'
 import { useState } from 'react'
 import styles from '../index.module.scss'
+import { getBase64 } from '../../../../utils/file'
 const EditFastReply = (props) => {
-  const { editType, detail, saveEditChat } = props
+  const { editType, detail, saveEdit } = props
   const [info, setInfo] = useState(detail)
   const handleChangeInfo = (e) => {
     setInfo((info) => {
@@ -14,31 +15,22 @@ const EditFastReply = (props) => {
       return newInfo
     })
   }
-  // 上传附件前 的操作
-  const beforeUpload = (file, fileList) => {
-    // console.log(file)
-    // console.log(fileList)
-  }
   // 上传图片 或者文件
   const handleUpload = (uplodaInfo) => {
     const list = uplodaInfo.fileList.map((item) => {
-      return {
-        ...item
+      if (item.url) {
+        return item
+      } else {
+        const url = window.URL.createObjectURL(item.originFileObj)
+        return {
+          fileName: item.name,
+          uid: item.uid,
+          originFileObj: item.originFileObj,
+          url,
+          isNewFile: true
+        }
       }
     })
-    console.log(list)
-    // fetch(
-    //   `https://beyond-diving.s3.us-west-2.amazonaws.com/reviews/${list[0].url}`,
-    //   {
-    //     method: 'PUT',
-    //     headers: {
-    //       'Access-Control-Allow-Headers': '*',
-    //       'Access-Control-Allow-Origin': '*',
-    //       'Content-Type': list[0].type
-    //     },
-    //     body: list[0].originFileObj
-    //   }
-    // )
     setInfo({
       ...info,
       files: list
@@ -60,7 +52,7 @@ const EditFastReply = (props) => {
       message.warn('Please complete the information.')
       return
     }
-    saveEditChat(info)
+    saveEdit(info, editType)
   }
   return (
     <div className={styles.modal}>
@@ -87,7 +79,6 @@ const EditFastReply = (props) => {
           {editType == 'email' && (
             <Upload
               onChange={handleUpload}
-              beforeUpload={beforeUpload}
               showUploadList={false}
               multiple
               fileList={detail.files}
@@ -105,7 +96,12 @@ const EditFastReply = (props) => {
         <div className={styles.fileWrap}>
           {info.files.map((item, index) => {
             return (
-              <Button key={item.url} className={styles['file-btn']}>
+              <Button
+                key={item.url}
+                className={styles['file-btn']}
+                href={item.url}
+                target="_blank"
+              >
                 {item.fileName}
                 <span
                   className={styles['attachments-close']}
@@ -120,12 +116,7 @@ const EditFastReply = (props) => {
       )}
       <Row style={{ marginTop: '24px' }} justify="end">
         <Col>
-          <Button
-            className={styles.editBtn}
-            onClick={() => {
-              save()
-            }}
-          >
+          <Button className={styles.editBtn} onClick={() => save()}>
             Save
           </Button>
         </Col>

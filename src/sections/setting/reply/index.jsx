@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { Collapse, Button, Row, Col, Space, Modal } from 'antd'
 import { Icon } from '../../../components/commons'
 import styles from './index.module.scss'
@@ -6,11 +7,16 @@ import EditFastReply from './components/edit-fast-reply'
 import CreateFastReply from './components/create-fast-reply'
 import {
   getAllChatReply,
-  getAllEmailReply
+  getAllEmailReply,
+  updateChatReply,
+  updateEmailReply
 } from '../../../service/setting/setting-reply'
+import { toggleLoading } from '../../../store/slices/globalSlice'
+
 const { Panel } = Collapse
 
 const Reply = () => {
+  const dispatch = useDispatch()
   // chat 回复信息列表
   const [chatList, setChatList] = useState([])
   // email 回复信息列表
@@ -25,16 +31,18 @@ const Reply = () => {
   // 获取 chat快速回复列表
   const getChatList = async () => {
     const res = await getAllChatReply()
-    if (res.Items) {
+    if (res && res.Items) {
       setChatList(res.Items)
     }
+    return res
   }
   // 获取邮件快速回复列表
   const getEmailList = async () => {
     const res = await getAllEmailReply()
-    if (res.Items) {
+    if (res && res.Items) {
       setEmailList(res.Items)
     }
+    return res
   }
   // 展示 edit chat 弹窗
   const showEditModal = (item, type) => {
@@ -44,13 +52,57 @@ const Reply = () => {
     setEditCurrent(item)
   }
   // 编辑 chat 的 提交按钮
-  const saveEditChat = (info) => {
-    console.log(info)
-    setShowEdit(false)
+  const saveEdit = async (info, editType) => {
+    dispatch(toggleLoading())
+    if (editType == 'chat') {
+      const res = await updateChatReply(info)
+      if (res && res.message == 'success') {
+        setShowEdit(false)
+        dispatch(toggleLoading())
+        getChatList()
+      }
+    } else {
+      console.log(info)
+      // Promise.all(info.files.map(item=>{
+      // const formData = new FormData();
+      //   formData.append('file', item.originFileObj);
+      //   return uploadImage()
+      // }))
+      // const newInfo = {
+      //   ...info,
+      //   files: info.files.map(item=>{
+      //     fileName: item.fileName
+      //     url: item.url
+      //   })
+      // }
+      const res = await updateEmailReply(info)
+      if (res && res.message == 'success') {
+        setShowEdit(false)
+        dispatch(toggleLoading())
+        getEmailList()
+      }
+    }
+  }
+  const updateData = (type) => {
+    dispatch(toggleLoading())
+    if (type == 'chat') {
+      getChatList().then(() => {
+        dispatch(toggleLoading())
+      })
+    } else {
+      getEmailList().then(() => {
+        dispatch(toggleLoading())
+      })
+    }
+
+    setShowFastReply(false)
   }
   useEffect(() => {
-    getChatList()
-    getEmailList()
+    dispatch(toggleLoading())
+    Promise.all([getChatList(), getEmailList()]).then(() => {
+      dispatch(toggleLoading())
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
     <div className={styles.reply}>
@@ -136,7 +188,7 @@ const Reply = () => {
         <EditFastReply
           editType={editType}
           detail={editCurrent}
-          saveEditChat={saveEditChat}
+          saveEdit={saveEdit}
         />
       </Modal>
       <Modal
@@ -147,7 +199,7 @@ const Reply = () => {
         destroyOnClose
         wrapClassName={styles.modalWrap}
       >
-        <CreateFastReply />
+        <CreateFastReply updateData={updateData} />
       </Modal>
     </div>
   )

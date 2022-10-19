@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { toggleLoading } from '../../../../store/slices/globalSlice'
 import { Row, Col, Input, Select, Space, Button, message } from 'antd'
@@ -13,7 +13,6 @@ import {
 } from '../../../../service/setting/setting-pipeline'
 import styles from '../index.module.scss'
 import PipelineEdit from './pipeline-edit'
-import { v4 as uuidv4 } from 'uuid'
 
 const { Option } = Select
 

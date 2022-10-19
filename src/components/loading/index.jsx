@@ -22,7 +22,8 @@ const Loading = ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        zIndex: 9999
       }}
     />
   )

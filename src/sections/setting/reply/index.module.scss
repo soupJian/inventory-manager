@@ -56,6 +56,7 @@
     }
   }
 }
+
 .modalWrap {
   :global {
     .ant-modal-body {
@@ -83,16 +84,17 @@
   .fileWrap {
     margin-top: 10px;
     .file-btn {
+      height: unset;
       background-color: rgba(46, 190, 189, 0.1);
-      padding: 8px 18px;
       border-radius: 50px;
-      font-family: 'Rubik';
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 17px;
+      padding: 8px 18px !important;
       color: #2ebebd;
       margin-right: 5px;
       margin-bottom: 5px;
+      font-family: 'Rubik';
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px !important;
       .attachments-close {
         margin-left: 12px;
       }

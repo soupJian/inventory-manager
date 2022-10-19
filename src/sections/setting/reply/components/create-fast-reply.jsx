@@ -4,7 +4,13 @@ import { Icon } from '../../../../components/commons'
 import { CloseCircleFilled } from '@ant-design/icons'
 import styles from '../index.module.scss'
 import { useState } from 'react'
-const CreateFastReply = () => {
+import {
+  AddChatReply,
+  AddEmailReply
+} from '../../../../service/setting/setting-reply'
+import { v4 as uuidv4 } from 'uuid'
+
+const CreateFastReply = ({ updateData }) => {
   // 附件列表
   const [fileList, setFileList] = useState([])
   const [type, setType] = useState('chat')
@@ -21,11 +27,6 @@ const CreateFastReply = () => {
       newInfo[e.target.name] = e.target.value
       return newInfo
     })
-  }
-  // 上传附件前 的操作
-  const beforeUpload = (file, fileList) => {
-    // console.log(file)
-    // console.log(fileList)
   }
   // 上传图片 或者文件
   const handleUpload = (info) => {
@@ -57,11 +58,26 @@ const CreateFastReply = () => {
       return list
     })
   }
-  const save = () => {
+  const save = async () => {
     if (type == 'email') {
-      console.log(fileList)
+      const res = await AddEmailReply({
+        id: uuidv4(),
+        ...info,
+        files: [...fileList]
+      })
+      if (res && res.message == 'success') {
+        updateData('email')
+      }
+    } else {
+      // type == 'chat
+      const res = await AddChatReply({
+        id: uuidv4(),
+        ...info
+      })
+      if (res && res.message == 'success') {
+        updateData('chat')
+      }
     }
-    console.log(info)
   }
   return (
     <>
@@ -97,7 +113,6 @@ const CreateFastReply = () => {
             {type == 'email' && (
               <Upload
                 onChange={handleUpload}
-                beforeUpload={beforeUpload}
                 showUploadList={false}
                 multiple
                 fileList={fileList}
@@ -115,7 +130,7 @@ const CreateFastReply = () => {
           <div className={styles.fileWrap}>
             {fileList.map((item, index) => {
               return (
-                <Button key={item.url} className={styles['file-btn']}>
+                <Button key={item.uid} className={styles['file-btn']}>
                   {item.name}
                   <span
                     className={styles['attachments-close']}
@@ -130,12 +145,7 @@ const CreateFastReply = () => {
         )}
         <Row style={{ marginTop: '24px' }} justify="end">
           <Col>
-            <Button
-              className={styles.editBtn}
-              onClick={() => {
-                save()
-              }}
-            >
+            <Button className={styles.editBtn} onClick={() => save()}>
               Add
             </Button>
           </Col>
