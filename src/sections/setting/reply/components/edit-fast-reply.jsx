@@ -41,22 +41,22 @@ const EditFastReply = (props) => {
     // )
     setInfo({
       ...info,
-      file: list
+      files: list
     })
   }
   // 删除某个 附件
   const handleClearFileList = (index) => {
     setInfo((info) => {
-      const list = [...info.file]
+      const list = [...info.files]
       list.splice(index, 1)
       return {
         ...info,
-        file: list
+        files: list
       }
     })
   }
   const save = () => {
-    if (info.title.trim() == '' || info.contents.trim() == '') {
+    if (info.title.trim() == '' || info.content.trim() == '') {
       message.warn('Please complete the information.')
       return
     }
@@ -79,9 +79,9 @@ const EditFastReply = (props) => {
         <Col span={24} className={styles.contentWrap}>
           <Input.TextArea
             autoSize
-            value={info.contents}
+            value={info.content}
             style={{ minHeight: '100px', paddingBottom: '40px' }}
-            name="contents"
+            name="content"
             onChange={handleChangeInfo}
           />
           {editType == 'email' && (
@@ -90,7 +90,7 @@ const EditFastReply = (props) => {
               beforeUpload={beforeUpload}
               showUploadList={false}
               multiple
-              fileList={detail.file}
+              fileList={detail.files}
               className={styles.uploadWrap}
             >
               <Icon
@@ -103,10 +103,10 @@ const EditFastReply = (props) => {
       </Row>
       {editType == 'email' && (
         <div className={styles.fileWrap}>
-          {info.file.map((item, index) => {
+          {info.files.map((item, index) => {
             return (
               <Button key={item.url} className={styles['file-btn']}>
-                {item.name}
+                {item.fileName}
                 <span
                   className={styles['attachments-close']}
                   onClick={() => handleClearFileList(index)}

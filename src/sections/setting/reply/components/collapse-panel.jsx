@@ -23,7 +23,7 @@ const CollapsePanel = (props) => {
       <Input.TextArea
         autoSize
         style={{ minHeight: '100px' }}
-        value={item.contents}
+        value={item.content}
       />
     </Panel>
   )

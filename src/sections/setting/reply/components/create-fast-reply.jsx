@@ -10,7 +10,7 @@ const CreateFastReply = () => {
   const [type, setType] = useState('chat')
   const [info, setInfo] = useState({
     title: '',
-    contents: ''
+    content: ''
   })
   const handleChangeTabs = (key) => {
     setType(key)
@@ -89,9 +89,9 @@ const CreateFastReply = () => {
           <Col span={24} className={styles.contentWrap}>
             <Input.TextArea
               autoSize
-              value={info.contents}
+              value={info.content}
               style={{ minHeight: '180px', paddingBottom: '40px' }}
-              name="contents"
+              name="content"
               onChange={handleChangeInfo}
             />
             {type == 'email' && (
