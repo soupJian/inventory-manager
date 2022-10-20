@@ -1,0 +1,85 @@
+.tableWarp {
+  padding: 30px 28px 48px 33px;
+}
+.expandTable {
+  padding: 0;
+}
+.tagsButton {
+  padding: 6px 16px;
+  height: 29px;
+  background: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 30px;
+  font-family: 'Lato';
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 14px;
+  color: #000000;
+}
+.lable {
+  font-family: 'Lato';
+  font-weight: 500;
+  font-size: 17px;
+  color: #808080;
+}
+.selectStatusWrap {
+  min-width: 326px;
+  height: 45px;
+  :global {
+    .ant-select-selector {
+      height: 100%;
+      border-radius: 10px !important;
+    }
+  }
+}
+.selectSortByWrap {
+  min-width: 236px;
+  height: 45px;
+  :global {
+    .ant-select-selector {
+      height: 45px !important;
+      line-height: 45px !important;
+      border-radius: 10px !important;
+    }
+    .ant-select-selection-item {
+      line-height: 45px !important;
+    }
+  }
+}
+.selectTableButton {
+  height: 45px;
+  border-radius: 10px;
+  border: 1px solid #000000;
+}
+.cost {
+  font-family: 'Lato';
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 18px;
+  text-decoration-line: underline;
+  color: #2c88dd;
+  cursor: pointer;
+}
+.costModal {
+  width: 630px;
+  .title {
+    font-family: 'Rubik';
+    font-weight: 500;
+    font-size: 20px;
+    color: #000000;
+    margin-bottom: 32px;
+  }
+  .subTitle {
+    font-family: 'Rubik';
+    font-weight: 500;
+    font-size: 14px;
+    color: #808080;
+  }
+  .number {
+    font-family: 'Lato';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #262626;
+  }
+}
