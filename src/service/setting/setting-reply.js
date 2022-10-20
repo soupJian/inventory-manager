@@ -16,6 +16,16 @@ export const updateChatReply = (info) => {
     data: info
   })
 }
+/** 删除 chat */
+export const deleteChatReply = (id) => {
+  return request({
+    url: '/chat-reply',
+    method: 'DELETE',
+    params: {
+      id
+    }
+  })
+}
 /** 新增 chat */
 export const AddChatReply = (info) => {
   return request({
@@ -39,6 +49,16 @@ export const updateEmailReply = (info) => {
     url: '/email-reply',
     method: 'PUT',
     data: info
+  })
+}
+/** 删除 chat */
+export const deleteEmailReply = (id) => {
+  return request({
+    url: '/email-reply',
+    method: 'DELETE',
+    params: {
+      id
+    }
   })
 }
 /** 新增 email */

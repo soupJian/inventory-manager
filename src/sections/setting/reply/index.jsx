@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Collapse, Button, Row, Col, Space, Modal } from 'antd'
+import { DeleteOutlined } from '@ant-design/icons'
 import { Icon } from '../../../components/commons'
 import styles from './index.module.scss'
 import EditFastReply from './components/edit-fast-reply'
@@ -9,7 +10,9 @@ import {
   getAllChatReply,
   getAllEmailReply,
   updateChatReply,
-  updateEmailReply
+  updateEmailReply,
+  deleteChatReply,
+  deleteEmailReply
 } from '../../../service/setting/setting-reply'
 import { toggleLoading } from '../../../store/slices/globalSlice'
 import { uploadImage } from '../../../service/uploadImage'
@@ -29,6 +32,12 @@ const Reply = () => {
   const [editCurrent, setEditCurrent] = useState(null)
   // create fast reply
   const [showFastReply, setShowFastReply] = useState(false)
+  // delete modal
+  const [deleteModal, setDeleteModal] = useState({
+    show: false,
+    type: 'chat',
+    item: null
+  })
   // 获取 chat快速回复列表
   const getChatList = async () => {
     const res = await getAllChatReply()
@@ -75,7 +84,6 @@ const Reply = () => {
               `/reply-file/${item.uid}-${item.fileName}`,
               item.originFileObj
             )
-            console.log(url)
             return {
               fileName: item.fileName,
               url: url
@@ -118,6 +126,30 @@ const Reply = () => {
     link.click()
     document.body.removeChild(link) //下载完成移除元素
   }
+  // delete a item
+  const handleDeleteReply = async () => {
+    dispatch(toggleLoading())
+    if (deleteModal.type == 'chat') {
+      await deleteChatReply(deleteModal.item.id)
+      await getChatList()
+      setDeleteModal({
+        type: '',
+        show: false,
+        item: null
+      })
+      dispatch(toggleLoading())
+    } else {
+      // deleteModal.type == 'email'
+      await deleteEmailReply(deleteModal.item.id)
+      await getEmailList()
+      setDeleteModal({
+        type: '',
+        show: false,
+        item: null
+      })
+      dispatch(toggleLoading())
+    }
+  }
   useEffect(() => {
     dispatch(toggleLoading())
     Promise.all([getChatList(), getEmailList()]).then(() => {
@@ -146,15 +178,36 @@ const Reply = () => {
               <div className={styles['panel-contnet']}>{item.content}</div>
               <Row justify="end">
                 <Col>
-                  <Button
-                    className={styles.editBtn}
-                    onClick={() => showEditModal(item, 'chat')}
-                  >
-                    <Space>
-                      <Icon name="edit-white" width="11px" height="11px"></Icon>
-                      Edit
-                    </Space>
-                  </Button>
+                  <Space>
+                    <Button
+                      className={styles.deleteBtn}
+                      onClick={() =>
+                        setDeleteModal({
+                          type: 'chat',
+                          show: true,
+                          item
+                        })
+                      }
+                    >
+                      <Space>
+                        <DeleteOutlined />
+                        Delete
+                      </Space>
+                    </Button>
+                    <Button
+                      className={styles.editBtn}
+                      onClick={() => showEditModal(item, 'chat')}
+                    >
+                      <Space>
+                        <Icon
+                          name="edit-white"
+                          width="11px"
+                          height="11px"
+                        ></Icon>
+                        Edit
+                      </Space>
+                    </Button>
+                  </Space>
                 </Col>
               </Row>
             </Panel>
@@ -184,15 +237,36 @@ const Reply = () => {
 
               <Row justify="end">
                 <Col>
-                  <Button
-                    className={styles.editBtn}
-                    onClick={() => showEditModal(item, 'email')}
-                  >
-                    <Space>
-                      <Icon name="edit-white" width="11px" height="11px"></Icon>
-                      Edit
-                    </Space>
-                  </Button>
+                  <Space>
+                    <Button
+                      className={styles.deleteBtn}
+                      onClick={() =>
+                        setDeleteModal({
+                          type: 'email',
+                          show: true,
+                          item
+                        })
+                      }
+                    >
+                      <Space>
+                        <DeleteOutlined />
+                        Delete
+                      </Space>
+                    </Button>
+                    <Button
+                      className={styles.editBtn}
+                      onClick={() => showEditModal(item, 'email')}
+                    >
+                      <Space>
+                        <Icon
+                          name="edit-white"
+                          width="11px"
+                          height="11px"
+                        ></Icon>
+                        Edit
+                      </Space>
+                    </Button>
+                  </Space>
                 </Col>
               </Row>
             </Panel>
@@ -225,6 +299,50 @@ const Reply = () => {
           updateData={updateData}
           openNewWindow={openNewWindow}
         />
+      </Modal>
+      <Modal
+        title=""
+        visible={deleteModal.show}
+        okText="Save"
+        footer={false}
+        centered
+        onCancel={() =>
+          setDeleteModal({
+            show: false,
+            item: null,
+            type: ''
+          })
+        }
+        wrapClassName={styles.deleteModal}
+      >
+        <div className={styles.modalSubTitle}>
+          Are you sure you want to delete this{' '}
+          {deleteModal.type == 'chat' ? 'chat' : 'email'} reply ?
+        </div>
+        <Row justify="center">
+          <Col>
+            <Space>
+              <Button
+                className={styles.confirmBtn}
+                onClick={() => handleDeleteReply()}
+              >
+                YES
+              </Button>
+              <Button
+                className={styles.cancelBtn}
+                onClick={() =>
+                  setDeleteModal({
+                    show: false,
+                    item: null,
+                    type: ''
+                  })
+                }
+              >
+                NO
+              </Button>
+            </Space>
+          </Col>
+        </Row>
       </Modal>
     </div>
   )
