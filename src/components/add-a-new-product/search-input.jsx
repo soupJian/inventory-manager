@@ -8,6 +8,7 @@ import styles from './index.module.scss'
 const api = new Api()
 let timeout
 let currentValue
+
 const SearchInput = ({
   name,
   placeholder,

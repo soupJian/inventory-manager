@@ -91,8 +91,7 @@ const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
         .filter((i) => i.item.SKU)
         .map((part) => ({
           SKU: part.item.SKU,
-          Quantity: parseInt(part.count),
-          item: part.item
+          Quantity: parseInt(part.count)
         }))
       let data = {
         ...newProduct,
@@ -101,7 +100,6 @@ const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
         Parts
       }
       delete data['TagsInput']
-      console.log(data)
       api
         .updateProduct(data, { Authorization: `Bearer ${user.accessToken}` })
         .then((data) => {

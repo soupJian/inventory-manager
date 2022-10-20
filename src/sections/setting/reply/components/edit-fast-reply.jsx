@@ -16,6 +16,7 @@ const EditFastReply = (props) => {
   }
   // 上传图片 或者文件
   const handleUpload = (uploadInfo) => {
+    console.log(uploadInfo)
     const list = uploadInfo.fileList.map((item) => {
       if (item.url) {
         return item
@@ -80,7 +81,7 @@ const EditFastReply = (props) => {
               onChange={handleUpload}
               showUploadList={false}
               multiple
-              fileList={detail.files}
+              fileList={info.files}
               className={styles.uploadWrap}
               beforeUpload={() => false}
             >
