@@ -10,7 +10,7 @@ import {
 } from '../../../../service/setting/setting-reply'
 import { v4 as uuidv4 } from 'uuid'
 
-const CreateFastReply = ({ updateData }) => {
+const CreateFastReply = ({ updateData, openNewWindow }) => {
   // 附件列表
   const [fileList, setFileList] = useState([])
   const [type, setType] = useState('chat')
@@ -116,6 +116,7 @@ const CreateFastReply = ({ updateData }) => {
                 multiple
                 fileList={fileList}
                 className={styles.uploadWrap}
+                beforeUpload={() => false}
               >
                 <Icon
                   name="link"
@@ -129,14 +130,19 @@ const CreateFastReply = ({ updateData }) => {
           <div className={styles.fileWrap}>
             {fileList.map((item, index) => {
               return (
-                <Button key={item.uid} className={styles['file-btn']}>
-                  {item.name}
-                  <span
+                <Button
+                  key={item.url}
+                  className={styles['file-btn']}
+                  onClick={() => openNewWindow(item.url)}
+                >
+                  {item.fileName}
+                  <CloseCircleFilled
                     className={styles['attachments-close']}
-                    onClick={() => handleClearFileList(index)}
-                  >
-                    <CloseCircleFilled />
-                  </span>
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleClearFileList(index)
+                    }}
+                  />
                 </Button>
               )
             })}

@@ -1,7 +1,6 @@
 import { utils, write } from 'xlsx'
 
 export const exportExcel = (name, data) => {
-  console.log(data)
   const ws = utils.json_to_sheet(data)
   /* 新建空workbook */
   const wb = utils.book_new()

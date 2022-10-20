@@ -4,9 +4,8 @@ import { Icon } from '../../../../components/commons'
 import { CloseCircleFilled } from '@ant-design/icons'
 import { useState } from 'react'
 import styles from '../index.module.scss'
-import { getBase64 } from '../../../../utils/file'
 const EditFastReply = (props) => {
-  const { editType, detail, saveEdit } = props
+  const { editType, detail, saveEdit, openNewWindow } = props
   const [info, setInfo] = useState(detail)
   const handleChangeInfo = (e) => {
     setInfo((info) => {
@@ -16,8 +15,8 @@ const EditFastReply = (props) => {
     })
   }
   // 上传图片 或者文件
-  const handleUpload = (uplodaInfo) => {
-    const list = uplodaInfo.fileList.map((item) => {
+  const handleUpload = (uploadInfo) => {
+    const list = uploadInfo.fileList.map((item) => {
       if (item.url) {
         return item
       } else {
@@ -83,6 +82,7 @@ const EditFastReply = (props) => {
               multiple
               fileList={detail.files}
               className={styles.uploadWrap}
+              beforeUpload={() => false}
             >
               <Icon
                 name="link"
@@ -99,16 +99,16 @@ const EditFastReply = (props) => {
               <Button
                 key={item.url}
                 className={styles['file-btn']}
-                href={item.url}
-                target="_blank"
+                onClick={() => openNewWindow(item.url)}
               >
                 {item.fileName}
-                <span
+                <CloseCircleFilled
                   className={styles['attachments-close']}
-                  onClick={() => handleClearFileList(index)}
-                >
-                  <CloseCircleFilled />
-                </span>
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleClearFileList(index)
+                  }}
+                />
               </Button>
             )
           })}

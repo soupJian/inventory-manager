@@ -12,6 +12,7 @@ import {
   updateEmailReply
 } from '../../../service/setting/setting-reply'
 import { toggleLoading } from '../../../store/slices/globalSlice'
+import { uploadImage } from '../../../service/uploadImage'
 
 const { Panel } = Collapse
 
@@ -62,30 +63,35 @@ const Reply = () => {
         getChatList()
       }
     } else {
-      // const res = await Promise.all(
-      //   info.files.map(async (item) => {
-      //     if (!item.isNewFile) {
-      //       return {
-      //         fileName: item.fileName,
-      //         url: item.url
-      //       }
-      //     } else {
-      //       const formData = new FormData()
-      //       formData.append('file', item.originFileObj)
-      //       const url = await uploadImage(formData)
-      //       return {
-      //         fileName: item.fileName,
-      //         url: url
-      //       }
-      //     }
-      //   })
-      // )
-      // const result = await updateEmailReply(info)
-      // if (result && res.message == 'success') {
-      //   setShowEdit(false)
-      //   dispatch(toggleLoading())
-      //   getEmailList()
-      // }
+      const res = await Promise.all(
+        info.files.map(async (item) => {
+          if (!item.isNewFile) {
+            return {
+              fileName: item.fileName,
+              url: item.url
+            }
+          } else {
+            const url = await uploadImage(
+              `/reply-file/${item.uid}-${item.fileName}`,
+              item.originFileObj
+            )
+            console.log(url)
+            return {
+              fileName: item.fileName,
+              url: url
+            }
+          }
+        })
+      )
+      const result = await updateEmailReply({
+        ...info,
+        files: res
+      })
+      if (result && result.message == 'success') {
+        setShowEdit(false)
+        dispatch(toggleLoading())
+        getEmailList()
+      }
     }
   }
   const updateData = (type) => {
@@ -101,6 +107,16 @@ const Reply = () => {
     }
 
     setShowFastReply(false)
+  }
+  // 打开新窗口
+  const openNewWindow = (url) => {
+    let link = document.createElement('a')
+    link.style.display = 'none'
+    link.href = url
+    link.setAttribute('target', '_blank')
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link) //下载完成移除元素
   }
   useEffect(() => {
     dispatch(toggleLoading())
@@ -194,6 +210,7 @@ const Reply = () => {
           editType={editType}
           detail={editCurrent}
           saveEdit={saveEdit}
+          openNewWindow={openNewWindow}
         />
       </Modal>
       <Modal
@@ -204,7 +221,10 @@ const Reply = () => {
         destroyOnClose
         wrapClassName={styles.modalWrap}
       >
-        <CreateFastReply updateData={updateData} />
+        <CreateFastReply
+          updateData={updateData}
+          openNewWindow={openNewWindow}
+        />
       </Modal>
     </div>
   )

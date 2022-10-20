@@ -462,12 +462,14 @@ const InventoryProduct = ({
                   </div>
                 )
               })}
-              <Icon
-                styles={{ transform: 'rotate(180deg)' }}
-                name="chevron"
-                width="8px"
-                height="12px"
-              />
+              {noShowExpand && (
+                <Icon
+                  styles={{ transform: 'rotate(180deg)' }}
+                  name="chevron"
+                  width="8px"
+                  height="12px"
+                />
+              )}
             </TableRow>
           ))}
         </Table>
