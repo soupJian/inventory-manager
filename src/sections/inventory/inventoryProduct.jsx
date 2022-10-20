@@ -272,7 +272,6 @@ const InventoryProduct = ({
           <Select
             showArrow
             className={styles.selectSortByWrap}
-            allowClear
             placeholder="Select"
             value={sortBy}
             onChange={(value) => setSortBy(value)}

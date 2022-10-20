@@ -19,7 +19,7 @@ export const sortByList = [
   },
   {
     label: 'Available (low to high)',
-    value: 'log'
+    value: 'low'
   }
 ]
 
