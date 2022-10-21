@@ -8,9 +8,7 @@ import styled from 'styled-components'
 import {
   BaseButton,
   Box,
-  Button,
   Dialog,
-  Filter,
   Flex,
   FloatingBar,
   Icon,
@@ -30,7 +28,7 @@ import {
   defaultTableHeaders
 } from '../../constants/pageConstants/inventory'
 import { Api } from '../../utils/utils'
-import styles from './index.module.scss'
+import styles from './search.module.scss'
 
 const api = new Api()
 const perPage = 10
