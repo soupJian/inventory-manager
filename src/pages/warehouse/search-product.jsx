@@ -1,9 +1,8 @@
 import React from 'react'
 import { withRouter } from 'next/router'
-
-import SearchInventory from '../../sections/search/search-inventory'
+import SearchProduct from '../../sections/search/search-product'
 const SearchPage = ({ router }) => {
-  return <SearchInventory router={router} />
+  return <SearchProduct router={router} />
 }
 
 export default withRouter(SearchPage)
