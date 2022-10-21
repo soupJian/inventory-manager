@@ -106,7 +106,7 @@ const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
     setLoadingTable(true)
     Promise.all(
       selection.map((item) => {
-        return api.deleteInventory(item, {
+        return api.deleteProduct(item, {
           Authorization: `Bearer ${user.accessToken}`
         })
       })
@@ -456,25 +456,6 @@ const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
               </Text>
             </Flex>
             <Flex alignItems="center" gap="16px">
-              <BaseButton
-                onClick={() =>
-                  confirmAction(
-                    clearSelectedItems,
-                    'Are you sure you want to clear these items’ stock?'
-                  )
-                }
-                minWidth="auto"
-                minHeight="auto"
-                styles={{
-                  'background-color': '#ffffff',
-                  padding: '12px 14px',
-                  'border-radius': '8px',
-                  gap: '10px'
-                }}
-              >
-                <Icon name="clear" width="22px" height="22px" />
-                <Text>Clear</Text>
-              </BaseButton>
               <BaseButton
                 onClick={() =>
                   confirmAction(

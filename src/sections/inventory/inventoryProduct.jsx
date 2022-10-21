@@ -486,12 +486,12 @@ const InventoryProduct = ({
                 <Icon width="16px" height="16px" name="close" />
               </BaseButton>
               <Text styles={{ 'margin-left': '20px' }} color="#ffffff">
-                {selection.length}
+                {selection.length}{' '}
                 {selection.length > 1 ? 'items selected' : 'item selected'}
               </Text>
             </Flex>
             <Flex alignItems="center" gap="16px">
-              <BaseButton
+              {/* <BaseButton
                 onClick={() =>
                   confirmAction(
                     clearSelectedItems,
@@ -509,7 +509,7 @@ const InventoryProduct = ({
               >
                 <Icon name="clear" width="22px" height="22px" />
                 <Text>Clear</Text>
-              </BaseButton>
+              </BaseButton> */}
               <BaseButton
                 onClick={() =>
                   confirmAction(
