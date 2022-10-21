@@ -17,7 +17,7 @@ import InventoryProduct from '../../sections/inventory/inventoryProduct'
 import AddANewItem from '../../components/add-a-new-Item'
 import styles from './index.module.scss'
 
-const Inventory = () => {
+const Inventory = ({ router }) => {
   const user = useSelector((state) => state.user)
   const [activeTab, setActiveTab] = useState('inventory')
   const [dialog, setDialog] = useState({
@@ -62,6 +62,11 @@ const Inventory = () => {
               className={styles.searchInput}
               placeholder="Name, SKU, ID, Barcode"
               prefix={<SearchOutlined />}
+              onPressEnter={(e) =>
+                router.push(
+                  `/inventory/search-inventory?search=${e.target.value}`
+                )
+              }
             />
           )}
           {activeTab == 'products' && (
@@ -70,6 +75,11 @@ const Inventory = () => {
               className={styles.searchInput}
               placeholder="Name, SKU, ID, Tag"
               prefix={<SearchOutlined />}
+              onPressEnter={(e) =>
+                router.push(
+                  `/inventory/search-product?search=${e.target.value}`
+                )
+              }
             />
           )}
         </Flex>

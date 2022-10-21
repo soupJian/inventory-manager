@@ -20,7 +20,7 @@ import {
   Wrapper,
   Modal
 } from '../../components/commons'
-import { getSearch } from '../../service/search/search-inventory'
+import { getSearch } from '../../service/search/search-product'
 import { formatMoney } from '../../utils/formatMoney'
 import {
   defaultTableHeaders,

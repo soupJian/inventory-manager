@@ -1,11 +1,12 @@
 import { useState } from 'react'
+import { withRouter } from 'next/router'
 import { Flex, Icon, Input, Tab, Tabs, Wrapper } from '../../components/commons'
 import Managing from '../../sections/warehouse/Managing'
 import Receiving from '../../sections/warehouse/Receiving'
 import Settling from '../../sections/warehouse/Settling'
 import WarehouseMap from '../../sections/warehouse/WarehouseMap'
 
-const Warehouse = () => {
+const Warehouse = ({ router }) => {
   const [activeTab, setActiveTab] = useState('Receiving')
   return (
     <Wrapper
@@ -62,7 +63,7 @@ const Warehouse = () => {
       </Flex>
       {activeTab === 'Settling' && <Settling />}
       {activeTab === 'Receiving' && <Receiving />}
-      {activeTab === 'Managing' && <Managing />}
+      {activeTab === 'Managing' && <Managing router={router} />}
       {activeTab === 'Map' && <WarehouseMap />}
 
       {/* <>
@@ -181,4 +182,4 @@ const Warehouse = () => {
   )
 }
 
-export default Warehouse
+export default withRouter(Warehouse)

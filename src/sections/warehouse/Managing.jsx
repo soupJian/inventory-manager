@@ -3,13 +3,14 @@ import { useSelector } from 'react-redux'
 import {
   Button,
   Icon,
-  Input,
   BaseButton,
   Dialog,
   Flex,
   Text,
   Wrapper
 } from '../../components/commons'
+import { Input } from 'antd'
+import { SearchOutlined } from '@ant-design/icons'
 import InventoryTable from '../inventory/inventoryTable'
 import InventoryProduct from '../inventory/inventoryProduct'
 import AddANewItem from '../../components/add-a-new-Item'
@@ -17,7 +18,7 @@ import AddProduct from '../../components/add-a-new-product'
 
 import styles from './index.module.scss'
 
-const Managing = () => {
+const Managing = ({ router }) => {
   const user = useSelector((state) => state.user)
   const [activeTab, setActiveTab] = useState('Items')
   const [dialog, setDialog] = useState({
@@ -65,7 +66,12 @@ const Managing = () => {
             type="text"
             className={styles.searchInput}
             placeholder="Name, SKU, ID, Barcode"
-            startIcon={<Icon name="search" width="30px" height="19px" />}
+            prefix={<SearchOutlined />}
+            onPressEnter={(e) =>
+              router.push(
+                `/warehouse/search-inventory?search=${e.target.value}`
+              )
+            }
           />
         )}
         {activeTab == 'Products' && (
@@ -73,7 +79,10 @@ const Managing = () => {
             type="text"
             className={styles.searchInput}
             placeholder="Name, SKU, ID, Tag"
-            startIcon={<Icon name="search" width="30px" height="19px" />}
+            prefix={<SearchOutlined />}
+            onPressEnter={(e) =>
+              router.push(`/warehouse/search-product?search=${e.target.value}`)
+            }
           />
         )}
       </Flex>
