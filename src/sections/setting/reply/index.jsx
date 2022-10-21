@@ -16,6 +16,7 @@ import {
 } from '../../../service/setting/setting-reply'
 import { toggleLoading } from '../../../store/slices/globalSlice'
 import { uploadImage } from '../../../service/uploadImage'
+import { base_img_url } from '../../../constants/img_upload'
 
 const { Panel } = Collapse
 
@@ -80,10 +81,8 @@ const Reply = () => {
               url: item.url
             }
           } else {
-            const url = await uploadImage(
-              `/reply-file/${item.uid}-${item.fileName}`,
-              item.originFileObj
-            )
+            const url = `${base_img_url}/reply-file/${item.uid}-${item.fileName}`
+            await uploadImage(url, item.originFileObj)
             return {
               fileName: item.fileName,
               url: url
