@@ -126,6 +126,9 @@ const Managing = ({ router }) => {
           updataTableData={updataTableData}
           selectable={true}
           noShowExpand={true}
+          rowClick={(SKU) => {
+            router.push(`/warehouse/item?sku=${SKU}`)
+          }}
         />
       )}
       {activeTab === 'Products' && (
@@ -135,6 +138,9 @@ const Managing = ({ router }) => {
           updataTableData={updataTableData}
           selectable={true}
           noShowExpand={true}
+          rowClick={(SKU) => {
+            router.push(`/warehouse/product?sku=${SKU}`)
+          }}
         />
       )}
       {dialog.message && dialog.show && (

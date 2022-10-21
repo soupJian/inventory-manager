@@ -31,7 +31,7 @@ import styles from './search.module.scss'
 
 const api = new Api()
 const perPage = 10
-const SearchPage = ({ router }) => {
+const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
   const user = useSelector((state) => state.user)
   const [costInfo, setCostInfo] = useState({
     show: false,
@@ -222,7 +222,7 @@ const SearchPage = ({ router }) => {
           <Table
             loading={loadingTable}
             name="inventory-items"
-            selectable={true}
+            selectable={selectable}
             selectedAll={selection.length === data?.Items?.length}
             onSelectAll={selectAll}
             headers={defaultTableHeaders.filter((item) => item.show)}
@@ -248,12 +248,13 @@ const SearchPage = ({ router }) => {
                   nested
                   idx={idx}
                   height="72px"
-                  selectable={true}
+                  selectable={selectable}
                   selected={selection.includes(item.SKU)}
                   onSelect={() => addSelection(item.SKU)}
                   dataId={item.SKU + idx}
                   key={item.SKU + idx}
-                  noShowExpand={false}
+                  noShowExpand={noShowExpand}
+                  rowClick={() => rowClick(item.SKU)}
                   expandedContent={
                     <Wrapper padding="15px 0 30px">
                       <Table
@@ -342,14 +343,14 @@ const SearchPage = ({ router }) => {
                         </div>
                       )
                     })}
-                  {/* {noShowExpand && (
-                  <Icon
-                    styles={{ transform: 'rotate(180deg)' }}
-                    name="chevron"
-                    width="8px"
-                    height="12px"
-                  />
-                )} */}
+                  {noShowExpand && (
+                    <Icon
+                      styles={{ transform: 'rotate(180deg)' }}
+                      name="chevron"
+                      width="8px"
+                      height="12px"
+                    />
+                  )}
                 </TableRow>
               )
             )}

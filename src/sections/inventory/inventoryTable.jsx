@@ -48,7 +48,8 @@ const InventoryTable = ({
   setDialog,
   updataTableData,
   selectable,
-  noShowExpand
+  noShowExpand,
+  rowClick
 }) => {
   const router = useRouter()
 
@@ -331,10 +332,7 @@ const InventoryTable = ({
               dataId={item.SKU + idx}
               key={item.SKU + idx}
               noShowExpand={noShowExpand}
-              rowClick={() => router.push(`/inventory/item?sku=${item.SKU}`)}
-              // redirectOnClick={() =>
-              //   router.push(`/inventory/item?sku=${item.SKU}`)
-              // }
+              rowClick={() => rowClick(item.SKU)}
               expandedContent={
                 <Wrapper padding="15px 0 30px">
                   <Table

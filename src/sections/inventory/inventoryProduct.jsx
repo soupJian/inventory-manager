@@ -48,7 +48,8 @@ const InventoryProduct = ({
   setDialog,
   selectable,
   updataTableData,
-  noShowExpand
+  noShowExpand,
+  rowClick
 }) => {
   const router = useRouter()
 
@@ -340,10 +341,7 @@ const InventoryProduct = ({
               dataId={item.SKU + idx}
               key={item.SKU + idx}
               noShowExpand={noShowExpand}
-              rowClick={() => router.push(`/products/product?sku=${item.SKU}`)}
-              // redirectOnClick={() =>
-              //   router.push(`/inventory/item?sku=${item.SKU}`)
-              // }
+              rowClick={() => rowClick(item.SKU)}
               expandedContent={
                 <Wrapper padding="15px 0 30px">
                   <Table
@@ -363,7 +361,6 @@ const InventoryProduct = ({
                               {item[header.key][0]}
                               {item[header.key].length > 1 && (
                                 <Popover
-                                  // content={item[header.key].join(';')}
                                   content={
                                     <Wrapper>
                                       <HeaderText>All Locations</HeaderText>

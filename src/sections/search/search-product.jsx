@@ -31,7 +31,7 @@ import styles from './search.module.scss'
 
 const api = new Api()
 const perPage = 10
-const SearchPage = ({ router }) => {
+const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
   const user = useSelector((state) => state.user)
   const [costInfo, setCostInfo] = useState({
     show: false,
@@ -222,7 +222,7 @@ const SearchPage = ({ router }) => {
             loading={loadingTable}
             name="products-items"
             className={styles.tableWarp}
-            selectable={true}
+            selectable={selectable}
             onSelectAll={selectAll}
             selectedAll={selection.length === data?.Items?.length}
             headers={defaultTableHeaders.filter((i) => i.show)}
@@ -247,12 +247,13 @@ const SearchPage = ({ router }) => {
                   nested
                   idx={idx}
                   height="72px"
-                  selectable={true}
+                  selectable={selectable}
                   selected={selection.includes(item.SKU)}
                   onSelect={() => addSelection(item.SKU)}
                   dataId={item.SKU + idx}
                   key={item.SKU + idx}
-                  noShowExpand={false}
+                  noShowExpand={noShowExpand}
+                  rowClick={() => rowClick(item.SKU)}
                   expandedContent={
                     <Wrapper padding="15px 0 30px">
                       <Table
@@ -379,6 +380,14 @@ const SearchPage = ({ router }) => {
                         </div>
                       )
                     })}
+                  {noShowExpand && (
+                    <Icon
+                      styles={{ transform: 'rotate(180deg)' }}
+                      name="chevron"
+                      width="8px"
+                      height="12px"
+                    />
+                  )}
                 </TableRow>
               )
             )}
@@ -439,7 +448,6 @@ const SearchPage = ({ router }) => {
                     'invert(92%) sepia(93%) saturate(0%) hue-rotate(202deg) brightness(106%) contrast(106%);'
                 }}
               >
-                {' '}
                 <Icon width="16px" height="16px" name="close" />{' '}
               </BaseButton>
               <Text styles={{ 'margin-left': '20px' }} color="#ffffff">
