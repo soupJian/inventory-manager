@@ -1,3 +1,3 @@
 export const formatMoney = (num) => {
-  return num.toLocaleString()
+  return (num && num.toLocaleString()) || 0
 }

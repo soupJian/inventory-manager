@@ -13,6 +13,14 @@ ul,
 dl {
   margin-bottom: 0;
 }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 0;
+}
 /* 滚动条有滑块的轨道部分 */
 ::-webkit-scrollbar-track-piece {
   background-color: #ffffff;

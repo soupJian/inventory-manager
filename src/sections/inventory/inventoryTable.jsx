@@ -374,7 +374,7 @@ const InventoryTable = ({
                   <div key={header.key}>
                     {header.key === 'TotalCost' ? (
                       <span
-                        className={styles.cost}
+                        className={`${styles.activeText} ${styles.underline} ${styles.pointer}`}
                         onClick={(e) => {
                           e.stopPropagation()
                           setCostInfo({
@@ -535,7 +535,7 @@ const InventoryTable = ({
                 </Col>
                 <Col>
                   <div className={styles.subTitle} style={{ width: '134px' }}>
-                    ocean Freight
+                    OCEAN FREIGHT
                   </div>
                   <div className={styles.number}>
                     ${`${formatMoney(costInfo.OceanFreight)}`}
@@ -565,7 +565,7 @@ const InventoryTable = ({
                 </Col>
                 <Col>
                   <div style={{ width: '171px' }} className={styles.subTitle}>
-                    customer shipping
+                    CUSTOMER SHIPPING
                   </div>
                   <div className={styles.number}>
                     ${`${formatMoney(costInfo.CustomerShipping)}`}

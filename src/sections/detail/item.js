@@ -16,7 +16,7 @@ import {
   Text,
   Wrapper
 } from '../../components/commons'
-import Item from '../../sections/inventory/item'
+import Item from '../inventory/inventory-item'
 import { itemTemplate } from '../../constants/pageConstants/inventory'
 import { locations } from '../../constants/pageConstants/locations'
 import { Api } from '../../utils/utils'
@@ -39,7 +39,8 @@ const ItemPage = ({ router }) => {
   const [editItem, setEditItem] = useState({ ...itemTemplate })
   const [editItemLoading, setEditItemLoading] = useState(false)
   const [editItemError, setEditItemError] = useState('')
-  if (!router.query.sku) router.push('/inventory')
+
+  if (!router.query.sku) router.push('/warehouse')
 
   const confirmAction = (cb, message) => {
     setDialog({
@@ -158,8 +159,8 @@ const ItemPage = ({ router }) => {
 
   useEffect(() => {
     fetchItem()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
   return (
     <>
       <Item

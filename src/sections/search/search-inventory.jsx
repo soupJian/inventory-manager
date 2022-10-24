@@ -504,7 +504,7 @@ const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
               </Col>
               <Col>
                 <div className={styles.subTitle} style={{ width: '134px' }}>
-                  ocean Freight
+                  OCEAN FREIGHT
                 </div>
                 <div className={styles.number}>
                   ${`${formatMoney(costInfo.OceanFreight)}`}
@@ -534,7 +534,7 @@ const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
               </Col>
               <Col>
                 <div style={{ width: '171px' }} className={styles.subTitle}>
-                  customer shipping
+                  CUSTOMER SHIPPING
                 </div>
                 <div className={styles.number}>
                   ${`${formatMoney(costInfo.CustomerShipping)}`}
