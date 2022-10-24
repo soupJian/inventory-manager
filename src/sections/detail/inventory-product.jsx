@@ -193,44 +193,76 @@ const Product = ({
                         <AttrValue>
                           {partItem.activeLwh == 'in.'
                             ? partItem.item.attr?.length || 0
-                            : Math.round(
-                                partItem.item.attr?.length * 0.45359237 || 0
-                              )}{' '}
+                            : partItem.item.attr?.length *
+                                (0.45359237).toFixed(1) || 0}{' '}
                           X{' '}
                           {partItem.activeLwh == 'in.'
                             ? partItem.item.attr?.width || 0
-                            : Math.round(
-                                partItem.item.attr?.width * 0.45359237 || 0
-                              )}{' '}
+                            : partItem.item.attr?.width *
+                                (0.45359237).toFixed(1) || 0}{' '}
                           X{' '}
                           {partItem.activeLwh == 'in.'
                             ? partItem.item.attr?.height || 0
-                            : Math.round(
-                                partItem.item.attr?.height * 0.45359237 || 0
-                              )}
-                          <span
-                            className={
-                              partItem.activeLwh == 'in.'
-                                ? `${styles.activeText} ${styles.pointer}`
-                                : `${styles.pointer}`
-                            }
-                            style={{ margin: '0 5px' }}
-                            onClick={() =>
-                              changePart('activeLwh', 'in.', index)
-                            }
-                          >
-                            in.
-                          </span>
-                          <span
-                            className={
-                              partItem.activeLwh == 'cm'
-                                ? `${styles.activeText} ${styles.pointer}`
-                                : `${styles.pointer}`
-                            }
-                            onClick={() => changePart('activeLwh', 'cm', index)}
-                          >
-                            cm
-                          </span>
+                            : partItem.item.attr?.height *
+                                (0.45359237).toFixed(1) || 0}
+                          {partItem.activeLwh == 'in.' && (
+                            <>
+                              <span
+                                className={
+                                  partItem.activeLwh == 'in.'
+                                    ? `${styles.activeText} ${styles.pointer}`
+                                    : `${styles.pointer}`
+                                }
+                                style={{ margin: '0 5px' }}
+                                onClick={() =>
+                                  changePart('activeLwh', 'in.', index)
+                                }
+                              >
+                                in.
+                              </span>
+                              <span
+                                className={
+                                  partItem.activeLwh == 'cm'
+                                    ? `${styles.activeText} ${styles.pointer}`
+                                    : `${styles.pointer}`
+                                }
+                                onClick={() =>
+                                  changePart('activeLwh', 'cm', index)
+                                }
+                              >
+                                cm
+                              </span>
+                            </>
+                          )}
+                          {partItem.activeLwh == 'cm' && (
+                            <>
+                              <span
+                                className={
+                                  partItem.activeLwh == 'cm'
+                                    ? `${styles.activeText} ${styles.pointer}`
+                                    : `${styles.pointer}`
+                                }
+                                style={{ margin: '0 5px' }}
+                                onClick={() =>
+                                  changePart('activeLwh', 'cm', index)
+                                }
+                              >
+                                cm
+                              </span>
+                              <span
+                                className={
+                                  partItem.activeLwh == 'in.'
+                                    ? `${styles.activeText} ${styles.pointer}`
+                                    : `${styles.pointer}`
+                                }
+                                onClick={() =>
+                                  changePart('activeLwh', 'in.', index)
+                                }
+                              >
+                                in.
+                              </span>
+                            </>
+                          )}
                         </AttrValue>
                       </AttrValue>
                     </AttrGroup>
@@ -238,34 +270,66 @@ const Product = ({
                       <AttrValue>
                         {partItem.activeWeight == 'lbs.'
                           ? partItem.item.attr?.weight || 0
-                          : Math.round(
-                              partItem.item.attr?.weight * 0.45359237 || 0
-                            )}
-                        <span
-                          className={
-                            partItem.activeWeight == 'lbs.'
-                              ? `${styles.activeText} ${styles.pointer}`
-                              : `${styles.pointer}`
-                          }
-                          style={{ margin: '0 5px' }}
-                          onClick={() =>
-                            changePart('activeWeight', 'lbs.', index)
-                          }
-                        >
-                          lbs.
-                        </span>
-                        <span
-                          className={
-                            partItem.activeWeight == 'kg'
-                              ? `${styles.activeText} ${styles.pointer}`
-                              : `${styles.pointer}`
-                          }
-                          onClick={() =>
-                            changePart('activeWeight', 'kg', index)
-                          }
-                        >
-                          kg
-                        </span>
+                          : partItem.item.attr?.weight *
+                              (0.45359237).toFixed(1) || 0}
+                        {partItem.activeWeight == 'lbs.' && (
+                          <>
+                            <span
+                              className={
+                                partItem.activeWeight == 'lbs.'
+                                  ? `${styles.activeText} ${styles.pointer}`
+                                  : `${styles.pointer}`
+                              }
+                              style={{ margin: '0 5px' }}
+                              onClick={() =>
+                                changePart('activeWeight', 'lbs.', index)
+                              }
+                            >
+                              lbs.
+                            </span>
+                            <span
+                              className={
+                                partItem.activeWeight == 'kg'
+                                  ? `${styles.activeText} ${styles.pointer}`
+                                  : `${styles.pointer}`
+                              }
+                              onClick={() =>
+                                changePart('activeWeight', 'kg', index)
+                              }
+                            >
+                              kg
+                            </span>
+                          </>
+                        )}
+                        {partItem.activeWeight == 'kg' && (
+                          <>
+                            <span
+                              className={
+                                partItem.activeWeight == 'kg'
+                                  ? `${styles.activeText} ${styles.pointer}`
+                                  : `${styles.pointer}`
+                              }
+                              style={{ margin: '0 5px' }}
+                              onClick={() =>
+                                changePart('activeWeight', 'kg', index)
+                              }
+                            >
+                              kg
+                            </span>
+                            <span
+                              className={
+                                partItem.activeWeight == 'lbs.'
+                                  ? `${styles.activeText} ${styles.pointer}`
+                                  : `${styles.pointer}`
+                              }
+                              onClick={() =>
+                                changePart('activeWeight', 'lbs.', index)
+                              }
+                            >
+                              lbs.
+                            </span>
+                          </>
+                        )}
                       </AttrValue>
                     </AttrGroup>
                     <AttrGroup>

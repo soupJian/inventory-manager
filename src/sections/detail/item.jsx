@@ -223,7 +223,7 @@ const ItemPage = ({ router }) => {
       {showModal && (
         <Modal
           loading={editItemLoading}
-          title={'Add new product'}
+          title={'Edit new product'}
           closeOnClickOutside={false}
           onClose={() => modalHandler(false)}
         >

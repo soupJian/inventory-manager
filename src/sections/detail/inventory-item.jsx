@@ -143,36 +143,65 @@ const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
                     <AttrValue>
                       {activeLwh == 'in.'
                         ? item.attr?.length || 0
-                        : Math.round(item.attr?.length * 0.45359237 || 0)}{' '}
+                        : item.attr?.length * (0.45359237).toFixed(1) || 0}{' '}
                       X{' '}
                       {activeLwh == 'in.'
                         ? item.attr?.width || 0
-                        : Math.round(item.attr?.width * 0.45359237 || 0)}{' '}
+                        : item.attr?.width * (0.45359237).toFixed(1) || 0}{' '}
                       X{' '}
                       {activeLwh == 'in.'
                         ? item.attr?.height || 0
-                        : Math.round(item.attr?.height * 0.45359237 || 0)}
-                      <span
-                        className={
-                          activeLwh == 'in.'
-                            ? `${styles.activeText} ${styles.pointer}`
-                            : `${styles.pointer}`
-                        }
-                        style={{ margin: '0 5px' }}
-                        onClick={() => setActiveLwh('in.')}
-                      >
-                        in.
-                      </span>
-                      <span
-                        className={
-                          activeLwh == 'cm'
-                            ? `${styles.activeText} ${styles.pointer}`
-                            : `${styles.pointer}`
-                        }
-                        onClick={() => setActiveLwh('cm')}
-                      >
-                        cm
-                      </span>
+                        : item.attr?.height * (0.45359237).toFixed(1) || 0}
+                      {activeLwh == 'in.' && (
+                        <>
+                          <span
+                            className={
+                              activeLwh == 'in.'
+                                ? `${styles.activeText} ${styles.pointer}`
+                                : `${styles.pointer}`
+                            }
+                            style={{ margin: '0 5px' }}
+                            onClick={() => setActiveLwh('in.')}
+                          >
+                            in.
+                          </span>
+                          <span
+                            className={
+                              activeLwh == 'cm'
+                                ? `${styles.activeText} ${styles.pointer}`
+                                : `${styles.pointer}`
+                            }
+                            onClick={() => setActiveLwh('cm')}
+                          >
+                            cm
+                          </span>
+                        </>
+                      )}
+                      {activeLwh == 'cm' && (
+                        <>
+                          <span
+                            className={
+                              activeLwh == 'cm'
+                                ? `${styles.activeText} ${styles.pointer}`
+                                : `${styles.pointer}`
+                            }
+                            style={{ margin: '0 5px' }}
+                            onClick={() => setActiveLwh('cm')}
+                          >
+                            cm
+                          </span>
+                          <span
+                            className={
+                              activeLwh == 'in.'
+                                ? `${styles.activeText} ${styles.pointer}`
+                                : `${styles.pointer}`
+                            }
+                            onClick={() => setActiveLwh('in.')}
+                          >
+                            in.
+                          </span>
+                        </>
+                      )}
                     </AttrValue>
                   </AttrGroup>
                   <AttrGroup>
@@ -180,28 +209,57 @@ const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
                     <AttrValue>
                       {activeWeight == 'lbs.'
                         ? item.attr?.weight || 0
-                        : Math.round(item.attr?.weight * 0.45359237 || 0)}
-                      <span
-                        className={
-                          activeWeight == 'lbs.'
-                            ? `${styles.activeText} ${styles.pointer}`
-                            : `${styles.pointer}`
-                        }
-                        style={{ margin: '0 5px' }}
-                        onClick={() => setActiveWeight('lbs.')}
-                      >
-                        lbs.
-                      </span>
-                      <span
-                        className={
-                          activeWeight == 'kg'
-                            ? `${styles.activeText} ${styles.pointer}`
-                            : `${styles.pointer}`
-                        }
-                        onClick={() => setActiveWeight('kg')}
-                      >
-                        kg
-                      </span>
+                        : item.attr?.weight * (0.45359237).toFixed(1) || 0}
+                      {activeWeight == 'lbs.' && (
+                        <>
+                          <span
+                            className={
+                              activeWeight == 'lbs.'
+                                ? `${styles.activeText} ${styles.pointer}`
+                                : `${styles.pointer}`
+                            }
+                            style={{ margin: '0 5px' }}
+                            onClick={() => setActiveWeight('lbs.')}
+                          >
+                            lbs.
+                          </span>
+                          <span
+                            className={
+                              activeWeight == 'kg'
+                                ? `${styles.activeText} ${styles.pointer}`
+                                : `${styles.pointer}`
+                            }
+                            onClick={() => setActiveWeight('kg')}
+                          >
+                            kg
+                          </span>
+                        </>
+                      )}
+                      {activeWeight == 'kg' && (
+                        <>
+                          <span
+                            className={
+                              activeWeight == 'kg'
+                                ? `${styles.activeText} ${styles.pointer}`
+                                : `${styles.pointer}`
+                            }
+                            style={{ margin: '0 5px' }}
+                            onClick={() => setActiveWeight('kg')}
+                          >
+                            kg
+                          </span>
+                          <span
+                            className={
+                              activeWeight == 'lbs.'
+                                ? `${styles.activeText} ${styles.pointer}`
+                                : `${styles.pointer}`
+                            }
+                            onClick={() => setActiveWeight('lbs.')}
+                          >
+                            lbs.
+                          </span>
+                        </>
+                      )}
                     </AttrValue>
                   </AttrGroup>
                   <AttrGroup>
