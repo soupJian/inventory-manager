@@ -1,23 +1,21 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import {
-  Button,
-  Filter,
-  Flex,
-  Icon,
-  Input,
-  Modal,
-  Wrapper
-} from '../../components/commons'
+import { Button, Filter, Flex, Icon, Input, Modal, Wrapper } from '../commons'
 import { itemTemplate } from '../../constants/pageConstants/inventory'
 import { locations } from '../../constants/pageConstants/locations'
 import { Api } from '../../utils/utils'
 const api = new Api()
 import styled from 'styled-components'
 
-const AddANewItem = ({ setNewItemModal, submitNewItemFinally }) => {
+const AddANewItem = ({
+  type = 'add',
+  title = 'Add a new item',
+  newItemValue = itemTemplate,
+  setNewItemModal,
+  submitNewItemFinally
+}) => {
   const user = useSelector((state) => state.user)
-  const [newItem, setNewItem] = useState({ ...itemTemplate })
+  const [newItem, setNewItem] = useState({ ...newItemValue })
   const [newItemLoading, setNewItemLoading] = useState(false)
   const [newItemError, setNewItemError] = useState('')
   const newItemHandler = (e, nestedKey) => {
@@ -67,6 +65,7 @@ const AddANewItem = ({ setNewItemModal, submitNewItemFinally }) => {
       setNewItem({ ...newItem, [name]: [...newLocationList, val] })
     }
   }
+  // 新增
   const submitNewItem = (e) => {
     setNewItemLoading(true)
     setNewItemError('')
@@ -80,11 +79,12 @@ const AddANewItem = ({ setNewItemModal, submitNewItemFinally }) => {
         0
       )
       const settledInfo = {
-        Settled: !!newItem.Location.length,
+        Settled: !newItem.Location.length,
         SettledTime: newItem.Location.length ? new Date() : ''
       }
       let data = {
         ...newItem,
+        Available: newItem.Stock,
         ...settledInfo,
         Updated: new Date(),
         Received: new Date(),
@@ -94,9 +94,6 @@ const AddANewItem = ({ setNewItemModal, submitNewItemFinally }) => {
       delete data['TagsInput']
       api
         .updateInventory(data, { Authorization: `Bearer ${user.accessToken}` })
-        .then((data) => {
-          fetchSKUs()
-        })
         .catch((err) => {
           console.log(err)
         })
@@ -110,15 +107,70 @@ const AddANewItem = ({ setNewItemModal, submitNewItemFinally }) => {
         })
     }
   }
+  // 编辑
+  const submitEditedItem = (e) => {
+    setNewItemLoading(true)
+    setNewItemError('')
+    e.preventDefault()
+    if (!newItem.Name || !newItem.Barcode) {
+      setNewItemLoading(false)
+      setNewItemError('Required')
+    } else {
+      const theSameLocation =
+        item.Location.sort().join(',') === newItem.Location.sort().join(',')
+      const TotalCost = Object.values(newItem.Cost).reduce(
+        (total, cost) => total + parseInt(cost),
+        0
+      )
+      let data = {
+        ...newItem,
+        // 计算Available 差额
+        Available: newItem.Available + newItemValue.Stock - newItem.Stock,
+        Updated: new Date(),
+        TotalCost,
+        SettledTime: theSameLocation ? newItem.SettledTime : new Date(),
+        Settled: !newItem.Location.length
+      }
+      delete data['TagsInput']
+      api
+        .updateInventory(data, { Authorization: `Bearer ${user.accessToken}` })
+        .then((data) => {
+          setNewItemLoading(false)
+          modalHandler(false)
+          setNewItemError('')
+          setEditItem({ ...itemTemplate })
+          fetchItem()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+        .finally(() => {
+          setNewItemLoading(false)
+          setNewItemModal(false)
+          setNewItemError('')
+          setNewItem({ ...newItemValue })
+          // 更新完成后通知父元素
+          submitNewItemFinally()
+        })
+    }
+  }
+  const submitForm = (e) => {
+    if (type == 'add') {
+      submitNewItem(e)
+    } else {
+      // type == edit
+      submitEditedItem(e)
+    }
+  }
   return (
     <Modal
       loading={newItemLoading}
-      title={'Add a new item'}
+      title={title}
       closeOnClickOutside={false}
       onClose={() => setNewItemModal(false)}
     >
       <Wrapper padding="32px 0 0" styles={{ width: '632px' }}>
-        <Form onSubmit={submitNewItem}>
+        <Form onSubmit={submitForm}>
           <InputGroup>
             <Label htmlFor="warehouse-recieving-sku">Name*</Label>
             <Input

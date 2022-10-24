@@ -74,7 +74,7 @@ export const ExpandedTableHeaders = [
 
 export const itemTemplate = {
   SKU: '',
-  // Available: 0,
+  Available: 0,
   Barcode: '',
   Cost: {
     CustomEntryDuty: 0,

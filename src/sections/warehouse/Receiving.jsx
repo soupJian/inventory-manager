@@ -15,7 +15,7 @@ import {
   Filter
 } from '../../components/commons'
 import styled from 'styled-components'
-import AddANewItem from '../../components/add-a-new-Item'
+import AddANewItem from '../../components/add-edit-new-Item'
 import { Api, objectsToQueryString } from '../../utils/utils'
 import { locations } from '../../constants/pageConstants/locations'
 import { useSelector } from 'react-redux'

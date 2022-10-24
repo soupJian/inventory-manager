@@ -14,7 +14,7 @@ import { SearchOutlined } from '@ant-design/icons'
 import { Input } from 'antd'
 import InventoryTable from '../../sections/inventory/inventoryTable'
 import InventoryProduct from '../../sections/inventory/inventoryProduct'
-import AddANewItem from '../../components/add-a-new-Item'
+import AddANewItem from '../../components/add-edit-new-Item'
 import styles from './index.module.scss'
 
 const Inventory = ({ router }) => {
