@@ -15,7 +15,7 @@ import {
   Text,
   Wrapper
 } from '../../components/commons'
-import Product from '../../sections/product/Product'
+import Product from './inventory-product'
 import { productTemplate } from '../../constants/pageConstants/products'
 import { Api } from '../../utils/utils'
 const api = new Api()
@@ -191,11 +191,19 @@ const ProductPage = ({ router }) => {
               Authorization: `Bearer ${user.accessToken}`
             })
             .then((items) => {
-              const partsInputData = items.Items?.map((item) => {
+              const partsInputData = items.Items?.map((item, index) => {
                 const count = data.Items[0]?.Parts?.filter(
                   (part) => part.SKU === item.SKU
                 )[0]?.Quantity
-                return { barcode: item.Barcode, item, count }
+                return {
+                  time: new Date() + index,
+                  item: {
+                    ...item
+                  },
+                  activeLwh: 'in.',
+                  activeWeight: 'lbs.',
+                  count
+                }
               })
               setPartsInput(partsInputData)
             })
@@ -205,6 +213,13 @@ const ProductPage = ({ router }) => {
         setLoadingData(false)
         alert(err.name)
       })
+  }
+  const changePart = (key, value, index) => {
+    setPartsInput((parts) => {
+      const newPart = [...parts]
+      parts[index][key] = value
+      return newPart
+    })
   }
 
   useEffect(() => {
@@ -225,6 +240,7 @@ const ProductPage = ({ router }) => {
         }
         product={product}
         backLink={() => router.back()}
+        changePart={changePart}
       />
       {dialog.message && dialog.show && (
         <Dialog>

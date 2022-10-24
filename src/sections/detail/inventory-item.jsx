@@ -24,8 +24,8 @@ const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
     WarehouseDelivery: 0,
     total: 0
   })
-  const [activeWeight, setActiveWeight] = useState('lbs')
-  const [activeLwh, setActiveLwh] = useState('in')
+  const [activeWeight, setActiveWeight] = useState('lbs.')
+  const [activeLwh, setActiveLwh] = useState('in.')
 
   return (
     <>
@@ -143,29 +143,29 @@ const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
                     <AttrGroup>
                       <AttrName>DIMENSIONS</AttrName>
                       <AttrValue>
-                        {activeLwh == 'in'
+                        {activeLwh == 'in.'
                           ? item.attr?.length || 0
                           : Math.round(
                               item.attr?.length * 0.45359237 || 0
                             )}{' '}
                         X{' '}
-                        {activeLwh == 'in'
+                        {activeLwh == 'in.'
                           ? item.attr?.width || 0
                           : Math.round(item.attr?.width * 0.45359237 || 0)}{' '}
                         X{' '}
-                        {activeLwh == 'in'
+                        {activeLwh == 'in.'
                           ? item.attr?.height || 0
                           : Math.round(item.attr?.height * 0.45359237 || 0)}
                         <span
                           className={
-                            activeLwh == 'in'
+                            activeLwh == 'in.'
                               ? `${styles.activeText} ${styles.pointer}`
                               : `${styles.pointer}`
                           }
                           style={{ margin: '0 5px' }}
-                          onClick={() => setActiveLwh('in')}
+                          onClick={() => setActiveLwh('in.')}
                         >
-                          in
+                          in.
                         </span>
                         <span
                           className={
@@ -182,19 +182,19 @@ const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
                     <AttrGroup>
                       <AttrName>WEIGHT</AttrName>
                       <AttrValue>
-                        {activeWeight == 'lbs'
+                        {activeWeight == 'lbs.'
                           ? item.attr?.weight || 0
                           : Math.round(item.attr?.weight * 0.45359237 || 0)}
                         <span
                           className={
-                            activeWeight == 'lbs'
+                            activeWeight == 'lbs.'
                               ? `${styles.activeText} ${styles.pointer}`
                               : `${styles.pointer}`
                           }
                           style={{ margin: '0 5px' }}
-                          onClick={() => setActiveWeight('lbs')}
+                          onClick={() => setActiveWeight('lbs.')}
                         >
-                          lbs
+                          lbs.
                         </span>
                         <span
                           className={
@@ -212,7 +212,7 @@ const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
                       <AttrName>US COST</AttrName>
                       <AttrValue>
                         <div
-                          className={`${styles.activeText} ${styles.underline} ${styles.pointer}`}
+                          className={`${styles.activeText} $ ${styles.pointer}`}
                           onClick={() => {
                             setCostInfo({
                               show: true,
@@ -293,7 +293,7 @@ const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
               }
               closeOnClickOutside={false}
             >
-              <div className={styles.activeTextModal}>
+              <div className={styles.costModal}>
                 <div className={styles.title}>
                   US Cost: ${formatMoney(costInfo.total)}
                 </div>

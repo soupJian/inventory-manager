@@ -16,7 +16,7 @@ import {
   Text,
   Wrapper
 } from '../../components/commons'
-import Item from '../inventory/inventory-item'
+import Item from './inventory-item'
 import { itemTemplate } from '../../constants/pageConstants/inventory'
 import { locations } from '../../constants/pageConstants/locations'
 import { Api } from '../../utils/utils'
