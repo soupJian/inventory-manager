@@ -124,7 +124,7 @@ const ProductPage = ({ router }) => {
       .deleteProduct(sku, { Authorization: `Bearer ${user.accessToken}` })
       .then((data) => {
         setLoading(false)
-        router.push('/products')
+        router.push('/warehouse#Managing')
       })
   }
 

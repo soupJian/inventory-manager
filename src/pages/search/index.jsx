@@ -367,7 +367,7 @@ const SearchPage = ({ router }) => {
                     ))}
                     <TableCell
                       onClick={() =>
-                        router.push(`/products/product?sku=${item.SKU}`)
+                        router.push(`/warehouse/product?sku=${item.SKU}`)
                       }
                     >
                       <Icon
