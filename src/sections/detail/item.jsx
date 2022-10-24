@@ -37,7 +37,7 @@ const ItemPage = ({ router }) => {
   const [editItemLoading, setEditItemLoading] = useState(false)
   const [editItemError, setEditItemError] = useState('')
 
-  if (!router.query.sku) router.push('/warehouse')
+  // if (!router.query.sku) router.push('/warehouse')
 
   const confirmAction = (cb, message) => {
     setDialog({
@@ -155,9 +155,11 @@ const ItemPage = ({ router }) => {
   }
 
   useEffect(() => {
-    fetchItem()
+    if (router.query.sku) {
+      fetchItem()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [router.query])
   return (
     <>
       <Item
