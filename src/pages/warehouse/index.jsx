@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { withRouter } from 'next/router'
 import { Flex, Icon, Input, Tab, Tabs, Wrapper } from '../../components/commons'
 import Managing from '../../sections/warehouse/Managing'
@@ -8,6 +8,15 @@ import WarehouseMap from '../../sections/warehouse/WarehouseMap'
 
 const Warehouse = ({ router }) => {
   const [activeTab, setActiveTab] = useState('Receiving')
+  const handleChangeTab = (key) => {
+    setActiveTab(key)
+    router.replace(`/warehouse?tab=${key}`, null, { shallow: true })
+  }
+  useEffect(() => {
+    if (router.query.tab) {
+      setActiveTab(router.query.tab)
+    }
+  }, [router])
   return (
     <Wrapper
       styles={{ 'min-height': '100%' }}
@@ -17,7 +26,7 @@ const Warehouse = ({ router }) => {
       <Flex justifyContent="space-between">
         <Tabs>
           <Tab
-            onClick={() => setActiveTab('Receiving')}
+            onClick={() => handleChangeTab('Receiving')}
             active={'Receiving' === activeTab}
           >
             Receiving
@@ -32,21 +41,21 @@ const Warehouse = ({ router }) => {
             Sending
           </Tab> */}
           <Tab
-            onClick={() => setActiveTab('Settling')}
+            onClick={() => handleChangeTab('Settling')}
             active={'Settling' === activeTab}
             idx={1}
           >
             Settling
           </Tab>
           <Tab
-            onClick={() => setActiveTab('Managing')}
+            onClick={() => handleChangeTab('Managing')}
             active={'Managing' === activeTab}
             idx={1}
           >
             Managing
           </Tab>
           <Tab
-            onClick={() => setActiveTab('Map')}
+            onClick={() => handleChangeTab('Map')}
             active={'Map' === activeTab}
             idx={1}
           >

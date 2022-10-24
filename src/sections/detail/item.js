@@ -33,9 +33,6 @@ const ItemPage = ({ router }) => {
   const [showModal, setShowModal] = useState(false)
   const [loadingItem, setLoadingItem] = useState(true)
   const [loading, setLoading] = useState(false)
-  const [partsInput, setPartsInput] = useState([
-    { barcode: '', count: 1, item: {} }
-  ])
   const [editItem, setEditItem] = useState({ ...itemTemplate })
   const [editItemLoading, setEditItemLoading] = useState(false)
   const [editItemError, setEditItemError] = useState('')
