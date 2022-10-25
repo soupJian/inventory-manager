@@ -31,9 +31,7 @@ const ProductPage = ({ router }) => {
   const [loadingData, setLoadingData] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [partsInput, setPartsInput] = useState([
-    { barcode: '', count: 1, item: {} }
-  ])
+  const [partsInput, setPartsInput] = useState([])
   const [lookUpLoading, setLookUpLoading] = useState(false)
   const [lookUpError, setLookUpError] = useState('')
   const [editProduct, setEditProduct] = useState({ ...productTemplate })
@@ -182,35 +180,18 @@ const ProductPage = ({ router }) => {
         setLoadingData(false)
         setProduct(data.Items[0])
         setEditProduct(data.Items[0])
-        if (data.Items[0]?.Parts.length) {
-          let str = ''
-          data?.Items[0]?.Parts.forEach((part) => (str += part.SKU + ','))
-          api
-            .getMultipleInventory(`skus=${str}`, {
-              Authorization: `Bearer ${user.accessToken}`
-            })
-            .then((items) => {
-              const partsInputData = items.Items?.map((item, index) => {
-                const count = data.Items[0]?.Parts?.filter(
-                  (part) => part.SKU === item.SKU
-                )[0]?.Quantity
-                return {
-                  time: new Date() + index,
-                  item: {
-                    ...item
-                  },
-                  activeLwh: 'in.',
-                  activeWeight: 'lbs.',
-                  count
-                }
-              })
-              setPartsInput(partsInputData)
-            })
-        }
+        setPartsInput(
+          data.Items[0].Parts.map((item) => {
+            return {
+              activeLwh: 'in.',
+              activeWeight: 'lbs.',
+              ...item
+            }
+          })
+        )
       })
       .catch((err) => {
         setLoadingData(false)
-        alert(err.name)
       })
   }
   const changePart = (key, value, index) => {

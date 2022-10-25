@@ -162,7 +162,7 @@ const Product = ({
                 style={{ width: '100%' }}
               >
                 <AttrGroup>
-                  <AttrName>DIMENSIONS</AttrName>
+                  <AttrName>PARTS</AttrName>
                 </AttrGroup>
                 <AttrGroup>
                   <AttrName>DIMENSIONS</AttrName>
@@ -179,39 +179,39 @@ const Product = ({
               parts.map((partItem, index) => {
                 return (
                   <Flex
-                    key={partItem.time}
+                    key={partItem.Inventory.SKU}
                     alignItems="flex-start"
                     justifyContent="flex-start"
                     gap="60px"
                     style={{ width: '100%' }}
                   >
                     <AttrGroup>
-                      <AttrValue>{partItem.item.Name}</AttrValue>
+                      <AttrValue>{partItem.Inventory.Name}</AttrValue>
                     </AttrGroup>
                     <AttrGroup>
                       <AttrValue>
                         <AttrValue>
                           {partItem.activeLwh == 'in.'
-                            ? partItem.item.attr?.length || 0
-                            : partItem.item.attr?.length
+                            ? partItem.Inventory.attr?.length || 0
+                            : partItem.Inventory.attr?.length
                             ? Number(
-                                partItem.item.attr?.length * 0.45359237
+                                partItem.Inventory.attr?.length * 0.45359237
                               ).toFixed(1)
                             : 0}{' '}
                           X{' '}
                           {partItem.activeLwh == 'in.'
-                            ? partItem.item.attr?.width || 0
-                            : partItem.item.attr?.width
+                            ? partItem.Inventory.attr?.width || 0
+                            : partItem.Inventory.attr?.width
                             ? Number(
-                                partItem.item.attr?.width * 0.45359237
+                                partItem.Inventory.attr?.width * 0.45359237
                               ).toFixed(1)
                             : 0}{' '}
                           X{' '}
                           {partItem.activeLwh == 'in.'
-                            ? partItem.item.attr?.height || 0
-                            : partItem.item.attr?.height
+                            ? partItem.Inventory.attr?.height || 0
+                            : partItem.Inventory.attr?.height
                             ? Number(
-                                partItem.item.attr?.height * 0.45359237
+                                partItem.Inventory.attr?.height * 0.45359237
                               ).toFixed(1)
                             : 0}
                           {partItem.activeLwh == 'in.' && (
@@ -278,10 +278,10 @@ const Product = ({
                     <AttrGroup>
                       <AttrValue>
                         {partItem.activeWeight == 'lbs.'
-                          ? partItem.item.attr?.weight || 0
-                          : partItem.item.attr?.weight
+                          ? partItem.Inventory.attr?.weight || 0
+                          : partItem.Inventory.attr?.weight
                           ? Number(
-                              partItem.item.attr?.weight * 0.45359237
+                              partItem.Inventory.attr?.weight * 0.45359237
                             ).toFixed(1)
                           : 0}
                         {partItem.activeWeight == 'lbs.' && (
@@ -345,7 +345,7 @@ const Product = ({
                       </AttrValue>
                     </AttrGroup>
                     <AttrGroup>
-                      <AttrValue>{partItem.count}</AttrValue>
+                      <AttrValue>{partItem.Quantity}</AttrValue>
                     </AttrGroup>
                   </Flex>
                 )
@@ -377,11 +377,13 @@ const Product = ({
                 justifyContent="flex-start"
                 gap="10px"
               >
-                {product?.Tags?.map((tag) => (
-                  <Tag key={tag}>
-                    <AttrValue>{tag}</AttrValue>
-                  </Tag>
-                ))}
+                {product?.Tags?.map((tag) => {
+                  return (
+                    <Tag key={tag}>
+                      <AttrValue>{tag}</AttrValue>
+                    </Tag>
+                  )
+                })}
               </Flex>
             </AttrGroup>
           </Flex>
