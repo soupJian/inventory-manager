@@ -72,7 +72,7 @@ const InventoryTable = ({
     WarehouseDelivery: 0,
     total: 0
   })
-  const [sortBy, setSortBy] = useState('height')
+  const [sortBy, setSortBy] = useState('asc')
   const fetchSKUs = () => {
     setLoadingTable(true)
     api
@@ -81,7 +81,7 @@ const InventoryTable = ({
           inventoryState.status.length
             ? `&status=${inventoryState.status.join(',')}`
             : ''
-        }`,
+        }&sort=Available&order=${sortBy}`,
         { Authorization: `Bearer ${user.accessToken}` }
       )
       .then((data) => {
@@ -112,15 +112,6 @@ const InventoryTable = ({
           Authorization: `Bearer ${user.accessToken}`
         })
         .then((data) => {
-          if (sortBy == 'height') {
-            data.Items.sort((a, b) => {
-              return b.Available - a.Available
-            })
-          } else {
-            data.Items.sort((a, b) => {
-              return a.Available - b.Available
-            })
-          }
           setInventoryData(data)
           setLoadingTable(false)
         })
@@ -222,22 +213,7 @@ const InventoryTable = ({
     handlePage(1)
     fetchSKUs()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inventoryState.status.length, updataTableData])
-  useEffect(() => {
-    setInventoryData((data) => {
-      const newData = JSON.parse(JSON.stringify(data))
-      if (sortBy == 'height') {
-        newData?.Items?.sort((a, b) => {
-          return b.Available - a.Available
-        })
-      } else {
-        newData.Items.sort((a, b) => {
-          return a.Available - b.Available
-        })
-      }
-      return newData
-    })
-  }, [sortBy])
+  }, [inventoryState.status.length, updataTableData, sortBy])
   return (
     <>
       <Flex

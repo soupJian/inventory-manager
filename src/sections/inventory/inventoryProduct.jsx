@@ -70,7 +70,7 @@ const InventoryProduct = ({
     WarehouseDelivery: 0,
     total: 0
   })
-  const [sortBy, setSortBy] = useState('height')
+  const [sortBy, setSortBy] = useState('asc') // asc 和desc
 
   const handleStatus = (val) => {
     dispatch({ type: 'changeStatus', payload: val })
@@ -82,7 +82,7 @@ const InventoryProduct = ({
       .getAllProducts(
         `projectionExpression=SKU${
           productState.status ? `&status=${productState.status.join(',')}` : ''
-        }`,
+        }&sort=Available&order=${sortBy}`,
         { Authorization: `Bearer ${user.accessToken}` }
       )
       .then((data) => {
@@ -199,15 +199,6 @@ const InventoryProduct = ({
           Authorization: `Bearer ${user.accessToken}`
         })
         .then((data) => {
-          if (sortBy == 'height') {
-            data.Items.sort((a, b) => {
-              return b.Available - a.Available
-            })
-          } else {
-            data.Items.sort((a, b) => {
-              return a.Available - b.Available
-            })
-          }
           setProducts(data)
           setLoadingTable(false)
         })
@@ -223,27 +214,12 @@ const InventoryProduct = ({
     handlePage(1)
     fetchSKUs()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productState.status.length, updataTableData])
+  }, [productState.status.length, updataTableData, sortBy])
 
   useEffect(() => {
     fetchMultipleProducts(productSKUs)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productState.page, productState.status.length])
-  useEffect(() => {
-    setProducts((data) => {
-      const newData = JSON.parse(JSON.stringify(data))
-      if (sortBy == 'height') {
-        newData?.Items?.sort((a, b) => {
-          return b.Available - a.Available
-        })
-      } else {
-        newData.Items.sort((a, b) => {
-          return a.Available - b.Available
-        })
-      }
-      return newData
-    })
-  }, [sortBy])
   return (
     <Wrapper styles={{ 'min-height': '100%', padding: '0' }} height="auto">
       <Flex
