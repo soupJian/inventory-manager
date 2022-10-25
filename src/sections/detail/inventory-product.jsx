@@ -13,6 +13,7 @@ import {
 import { Col, Row } from 'antd'
 import styles from './index.module.scss'
 import { formatMoney } from '../../utils/formatMoney'
+import CostModal from '../../components/cost-modal'
 
 const Product = ({
   loading,
@@ -143,9 +144,8 @@ const Product = ({
                     onClick={() => {
                       setCostInfo({
                         show: true,
-                        ...product.Cost,
                         total: product.TotalCost,
-                        list: parts.map((item) => item.item)
+                        parts: parts.map((item) => item.item)
                       })
                     }}
                   >
@@ -376,129 +376,7 @@ const Product = ({
         </Wrapper>
       </Wrapper>
       {costInfo.show && (
-        <Modal
-          onClose={() =>
-            setCostInfo(() => {
-              return {
-                ...costInfo,
-                show: false
-              }
-            })
-          }
-          closeOnClickOutside={false}
-        >
-          <div className={styles.costModal}>
-            <div className={styles.title}>
-              US Cost: ${formatMoney(costInfo.total)}
-            </div>
-            {costInfo.list.map((costInfoItem) => {
-              return (
-                <div key={costInfoItem.sku}>
-                  <div className={styles.costItemName}>{costInfoItem.Name}</div>
-                  <Row gutter={[16, 16]}>
-                    <Col>
-                      <div
-                        style={{ width: '110px' }}
-                        className={styles.subTitle}
-                      >
-                        ITEM COST
-                      </div>
-                      <div className={styles.number}>
-                        ${`${formatMoney(costInfoItem.Cost.ItemCost)}`}
-                        <span style={{ marginLeft: '2px' }}>
-                          (
-                          {`${parseInt(
-                            (costInfoItem.Cost.ItemCost / costInfo.total) * 100
-                          )}`}
-                          %)
-                        </span>
-                      </div>
-                    </Col>
-                    <Col>
-                      <div
-                        style={{ width: '147px' }}
-                        className={styles.subTitle}
-                      >
-                        CUSTOM ENTRY DUTY
-                      </div>
-                      <div className={styles.number}>
-                        ${`${formatMoney(costInfoItem.Cost.CustomEntryDuty)}`}
-                        <span style={{ marginLeft: '2px' }}>
-                          (
-                          {`${parseInt(
-                            (costInfoItem.Cost.CustomEntryDuty /
-                              costInfo.total) *
-                              100
-                          )}`}
-                          %)
-                        </span>
-                      </div>
-                    </Col>
-                    <Col>
-                      <div
-                        className={styles.subTitle}
-                        style={{ width: '134px' }}
-                      >
-                        OCEAN FREIGHT
-                      </div>
-                      <div className={styles.number}>
-                        ${`${formatMoney(costInfoItem.Cost.OceanFreight)}`}
-                        <span style={{ marginLeft: '2px' }}>
-                          (
-                          {`${parseInt(
-                            (costInfoItem.Cost.OceanFreight / costInfo.total) *
-                              100
-                          )}`}
-                          %)
-                        </span>
-                      </div>
-                    </Col>
-                    <Col>
-                      <div
-                        style={{ width: '158px' }}
-                        className={styles.subTitle}
-                      >
-                        WAREHOUSE DELIVERY
-                      </div>
-                      <div className={styles.number}>
-                        ${`${formatMoney(costInfoItem.Cost.WarehouseDelivery)}`}
-                        <span style={{ marginLeft: '2px' }}>
-                          (
-                          {`${parseInt(
-                            (costInfoItem.Cost.WarehouseDelivery /
-                              costInfo.total) *
-                              100
-                          )}`}
-                          %)
-                        </span>
-                      </div>
-                    </Col>
-                    <Col>
-                      <div
-                        style={{ width: '171px' }}
-                        className={styles.subTitle}
-                      >
-                        CUSTOMER SHIPPING
-                      </div>
-                      <div className={styles.number}>
-                        ${`${formatMoney(costInfoItem.Cost.CustomerShipping)}`}
-                        <span style={{ marginLeft: '2px' }}>
-                          (
-                          {`${parseInt(
-                            (costInfoItem.Cost.CustomerShipping /
-                              costInfo.total) *
-                              100
-                          )}`}
-                          %)
-                        </span>
-                      </div>
-                    </Col>
-                  </Row>
-                </div>
-              )
-            })}
-          </div>
-        </Modal>
+        <CostModal costInfo={costInfo} setCostInfo={setCostInfo} />
       )}
     </Wrapper>
   )

@@ -337,11 +337,12 @@ const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
                               className={styles.cost}
                               onClick={(e) => {
                                 e.stopPropagation()
-                                console.log(item)
                                 setCostInfo({
                                   show: true,
-                                  ...item.Cost,
-                                  total: item[header.key]
+                                  parts: item.Parts.map(
+                                    (partItem) => partItem.Inventory
+                                  ),
+                                  total: item.TotalCost
                                 })
                               }}
                             >

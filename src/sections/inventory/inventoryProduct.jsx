@@ -1,6 +1,5 @@
 import React from 'react'
 import { useEffect, useReducer, useState } from 'react'
-import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import {
   BaseButton,
@@ -51,8 +50,6 @@ const InventoryProduct = ({
   noShowExpand,
   rowClick
 }) => {
-  const router = useRouter()
-
   const [productState, dispatch] = useReducer(productReducer, {
     page: 1,
     status: []
@@ -418,11 +415,12 @@ const InventoryProduct = ({
                         className={`${styles.activeText} ${styles.underline} ${styles.pointer}`}
                         onClick={(e) => {
                           e.stopPropagation()
-                          console.log(item)
                           setCostInfo({
                             show: true,
-                            ...item.Cost,
-                            total: item[header.key]
+                            parts: item.Parts.map(
+                              (partItem) => partItem.Inventory
+                            ),
+                            total: item.TotalCost
                           })
                         }}
                       >
