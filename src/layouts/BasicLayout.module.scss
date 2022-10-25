@@ -11,6 +11,7 @@
   }
   .siteLayout {
     width: unset !important;
+    overflow: hidden;
   }
   :global {
     .ant-layout-sider {
