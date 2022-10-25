@@ -255,76 +255,106 @@ const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
                   noShowExpand={noShowExpand}
                   rowClick={() => rowClick(item.SKU)}
                   expandedContent={
-                    <Wrapper padding="15px 0 30px">
-                      <Table
-                        styles={{
-                          'background-color': 'transparent',
-                          padding: '0'
-                        }}
-                        className={styles.expandTable}
-                        name={`inventory-item-expanded-${item.Name}`}
-                        headers={ExpandedTableHeaders}
-                      >
-                        <TableRow>
-                          {ExpandedTableHeaders.map((header, idx) => (
-                            <TableCell key={idx}>
-                              {header.key === 'Location' ? (
-                                <>
-                                  {item[header.key][0]}
-                                  {item[header.key].length > 1 && (
-                                    <Popover
-                                      // content={item[header.key].join(';')}
-                                      content={
-                                        <Wrapper>
-                                          <HeaderText>All Locations</HeaderText>
-                                          <Flex>
-                                            {item[header.key].map((loc) => (
-                                              <SpanText key={loc}>
-                                                {loc};
-                                              </SpanText>
-                                            ))}
-                                          </Flex>
-                                        </Wrapper>
-                                      }
-                                      trigger="hover"
-                                    >
-                                      <PlusCircleFilled
-                                        style={{
-                                          marginLeft: '4px',
-                                          fontSize: '18px'
-                                        }}
-                                      />
-                                    </Popover>
-                                  )}
-                                </>
-                              ) : (
-                                item[header.key]
-                              )}
-                            </TableCell>
-                          ))}
-                        </TableRow>
-                        {/* tags header */}
-                        <TableRow>
-                          <TableHeadCell>TAGS</TableHeadCell>
-                        </TableRow>
-                        {/* tags content */}
-                        <TableRow>
-                          <TableCell key={idx}>
-                            <Row gutter={[10]}>
-                              {item['Tags']?.map((tag) => {
-                                return (
-                                  <Col key={tag}>
-                                    <div className={styles.tagsButton}>
-                                      {tag}
-                                    </div>
-                                  </Col>
-                                )
-                              })}
-                            </Row>
-                          </TableCell>
-                        </TableRow>
-                      </Table>
-                    </Wrapper>
+                    <>
+                      {!noShowExpand && (
+                        <Wrapper padding="15px 0 30px">
+                          <Table
+                            styles={{
+                              'background-color': 'transparent',
+                              padding: '0'
+                            }}
+                            className={styles.expandTable}
+                            name={`inventory-item-expanded-${item.Name}`}
+                            headers={ExpandedTableHeaders}
+                          >
+                            {item.Parts?.map((partItem) => {
+                              return (
+                                <TableRow key={partItem.Inventory.SKU}>
+                                  {ExpandedTableHeaders.map((header, idx) => (
+                                    <TableCell key={idx}>
+                                      {header.key === 'TotalCost' ? (
+                                        <span
+                                          className={`${styles.activeText} ${styles.underline} ${styles.pointer}`}
+                                          onClick={(e) => {
+                                            e.stopPropagation()
+                                            setCostInfo({
+                                              show: true,
+                                              ...partItem.Inventory.Cost,
+                                              total:
+                                                partItem.Inventory.TotalCost
+                                            })
+                                          }}
+                                        >
+                                          {'$' +
+                                            formatMoney(
+                                              partItem.Inventory.TotalCost
+                                            )}
+                                        </span>
+                                      ) : header.key === 'Location' ? (
+                                        <>
+                                          {partItem.Inventory[header.key][0]}
+                                          {partItem.Inventory[header.key]
+                                            .length > 1 && (
+                                            <Popover
+                                              content={
+                                                <Wrapper>
+                                                  <HeaderText>
+                                                    All Locations
+                                                  </HeaderText>
+                                                  <Flex>
+                                                    {partItem.Inventory[
+                                                      header.key
+                                                    ].map((loc) => (
+                                                      <SpanText key={loc}>
+                                                        {loc};
+                                                      </SpanText>
+                                                    ))}
+                                                  </Flex>
+                                                </Wrapper>
+                                              }
+                                              trigger="hover"
+                                            >
+                                              <PlusCircleFilled
+                                                style={{
+                                                  marginLeft: '4px',
+                                                  fontSize: '18px'
+                                                }}
+                                              />
+                                            </Popover>
+                                          )}
+                                        </>
+                                      ) : (
+                                        partItem.Inventory[header.key]
+                                      )}
+                                    </TableCell>
+                                  ))}
+                                </TableRow>
+                              )
+                            })}
+                            {/* tags header */}
+                            <TableRow>
+                              <TableHeadCell>TAGS</TableHeadCell>
+                            </TableRow>
+                            {/* tags content */}
+                            <TableRow>
+                              <TableCell key={idx}>
+                                <Row gutter={[10]}>
+                                  {item['Tags']?.map((tag) => {
+                                    return (
+                                      <Col key={tag}>
+                                        <div className={styles.tagsButton}>
+                                          {tag}
+                                        </div>
+                                      </Col>
+                                    )
+                                  })}
+                                </Row>
+                              </TableCell>
+                            </TableRow>
+                          </Table>
+                        </Wrapper>
+                      )}
+                    </>
                   }
                 >
                   {defaultTableHeaders
@@ -334,7 +364,7 @@ const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
                         <div key={header.key}>
                           {header.key === 'TotalCost' ? (
                             <span
-                              className={styles.cost}
+                              className={`${styles.activeText} ${styles.underline} ${styles.pointer}`}
                               onClick={(e) => {
                                 e.stopPropagation()
                                 setCostInfo({

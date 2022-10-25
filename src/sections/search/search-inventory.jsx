@@ -298,7 +298,7 @@ const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
                         <div key={header.key}>
                           {header.key === 'TotalCost' ? (
                             <span
-                              className={styles.cost}
+                              className={`${styles.activeText} ${styles.underline} ${styles.pointer}`}
                               onClick={(e) => {
                                 e.stopPropagation()
                                 setCostInfo({

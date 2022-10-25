@@ -67,11 +67,11 @@ export const productTemplate = {
   Tags: []
 }
 export const ExpandedTableHeaders = [
-  { label: 'parts NAME', key: 'parts NAME' },
-  { label: 'count', key: 'count' },
-  { label: 'location', key: 'location' },
+  { label: 'parts NAME', key: 'Name' },
+  { label: 'count', key: 'Quantity' },
+  { label: 'location', key: 'Location' },
   { label: 'SKU', key: 'SKU' },
-  { label: 'BARCODE', key: 'BARCODE' },
+  { label: 'BARCODE', key: 'Barcode' },
   { label: 'Available', key: 'Available' },
-  { label: 'US COST', key: 'US COST' }
+  { label: 'US COST', key: 'TotalCost' }
 ]
