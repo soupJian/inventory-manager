@@ -16,16 +16,29 @@ import { Api } from '../../utils/utils'
 import { nanoid } from 'nanoid'
 
 const api = new Api()
-
-const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
+// type 为 add 或者edit
+const AddProduct = ({
+  type = 'add',
+  title = 'Add new product',
+  subTitle = 'Add the product parts by searching the part’s SKU or NAME',
+  newProductValue = productTemplate,
+  setNewProductModal,
+  submitnewProductFinally
+}) => {
   const user = useSelector((state) => state.user)
-
-  const [newProduct, setNewProduct] = useState({ ...productTemplate })
+  const [newProduct, setNewProduct] = useState({ ...newProductValue })
   const [newProductLoading, setNewProductLoading] = useState(false)
   const [newProductError, setNewProductError] = useState('')
-  const [partsInput, setPartsInput] = useState([
-    { time: new Date().getTime(), count: 1, item: {} }
-  ])
+  const [partsInput, setPartsInput] = useState(
+    newProduct.Parts.length == 0
+      ? [{ SKU: '', Quantity: 1, Inventory: {} }]
+      : newProduct.Parts.map((item) => {
+          return {
+            ...item,
+            isExit: true
+          }
+        })
+  )
   const handlePartsInput = (idx, e) => {
     let data = [...partsInput]
     data[idx][e.target.name] = e.target.value
@@ -33,13 +46,13 @@ const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
   }
   const selectPart = (selectItem, idx) => {
     let newPartsInput = [...partsInput]
-    let itemData = { item: selectItem }
+    let itemData = { Quantity: 1, SKU: selectItem.SKU, Inventory: selectItem }
     let inputData = { ...partsInput[idx], ...itemData }
     newPartsInput.splice(idx, 1, inputData)
     setPartsInput(newPartsInput)
   }
   const addPart = () => {
-    let newField = { time: new Date().getTime(), count: 1, item: {} }
+    let newField = { SKU: '', Quantity: 1, Inventory: {} }
     setPartsInput([...partsInput, newField])
   }
   const removePart = (idx) => {
@@ -77,6 +90,7 @@ const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
       })
     }
   }
+  // 新增
   const submitnewProduct = (e) => {
     setNewProductLoading(true)
     setNewProductError('')
@@ -84,15 +98,15 @@ const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
     if (!newProduct.Name) {
       setNewProductLoading(false)
       setNewProductError('Required')
-    } else if (Object.keys(partsInput[0].item).length === 0) {
+    } else if (Object.keys(partsInput[0].Inventory).length === 0) {
       setNewProductLoading(false)
       setNewProductError('Required')
     } else {
       const Parts = partsInput
-        .filter((i) => i.item.SKU)
+        .filter((i) => i.SKU)
         .map((part) => ({
-          SKU: part.item.SKU,
-          Quantity: parseInt(part.count)
+          SKU: part.Inventory.SKU,
+          Quantity: parseInt(part.Quantity)
         }))
       let data = {
         ...newProduct,
@@ -119,18 +133,68 @@ const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
         })
     }
   }
+  // 编辑
+  const submitEditedProduct = (e) => {
+    setNewProductLoading(true)
+    setNewProductError('')
+    e.preventDefault()
+    if (!newProduct.Name) {
+      setNewProductLoading(false)
+      setNewProductError('Required')
+    } else if (Object.keys(partsInput[0].Inventory).length === 0) {
+      setNewProductLoading(false)
+      setNewProductError('Required')
+    } else {
+      const Parts = partsInput
+        .filter((i) => i.SKU)
+        .map((part) => ({
+          SKU: part.SKU,
+          Quantity: parseInt(part.Quantity)
+        }))
+      let data = {
+        ...newProduct,
+        Updated: new Date(),
+        Parts
+      }
+      console.log(data)
+      delete data['TagsInput']
+      api
+        .updateProduct(data, { Authorization: `Bearer ${user.accessToken}` })
+        .then((data) => {
+          setNewProduct({ ...productTemplate })
+        })
+        .catch((err) => {
+          alert(err.message)
+          setNewProduct({ ...productTemplate })
+        })
+        .finally(() => {
+          setNewProductLoading(false)
+          setNewProductModal(false)
+          setNewProductError('')
+          submitnewProductFinally()
+        })
+    }
+  }
+  const submitForm = (e) => {
+    if (type == 'add') {
+      submitnewProduct(e)
+    } else {
+      // type == edit
+      submitEditedProduct(e)
+    }
+  }
   return (
     <Modal
       loading={newProductLoading}
-      title={'Add new product'}
+      title={title}
       closeOnClickOutside={false}
       onClose={() => setNewProductModal(false)}
     >
       <Wrapper padding="10px 0 0">
-        <Text>Add the product parts by searching the part’s SKU or NAME</Text>
+        <Text>{subTitle}</Text>
       </Wrapper>
       <Wrapper padding="22px 0 0" styles={{ width: '632px' }}>
-        <Form onSubmit={submitnewProduct}>
+        <Form onSubmit={submitForm}>
           <Wrapper padding="0 0 0">
             {partsInput.map((input, idx) => (
               <Wrapper key={idx} padding="12px 0">
@@ -148,38 +212,43 @@ const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
                     </TriggeringText>
                   )}
                 </Flex>
-                <Flex alignItems="center" gap="10px">
-                  <InputGroup>
-                    <Label htmlFor="products-new-product-name">NAME</Label>
-                    <SearchInput
-                      placeholder="Type"
-                      selectValue={input.item?.name}
-                      selectPart={selectPart}
-                      name="Name"
-                      itemKey="Name"
-                      idx={idx}
-                      key={input.time}
-                      id={`product-part-${idx}`}
-                    />
-                  </InputGroup>
-                  <span style={{ fontSize: '16px', fontWeight: '400' }}>
-                    or
-                  </span>
-                  <InputGroup>
-                    <Label htmlFor="products-new-product-name">SKU</Label>
-                    <SearchInput
-                      placeholder="Type"
-                      selectValue={input.item?.SKU}
-                      selectPart={selectPart}
-                      name="sku"
-                      itemKey="SKU"
-                      idx={idx}
-                      key={input.time}
-                      id={`product-part-${idx}`}
-                    />
-                  </InputGroup>
-                </Flex>
-                {Object.keys(input.item).length > 0 && (
+                {
+                  // 如果是编辑状态下已经存在的 items 就不需要出现下拉框搜索了
+                  !input.isExit && (
+                    <Flex alignItems="center" gap="10px">
+                      <InputGroup>
+                        <Label htmlFor="products-new-product-name">NAME</Label>
+                        <SearchInput
+                          placeholder="Type"
+                          selectValue={input.Inventory?.Name}
+                          selectPart={selectPart}
+                          name="Name"
+                          itemKey="Name"
+                          idx={idx}
+                          key={input.SKU + idx}
+                          id={`product-part-${idx}`}
+                        />
+                      </InputGroup>
+                      <span style={{ fontSize: '16px', fontWeight: '400' }}>
+                        or
+                      </span>
+                      <InputGroup>
+                        <Label htmlFor="products-new-product-name">SKU</Label>
+                        <SearchInput
+                          placeholder="Type"
+                          selectValue={input.Inventory?.SKU}
+                          selectPart={selectPart}
+                          name="sku"
+                          itemKey="SKU"
+                          idx={idx}
+                          key={input.SKU + idx}
+                          id={`product-part-${idx}`}
+                        />
+                      </InputGroup>
+                    </Flex>
+                  )
+                }
+                {Object.keys(input.Inventory).length > 0 && (
                   <Wrapper padding="16px 0 0">
                     <Flex
                       alignItems="flex-start"
@@ -194,7 +263,7 @@ const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
                           color="#000000"
                           styles={{ 'margin-top': '10px' }}
                         >
-                          {input.item.Name}
+                          {input.Inventory.Name}
                         </Text>
                       </InputGroup>
                       <InputGroup>
@@ -208,9 +277,9 @@ const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
                           }}
                           inputStyles={{ width: '100%' }}
                           placeholder="Type"
-                          value={input.count}
+                          value={input.Quantity}
                           onChange={(e) => handlePartsInput(idx, e)}
-                          name="count"
+                          name="Quantity"
                           min={0}
                           type="number"
                           id="products-new-product-name"

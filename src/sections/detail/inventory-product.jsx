@@ -145,7 +145,7 @@ const Product = ({
                       setCostInfo({
                         show: true,
                         total: product.TotalCost,
-                        parts: parts.map((item) => item.item)
+                        parts: parts.map((item) => item.Inventory)
                       })
                     }}
                   >
