@@ -129,7 +129,7 @@ const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
                   </AttrGroup>
                   <AttrGroup>
                     <AttrName>SYSTEM ID</AttrName>
-                    <AttrValue>{item.systemId}</AttrValue>
+                    <AttrValue>{item.SystemId}</AttrValue>
                   </AttrGroup>
                 </Flex>
                 <Flex

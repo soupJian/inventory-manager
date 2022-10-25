@@ -134,7 +134,7 @@ const Product = ({
               </AttrGroup>
               <AttrGroup>
                 <AttrName>SYSTEM ID</AttrName>
-                <AttrValue>{product.systemId}</AttrValue>
+                <AttrValue>{product.SystemId}</AttrValue>
               </AttrGroup>
               <AttrGroup>
                 <AttrName>US COST</AttrName>
