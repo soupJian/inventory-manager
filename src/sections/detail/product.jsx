@@ -39,7 +39,6 @@ const ProductPage = ({ router }) => {
   const [editProduct, setEditProduct] = useState({ ...productTemplate })
   const [editProductLoading, setEditProductLoading] = useState(false)
   const [editProductError, setEditProductError] = useState('')
-  if (!router.query.sku) router.push('/warehouse')
 
   const confirmAction = (cb, message) => {
     setDialog({
@@ -223,8 +222,11 @@ const ProductPage = ({ router }) => {
   }
 
   useEffect(() => {
-    fetchProduct()
-  }, [])
+    if (router.query.sku) {
+      fetchProduct()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.query])
 
   return (
     <>

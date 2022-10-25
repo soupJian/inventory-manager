@@ -13,6 +13,7 @@ import styled from 'styled-components'
 import { productTemplate } from '../../constants/pageConstants/products'
 import SearchInput from './search-input'
 import { Api } from '../../utils/utils'
+import { nanoid } from 'nanoid'
 
 const api = new Api()
 
@@ -97,7 +98,8 @@ const AddProduct = ({ setNewProductModal, submitnewProductFinally }) => {
         ...newProduct,
         Updated: new Date(),
         Created: new Date(),
-        Parts
+        Parts,
+        SystemId: nanoid()
       }
       delete data['TagsInput']
       api

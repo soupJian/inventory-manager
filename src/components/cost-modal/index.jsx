@@ -6,7 +6,7 @@ import styles from './index.module.scss'
 
 const CostItem = ({ costInfo, total, name }) => {
   return (
-    <>
+    <div className={styles.costItem}>
       {name && <div className={styles.costItemName}>{name}</div>}
       <Row gutter={[16, 16]}>
         <Col>
@@ -70,7 +70,7 @@ const CostItem = ({ costInfo, total, name }) => {
           </div>
         </Col>
       </Row>
-    </>
+    </div>
   )
 }
 

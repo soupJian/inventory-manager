@@ -6,6 +6,7 @@ import { locations } from '../../constants/pageConstants/locations'
 import { Api } from '../../utils/utils'
 const api = new Api()
 import styled from 'styled-components'
+import { nanoid } from 'nanoid'
 
 const AddANewItem = ({
   type = 'add',
@@ -89,7 +90,8 @@ const AddANewItem = ({
         Updated: new Date(),
         Received: new Date(),
         Created: new Date(),
-        TotalCost
+        TotalCost,
+        SystemId: nanoid()
       }
       delete data['TagsInput']
       api

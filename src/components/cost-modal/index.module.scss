@@ -1,5 +1,8 @@
 .costModal {
   width: 630px;
+  .costItem {
+    margin-top: 32px;
+  }
   .costItemName {
     margin-bottom: 16px;
     font-family: 'Rubik';
@@ -12,7 +15,6 @@
     font-weight: 500;
     font-size: 20px;
     color: #000000;
-    margin-bottom: 32px;
   }
   .subTitle {
     font-family: 'Rubik';
