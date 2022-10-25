@@ -364,7 +364,7 @@ const AddANewItem = ({
                   }}
                   inputStyles={{ width: '100%' }}
                   placeholder="0"
-                  value={newItem.attr.weight}
+                  value={newItem.attr?.weight || 0}
                   onChange={(e) => newItemHandler(e, 'attr')}
                   name="weight"
                   type="number"
@@ -382,7 +382,7 @@ const AddANewItem = ({
                   }}
                   inputStyles={{ width: '100%' }}
                   placeholder="0"
-                  value={newItem.attr.length}
+                  value={newItem.attr?.length || 0}
                   onChange={(e) => newItemHandler(e, 'attr')}
                   name="length"
                   type="number"
@@ -400,7 +400,7 @@ const AddANewItem = ({
                   }}
                   inputStyles={{ width: '100%' }}
                   placeholder="0"
-                  value={newItem.attr.width}
+                  value={newItem.attr?.width || 0}
                   onChange={(e) => newItemHandler(e, 'attr')}
                   name="width"
                   type="number"
@@ -418,7 +418,7 @@ const AddANewItem = ({
                   }}
                   inputStyles={{ width: '100%' }}
                   placeholder="0"
-                  value={newItem.attr.height}
+                  value={newItem.attr?.height || 0}
                   onChange={(e) => newItemHandler(e, 'attr')}
                   name="height"
                   type="number"

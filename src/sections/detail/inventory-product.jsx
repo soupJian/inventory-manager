@@ -193,18 +193,27 @@ const Product = ({
                         <AttrValue>
                           {partItem.activeLwh == 'in.'
                             ? partItem.item.attr?.length || 0
-                            : partItem.item.attr?.length *
-                                (0.45359237).toFixed(1) || 0}{' '}
+                            : partItem.item.attr?.length
+                            ? Number(
+                                partItem.item.attr?.length * 0.45359237
+                              ).toFixed(1)
+                            : 0}{' '}
                           X{' '}
                           {partItem.activeLwh == 'in.'
                             ? partItem.item.attr?.width || 0
-                            : partItem.item.attr?.width *
-                                (0.45359237).toFixed(1) || 0}{' '}
+                            : partItem.item.attr?.width
+                            ? Number(
+                                partItem.item.attr?.width * 0.45359237
+                              ).toFixed(1)
+                            : 0}{' '}
                           X{' '}
                           {partItem.activeLwh == 'in.'
                             ? partItem.item.attr?.height || 0
-                            : partItem.item.attr?.height *
-                                (0.45359237).toFixed(1) || 0}
+                            : partItem.item.attr?.height
+                            ? Number(
+                                partItem.item.attr?.height * 0.45359237
+                              ).toFixed(1)
+                            : 0}
                           {partItem.activeLwh == 'in.' && (
                             <>
                               <span
@@ -270,8 +279,11 @@ const Product = ({
                       <AttrValue>
                         {partItem.activeWeight == 'lbs.'
                           ? partItem.item.attr?.weight || 0
-                          : partItem.item.attr?.weight *
-                              (0.45359237).toFixed(1) || 0}
+                          : partItem.item.attr?.weight
+                          ? Number(
+                              partItem.item.attr?.weight * 0.45359237
+                            ).toFixed(1)
+                          : 0}
                         {partItem.activeWeight == 'lbs.' && (
                           <>
                             <span
