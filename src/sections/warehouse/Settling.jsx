@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { toggleLoading } from '../../store/slices/globalSlice'
+import { useDispatch } from 'react-redux'
 import {
   Filter,
   Flex,
@@ -11,8 +13,7 @@ import {
   Tabs,
   Wrapper,
   Dialog,
-  BaseButton,
-  Text
+  BaseButton
 } from '../../components/commons'
 import Tooltip from '../../components/commons/Tooltip/Tooltip'
 import {
@@ -30,10 +31,10 @@ import { formatTimeStr } from '../../utils/formatTime'
 const api = new Api()
 
 const Settline = () => {
+  const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
   const [activeTab, setActiveTab] = useState('notsettled')
   const [date, setDate] = useState('365')
-  const [loadingTable, setLoadingTable] = useState(false)
   const [page, setPage] = useState(1)
   //for looking up an Item
   const [settledItems, setSettledItems] = useState([])
@@ -55,22 +56,18 @@ const Settline = () => {
     setPage(page)
   }
   const handleSettledItemsToShow = (list, page) => {
-    setLoadingTable(true)
     const dataToShow = list.slice(
       page * itemsPerPage - itemsPerPage,
       page * itemsPerPage
     )
     setSettledItemsToShow(dataToShow)
-    setLoadingTable(false)
   }
   const handleUnSettledItemsToShow = (list, page) => {
-    setLoadingTable(true)
     const dataToShow = list.slice(
       page * itemsPerPage - itemsPerPage,
       page * itemsPerPage
     )
     setUnSettledItemsToShow(dataToShow)
-    setLoadingTable(false)
   }
   const handleLocationList = (name, val) => {
     console.log(val, name)
@@ -117,7 +114,8 @@ const Settline = () => {
     })
   }
   const getData = () => {
-    api
+    dispatch(toggleLoading(true))
+    const settledData = api
       .getSettledInventory(`date=${date}`, {
         Authorization: `Bearer ${user.accessToken}`
       })
@@ -125,7 +123,7 @@ const Settline = () => {
         setSettledItems(data.Items)
         handleSettledItemsToShow(data.Items, 1)
       })
-    api
+    const unSettledData = api
       .getUnsettledInventory(`date=${date}`, {
         Authorization: `Bearer ${user.accessToken}`
       })
@@ -136,7 +134,11 @@ const Settline = () => {
         data.Items?.forEach((item) => (locationListObj[item.SKU] = []))
         setLocationList(locationListObj)
       })
+    Promise.all([settledData, unSettledData]).then(() => {
+      dispatch(toggleLoading(false))
+    })
   }
+
   useEffect(() => {
     getData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -181,7 +183,6 @@ const Settline = () => {
         {activeTab === 'settled' ? (
           <Table
             className={styles.table}
-            loading={loadingTable}
             name="warehousing-settled"
             headers={settledHeaders}
             paginationComponent={
@@ -251,7 +252,6 @@ const Settline = () => {
           <>
             <Table
               className={styles.table}
-              loading={loadingTable}
               name="warehousing-unsettled"
               headers={unSettledHeaders}
               paginationComponent={

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useReducer } from 'react'
-import { useRouter } from 'next/router'
+import { toggleLoading } from '../../store/slices/globalSlice'
+import { useDispatch } from 'react-redux'
 
 import {
   BaseButton,
@@ -51,14 +52,12 @@ const InventoryTable = ({
   noShowExpand,
   rowClick
 }) => {
-  const router = useRouter()
-
-  const [inventoryState, dispatch] = useReducer(inventoryReducer, {
+  const dispatch = useDispatch()
+  const [inventoryState, InventoryDispatch] = useReducer(inventoryReducer, {
     page: 1,
     status: []
   })
   const [TableHeaders, setTableHeaders] = useState(defaultTableHeaders)
-  const [loadingTable, setLoadingTable] = useState(false)
   const [inventorySKUs, setInventorySKUs] = useState([])
   const [inventoryData, setInventoryData] = useState(null)
   const [selection, setSelection] = useState([])
@@ -74,7 +73,7 @@ const InventoryTable = ({
   })
   const [sortBy, setSortBy] = useState('desc')
   const fetchSKUs = () => {
-    setLoadingTable(true)
+    dispatch(toggleLoading(true))
     api
       .getAllInventory(
         `projectionExpression=SKU${
@@ -86,12 +85,11 @@ const InventoryTable = ({
       )
       .then((data) => {
         setInventorySKUs(data.Items)
-        setLoadingTable(false)
         fetchMultipleInventory(data.Items)
+        dispatch(toggleLoading(false))
       })
       .catch((err) => {
         console.log(err)
-        setLoadingTable(false)
       })
   }
   const fetchMultipleInventory = (inventorySKUs) => {
@@ -100,7 +98,7 @@ const InventoryTable = ({
       inventoryState.page * itemsPerPage
     )
     if (skusToShow?.length) {
-      setLoadingTable(true)
+      dispatch(toggleLoading(true))
       let str = ''
       skusToShow.forEach((i) => {
         Object.values(i).map((val) => {
@@ -113,21 +111,21 @@ const InventoryTable = ({
         })
         .then((data) => {
           setInventoryData(data)
-          setLoadingTable(false)
+          dispatch(toggleLoading(false))
         })
         .catch((err) => {
           console.log(err)
-          setLoadingTable(false)
+          dispatch(toggleLoading(false))
         })
     } else {
       setInventoryData({})
     }
   }
   const handlePage = (page) => {
-    dispatch({ type: 'changePaginateNumber', payload: page })
+    InventoryDispatch({ type: 'changePaginateNumber', payload: page })
   }
   const handleStatus = (val) => {
-    dispatch({ type: 'changeStatus', payload: val })
+    InventoryDispatch({ type: 'changeStatus', payload: val })
   }
   const confirmAction = (cb, message) => {
     setDialog({
@@ -140,7 +138,7 @@ const InventoryTable = ({
     })
   }
   const clearSelectedItems = () => {
-    setLoadingTable(true)
+    dispatch(toggleLoading(true))
     const itemsToBeCleared = inventoryData.Items.filter((item) =>
       selection.includes(item.SKU)
     )
@@ -153,16 +151,16 @@ const InventoryTable = ({
       })
     )
       .then((values) => {
-        setLoadingTable(false)
+        dispatch(toggleLoading(false))
         setSelection([])
         fetchSKUs()
       })
       .catch((err) => {
-        setLoadingTable(false)
+        dispatch(toggleLoading(false))
       })
   }
   const deleteSelectedItems = () => {
-    setLoadingTable(true)
+    dispatch(toggleLoading(true))
     Promise.all(
       selection.map((item) => {
         return api.deleteInventory(item, {
@@ -171,13 +169,13 @@ const InventoryTable = ({
       })
     )
       .then((values) => {
-        setLoadingTable(false)
+        dispatch(toggleLoading(false))
         setSelection([])
         fetchSKUs()
       })
       .catch((err) => {
         console.log(err)
-        setLoadingTable(false)
+        dispatch(toggleLoading(false))
       })
   }
   const addSelection = (sku) => {
@@ -278,7 +276,6 @@ const InventoryTable = ({
       </Flex>
       <Wrapper style={{ marginTop: '27px' }} padding="0">
         <Table
-          loading={loadingTable}
           name="inventory-items"
           selectable={selectable}
           selectedAll={selection.length === inventoryData?.Items?.length}

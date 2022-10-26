@@ -1,5 +1,8 @@
 import React from 'react'
 import { useEffect, useReducer, useState } from 'react'
+import { toggleLoading } from '../../store/slices/globalSlice'
+import { useDispatch } from 'react-redux'
+
 import styled from 'styled-components'
 import {
   BaseButton,
@@ -50,12 +53,12 @@ const InventoryProduct = ({
   noShowExpand,
   rowClick
 }) => {
-  const [productState, dispatch] = useReducer(productReducer, {
+  const dispatch = useDispatch()
+  const [productState, productDispatch] = useReducer(productReducer, {
     page: 1,
     status: []
   })
   const [TableHeaders, setTableHeaders] = useState(defaultTableHeaders)
-  const [loadingTable, setLoadingTable] = useState(false)
   const [products, setProducts] = useState({})
   const [productSKUs, setProductSKUs] = useState([])
   const [itemsPerPage, setItemsPerPage] = useState(10)
@@ -73,11 +76,11 @@ const InventoryProduct = ({
   const [sortBy, setSortBy] = useState('desc') // asc 和desc
 
   const handleStatus = (val) => {
-    dispatch({ type: 'changeStatus', payload: val })
+    productDispatch({ type: 'changeStatus', payload: val })
   }
 
   const fetchSKUs = () => {
-    setLoadingTable(true)
+    dispatch(toggleLoading(true))
     api
       .getAllProducts(
         `projectionExpression=SKU${
@@ -87,16 +90,15 @@ const InventoryProduct = ({
       )
       .then((data) => {
         setProductSKUs(data.Items)
-        setLoadingTable(false)
         fetchMultipleProducts(data.Items)
       })
       .catch((err) => {
-        setLoadingTable(false)
+        dispatch(toggleLoading(false))
         console.log(err)
       })
   }
   const handlePage = (page) => {
-    dispatch({ type: 'changePaginateNumber', payload: page })
+    productDispatch({ type: 'changePaginateNumber', payload: page })
   }
   const confirmAction = (cb, message) => {
     setDialog({
@@ -109,7 +111,7 @@ const InventoryProduct = ({
     })
   }
   const clearSelectedItems = () => {
-    setLoadingTable(true)
+    dispatch(toggleLoading(true))
     const itemsToBeCleared = products.Items.filter((item) =>
       selection.includes(item.SKU)
     )
@@ -122,16 +124,16 @@ const InventoryProduct = ({
       })
     )
       .then((values) => {
-        setLoadingTable(false)
+        dispatch(toggleLoading(false))
         setSelection([])
         fetchSKUs()
       })
       .catch((err) => {
-        setLoadingTable(false)
+        dispatch(toggleLoading(false))
       })
   }
   const deleteSelectedItems = () => {
-    setLoadingTable(true)
+    dispatch(toggleLoading(true))
     Promise.all(
       selection.map((item) => {
         return api.deleteProduct(item, {
@@ -140,13 +142,13 @@ const InventoryProduct = ({
       })
     )
       .then((values) => {
-        setLoadingTable(false)
+        dispatch(toggleLoading(false))
         setSelection([])
         fetchSKUs()
       })
       .catch((err) => {
         console.log(err)
-        setLoadingTable(false)
+        dispatch(toggleLoading(false))
       })
   }
   const addSelection = (sku) => {
@@ -187,23 +189,23 @@ const InventoryProduct = ({
       productState.page * itemsPerPage
     )
     if (skusToShow.length) {
-      setLoadingTable(true)
       let str = ''
       skusToShow.forEach((i) => {
         Object.values(i).map((val) => {
           str += val + ','
         })
       })
+      dispatch(toggleLoading(true))
       api
         .getMultipleProducts(`skus=${str}&sort=Available&order=${sortBy}`, {
           Authorization: `Bearer ${user.accessToken}`
         })
         .then((data) => {
           setProducts(data)
-          setLoadingTable(false)
+          dispatch(toggleLoading(false))
         })
         .catch((err) => {
-          setLoadingTable(false)
+          dispatch(toggleLoading(false))
         })
     } else {
       setProducts({})
@@ -284,7 +286,6 @@ const InventoryProduct = ({
       </Flex>
       <Wrapper padding="23px 0px 0px">
         <Table
-          loading={loadingTable}
           name="products-items"
           className={styles.tableWarp}
           selectable={selectable}

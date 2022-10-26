@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { toggleLoading } from '../../store/slices/globalSlice'
+import { useSelector, useDispatch } from 'react-redux'
 import { Button, Filter, Flex, Icon, Input, Modal, Wrapper } from '../commons'
 import { itemTemplate } from '../../constants/pageConstants/inventory'
 import { locations } from '../../constants/pageConstants/locations'
@@ -15,9 +16,9 @@ const AddANewItem = ({
   setNewItemModal,
   submitNewItemFinally
 }) => {
+  const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
   const [newItem, setNewItem] = useState({ ...newItemValue })
-  const [newItemLoading, setNewItemLoading] = useState(false)
   const [newItemError, setNewItemError] = useState('')
   const newItemHandler = (e, nestedKey) => {
     if (nestedKey) {
@@ -56,7 +57,6 @@ const AddANewItem = ({
     }
   }
   const handleNewLocationList = (name, val) => {
-    console.log({ name })
     const idx = newItem.Location.findIndex((loc) => loc === val)
     let newLocationList = [...newItem.Location]
     if (idx >= 0) {
@@ -68,13 +68,12 @@ const AddANewItem = ({
   }
   // 新增
   const submitNewItem = (e) => {
-    setNewItemLoading(true)
     setNewItemError('')
     e.preventDefault()
     if (!newItem.Name || !newItem.Barcode) {
-      setNewItemLoading(false)
       setNewItemError('Required')
     } else {
+      dispatch(toggleLoading(true))
       const TotalCost = Object.values(newItem.Cost).reduce(
         (total, cost) => total + parseInt(cost),
         0
@@ -100,7 +99,7 @@ const AddANewItem = ({
           console.log(err)
         })
         .finally(() => {
-          setNewItemLoading(false)
+          dispatch(toggleLoading(false))
           setNewItemModal(false)
           setNewItemError('')
           setNewItem({ ...itemTemplate })
@@ -111,13 +110,12 @@ const AddANewItem = ({
   }
   // 编辑
   const submitEditedItem = (e) => {
-    setNewItemLoading(true)
     setNewItemError('')
     e.preventDefault()
     if (!newItem.Name || !newItem.Barcode) {
-      setNewItemLoading(false)
       setNewItemError('Required')
     } else {
+      dispatch(toggleLoading(true))
       const theSameLocation =
         newItem.Location.sort().join(',') ===
         newItemValue.Location.sort().join(',')
@@ -145,7 +143,6 @@ const AddANewItem = ({
       api
         .updateInventory(data, { Authorization: `Bearer ${user.accessToken}` })
         .then((data) => {
-          setNewItemLoading(false)
           modalHandler(false)
           setNewItemError('')
           setEditItem({ ...itemTemplate })
@@ -155,7 +152,7 @@ const AddANewItem = ({
           console.log(err)
         })
         .finally(() => {
-          setNewItemLoading(false)
+          dispatch(toggleLoading(false))
           setNewItemModal(false)
           setNewItemError('')
           setNewItem({ ...newItemValue })
@@ -173,7 +170,6 @@ const AddANewItem = ({
   }
   return (
     <Modal
-      loading={newItemLoading}
       title={title}
       closeOnClickOutside={false}
       onClose={() => setNewItemModal(false)}

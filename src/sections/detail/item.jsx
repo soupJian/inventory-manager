@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { toggleLoading } from '../../store/slices/globalSlice'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import {
   BaseButton,
@@ -17,6 +19,7 @@ import { Api } from '../../utils/utils'
 const api = new Api()
 
 const ItemPage = ({ router }) => {
+  const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
   const [item, setItem] = useState({ ...itemTemplate })
   const [dialog, setDialog] = useState({
@@ -25,11 +28,6 @@ const ItemPage = ({ router }) => {
     show: false
   })
   const [showModal, setShowModal] = useState(false)
-  const [loadingItem, setLoadingItem] = useState(true)
-  const [loading, setLoading] = useState(false)
-  const [editItem, setEditItem] = useState({ ...itemTemplate })
-  const [editItemLoading, setEditItemLoading] = useState(false)
-  const [editItemError, setEditItemError] = useState('')
   const confirmAction = (cb, message) => {
     setDialog({
       message,
@@ -41,17 +39,17 @@ const ItemPage = ({ router }) => {
     })
   }
   const deleteItem = (sku) => {
-    setLoading(true)
+    dispatch(toggleLoading(true))
     api
       .deleteInventory(sku, { Authorization: `Bearer ${user.accessToken}` })
       .then((data) => {
-        setLoading(false)
+        dispatch(toggleLoading(false))
         router.push('/inventory')
       })
   }
   const modalHandler = (val) => setShowModal(val)
   const fetchItem = () => {
-    setLoadingItem(true)
+    dispatch(toggleLoading(true))
     api
       .getInventory(`sku=${router.query.sku}`, {
         Authorization: `Bearer ${user.accessToken}`
@@ -61,53 +59,12 @@ const ItemPage = ({ router }) => {
           router.replace('/warehouse?tab=Managing')
         } else {
           setItem(data.Items[0])
-          setEditItem(data.Items[0])
         }
-        setLoadingItem(false)
+        dispatch(toggleLoading(false))
       })
       .catch((err) => {
-        setLoadingItem(false)
+        dispatch(toggleLoading(false))
       })
-  }
-  const submitEditedItem = (e) => {
-    setEditItemLoading(true)
-    setEditItemError('')
-    e.preventDefault()
-    if (!editItem.Name) {
-      setEditItemLoading(false)
-      setEditItemError('Required')
-    } else {
-      const theSameLocation =
-        item.Location.sort().join(',') === editItem.Location.sort().join(',')
-      console.log(theSameLocation)
-      const TotalCost = Object.values(editItem.Cost).reduce(
-        (total, cost) => total + parseInt(cost),
-        0
-      )
-      let data = {
-        ...editItem,
-        Updated: new Date(),
-        TotalCost,
-        SettledTime: theSameLocation ? editItem.SettledTime : new Date()
-      }
-      delete data['TagsInput']
-      api
-        .updateInventory(data, { Authorization: `Bearer ${user.accessToken}` })
-        .then((data) => {
-          setEditItemLoading(false)
-          modalHandler(false)
-          setEditItemError('')
-          setEditItem({ ...itemTemplate })
-          fetchItem()
-        })
-        .catch((err) => {
-          alert(err.message)
-          setEditItemLoading(false)
-          modalHandler(false)
-          setEditItemError('')
-          setEditItem({ ...itemTemplate })
-        })
-    }
   }
   useEffect(() => {
     if (router.query.sku) {
@@ -118,7 +75,6 @@ const ItemPage = ({ router }) => {
   return (
     <>
       <Item
-        loading={loadingItem}
         showEditModal={modalHandler}
         onDelete={() =>
           confirmAction(
@@ -169,11 +125,6 @@ const ItemPage = ({ router }) => {
             </Flex>
           </Wrapper>
         </Dialog>
-      )}
-      {loading && (
-        <Loading>
-          <Loader size={70} />
-        </Loading>
       )}
       {showModal && (
         <AddEditItem

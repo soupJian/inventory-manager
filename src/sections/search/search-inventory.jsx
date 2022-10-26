@@ -1,8 +1,9 @@
 import Image from 'next/image'
+import { toggleLoading } from '../../store/slices/globalSlice'
+import { useSelector, useDispatch } from 'react-redux'
 import { useCallback, useEffect, useState } from 'react'
 import { Row, Col, Popover } from 'antd'
 import { PlusCircleFilled } from '@ant-design/icons'
-import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import {
   BaseButton,
@@ -11,7 +12,6 @@ import {
   Flex,
   FloatingBar,
   Icon,
-  Loader,
   Pagination,
   Table,
   TableCell,
@@ -32,6 +32,7 @@ import styles from './search.module.scss'
 const api = new Api()
 const perPage = 10
 const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
+  const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
   const [costInfo, setCostInfo] = useState({
     show: false,
@@ -45,8 +46,6 @@ const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState(router.query.search || '')
   const [data, setData] = useState({})
-  const [loadingData, setLoadingData] = useState(false)
-  const [loadingTable, setLoadingTable] = useState(false)
   const [selection, setSelection] = useState([])
   const [dialog, setDialog] = useState({
     message: '',
@@ -80,7 +79,7 @@ const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
     })
   }
   const clearSelectedItems = () => {
-    setLoadingTable(true)
+    dispatch(toggleLoading(true))
     const itemsToBeCleared = data.Items.filter((item) =>
       selection.includes(item.SKU)
     )
@@ -93,17 +92,17 @@ const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
       })
     )
       .then((values) => {
-        setLoadingTable(false)
+        dispatch(toggleLoading(false))
         setSelection([])
         getData()
       })
       .catch((err) => {
         console.log(err)
-        setLoadingTable(false)
+        dispatch(toggleLoading(false))
       })
   }
   const deleteSelectedItems = () => {
-    setLoadingTable(true)
+    dispatch(toggleLoading(true))
     Promise.all(
       selection.map((item) => {
         return api.deleteInventory(item, {
@@ -112,13 +111,13 @@ const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
       })
     )
       .then((values) => {
-        setLoadingTable(false)
+        dispatch(toggleLoading(false))
         setSelection([])
         getData()
       })
       .catch((err) => {
         console.log(err)
-        setLoadingTable(false)
+        dispatch(toggleLoading(false))
       })
   }
   const handlePage = (page) => {
@@ -129,6 +128,7 @@ const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
     setSearch(router.query.search)
   }, [router.query.search])
   const getData = useCallback(() => {
+    dispatch(toggleLoading(true))
     getSearch(
       {
         search
@@ -142,15 +142,14 @@ const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
         console.log(err)
       })
       .finally(() => {
-        setLoadingData(false)
+        dispatch(toggleLoading(false))
       })
-  }, [search, user.accessToken])
+  }, [dispatch, search, user.accessToken])
   useEffect(() => {
     if (search) {
-      setLoadingData(true)
       getData()
     }
-  }, [getData, router, router.query.search, search, user.accessToken])
+  }, [dispatch, getData, router, router.query.search, search, user.accessToken])
   return (
     <Wrapper
       styles={{
@@ -163,12 +162,6 @@ const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
       height="auto"
       padding="21px 29px"
     >
-      {loadingData && (
-        <LoadingWrapper>
-          <Loader size={100} />
-          <Text>Loading Search results...</Text>
-        </LoadingWrapper>
-      )}
       <Flex
         styles={{ flex: '0 0 auto' }}
         alignItems="flex-start"
@@ -199,7 +192,7 @@ const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
         styles={{ position: 'relative', flex: '1 0 auto' }}
         padding="23px 0px 0px"
       >
-        {!loadingData && !data.Items?.length ? (
+        {!data.Items?.length ? (
           <Flex
             alignItems="flex-start"
             justifyContent="center"
@@ -225,7 +218,6 @@ const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
           </Flex>
         ) : (
           <Table
-            loading={loadingTable}
             name="inventory-items"
             selectable={selectable}
             selectedAll={selection.length === data?.Items?.length}

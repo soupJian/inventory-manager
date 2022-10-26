@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { toggleLoading } from '../../store/slices/globalSlice'
+import { useDispatch } from 'react-redux'
 import {
   Button,
   Flex,
@@ -149,8 +151,8 @@ const WarehouseUnitRender = ({ warehouseData, unitItem }) => {
   )
 }
 const Map = () => {
+  const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
-  const [loadingWarehouse, setLoadingWarehouse] = useState(false)
   const [warehouseData, setWarehouseData] = useState({})
   const [locatedItem, setLocatedItem] = useState({})
   const [locatedItemInput, setLocatedItemInput] = useState('')
@@ -171,7 +173,6 @@ const Map = () => {
         }
         setLocateItemLoading(false)
         setLocatedItem(data)
-        console.log(data)
       })
       .catch((err) => {
         setLocateItemLoading(false)
@@ -188,7 +189,7 @@ const Map = () => {
     e.preventDefault()
   }
   const fetchItems = () => {
-    setLoadingWarehouse(true)
+    dispatch(toggleLoading(true))
     api
       .getAllInventory(`projectionExpression=SKU,Location,Name,SettledTime`, {
         Authorization: `Bearer ${user.accessToken}`
@@ -205,14 +206,13 @@ const Map = () => {
             return
           })
         })
-        console.log(dataObj)
         setWarehouseData(dataObj)
       })
       .catch((err) => {
         console.log(err)
       })
       .finally(() => {
-        setLoadingWarehouse(false)
+        dispatch(toggleLoading(false))
       })
   }
   useEffect(() => {
@@ -220,137 +220,129 @@ const Map = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
-    <>
-      {loadingWarehouse && (
-        <LoadingWrapper>
-          <Loader size={100} />
-          <Text>Loading warehouse data...</Text>
-        </LoadingWrapper>
-      )}
-      <Wrapper padding="35px 0">
+    <Wrapper padding="35px 0">
+      <Flex
+        styles={{ width: 'fit-content' }}
+        alignItems="flex-end"
+        justifyContent="flex-start"
+      >
         <Flex
-          styles={{ width: 'fit-content' }}
+          as="form"
+          onSubmit={handleLocateItem}
           alignItems="flex-end"
-          justifyContent="flex-start"
+          gap="8px"
         >
+          <InputGroup>
+            <Label htmlFor="warehouse-barcode">Locate item</Label>
+            <Input
+              startIcon={<Icon name="search" width="30px" height="30px" />}
+              wrapperStyles={{ 'margin-top': '16px', 'min-height': '59px' }}
+              placeholder="Type barcode"
+              value={locatedItemInput}
+              onChange={(e) => setLocatedItemInput(e.target.value)}
+              name="Barcode"
+              type="text"
+              id="warehouse-barcode"
+            />
+          </InputGroup>
           <Flex
-            as="form"
-            onSubmit={handleLocateItem}
-            alignItems="flex-end"
-            gap="8px"
+            direction="column"
+            justifyContent="flex-end"
+            gap="9px"
+            alignItems="flex-start"
           >
-            <InputGroup>
-              <Label htmlFor="warehouse-barcode">Locate item</Label>
-              <Input
-                startIcon={<Icon name="search" width="30px" height="30px" />}
-                wrapperStyles={{ 'margin-top': '16px', 'min-height': '59px' }}
-                placeholder="Type barcode"
-                value={locatedItemInput}
-                onChange={(e) => setLocatedItemInput(e.target.value)}
-                name="Barcode"
-                type="text"
-                id="warehouse-barcode"
-              />
-            </InputGroup>
-            <Flex
-              direction="column"
-              justifyContent="flex-end"
-              gap="9px"
-              alignItems="flex-start"
-            >
-              {locatedItemError && (
-                <Text
-                  styles={{ 'white-space': 'nowrap' }}
-                  color="#CB0000"
-                  size="15px"
-                >{`"Invalid Barcode"`}</Text>
-              )}
-              {locateItemLoading && <Loader size={30} />}
-              {!locatedItemError &&
-                locatedItem?.Items?.length &&
-                !locateItemLoading && (
-                  <>
-                    <Text
-                      styles={{ 'white-space': 'nowrap' }}
-                      color="#000000"
-                      size="15px"
-                    >
-                      {locatedItem?.Items[0]?.Name}
-                    </Text>
-                    <Text
-                      styles={{ 'white-space': 'nowrap' }}
-                      weight="500"
-                      color="#2EBEBD"
-                      size="15px"
-                    >
-                      {locatedItem?.Items[0]?.Location.join(';')}
-                    </Text>
-                  </>
-                )}
-            </Flex>
+            {locatedItemError && (
+              <Text
+                styles={{ 'white-space': 'nowrap' }}
+                color="#CB0000"
+                size="15px"
+              >{`"Invalid Barcode"`}</Text>
+            )}
+            {locateItemLoading && <Loader size={30} />}
             {!locatedItemError &&
               locatedItem?.Items?.length &&
               !locateItemLoading && (
-                <Button
-                  onClick={cancelLocatedItem}
-                  styles={{ padding: '8px 16px', 'align-self': 'fles-start' }}
-                  minWidth="auto"
-                  kind="primary"
-                >
-                  Cancel
-                </Button>
+                <>
+                  <Text
+                    styles={{ 'white-space': 'nowrap' }}
+                    color="#000000"
+                    size="15px"
+                  >
+                    {locatedItem?.Items[0]?.Name}
+                  </Text>
+                  <Text
+                    styles={{ 'white-space': 'nowrap' }}
+                    weight="500"
+                    color="#2EBEBD"
+                    size="15px"
+                  >
+                    {locatedItem?.Items[0]?.Location.join(';')}
+                  </Text>
+                </>
               )}
           </Flex>
+          {!locatedItemError &&
+            locatedItem?.Items?.length &&
+            !locateItemLoading && (
+              <Button
+                onClick={cancelLocatedItem}
+                styles={{ padding: '8px 16px', 'align-self': 'fles-start' }}
+                minWidth="auto"
+                kind="primary"
+              >
+                Cancel
+              </Button>
+            )}
         </Flex>
-        <Wrapper
-          styles={{
-            display: 'flex',
-            'flex-direction': 'column',
-            'align-items': 'flex-start'
-          }}
-          padding="41px 0 35px"
+      </Flex>
+      <Wrapper
+        styles={{
+          display: 'flex',
+          'flex-direction': 'column',
+          'align-items': 'flex-start'
+        }}
+        padding="41px 0 35px"
+      >
+        <Flex
+          styles={{ 'margin-bottom': '50px', 'max-width': '1100px' }}
+          alignItems="flex-start"
+          gap="58px"
         >
-          <Flex
-            styles={{ 'margin-bottom': '50px', 'max-width': '1100px' }}
-            alignItems="flex-start"
-            gap="58px"
-          >
-            <WarehouseUnitRender
-              warehouseData={warehouseData}
-              unitItem={warshouseMap[0]}
-            />
-            <WarehouseUnitRender
-              warehouseData={warehouseData}
-              unitItem={warshouseMap[1]}
-            />
-          </Flex>
-          <Flex
-            styles={{ 'margin-bottom': '50px', 'max-width': '1100px' }}
-            alignItems="flex-start"
-            gap="58px"
-          >
-            <WarehouseUnitRender
-              warehouseData={warehouseData}
-              unitItem={warshouseMap[2]}
-            />
-            <WarehouseUnitRender
-              warehouseData={warehouseData}
-              unitItem={warshouseMap[3]}
-            />
-          </Flex>
-          <Flex
-            styles={{ 'margin-bottom': '50px' }}
-            alignItems="flex-start"
-            gap="58px"
-          >
-            <WarehouseUnitRender
-              warehouseData={warehouseData}
-              unitItem={warshouseMap[4]}
-            />
-          </Flex>
-        </Wrapper>
+          <WarehouseUnitRender
+            warehouseData={warehouseData}
+            unitItem={warshouseMap[0]}
+          />
+          <WarehouseUnitRender
+            warehouseData={warehouseData}
+            unitItem={warshouseMap[1]}
+          />
+        </Flex>
+        <Flex
+          styles={{ 'margin-bottom': '50px', 'max-width': '1100px' }}
+          alignItems="flex-start"
+          gap="58px"
+        >
+          <WarehouseUnitRender
+            warehouseData={warehouseData}
+            unitItem={warshouseMap[2]}
+          />
+          <WarehouseUnitRender
+            warehouseData={warehouseData}
+            unitItem={warshouseMap[3]}
+          />
+        </Flex>
+        <Flex
+          styles={{ 'margin-bottom': '50px' }}
+          alignItems="flex-start"
+          gap="58px"
+        >
+          <WarehouseUnitRender
+            warehouseData={warehouseData}
+            unitItem={warshouseMap[4]}
+          />
+        </Flex>
       </Wrapper>
-    </>
+    </Wrapper>
   )
 }
 
@@ -395,18 +387,4 @@ const GridRow = styled.div`
   & > div:not(:last-of-type) {
     border-right: 3px solid #999999;
   }
-`
-const LoadingWrapper = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.85);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  z-index: 5;
 `

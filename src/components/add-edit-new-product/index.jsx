@@ -1,5 +1,6 @@
-import React, { useState, useCallback } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState } from 'react'
+import { toggleLoading } from '../../store/slices/globalSlice'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   Button,
   Flex,
@@ -26,10 +27,9 @@ const AddProduct = ({
   setNewProductModal,
   submitnewProductFinally
 }) => {
+  const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
   const [newProduct, setNewProduct] = useState({ ...newProductValue })
-  const [newProductLoading, setNewProductLoading] = useState(false)
-  const [newProductError, setNewProductError] = useState('')
   const [partsInput, setPartsInput] = useState(
     newProduct.Parts.length == 0
       ? [
@@ -106,18 +106,15 @@ const AddProduct = ({
   }
   // 新增
   const submitnewProduct = (e) => {
-    setNewProductLoading(true)
     e.preventDefault()
     if (!newProduct.Name) {
-      setNewProductLoading(false)
       message.warn('Product Name is Required')
     } else if (!newProduct.SKU) {
-      setNewProductLoading(false)
       message.warn('Product SKU is Required')
     } else if (Object.keys(partsInput[0].Inventory).length === 0) {
-      setNewProductLoading(false)
       message.warn('Product Parts is Required')
     } else {
+      dispatch(toggleLoading(true))
       const Parts = partsInput
         .filter((i) => i.SKU)
         .map((part) => ({
@@ -142,7 +139,7 @@ const AddProduct = ({
           setNewProduct({ ...productTemplate })
         })
         .finally(() => {
-          setNewProductLoading(false)
+          dispatch(toggleLoading(false))
           setNewProductModal(false)
           submitnewProductFinally()
         })
@@ -158,7 +155,7 @@ const AddProduct = ({
     } else if (Object.keys(partsInput[0].Inventory).length === 0) {
       message.warn('Product Parts is Required')
     } else {
-      setNewProductLoading(true)
+      dispatch(toggleLoading(true))
       const Parts = partsInput
         .filter((i) => i.SKU)
         .map((part) => ({
@@ -186,7 +183,7 @@ const AddProduct = ({
           setNewProduct({ ...productTemplate })
         })
         .finally(() => {
-          setNewProductLoading(false)
+          dispatch(toggleLoading(false))
           setNewProductModal(false)
           submitnewProductFinally()
         })
@@ -202,7 +199,6 @@ const AddProduct = ({
   }
   return (
     <Modal
-      loading={newProductLoading}
       title={title}
       closeOnClickOutside={false}
       onClose={() => setNewProductModal(false)}
@@ -355,7 +351,6 @@ const AddProduct = ({
                 type="text"
                 id="products-new-product-sku"
               />
-              {newProductError}
             </InputGroup>
           </Wrapper>
           <Wrapper padding="24px 0 0">

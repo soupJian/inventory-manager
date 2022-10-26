@@ -1,12 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
-  loading: false
+  loading: true
 }
 export const globalSlice = createSlice({
   name: 'global',
   initialState,
   reducers: {
     toggleLoading: (state, action) => {
+      console.log(action)
       state.loading = action.payload
     }
   }
