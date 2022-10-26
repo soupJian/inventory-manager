@@ -26,7 +26,7 @@ const PipelineSales = ({ list, getData, type }) => {
     const newList = JSON.parse(JSON.stringify(list))
     newList[index].salesStatus = newValue
     // 开启loading
-    dispatch(toggleLoading())
+    dispatch(toggleLoading(true))
     if (type == 'sales') {
       await postSalesPipeline(newList)
     } else if (type == 'support') {
@@ -41,7 +41,7 @@ const PipelineSales = ({ list, getData, type }) => {
     }
     await getData()
     // // 关闭loading
-    dispatch(toggleLoading())
+    dispatch(toggleLoading(false))
   }
   // 创建 sale pipeline
   const create = async () => {
@@ -75,7 +75,7 @@ const PipelineSales = ({ list, getData, type }) => {
       salesStatus: statusName
     })
     // 开启loading
-    dispatch(toggleLoading())
+    dispatch(toggleLoading(true))
     if (type == 'sales') {
       await postSalesPipeline(newList)
     } else if (type == 'support') {
@@ -90,7 +90,7 @@ const PipelineSales = ({ list, getData, type }) => {
     }
     await getData()
     // 关闭loading
-    dispatch(toggleLoading())
+    dispatch(toggleLoading(false))
     setStatusName('')
     setAfterValue(null)
   }

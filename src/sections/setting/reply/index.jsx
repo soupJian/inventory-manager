@@ -64,13 +64,13 @@ const Reply = () => {
   }
   // 编辑 chat 的 提交按钮
   const saveEdit = async (info, editType) => {
-    dispatch(toggleLoading())
+    dispatch(toggleLoading(true))
     if (editType == 'chat') {
       const res = await updateChatReply(info)
       if (res && res.message == 'success') {
         setShowEdit(false)
-        dispatch(toggleLoading())
-        getChatList()
+        await getChatList()
+        dispatch(toggleLoading(false))
       }
     } else {
       const res = await Promise.all(
@@ -96,20 +96,20 @@ const Reply = () => {
       })
       if (result && result.message == 'success') {
         setShowEdit(false)
-        dispatch(toggleLoading())
-        getEmailList()
+        await getEmailList()
+        dispatch(toggleLoading(false))
       }
     }
   }
   const updateData = (type) => {
-    dispatch(toggleLoading())
+    dispatch(toggleLoading(true))
     if (type == 'chat') {
       getChatList().then(() => {
-        dispatch(toggleLoading())
+        dispatch(toggleLoading(false))
       })
     } else {
       getEmailList().then(() => {
-        dispatch(toggleLoading())
+        dispatch(toggleLoading(false))
       })
     }
 
@@ -127,7 +127,7 @@ const Reply = () => {
   }
   // delete a item
   const handleDeleteReply = async () => {
-    dispatch(toggleLoading())
+    dispatch(toggleLoading(true))
     if (deleteModal.type == 'chat') {
       await deleteChatReply(deleteModal.item.id)
       await getChatList()
@@ -136,7 +136,7 @@ const Reply = () => {
         show: false,
         item: null
       })
-      dispatch(toggleLoading())
+      dispatch(toggleLoading(false))
     } else {
       // deleteModal.type == 'email'
       await deleteEmailReply(deleteModal.item.id)
@@ -146,13 +146,13 @@ const Reply = () => {
         show: false,
         item: null
       })
-      dispatch(toggleLoading())
+      dispatch(toggleLoading(false))
     }
   }
   useEffect(() => {
-    dispatch(toggleLoading())
+    dispatch(toggleLoading(true))
     Promise.all([getChatList(), getEmailList()]).then(() => {
-      dispatch(toggleLoading())
+      dispatch(toggleLoading(false))
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

@@ -3,7 +3,7 @@ import { Table, Dropdown, Menu, Space, Button } from 'antd'
 import { Icon } from '../../../../components/commons'
 import { DownOutlined } from '@ant-design/icons'
 
-const UserAccess = ({ data, editUserAccess, loading }) => {
+const UserAccess = ({ data, editUserAccess }) => {
   const columns = [
     {
       title: 'ACCESS NAME',
@@ -72,9 +72,7 @@ const UserAccess = ({ data, editUserAccess, loading }) => {
       }
     }
   ]
-  return (
-    <Table columns={columns} dataSource={data} rowKey="id" loading={loading} />
-  )
+  return <Table columns={columns} dataSource={data} rowKey="id" />
 }
 
 export default React.memo(UserAccess)

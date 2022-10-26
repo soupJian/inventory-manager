@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { Row, Col, Select, Input, Button, Modal } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import AssetsContact from './components/asset-contact'
@@ -6,9 +7,11 @@ import styles from './index.module.scss'
 import { getContacts } from '../../../service/setting/setting-assets'
 import { formatTimeStr } from '../../../utils/formatTime'
 import { exportExcel } from '../../../utils/export-excel'
+import { toggleLoading } from '../../../store/slices/globalSlice'
 const { Option } = Select
 
 const Assets = () => {
+  const dispatch = useDispatch()
   const [headerSelect, setHeaderSelect] = useState('Contact')
   const [constactList, setContactList] = useState([])
   // 导出 modal
@@ -34,6 +37,7 @@ const Assets = () => {
     }
   }
   const getData = async () => {
+    dispatch(toggleLoading(true))
     const res = await getContacts()
     if (res.Items) {
       setContactList(
@@ -45,9 +49,11 @@ const Assets = () => {
         })
       )
     }
+    dispatch(toggleLoading(false))
   }
   useEffect(() => {
     getData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
     <div className={styles.assets}>

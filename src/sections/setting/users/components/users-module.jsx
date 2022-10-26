@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { toggleLoading } from '../../../../store/slices/globalSlice'
+import { useDispatch } from 'react-redux'
 import { DownOutlined } from '@ant-design/icons'
 import { Table, Row, Col, Button, Modal, Space, Popover, Radio } from 'antd'
 import { Icon } from '../../../../components/commons'
@@ -7,13 +9,8 @@ import { CloseOutlined } from '@ant-design/icons'
 import styles from '../index.module.scss'
 import { updateUser } from '../../../../service/setting/setting-user'
 
-const UserModule = ({
-  data,
-  showAccessDetail,
-  accessList,
-  loading,
-  getData
-}) => {
+const UserModule = ({ data, showAccessDetail, accessList, getData }) => {
+  const dispatch = useDispatch()
   const [showSelectedView, setShowSelectedView] = useState(false)
   // 选择的表格数据
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
@@ -117,7 +114,9 @@ const UserModule = ({
     )
   }
   const updateCurrentUser = async (user) => {
+    dispatch(toggleLoading(true))
     const res = await updateUser(user)
+    dispatch(toggleLoading(false))
     if (res.message) {
       getData()
       setShowEditModal(false)
@@ -217,7 +216,6 @@ const UserModule = ({
           showTotal: (total) => `Showing ${total} of ${data.length} deals`
         }}
         rowKey="id"
-        loading={loading}
       />
       {showSelectedView && selectedRowKeys.length > 0 && (
         <Row className={styles.view} align="middle" justify="space-between">

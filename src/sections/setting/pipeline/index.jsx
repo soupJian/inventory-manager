@@ -24,7 +24,7 @@ const Pipeline = () => {
   const [list, setList] = useState([])
   // 获取数据
   const getData = async () => {
-    dispatch(toggleLoading())
+    dispatch(toggleLoading(true))
     let res = null
     if (headerSelect == 'Sales pipeline') {
       res = await getSalesPipeline()
@@ -44,7 +44,7 @@ const Pipeline = () => {
     // 开启loading
     setList(res.Item.pipelines)
     // 关闭loading
-    dispatch(toggleLoading())
+    dispatch(toggleLoading(false))
   }
   useEffect(() => {
     getData()

@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import { useDispatch } from 'react-redux'
+import { toggleLoading } from '../../../store/slices/globalSlice'
 import { Row, Col, Select, Drawer, Button, Modal, message } from 'antd'
 import UserModule from './components/users-module'
 import UserAccess from './components/user-access'
@@ -24,10 +26,10 @@ const defaultAccess = {
 }
 
 const Users = () => {
+  const dispatch = useDispatch()
   const [selectValue, setSelectValue] = useState('Users')
   const [userList, setUserList] = useState([])
   const [accessList, setAccessList] = useState([])
-  const [loadiing, setLoading] = useState(false)
   // create user  modal
   const [showCreateUserModal, setShowCreateUser] = useState(false)
   // 接口判断邮箱是否重复的等信息...
@@ -39,9 +41,10 @@ const Users = () => {
     show: false
   })
   const getData = async () => {
-    setLoading(true)
+    dispatch(toggleLoading(true))
     const userRes = await getAllUser()
     const accessRes = await getAllAccess()
+    console.log(accessRes)
     setUserList(
       userRes.Items.map((item) => {
         return {
@@ -58,7 +61,7 @@ const Users = () => {
         }
       })
     )
-    setLoading(false)
+    dispatch(toggleLoading(false))
   }
   // 编辑用户 权限
   const editUserAccess = useCallback(
@@ -143,12 +146,14 @@ const Users = () => {
     }
   }
   const createUser = async (user) => {
+    dispatch(toggleLoading(true))
     const res = await postCreateUser({
       ...user,
       id: uuidv4(),
       created: new Date().toISOString(),
       active: true
     })
+    dispatch(toggleLoading(false))
     if (res.message == 'success') {
       getData()
       setShowCreateUser(false)
@@ -216,7 +221,6 @@ const Users = () => {
             data={userList}
             showAccessDetail={showAccessDetail}
             accessList={accessList}
-            loading={loadiing}
             getData={getData}
           />
         )}
@@ -224,7 +228,6 @@ const Users = () => {
           <UserAccess
             data={accessList}
             editUserAccess={editUserAccess}
-            loading={loadiing}
             getData={getData}
           />
         )}
