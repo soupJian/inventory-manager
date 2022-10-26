@@ -3,15 +3,9 @@ import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import {
   BaseButton,
-  Button,
   Dialog,
   Flex,
-  Icon,
-  Input,
-  InputGroup,
-  Label,
   Loader,
-  Modal,
   Text,
   Wrapper
 } from '../../components/commons'
@@ -36,8 +30,6 @@ const ProductPage = ({ router }) => {
   const [lookUpLoading, setLookUpLoading] = useState(false)
   const [lookUpError, setLookUpError] = useState('')
   const [editProduct, setEditProduct] = useState({ ...productTemplate })
-  const [editProductLoading, setEditProductLoading] = useState(false)
-  const [editProductError, setEditProductError] = useState('')
 
   const confirmAction = (cb, message) => {
     setDialog({
@@ -49,73 +41,6 @@ const ProductPage = ({ router }) => {
       }
     })
   }
-
-  const editProductFieldHandler = (e, nestedKey) => {
-    if (nestedKey) {
-      return setEditProduct({
-        ...editProduct,
-        Cost: { ...editProduct.Cost, [e.target.name]: e.target.value }
-      })
-    } else if (e.target.name === 'Tags') {
-      let newTags = e.target.value.split(',')
-      newTags.pop()
-      setEditProduct({
-        ...editProduct,
-        TagsInput: e.target.value,
-        Tags: newTags
-      })
-    } else {
-      return setEditProduct({ ...editProduct, [e.target.name]: e.target.value })
-    }
-  }
-
-  const lookUpItem = (idx) => {
-    setLookUpLoading(true)
-    setLookUpError('')
-    console.log({ barcode: partsInput[idx]['barcode'] })
-    api
-      .getInventory(
-        { barcode: partsInput[idx]['barcode'] },
-        { Authorization: `Bearer ${user.accessToken}` }
-      )
-      .then((data) => {
-        console.log(data)
-        if (data.Items && data.Items.length === 0) {
-          console.log('message')
-          setLookUpError("Sorry, We can't find the item!")
-        } else if (!data.Items && data.message) {
-          console.log('error')
-          setLookUpError(data.message)
-        } else {
-          setLookUpLoading(false)
-          let newPartsInput = [...partsInput]
-          let itemData = { item: data.Items[0] }
-          let inputData = { ...partsInput[idx], ...itemData }
-          newPartsInput.splice(idx, 1, inputData)
-          setPartsInput(newPartsInput)
-        }
-      })
-      .catch((err) => {
-        setLookUpLoading(false)
-      })
-  }
-
-  const handlePartsInput = (idx, e) => {
-    let data = [...partsInput]
-    data[idx][e.target.name] = e.target.value
-    console.log(data[idx])
-    setPartsInput(data)
-  }
-  const addPart = () => {
-    let newField = { sku: '', count: 1, item: {} }
-    setPartsInput([...partsInput, newField])
-  }
-  const removePart = (idx) => {
-    let newParts = [...partsInput]
-    newParts.splice(idx, 1)
-    setPartsInput(newParts)
-  }
-
   const deleteProduct = (sku) => {
     setLoading(true)
     api
@@ -134,18 +59,22 @@ const ProductPage = ({ router }) => {
         Authorization: `Bearer ${user.accessToken}`
       })
       .then((data) => {
+        if (data.Items.length == 0) {
+          router.replace('/warehouse?tab=Managing')
+        } else {
+          setProduct(data.Items[0])
+          setEditProduct(data.Items[0])
+          setPartsInput(
+            data.Items[0].Parts.map((item) => {
+              return {
+                activeLwh: 'in.',
+                activeWeight: 'lbs.',
+                ...item
+              }
+            })
+          )
+        }
         setLoadingData(false)
-        setProduct(data.Items[0])
-        setEditProduct(data.Items[0])
-        setPartsInput(
-          data.Items[0].Parts.map((item) => {
-            return {
-              activeLwh: 'in.',
-              activeWeight: 'lbs.',
-              ...item
-            }
-          })
-        )
       })
       .catch((err) => {
         setLoadingData(false)

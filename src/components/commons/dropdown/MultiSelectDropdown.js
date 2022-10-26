@@ -103,7 +103,7 @@ const Wrapper = styled.div`
 `
 const Header = styled.div`
   padding: 6px 10px;
-
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;

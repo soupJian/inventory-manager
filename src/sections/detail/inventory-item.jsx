@@ -10,7 +10,6 @@ import {
   Wrapper
 } from '../../components/commons'
 import CostModal from '../../components/cost-modal'
-import { Row, Col } from 'antd'
 import styles from './index.module.scss'
 import { formatMoney } from '../../utils/formatMoney'
 

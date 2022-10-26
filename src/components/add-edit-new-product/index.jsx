@@ -157,6 +157,11 @@ const AddProduct = ({
         Parts
       }
       console.log(data)
+      // 如果SKU发生改变，则SKU不变，新增NewSKU传递
+      if (newProduct.SKU != newProductValue.SKU) {
+        data.NewSKU = data.SKU
+        data.SKU = newProductValue.SKU
+      }
       delete data['TagsInput']
       api
         .updateProduct(data, { Authorization: `Bearer ${user.accessToken}` })

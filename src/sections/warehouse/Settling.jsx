@@ -99,6 +99,9 @@ const Settline = () => {
         if (data) {
           getData()
         }
+        setDialog({
+          show: false
+        })
       })
   }
   const confirmSettle = (item) => {

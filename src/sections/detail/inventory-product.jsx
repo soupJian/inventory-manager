@@ -7,10 +7,8 @@ import {
   Icon,
   Loader,
   Text,
-  Wrapper,
-  Modal
+  Wrapper
 } from '../../components/commons'
-import { Col, Row } from 'antd'
 import styles from './index.module.scss'
 import { formatMoney } from '../../utils/formatMoney'
 import CostModal from '../../components/cost-modal'

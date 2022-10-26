@@ -80,7 +80,7 @@ const AddANewItem = ({
         0
       )
       const settledInfo = {
-        Settled: !newItem.Location.length,
+        Settled: newItem.Location.length > 0,
         SettledTime: newItem.Location.length ? new Date() : ''
       }
       let data = {
@@ -119,7 +119,8 @@ const AddANewItem = ({
       setNewItemError('Required')
     } else {
       const theSameLocation =
-        item.Location.sort().join(',') === newItem.Location.sort().join(',')
+        newItem.Location.sort().join(',') ===
+        newItemValue.Location.sort().join(',')
       const TotalCost = Object.values(newItem.Cost).reduce(
         (total, cost) => total + parseInt(cost),
         0
@@ -131,8 +132,15 @@ const AddANewItem = ({
         Updated: new Date(),
         TotalCost,
         SettledTime: theSameLocation ? newItem.SettledTime : new Date(),
-        Settled: !newItem.Location.length
+        Settled: newItem.Location.length > 0
       }
+      console.log(newItem)
+      // 如果SKU发生改变，则SKU不变，新增NewSKU传递
+      if (newItem.SKU != newItemValue.SKU) {
+        data.NewSKU = data.SKU
+        data.SKU = newItemValue.SKU
+      }
+      console.log(data)
       delete data['TagsInput']
       api
         .updateInventory(data, { Authorization: `Bearer ${user.accessToken}` })
@@ -160,7 +168,6 @@ const AddANewItem = ({
     if (type == 'add') {
       submitNewItem(e)
     } else {
-      // type == edit
       submitEditedItem(e)
     }
   }

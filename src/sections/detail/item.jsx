@@ -57,8 +57,12 @@ const ItemPage = ({ router }) => {
         Authorization: `Bearer ${user.accessToken}`
       })
       .then((data) => {
-        setItem(data.Items[0])
-        setEditItem(data.Items[0])
+        if (data.Items.length == 0) {
+          router.replace('/warehouse?tab=Managing')
+        } else {
+          setItem(data.Items[0])
+          setEditItem(data.Items[0])
+        }
         setLoadingItem(false)
       })
       .catch((err) => {
@@ -173,6 +177,7 @@ const ItemPage = ({ router }) => {
       )}
       {showModal && (
         <AddEditItem
+          type="edit"
           title={`edit: ${item.Name}`}
           newItemValue={item}
           submitNewItemFinally={() => fetchItem()}
