@@ -72,7 +72,7 @@ const InventoryTable = ({
     WarehouseDelivery: 0,
     total: 0
   })
-  const [sortBy, setSortBy] = useState('asc')
+  const [sortBy, setSortBy] = useState('desc')
   const fetchSKUs = () => {
     setLoadingTable(true)
     api
@@ -108,7 +108,7 @@ const InventoryTable = ({
         })
       })
       api
-        .getMultipleInventory(`skus=${str}`, {
+        .getMultipleInventory(`skus=${str}&sort=Available&order=${sortBy}`, {
           Authorization: `Bearer ${user.accessToken}`
         })
         .then((data) => {

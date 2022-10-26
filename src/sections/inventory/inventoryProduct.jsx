@@ -70,7 +70,7 @@ const InventoryProduct = ({
     WarehouseDelivery: 0,
     total: 0
   })
-  const [sortBy, setSortBy] = useState('asc') // asc 和desc
+  const [sortBy, setSortBy] = useState('desc') // asc 和desc
 
   const handleStatus = (val) => {
     dispatch({ type: 'changeStatus', payload: val })
@@ -195,7 +195,7 @@ const InventoryProduct = ({
         })
       })
       api
-        .getMultipleProducts(`skus=${str}`, {
+        .getMultipleProducts(`skus=${str}&sort=Available&order=${sortBy}`, {
           Authorization: `Bearer ${user.accessToken}`
         })
         .then((data) => {

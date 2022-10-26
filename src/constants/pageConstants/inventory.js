@@ -15,11 +15,11 @@ export const statusList = [
 export const sortByList = [
   {
     label: 'Available (high to low)',
-    value: 'asc'
+    value: 'desc'
   },
   {
     label: 'Available (low to high)',
-    value: 'desc'
+    value: 'asc'
   }
 ]
 
