@@ -425,11 +425,15 @@ const InventoryProduct = ({
                         className={`${styles.activeText} ${styles.underline} ${styles.pointer}`}
                         onClick={(e) => {
                           e.stopPropagation()
+                          let list = []
+                          item.Parts.forEach((item) => {
+                            for (let i = 0; i < item.Quantity; i++) {
+                              list.push(item.Inventory)
+                            }
+                          })
                           setCostInfo({
                             show: true,
-                            parts: item.Parts.map(
-                              (partItem) => partItem.Inventory
-                            ),
+                            parts: list,
                             total: item.TotalCost
                           })
                         }}

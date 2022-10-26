@@ -140,10 +140,16 @@ const Product = ({
                   <div
                     className={`${styles.activeText}  ${styles.pointer}`}
                     onClick={() => {
+                      let list = []
+                      parts.forEach((item) => {
+                        for (let i = 0; i < item.Quantity; i++) {
+                          list.push(item.Inventory)
+                        }
+                      })
                       setCostInfo({
                         show: true,
                         total: product.TotalCost,
-                        parts: parts.map((item) => item.Inventory)
+                        parts: list
                       })
                     }}
                   >

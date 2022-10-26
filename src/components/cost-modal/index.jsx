@@ -7,7 +7,14 @@ import styles from './index.module.scss'
 const CostItem = ({ costInfo, total, name }) => {
   return (
     <div className={styles.costItem}>
-      {name && <div className={styles.costItemName}>{name}</div>}
+      {name && (
+        <div className={styles.costItemName}>
+          {name}{' '}
+          <spam style={{ marginLeft: '20px' }}>
+            ${formatMoney(costInfo.TotalCost)}
+          </spam>
+        </div>
+      )}
       <Row gutter={[16, 16]}>
         <Col>
           <div style={{ width: '110px' }} className={styles.subTitle}>
@@ -75,6 +82,7 @@ const CostItem = ({ costInfo, total, name }) => {
 }
 
 const CostModal = ({ costInfo, setCostInfo }) => {
+  console.log(costInfo)
   return (
     <Modal
       onClose={() => {
@@ -94,7 +102,7 @@ const CostModal = ({ costInfo, setCostInfo }) => {
                 <CostItem
                   key={item.SKU}
                   name={item.Name}
-                  costInfo={item.Cost}
+                  costInfo={{ ...item.Cost, TotalCost: item.TotalCost }}
                   total={costInfo.total}
                 />
               )
