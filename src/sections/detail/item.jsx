@@ -18,7 +18,7 @@ const api = new Api()
 
 const ItemPage = ({ router }) => {
   const user = useSelector((state) => state.user)
-  const [item, setItem] = useState({})
+  const [item, setItem] = useState({ ...itemTemplate })
   const [dialog, setDialog] = useState({
     message: '',
     onConfirm: '',

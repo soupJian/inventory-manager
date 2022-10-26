@@ -152,7 +152,7 @@ const Product = ({
                 </AttrValue>
               </AttrGroup>
             </Flex>
-            {product.Parts?.length > 0 && (
+            {product.Parts.length > 0 && (
               <Flex
                 alignItems="flex-start"
                 justifyContent="flex-start"
@@ -190,28 +190,22 @@ const Product = ({
                       <AttrValue>
                         <AttrValue>
                           {partItem.activeLwh == 'in.'
-                            ? partItem.Inventory.attr?.length || 0
-                            : partItem.Inventory.attr?.length
-                            ? Number(
-                                partItem.Inventory.attr?.length * 0.45359237
-                              ).toFixed(1)
-                            : 0}{' '}
+                            ? partItem.Inventory.attr.length
+                            : Number(
+                                partItem.Inventory.attr.length * 0.45359237
+                              ).toFixed(1)}{' '}
                           X{' '}
                           {partItem.activeLwh == 'in.'
-                            ? partItem.Inventory.attr?.width || 0
-                            : partItem.Inventory.attr?.width
-                            ? Number(
-                                partItem.Inventory.attr?.width * 0.45359237
-                              ).toFixed(1)
-                            : 0}{' '}
+                            ? partItem.Inventory.attr.width
+                            : Number(
+                                partItem.Inventory.attr.width * 0.45359237
+                              ).toFixed(1)}{' '}
                           X{' '}
                           {partItem.activeLwh == 'in.'
-                            ? partItem.Inventory.attr?.height || 0
-                            : partItem.Inventory.attr?.height
-                            ? Number(
-                                partItem.Inventory.attr?.height * 0.45359237
-                              ).toFixed(1)
-                            : 0}
+                            ? partItem.Inventory.attr.height
+                            : Number(
+                                partItem.Inventory.attr.height * 0.45359237
+                              ).toFixed(1)}
                           {partItem.activeLwh == 'in.' && (
                             <>
                               <span
@@ -276,12 +270,10 @@ const Product = ({
                     <AttrGroup>
                       <AttrValue>
                         {partItem.activeWeight == 'lbs.'
-                          ? partItem.Inventory.attr?.weight || 0
-                          : partItem.Inventory.attr?.weight
-                          ? Number(
-                              partItem.Inventory.attr?.weight * 0.45359237
-                            ).toFixed(1)
-                          : 0}
+                          ? partItem.Inventory.attr.weight
+                          : Number(
+                              partItem.Inventory.attr.weight * 0.45359237
+                            ).toFixed(1)}
                         {partItem.activeWeight == 'lbs.' && (
                           <>
                             <span
@@ -375,7 +367,7 @@ const Product = ({
                 justifyContent="flex-start"
                 gap="10px"
               >
-                {product?.Tags?.map((tag) => {
+                {product.Tags.map((tag) => {
                   return (
                     <Tag key={tag}>
                       <AttrValue>{tag}</AttrValue>

@@ -141,22 +141,16 @@ const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
                     <AttrName>DIMENSIONS</AttrName>
                     <AttrValue>
                       {activeLwh == 'in.'
-                        ? item.attr?.length || 0
-                        : item.attr?.length
-                        ? Number(item.attr?.length * 0.45359237).toFixed(1)
-                        : 0}{' '}
+                        ? item.attr.length
+                        : Number(item.attr.length * 0.45359237).toFixed(1)}{' '}
                       X{' '}
                       {activeLwh == 'in.'
-                        ? item.attr?.width || 0
-                        : item.attr?.width
-                        ? Number(item.attr?.width * 0.45359237).toFixed(1)
-                        : 0}{' '}
+                        ? item.attr.width
+                        : Number(item.attr.width * 0.45359237).toFixed(1)}{' '}
                       X{' '}
                       {activeLwh == 'in.'
-                        ? item.attr?.height || 0
-                        : item.attr?.height
-                        ? Number(item.attr?.height * 0.45359237).toFixed(1)
-                        : 0}
+                        ? item.attr.height
+                        : Number(item.attr.height * 0.45359237).toFixed(1)}
                       {activeLwh == 'in.' && (
                         <>
                           <span
@@ -213,10 +207,8 @@ const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
                     <AttrName>WEIGHT</AttrName>
                     <AttrValue>
                       {activeWeight == 'lbs.'
-                        ? item.attr?.weight || 0
-                        : item.attr?.weight
-                        ? Number(item.attr?.weight * 0.45359237).toFixed(1)
-                        : 0}
+                        ? item.attr.weight
+                        : Number(item.attr.weight * 0.45359237).toFixed(1)}
                       {activeWeight == 'lbs.' && (
                         <>
                           <span
