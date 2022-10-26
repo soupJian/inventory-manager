@@ -128,7 +128,12 @@ const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
     setSearch(router.query.search)
   }, [router.query.search])
   const getData = useCallback(() => {
-    getSearch(search, user.accessToken)
+    getSearch(
+      {
+        search
+      },
+      user.accessToken
+    )
       .then((data) => {
         setData(data)
       })

@@ -47,7 +47,7 @@ const ProductPage = ({ router }) => {
       .deleteProduct(sku, { Authorization: `Bearer ${user.accessToken}` })
       .then((data) => {
         setLoading(false)
-        router.push('/warehouse#Managing')
+        router.push('/warehouse?tab=Managing')
       })
   }
 
@@ -165,7 +165,7 @@ const ProductPage = ({ router }) => {
           type="edit"
           title={`Edit: ${product.Name}`}
           subTitle={
-            'Edit the product parts by searching the part’s SKU or NAME'
+            'Edit the product parts by searching the part’s BARCODE or SKU'
           }
           newProductValue={product}
           setNewProductModal={setShowModal}

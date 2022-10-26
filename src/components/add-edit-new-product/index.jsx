@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import {
   Button,
@@ -12,6 +12,7 @@ import {
 import styled from 'styled-components'
 import { productTemplate } from '../../constants/pageConstants/products'
 import SearchInput from './search-input'
+import { message } from 'antd'
 import { Api } from '../../utils/utils'
 import { nanoid } from 'nanoid'
 
@@ -20,7 +21,7 @@ const api = new Api()
 const AddProduct = ({
   type = 'add',
   title = 'Add new product',
-  subTitle = 'Add the product parts by searching the part’s SKU or NAME',
+  subTitle = 'Add the product parts by searching the part’s BARCODE or SKU',
   newProductValue = productTemplate,
   setNewProductModal,
   submitnewProductFinally
@@ -31,11 +32,19 @@ const AddProduct = ({
   const [newProductError, setNewProductError] = useState('')
   const [partsInput, setPartsInput] = useState(
     newProduct.Parts.length == 0
-      ? [{ SKU: '', Quantity: 1, Inventory: {} }]
-      : newProduct.Parts.map((item) => {
+      ? [
+          {
+            SKU: '',
+            Quantity: 1,
+            Inventory: {},
+            key: `${new Date().getTime()}`
+          }
+        ]
+      : newProduct.Parts.map((item, index) => {
           return {
             ...item,
-            isExit: true
+            isExit: true,
+            key: `${new Date().getTime() + index}`
           }
         })
   )
@@ -52,7 +61,12 @@ const AddProduct = ({
     setPartsInput(newPartsInput)
   }
   const addPart = () => {
-    let newField = { SKU: '', Quantity: 1, Inventory: {} }
+    let newField = {
+      SKU: '',
+      Quantity: 1,
+      Inventory: {},
+      key: `${new Date().getTime()}`
+    }
     setPartsInput([...partsInput, newField])
   }
   const removePart = (idx) => {
@@ -93,14 +107,16 @@ const AddProduct = ({
   // 新增
   const submitnewProduct = (e) => {
     setNewProductLoading(true)
-    setNewProductError('')
     e.preventDefault()
     if (!newProduct.Name) {
       setNewProductLoading(false)
-      setNewProductError('Required')
+      message.warn('Product Name is Required')
+    } else if (!newProduct.SKU) {
+      setNewProductLoading(false)
+      message.warn('Product SKU is Required')
     } else if (Object.keys(partsInput[0].Inventory).length === 0) {
       setNewProductLoading(false)
-      setNewProductError('Required')
+      message.warn('Product Parts is Required')
     } else {
       const Parts = partsInput
         .filter((i) => i.SKU)
@@ -122,29 +138,27 @@ const AddProduct = ({
           setNewProduct({ ...productTemplate })
         })
         .catch((err) => {
-          alert(err.message)
+          message.error('Network Error OR The SKU Already Exists')
           setNewProduct({ ...productTemplate })
         })
         .finally(() => {
           setNewProductLoading(false)
           setNewProductModal(false)
-          setNewProductError('')
           submitnewProductFinally()
         })
     }
   }
   // 编辑
   const submitEditedProduct = (e) => {
-    setNewProductLoading(true)
-    setNewProductError('')
     e.preventDefault()
     if (!newProduct.Name) {
-      setNewProductLoading(false)
-      setNewProductError('Required')
+      message.warn('Product Name is Required')
+    } else if (!newProduct.SKU) {
+      message.warn('Product SKU is Required')
     } else if (Object.keys(partsInput[0].Inventory).length === 0) {
-      setNewProductLoading(false)
-      setNewProductError('Required')
+      message.warn('Product Parts is Required')
     } else {
+      setNewProductLoading(true)
       const Parts = partsInput
         .filter((i) => i.SKU)
         .map((part) => ({
@@ -156,7 +170,6 @@ const AddProduct = ({
         Updated: new Date(),
         Parts
       }
-      console.log(data)
       // 如果SKU发生改变，则SKU不变，新增NewSKU传递
       if (newProduct.SKU != newProductValue.SKU) {
         data.NewSKU = data.SKU
@@ -169,13 +182,12 @@ const AddProduct = ({
           setNewProduct({ ...productTemplate })
         })
         .catch((err) => {
-          alert(err.message)
+          message.error('Network Error OR The SKU Already Exists')
           setNewProduct({ ...productTemplate })
         })
         .finally(() => {
           setNewProductLoading(false)
           setNewProductModal(false)
-          setNewProductError('')
           submitnewProductFinally()
         })
     }
@@ -202,7 +214,7 @@ const AddProduct = ({
         <Form onSubmit={submitForm}>
           <Wrapper padding="0 0 0">
             {partsInput.map((input, idx) => (
-              <Wrapper key={idx} padding="12px 0">
+              <Wrapper key={input.key} padding="12px 0">
                 <Flex
                   styles={{ 'margin-bottom': '16px' }}
                   alignItems="center"
@@ -222,16 +234,16 @@ const AddProduct = ({
                   !input.isExit && (
                     <Flex alignItems="center" gap="10px">
                       <InputGroup>
-                        <Label htmlFor="products-new-product-name">NAME</Label>
+                        <Label htmlFor="products-new-product-name">
+                          BARCODE
+                        </Label>
                         <SearchInput
                           placeholder="Type"
                           selectValue={input.Inventory?.Name}
                           selectPart={selectPart}
-                          name="Name"
-                          itemKey="Name"
+                          name="barcode"
+                          itemKey="Barcode"
                           idx={idx}
-                          key={input.SKU + idx}
-                          id={`product-part-${idx}`}
                         />
                       </InputGroup>
                       <span style={{ fontSize: '16px', fontWeight: '400' }}>
@@ -246,8 +258,6 @@ const AddProduct = ({
                           name="sku"
                           itemKey="SKU"
                           idx={idx}
-                          key={input.SKU + idx}
-                          id={`product-part-${idx}`}
                         />
                       </InputGroup>
                     </Flex>
@@ -345,6 +355,7 @@ const AddProduct = ({
                 type="text"
                 id="products-new-product-sku"
               />
+              {newProductError}
             </InputGroup>
           </Wrapper>
           <Wrapper padding="24px 0 0">
@@ -413,31 +424,6 @@ const InputGroup = styled.div`
   flex-direction: column;
   align-items: stretch;
   justify-content: space-between;
-`
-const LookupBtn = styled.button`
-  padding: 6px 12px;
-  font-family: ${({ theme }) => theme.font.family.secondary};
-  font-size: ${({ theme }) => theme.font.size.xs};
-  font-weight: ${({ theme }) => theme.font.weight.medium};
-  color: #ffffff;
-  background-color: #000000;
-  white-space: nowrap;
-  border-radius: 10px;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-
-  &:active {
-    background-color: #ffffff;
-    color: #000000;
-    border: 1px solid #000000;
-    transform: scale(0.975);
-  }
-  &:hover {
-    background-color: #ffffff;
-    color: #000000;
-    border: 1px solid #000000;
-  }
 `
 const Label = styled.label`
   font-size: ${({ theme }) => theme.font.size.xs};
