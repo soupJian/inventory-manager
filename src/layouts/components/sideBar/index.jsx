@@ -121,19 +121,8 @@ const SideBar = ({ collapsed, user }) => {
   ]
   // 路由改变 需要判断是否展开 menu
   useEffect(() => {
-    setDefaultSelectedKeys(router.route)
-    setOpenKeys(router.route)
-    const list = [
-      '/crm-hub/form-email',
-      '/crm-hub/deals',
-      '/crm-hub/chats',
-      '/crm-hub/tickets',
-      '/crm-hub/task',
-      '/crm-hub/dashboard'
-    ]
-    if (list.indexOf(router.route) >= 0) {
-      setOpenKeys('/crm-hub')
-    }
+    setDefaultSelectedKeys(`/${router.route.split('/')[1]}`)
+    setOpenKeys(`/${router.route.split('/')[1]}`)
   }, [router.route])
   return (
     <SideBarWrapper
