@@ -73,7 +73,8 @@ const Receiving = () => {
             lookedUpItem.Available +
             (parseInt(lookedUpItemCount) - lookedUpItem.Stock),
           Stock: parseInt(lookedUpItemCount),
-          Location: lookedUpItemLocation
+          Location: lookedUpItemLocation,
+          Settled: lookedUpItemLocation.length > 0
         },
         { Authorization: `Bearer ${user.accessToken}` }
       )
