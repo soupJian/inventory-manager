@@ -328,7 +328,8 @@ const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
                                   <PlusCircleFilled
                                     style={{
                                       marginLeft: '4px',
-                                      fontSize: '18px'
+                                      fontSize: '18px',
+                                      marginTop: '2px'
                                     }}
                                   />
                                 </Popover>

@@ -378,7 +378,11 @@ const InventoryTable = ({
                             trigger="hover"
                           >
                             <PlusCircleFilled
-                              style={{ marginLeft: '4px', fontSize: '18px' }}
+                              style={{
+                                marginLeft: '4px',
+                                fontSize: '18px',
+                                marginTop: '2px'
+                              }}
                             />
                           </Popover>
                         )}

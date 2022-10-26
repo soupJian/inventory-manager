@@ -52,7 +52,7 @@ const MultiSelectDropdown = ({
       styles={wrapperStyles}
       onClick={() => setShowOption(!showOption)}
     >
-      <Header tabIndex="0" style={headerStyles}>
+      <Header tabIndex="0" style={{ ...headerStyles }}>
         <Title as="h6">
           {activeIndex >= 0 ? (
             value[0]?.label

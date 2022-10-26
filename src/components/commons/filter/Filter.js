@@ -12,7 +12,8 @@ const Filter = ({
   activeIndex,
   onSelect,
   multiSelect,
-  wrapperStyles
+  wrapperStyles,
+  headerStyles
 }) => {
   return (
     <Wrapper styles={wrapperStyles}>
@@ -27,6 +28,7 @@ const Filter = ({
             'border-radius': '10px',
             border: '1.5px solid #E6E6E6'
           }}
+          headerStyles={headerStyles}
           value={value}
           options={list}
           onSelect={onSelect}

@@ -3,6 +3,7 @@ import debounce from 'lodash/debounce'
 import React, { useMemo, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { getSearch } from '../../service/search/search-inventory'
+import styled from 'styled-components'
 const { Option } = Select
 
 import styles from './index.module.scss'
@@ -12,9 +13,10 @@ const DebounceSelect = ({
   name,
   placeholder,
   itemKey,
-  selectPart,
+  selectedItem,
   idx,
-  selectValue
+  selectValue,
+  setNewItemModal
 }) => {
   const user = useSelector((state) => state.user)
   const [value, setValue] = useState(selectValue)
@@ -24,7 +26,7 @@ const DebounceSelect = ({
   const handleSelect = (newValue) => {
     setValue(newValue)
     const selectItem = data.filter((item) => item.SKU == newValue)[0]
-    selectPart(selectItem, idx)
+    selectedItem(selectItem, idx)
   }
   const debounceFetcher = useMemo(() => {
     const loadOptions = async (value) => {
@@ -67,12 +69,37 @@ const DebounceSelect = ({
       optionLabelProp="label"
       name={name}
       className={styles.selectInput}
+      dropdownRender={(menu) => {
+        return (
+          <>
+            {menu}
+            <Text>
+              Can’t find the item.
+              <TriggeringText
+                onClick={() => {
+                  setNewItemModal(true)
+                }}
+              >
+                Add it to the system
+              </TriggeringText>
+            </Text>
+          </>
+        )
+      }}
     >
       {data.map((d) => (
         <Option key={d.SKU} label={d[itemKey]}>
           <div style={{ marginLeft: '20px' }}>
-            <div className={styles.selectTitle}>{d[itemKey]}</div>
-            <div className={styles.selectSubTitle}>{d.Name}</div>
+            {itemKey == 'Name' ? (
+              <>
+                <div className={styles.selectTitle}>{d.Name}</div>
+              </>
+            ) : (
+              <>
+                <div className={styles.selectTitle}>{d[itemKey]}</div>
+                <div className={styles.selectSubTitle}>{d.Name}</div>
+              </>
+            )}
           </div>
         </Option>
       ))}
@@ -81,3 +108,17 @@ const DebounceSelect = ({
 }
 
 export default DebounceSelect
+
+const Text = styled.div`
+  margin: 10px;
+  font-size: ${({ theme }) => theme.font.size.s};
+  font-weight: ${({ theme }) => theme.font.weight.normal};
+  font-family: ${({ theme }) => theme.font.family.primary};
+  line-height: ${({ theme }) => theme.font.lineHeight.normal};
+  color: ${({ theme }) => theme.colors.primaryText};
+`
+const TriggeringText = styled.span`
+  color: ${({ theme }) => theme.colors.accentText};
+  text-decoration: underline;
+  cursor: pointer;
+`
