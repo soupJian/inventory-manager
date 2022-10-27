@@ -29,7 +29,6 @@ const ProductPage = ({ router }) => {
   const [showModal, setShowModal] = useState(false)
   const [loading, setLoading] = useState(false)
   const [partsInput, setPartsInput] = useState([])
-  const [editProduct, setEditProduct] = useState({ ...productTemplate })
 
   const confirmAction = (cb, message) => {
     setDialog({
@@ -63,7 +62,6 @@ const ProductPage = ({ router }) => {
           router.replace('/warehouse?tab=Managing')
         } else {
           setProduct(data.Items[0])
-          setEditProduct(data.Items[0])
           setPartsInput(
             data.Items[0].Parts.map((item) => {
               return {
@@ -87,10 +85,6 @@ const ProductPage = ({ router }) => {
       return newPart
     })
   }
-  const submitnewProductFinally = () => {
-    fetchProduct()
-  }
-
   useEffect(() => {
     if (router.query.sku) {
       fetchProduct()
@@ -168,7 +162,13 @@ const ProductPage = ({ router }) => {
           }
           newProductValue={product}
           setNewProductModal={setShowModal}
-          submitnewProductFinally={submitnewProductFinally}
+          submitnewProductFinally={(SKU) => {
+            if (router.query.sku == SKU) {
+              fetchProduct()
+            } else {
+              router.replace(`/warehouse/product?sku=${SKU}`)
+            }
+          }}
         />
       )}
     </>

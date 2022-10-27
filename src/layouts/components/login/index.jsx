@@ -18,7 +18,7 @@ const Login = () => {
       credentials.username.trim() == '' ||
       credentials.password.trim() == ''
     ) {
-      message.warn('Please complete the information.')
+      message.warning('Please complete the information.')
       return
     }
     setLoading(true)

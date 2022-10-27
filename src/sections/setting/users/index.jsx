@@ -114,7 +114,7 @@ const Users = () => {
       accessInfo.access.accessName.trim() == '' ||
       accessInfo.access.description.trim() == ''
     ) {
-      message.warn('Please complete the information.')
+      message.warning('Please complete the information.')
       return
     }
     if (accessInfo.type == 'edit') {

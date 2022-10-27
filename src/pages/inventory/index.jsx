@@ -1,20 +1,11 @@
 import { withRouter } from 'next/router'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import {
-  BaseButton,
-  Dialog,
-  Flex,
-  Tab,
-  Tabs,
-  Text,
-  Wrapper
-} from '../../components/commons'
+import { Flex, Tab, Tabs, Wrapper } from '../../components/commons'
 import { SearchOutlined } from '@ant-design/icons'
 import { Input } from 'antd'
 import InventoryTable from '../../sections/inventory/inventoryTable'
 import InventoryProduct from '../../sections/inventory/inventoryProduct'
-import AddANewItem from '../../components/add-edit-new-Item'
 import { defaultInventoryItemsTableHeaders } from '../../constants/pageConstants/inventory'
 import { defaultInventoryProductsTableHeaders } from '../../constants/pageConstants/products'
 import styles from './index.module.scss'
@@ -22,18 +13,6 @@ import styles from './index.module.scss'
 const Inventory = ({ router }) => {
   const user = useSelector((state) => state.user)
   const [activeTab, setActiveTab] = useState('inventory')
-  const [dialog, setDialog] = useState({
-    message: '',
-    onConfirm: '',
-    show: false
-  })
-  const [newItemModal, setNewItemModal] = useState(false)
-  const [updataTableData, setUpdateTableData] = useState(false)
-  const submitNewItemFinally = () => {
-    setUpdateTableData((update) => {
-      return !update
-    })
-  }
   return (
     <Wrapper
       styles={{ 'min-height': '100%' }}
@@ -90,8 +69,8 @@ const Inventory = ({ router }) => {
       {activeTab === 'inventory' && (
         <InventoryTable
           user={user}
-          setDialog={setDialog}
-          updataTableData={updataTableData}
+          setDialog={() => null}
+          updataTableData={() => null}
           selectable={false}
           defaultTableHeaders={defaultInventoryItemsTableHeaders}
         />
@@ -100,57 +79,10 @@ const Inventory = ({ router }) => {
       {activeTab === 'products' && (
         <InventoryProduct
           user={user}
-          setDialog={setDialog}
-          updataTableData={updataTableData}
+          setDialog={() => null}
+          updataTableData={() => null}
           selectable={false}
           defaultTableHeaders={defaultInventoryProductsTableHeaders}
-        />
-      )}
-      {dialog.message && dialog.show && (
-        <Dialog>
-          <Wrapper padding="60px 54px">
-            <Text size="20px">{dialog.message}</Text>
-            <Flex
-              gap="16px"
-              styles={{
-                width: '100%',
-                'max-width': '416px',
-                'margin-top': '24px'
-              }}
-            >
-              <BaseButton
-                styles={{ flex: '1', 'border-radius': '8px' }}
-                minWidth="auto"
-                kind="primary"
-                onClick={() => dialog.onConfirm()}
-              >
-                Yes
-              </BaseButton>
-              <BaseButton
-                styles={{
-                  flex: '1',
-                  'background-color': '#ffffff',
-                  'border-radius': '8px'
-                }}
-                minWidth="auto"
-                onClick={() =>
-                  setDialog({
-                    message: '',
-                    onConfirm: '',
-                    show: false
-                  })
-                }
-              >
-                No
-              </BaseButton>
-            </Flex>
-          </Wrapper>
-        </Dialog>
-      )}
-      {newItemModal && (
-        <AddANewItem
-          setNewItemModal={setNewItemModal}
-          submitNewItemFinally={submitNewItemFinally}
         />
       )}
     </Wrapper>

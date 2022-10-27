@@ -108,11 +108,11 @@ const AddProduct = ({
   const submitnewProduct = (e) => {
     e.preventDefault()
     if (!newProduct.Name) {
-      message.warn('Product Name is Required')
+      message.warning('Product Name is Required')
     } else if (!newProduct.SKU) {
-      message.warn('Product SKU is Required')
+      message.warning('Product SKU is Required')
     } else if (Object.keys(partsInput[0].Inventory).length === 0) {
-      message.warn('Product Parts is Required')
+      message.warning('Product Parts is Required')
     } else {
       dispatch(toggleLoading(true))
       const Parts = partsInput
@@ -141,7 +141,7 @@ const AddProduct = ({
         .finally(() => {
           dispatch(toggleLoading(false))
           setNewProductModal(false)
-          submitnewProductFinally()
+          submitnewProductFinally(newProduct.SKU)
         })
     }
   }
@@ -149,11 +149,11 @@ const AddProduct = ({
   const submitEditedProduct = (e) => {
     e.preventDefault()
     if (!newProduct.Name) {
-      message.warn('Product Name is Required')
+      message.warning('Product Name is Required')
     } else if (!newProduct.SKU) {
-      message.warn('Product SKU is Required')
+      message.warning('Product SKU is Required')
     } else if (Object.keys(partsInput[0].Inventory).length === 0) {
-      message.warn('Product Parts is Required')
+      message.warning('Product Parts is Required')
     } else {
       dispatch(toggleLoading(true))
       const Parts = partsInput
@@ -185,7 +185,7 @@ const AddProduct = ({
         .finally(() => {
           dispatch(toggleLoading(false))
           setNewProductModal(false)
-          submitnewProductFinally()
+          submitnewProductFinally(newProduct.SKU)
         })
     }
   }

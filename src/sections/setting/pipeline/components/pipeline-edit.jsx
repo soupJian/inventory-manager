@@ -9,7 +9,7 @@ const PipelineEdit = ({ item, updatePipeline, list, disabled }) => {
   const [value, setValue] = useState('')
   const save = () => {
     if (value.trim() == '') {
-      message.warn('pipeline 不能为空')
+      message.warning('pipeline 不能为空')
       return
     }
     if (list.filter((item) => item.salesStatus == value).length > 0) {

@@ -1,14 +1,11 @@
 import React, { useState } from 'react'
-import { toggleLoading } from '../../../store/slices/globalSlice'
-import { useDispatch } from 'react-redux'
-import Image from 'next/image'
 import { Alert, Icon, Tab, Tabs, Wrapper } from '../../../components/commons'
 import styled from 'styled-components'
 import AddANewItem from '../../../components/add-edit-new-Item'
 import ReceivingScan from './scan'
 import ReceivingType from './type'
 
-const Receiving = () => {
+const Receiving = ({ router }) => {
   const [activeTab, setActiveTab] = useState('scan')
   const [newItemModal, setNewItemModal] = useState(false)
   return (
@@ -58,7 +55,9 @@ const Receiving = () => {
       {newItemModal && (
         <AddANewItem
           setNewItemModal={setNewItemModal}
-          submitNewItemFinally={() => null}
+          submitNewItemFinally={(SKU) =>
+            router.replace(`/warehouse/item?sku=${SKU}`)
+          }
         />
       )}
     </Wrapper>

@@ -190,13 +190,17 @@ const Managing = ({ router }) => {
       {newItemModal && (
         <AddANewItem
           setNewItemModal={setNewItemModal}
-          submitNewItemFinally={submitNewFinally}
+          submitNewItemFinally={(SKU) =>
+            router.replace(`/warehouse/item?sku=${SKU}`)
+          }
         />
       )}
       {newProductModal && (
         <AddProduct
           setNewProductModal={setNewProductModal}
-          submitnewProductFinally={submitNewFinally}
+          submitnewProductFinally={(SKU) => {
+            router.replace(`/warehouse/product?sku=${SKU}`)
+          }}
         />
       )}
     </Wrapper>

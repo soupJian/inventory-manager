@@ -49,7 +49,7 @@ const EditFastReply = (props) => {
   }
   const save = () => {
     if (info.title.trim() == '' || info.content.trim() == '') {
-      message.warn('Please complete the information.')
+      message.warning('Please complete the information.')
       return
     }
     saveEdit(info, editType)

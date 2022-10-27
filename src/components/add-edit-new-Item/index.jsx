@@ -104,7 +104,7 @@ const AddANewItem = ({
           setNewItemError('')
           setNewItem({ ...itemTemplate })
           // new完成后通知父元素
-          submitNewItemFinally()
+          submitNewItemFinally(newItem.SKU)
         })
     }
   }
@@ -157,7 +157,7 @@ const AddANewItem = ({
           setNewItemError('')
           setNewItem({ ...newItemValue })
           // 更新完成后通知父元素
-          submitNewItemFinally()
+          submitNewItemFinally(newItem.SKU)
         })
     }
   }
@@ -263,7 +263,7 @@ const AddANewItem = ({
                 }}
                 inputStyles={{ width: '100%' }}
                 placeholder="0"
-                value={newItem.Stock}
+                value={newItem.Stock ? newItem.Stock : ''}
                 onChange={(e) => newItemHandler(e)}
                 min={0}
                 name="Stock"
@@ -312,7 +312,7 @@ const AddANewItem = ({
                 }}
                 inputStyles={{ width: '100%' }}
                 placeholder="0"
-                value={newItem.ReorderAlert}
+                value={newItem.ReorderAlert ? newItem.ReorderAlert : ''}
                 onChange={(e) => newItemHandler(e)}
                 name="ReorderAlert"
                 type="number"

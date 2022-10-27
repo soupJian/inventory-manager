@@ -71,7 +71,7 @@ const Warehouse = ({ router }) => {
         )}
       </Flex>
       {activeTab === 'Settling' && <Settling />}
-      {activeTab === 'Receiving' && <Receiving />}
+      {activeTab === 'Receiving' && <Receiving router={router} />}
       {activeTab === 'Managing' && <Managing router={router} />}
       {activeTab === 'Map' && <WarehouseMap />}
       {/* <>

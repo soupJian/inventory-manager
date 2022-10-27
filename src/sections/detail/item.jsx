@@ -141,7 +141,13 @@ const ItemPage = ({ router }) => {
           type="edit"
           title={`edit: ${item.Name}`}
           newItemValue={item}
-          submitNewItemFinally={() => fetchItem()}
+          submitNewItemFinally={(SKU) => {
+            if (router.query.sku == SKU) {
+              fetchItem()
+            } else {
+              router.replace(`/warehouse/item?sku=${SKU}`)
+            }
+          }}
           setNewItemModal={setShowModal}
         />
       )}
