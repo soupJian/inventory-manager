@@ -1,20 +1,12 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import styled from 'styled-components'
-import {
-  Box,
-  Flex,
-  Icon,
-  Loader,
-  Text,
-  Wrapper
-} from '../../components/commons'
+import { Box, Flex, Icon, Text, Wrapper } from '../../components/commons'
 import styles from './index.module.scss'
 import { formatMoney } from '../../utils/formatMoney'
 import CostModal from '../../components/cost-modal'
 
 const Product = ({
-  loading,
   product,
   backLink,
   onDelete,
@@ -37,12 +29,6 @@ const Product = ({
       height="auto"
       padding="21px 33px"
     >
-      {loading && (
-        <LoadingWrapper>
-          <Loader size={100} />
-          <Text>Loading Product...</Text>
-        </LoadingWrapper>
-      )}
       <Flex alignItems="center" justifyContent="space-between">
         <Flex alignItems="center">
           <Icon
@@ -395,20 +381,6 @@ const Product = ({
 }
 
 export default Product
-
-const LoadingWrapper = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.85);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-`
 
 const ActionButton = styled.button`
   padding: 14px;

@@ -13,9 +13,12 @@ import Product from './inventory-product'
 import EditProduct from '../../components/add-edit-new-product'
 import { productTemplate } from '../../constants/pageConstants/products'
 import { Api } from '../../utils/utils'
+import { toggleLoading } from '../../store/slices/globalSlice'
+import { useDispatch } from 'react-redux'
 const api = new Api()
 
 const ProductPage = ({ router }) => {
+  const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
   const [product, setProduct] = useState({ ...productTemplate })
   const [dialog, setDialog] = useState({
@@ -23,12 +26,9 @@ const ProductPage = ({ router }) => {
     onConfirm: '',
     show: false
   })
-  const [loadingData, setLoadingData] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [loading, setLoading] = useState(false)
   const [partsInput, setPartsInput] = useState([])
-  const [lookUpLoading, setLookUpLoading] = useState(false)
-  const [lookUpError, setLookUpError] = useState('')
   const [editProduct, setEditProduct] = useState({ ...productTemplate })
 
   const confirmAction = (cb, message) => {
@@ -53,7 +53,7 @@ const ProductPage = ({ router }) => {
 
   const modalHandler = (val) => setShowModal(val)
   const fetchProduct = () => {
-    setLoadingData(true)
+    dispatch(toggleLoading(true))
     api
       .getProduct(`sku=${router.query.sku}`, {
         Authorization: `Bearer ${user.accessToken}`
@@ -74,10 +74,10 @@ const ProductPage = ({ router }) => {
             })
           )
         }
-        setLoadingData(false)
+        dispatch(toggleLoading(false))
       })
       .catch((err) => {
-        setLoadingData(false)
+        dispatch(toggleLoading(false))
       })
   }
   const changePart = (key, value, index) => {
@@ -101,7 +101,6 @@ const ProductPage = ({ router }) => {
   return (
     <>
       <Product
-        loading={loadingData}
         parts={partsInput}
         showEditModal={modalHandler}
         onDelete={() =>
