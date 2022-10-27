@@ -1,0 +1,50 @@
+.activeText {
+  cursor: pointer;
+  font-family: 'Lato';
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 18px;
+  color: #2c88dd;
+}
+.Btn {
+  width: 63px;
+  height: 35px;
+  background: #000000;
+  border-radius: 6px;
+  font-family: 'Lato';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.drawer {
+  .title {
+    font-family: 'Rubik';
+    font-weight: 500;
+    font-size: 16px;
+    text-decoration-line: underline;
+    color: #000000;
+    margin-bottom: 24px;
+  }
+  .customerInfo {
+    margin-bottom: 40px;
+    font-family: 'Lato';
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 28px;
+    color: #000000;
+    .name {
+      font-weight: 500;
+    }
+  }
+  .product-description {
+    margin-bottom: 32px;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 20px;
+    color: #000000;
+  }
+}

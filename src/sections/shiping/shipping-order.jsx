@@ -17,9 +17,12 @@ import {
 import { Api, ISOStringToReadableDate } from '../../utils/utils'
 import { toggleLoading } from '../../store/slices/globalSlice'
 import { useDispatch } from 'react-redux'
+import { Button, Drawer } from 'antd'
+import DrawerDetail from './drawer-detail'
+import styles from './index.module.scss'
 
 const api = new Api()
-
+const itemsPerPage = 10
 const Orders = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
@@ -29,7 +32,11 @@ const Orders = () => {
   })
   const [unShippedOrdersToShow, setUnShippedOrdersToShow] = useState([])
   const [unShippedOrders, setUnShippedOrders] = useState([])
-  const [itemsPerPage, setItemsPerPage] = useState(10)
+  // const [itemsPerPage, setItemsPerPage] = useState(10)
+  const [detailDrawerInfo, setDetailDrawerInfo] = useState({
+    show: false,
+    info: null
+  })
   const handlePage = (page) => {
     setOrderState({
       ...orderState,
@@ -77,11 +84,7 @@ const Orders = () => {
   }, [orderState.date])
 
   return (
-    <Wrapper
-      styles={{ 'min-height': '100%', position: 'relative' }}
-      height="auto"
-      padding="21px 29px"
-    >
+    <>
       <Flex
         alignItems="center"
         justifyContent="flex-end"
@@ -89,7 +92,7 @@ const Orders = () => {
       >
         <Filter
           value={orderState.date}
-          label={orderState.pageType === 'history' ? 'Ship date' : 'Order date'}
+          label="Order date"
           list={dateList}
           onSelect={handleDate}
         />
@@ -106,7 +109,7 @@ const Orders = () => {
                 totalPages={Math.ceil(unShippedOrders?.length / itemsPerPage)}
                 onPageChange={handlePage}
                 currentPage={orderState.page}
-              />{' '}
+              />
             </Wrapper>
           }
         >
@@ -114,26 +117,51 @@ const Orders = () => {
             <TableRow idx={idx} dataId={item.Id} key={item.Id}>
               {UnShippedTableHeaders.map((cell, idx) => (
                 <TableCell key={cell.key + idx + 'unshipped'}>
-                  {cell.key === 'Address'
-                    ? `${item.City}, ${item.State.toUpperCase()}`
-                    : cell.key === 'Fullname'
-                    ? `${item.FirstName}, ${item.LastName}`
-                    : cell.key === 'Payment'
-                    ? '$' + item['Payment']
-                    : cell.key === 'Created'
-                    ? ISOStringToReadableDate(item['Created'])
-                    : cell.key === 'Status'
-                    ? item.Shipped
-                      ? 'Shipped'
-                      : 'Unshipped'
-                    : item[cell.key]}
+                  {cell.key === 'Address' ? (
+                    `${item.City}, ${item.State.toUpperCase()}`
+                  ) : cell.key === 'Fullname' ? (
+                    `${item.FirstName}, ${item.LastName}`
+                  ) : cell.key === 'Created' ? (
+                    ISOStringToReadableDate(item['Created'])
+                  ) : cell.key === 'Detail' ? (
+                    <span
+                      className={styles.activeText}
+                      onClick={() =>
+                        setDetailDrawerInfo({
+                          show: true,
+                          info: item
+                        })
+                      }
+                    >
+                      Detail
+                    </span>
+                  ) : cell.key === 'ShipBtn' ? (
+                    <Button className={styles.Btn}>Ship</Button>
+                  ) : (
+                    item[cell.key]
+                  )}
                 </TableCell>
               ))}
             </TableRow>
           ))}
         </Table>
       </Wrapper>
-    </Wrapper>
+      <Drawer
+        title={`Order #${detailDrawerInfo.info?.Id}`}
+        placement="left"
+        closable={false}
+        onClose={() =>
+          setDetailDrawerInfo({
+            show: false
+          })
+        }
+        open={detailDrawerInfo.show}
+        key="left"
+        width={612}
+      >
+        {detailDrawerInfo.info && <DrawerDetail info={detailDrawerInfo.info} />}
+      </Drawer>
+    </>
   )
 }
 

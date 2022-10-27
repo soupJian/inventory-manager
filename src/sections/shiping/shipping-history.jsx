@@ -18,7 +18,7 @@ import { toggleLoading } from '../../store/slices/globalSlice'
 import { useDispatch } from 'react-redux'
 
 const api = new Api()
-
+const itemsPerPage = 10
 const Orders = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
@@ -28,7 +28,7 @@ const Orders = () => {
   })
   const [shippedOrders, setShippedOrders] = useState([])
   const [shippedOrdersToShow, setShippedOrdersToShow] = useState([])
-  const [itemsPerPage, setItemsPerPage] = useState(10)
+  // const [itemsPerPage, setItemsPerPage] = useState(10)
 
   const handlePage = (page) => {
     setOrderState({
@@ -74,11 +74,7 @@ const Orders = () => {
   }, [orderState.date])
 
   return (
-    <Wrapper
-      styles={{ 'min-height': '100%', position: 'relative' }}
-      height="auto"
-      padding="21px 29px"
-    >
+    <>
       <Flex
         alignItems="center"
         justifyContent="flex-end"
@@ -86,7 +82,7 @@ const Orders = () => {
       >
         <Filter
           value={orderState.date}
-          label={orderState.pageType === 'history' ? 'Ship date' : 'Order date'}
+          label="Ship date"
           list={dateList}
           onSelect={handleDate}
         />
@@ -103,7 +99,7 @@ const Orders = () => {
                 totalPages={Math.ceil(shippedOrders?.length / itemsPerPage)}
                 onPageChange={handlePage}
                 currentPage={orderState.page}
-              />{' '}
+              />
             </Wrapper>
           }
         >
@@ -130,7 +126,7 @@ const Orders = () => {
           ))}
         </Table>
       </Wrapper>
-    </Wrapper>
+    </>
   )
 }
 
