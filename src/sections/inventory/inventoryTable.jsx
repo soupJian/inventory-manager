@@ -281,7 +281,6 @@ const InventoryTable = ({
           selectedAll={selection.length === inventoryData?.Items?.length}
           onSelectAll={selectAll}
           headers={TableHeaders.filter((item) => item.show)}
-          className={styles.tableWarp}
           paginationComponent={
             <Wrapper>
               <Pagination
@@ -298,7 +297,6 @@ const InventoryTable = ({
             <TableRow
               nested
               idx={idx}
-              height="72px"
               selectable={selectable}
               selected={selection.includes(item.SKU)}
               onSelect={() => addSelection(item.SKU)}
@@ -307,7 +305,7 @@ const InventoryTable = ({
               noShowExpand={noShowExpand}
               rowClick={() => rowClick(item.SKU)}
               expandedContent={
-                <Wrapper padding="15px 0 30px">
+                <Wrapper padding="0">
                   <Table
                     styles={{
                       'background-color': 'transparent',

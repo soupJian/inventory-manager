@@ -222,7 +222,6 @@ const SearchPage = ({
         ) : (
           <Table
             name="products-items"
-            className={styles.tableWarp}
             selectable={selectable}
             onSelectAll={selectAll}
             selectedAll={selection.length === data?.Items?.length}
@@ -247,7 +246,6 @@ const SearchPage = ({
                 <TableRow
                   nested
                   idx={idx}
-                  height="72px"
                   selectable={selectable}
                   selected={selection.includes(item.SKU)}
                   onSelect={() => addSelection(item.SKU)}
@@ -258,7 +256,7 @@ const SearchPage = ({
                   expandedContent={
                     <>
                       {!noShowExpand && (
-                        <Wrapper padding="15px 0 30px">
+                        <Wrapper padding="10">
                           <Table
                             styles={{
                               'background-color': 'transparent',
@@ -335,7 +333,7 @@ const SearchPage = ({
                             })}
                             {/* tags header */}
                             <TableRow>
-                              <TableHeadCell>TAGS</TableHeadCell>
+                              <div className={styles.tags}>TAGS</div>
                             </TableRow>
                             {/* tags content */}
                             <TableRow>

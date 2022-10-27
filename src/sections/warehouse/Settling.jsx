@@ -182,7 +182,6 @@ const Settline = () => {
       <Wrapper padding="22px 0">
         {activeTab === 'settled' ? (
           <Table
-            className={styles.table}
             name="warehousing-settled"
             headers={settledHeaders}
             paginationComponent={
@@ -198,7 +197,7 @@ const Settline = () => {
             }
           >
             {settledItemsToShow.map((item, idx) => (
-              <TableRow idx={idx} height="72px" key={item.SKU}>
+              <TableRow idx={idx} key={item.SKU}>
                 {settledHeaders.map((i) => (
                   <TableCell key={i.key}>
                     {i.key === 'SettledTime' ? (
@@ -251,7 +250,6 @@ const Settline = () => {
         ) : (
           <>
             <Table
-              className={styles.table}
               name="warehousing-unsettled"
               headers={unSettledHeaders}
               paginationComponent={
@@ -269,7 +267,7 @@ const Settline = () => {
               }
             >
               {unSettledItemsToShow.map((item, idx) => (
-                <TableRow idx={idx} height="72px" key={item.SKU}>
+                <TableRow idx={idx} key={item.SKU}>
                   {unSettledHeaders.map((i) => (
                     <TableCell key={i.key}>
                       {i.key === 'Location' ? (

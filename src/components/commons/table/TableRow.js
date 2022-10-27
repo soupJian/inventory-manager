@@ -26,7 +26,7 @@ const TableRow = ({
         <>
           <TableRowWrapper
             {...rest}
-            bgColor={idx && idx % 2 !== 0 ? '#F6F7F9' : 'transparent'}
+            bgColor={idx && idx % 2 !== 0 ? 'transparent' : '#F6F7F9'}
             onClick={() => {
               noShowExpand ? rowClick() : setExpanded(!expanded)
             }}
@@ -47,25 +47,12 @@ const TableRow = ({
           </TableRowWrapper>
           {expanded && expandedContent && (
             <TableRowWrapper bgColor="transparent" style={{ padding: 0 }}>
-              {/* <ExpandedTableCellWrapper
-                expanded={expanded}
-                styles={{ 'padding-bottom': '0', 'padding-top': '0' }}
-              ></ExpandedTableCellWrapper> */}
               <ExpandedTableCellWrapper
                 expanded={expanded}
                 styles={{ padding: '0 !important' }}
                 colSpan={14}
               >
                 <Wrapper onClick={() => setExpanded(false)} padding="0">
-                  {/* <Wrapper styles={{position: "relative"}} padding="42px 0 40px"> */}
-                  {/* <Flex styles={{position: "absolute", top: "4px", right: "0"}}>
-                                      <ActionButton onClick={redirectOnClick}>
-                                          <Icon name="edit" width="15px" height="15px"/>
-                                      </ActionButton>
-                                      <ActionButton onClick={() => setExpanded(false)}>
-                                          <Icon name="close" width="15px" height="15px"/>
-                                      </ActionButton>
-                                  </Flex> */}
                   {expandedContent}
                 </Wrapper>
               </ExpandedTableCellWrapper>
@@ -76,7 +63,7 @@ const TableRow = ({
         <>
           <TableRowWrapper
             {...rest}
-            bgColor={idx && idx % 2 !== 0 ? '#F6F7F9' : 'transparent'}
+            bgColor={idx && idx % 2 !== 0 ? 'transparent' : '#F6F7F9'}
           >
             {selectable && (
               <TableCell expanded={expanded}>
@@ -99,6 +86,7 @@ export default React.memo(TableRow)
 
 export const TableRowWrapper = styled.tr`
   padding: 12px 20px;
+  height: 72px;
   border: ${({ expanded, theme }) =>
     expanded ? '1px solid ' + theme.colors.borderColor : 'none'};
   border-radius: ${({ expanded }) => (expanded ? '10px' : '0px')};

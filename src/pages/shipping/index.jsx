@@ -29,7 +29,6 @@ import {
   ISOStringToReadableDate,
   objectsToQueryString
 } from '../../utils/utils'
-import styles from './index.module.scss'
 
 const api = new Api()
 const orderReducer = (state, { type, payload }) => {
@@ -225,7 +224,6 @@ const Orders = ({ router }) => {
             loading={loadingTable}
             name="shipped-items"
             headers={UnShippedTableHeaders}
-            className={styles.tableWarp}
             paginationComponent={
               <Wrapper padding="32px 0 0">
                 <Pagination
@@ -239,7 +237,7 @@ const Orders = ({ router }) => {
             }
           >
             {unShippedOrdersToShow.map((item, idx) => (
-              <TableRow idx={idx} height="72px" dataId={item.Id} key={item.Id}>
+              <TableRow idx={idx} dataId={item.Id} key={item.Id}>
                 {UnShippedTableHeaders.map((cell, idx) => (
                   <TableCell key={cell.key + idx + 'unshipped'}>
                     {cell.key === 'Address'
@@ -268,7 +266,6 @@ const Orders = ({ router }) => {
               loading={loadingTable}
               name="shipped-items"
               headers={ShippedTableHeaders}
-              className={styles.tableWarp}
               paginationComponent={
                 <Wrapper padding="32px 0 0">
                   <Pagination
@@ -282,12 +279,7 @@ const Orders = ({ router }) => {
               }
             >
               {shippedOrdersToShow.map((item, idx) => (
-                <TableRow
-                  idx={idx}
-                  height="72px"
-                  dataId={item.Id}
-                  key={item.Id}
-                >
+                <TableRow idx={idx} dataId={item.Id} key={item.Id}>
                   {ShippedTableHeaders.map((cell, idx) => (
                     <TableCell key={cell.key + idx}>
                       {cell.key === 'Address'

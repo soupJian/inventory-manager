@@ -226,7 +226,6 @@ const SearchPage = ({
             selectedAll={selection.length === data?.Items?.length}
             onSelectAll={selectAll}
             headers={defaultTableHeaders.filter((item) => item.show)}
-            className={styles.tableWarp}
             paginationComponent={
               <Wrapper>
                 <Pagination
@@ -247,7 +246,6 @@ const SearchPage = ({
                 <TableRow
                   nested
                   idx={idx}
-                  height="72px"
                   selectable={selectable}
                   selected={selection.includes(item.SKU)}
                   onSelect={() => addSelection(item.SKU)}
@@ -256,7 +254,7 @@ const SearchPage = ({
                   noShowExpand={noShowExpand}
                   rowClick={() => rowClick(item.SKU)}
                   expandedContent={
-                    <Wrapper padding="15px 0 30px">
+                    <Wrapper padding="0">
                       <Table
                         styles={{
                           'background-color': 'transparent',
