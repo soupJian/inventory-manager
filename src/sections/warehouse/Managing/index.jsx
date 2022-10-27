@@ -8,16 +8,16 @@ import {
   Flex,
   Text,
   Wrapper
-} from '../../components/commons'
+} from '../../../components/commons'
 import { Input } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
-import InventoryTable from '../inventory/inventoryTable'
-import InventoryProduct from '../inventory/inventoryProduct'
-import AddANewItem from '../../components/add-edit-new-Item'
-import AddProduct from '../../components/add-edit-new-product'
-import { defaultWarehouseItemsTableHeaders } from '../../constants/pageConstants/inventory'
-import { defaultWarehouseProductsTableHeaders } from '../../constants/pageConstants/products'
-import styles from './index.module.scss'
+import InventoryTable from '../../inventory/inventoryTable'
+import InventoryProduct from '../../inventory/inventoryProduct'
+import AddANewItem from '../../../components/add-edit-new-Item'
+import AddProduct from '../../../components/add-edit-new-product'
+import { defaultWarehouseItemsTableHeaders } from '../../../constants/pageConstants/inventory'
+import { defaultWarehouseProductsTableHeaders } from '../../../constants/pageConstants/products'
+import styles from '../index.module.scss'
 
 const Managing = ({ router }) => {
   const user = useSelector((state) => state.user)

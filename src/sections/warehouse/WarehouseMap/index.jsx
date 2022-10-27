@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { toggleLoading } from '../../store/slices/globalSlice'
+import { toggleLoading } from '../../../store/slices/globalSlice'
 import { useDispatch } from 'react-redux'
 import {
   Button,
@@ -9,12 +9,12 @@ import {
   Loader,
   Text,
   Wrapper
-} from '../../components/commons'
+} from '../../../components/commons'
 import { Popover } from 'antd'
 import WarehouseUnit from './WarehouseUnit'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { Api, ISOStringToReadableDate } from '../../utils/utils'
+import { Api, ISOStringToReadableDate } from '../../../utils/utils'
 const api = new Api()
 
 const warshouseMap = [

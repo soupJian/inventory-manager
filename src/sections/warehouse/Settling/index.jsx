@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { toggleLoading } from '../../store/slices/globalSlice'
+import { toggleLoading } from '../../../store/slices/globalSlice'
 import { useDispatch } from 'react-redux'
 import {
   Filter,
@@ -14,19 +14,19 @@ import {
   Wrapper,
   Dialog,
   BaseButton
-} from '../../components/commons'
-import Tooltip from '../../components/commons/Tooltip/Tooltip'
+} from '../../../components/commons'
+import Tooltip from '../../../components/commons/Tooltip/Tooltip'
 import {
   dateList,
   settledHeaders,
   unSettledHeaders
-} from '../../constants/pageConstants/warehouse'
-import { locations } from '../../constants/pageConstants/locations'
-import { Api, ISOStringToReadableDate } from '../../utils/utils'
+} from '../../../constants/pageConstants/warehouse'
+import { locations } from '../../../constants/pageConstants/locations'
+import { Api, ISOStringToReadableDate } from '../../../utils/utils'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import styles from './index.module.scss'
-import { formatTimeStr } from '../../utils/formatTime'
+import styles from '../index.module.scss'
+import { formatTimeStr } from '../../../utils/formatTime'
 
 const api = new Api()
 

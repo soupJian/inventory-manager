@@ -1,12 +1,12 @@
-import { Select, Spin } from 'antd'
+import { Alert, Select, Spin } from 'antd'
 import debounce from 'lodash/debounce'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { getSearch } from '../../service/search/search-inventory'
+import { getSearch } from '../../../service/search/search-inventory'
 import styled from 'styled-components'
 const { Option } = Select
 
-import styles from './index.module.scss'
+import styles from '../index.module.scss'
 
 const DebounceSelect = ({
   debounceTimeout = 500,
@@ -16,7 +16,8 @@ const DebounceSelect = ({
   selectedItem,
   idx,
   selectValue,
-  setNewItemModal
+  setNewItemModal,
+  setLookedUpItem
 }) => {
   const user = useSelector((state) => state.user)
   const [value, setValue] = useState(selectValue)
@@ -82,6 +83,8 @@ const DebounceSelect = ({
               Can’t find the item.
               <TriggeringText
                 onClick={() => {
+                  setValue('')
+                  setLookedUpItem(null)
                   setNewItemModal(true)
                 }}
               >
