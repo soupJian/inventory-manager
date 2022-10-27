@@ -15,7 +15,8 @@ import InventoryTable from '../inventory/inventoryTable'
 import InventoryProduct from '../inventory/inventoryProduct'
 import AddANewItem from '../../components/add-edit-new-Item'
 import AddProduct from '../../components/add-edit-new-product'
-
+import { defaultWarehouseItemsTableHeaders } from '../../constants/pageConstants/inventory'
+import { defaultWarehouseProductsTableHeaders } from '../../constants/pageConstants/products'
 import styles from './index.module.scss'
 
 const Managing = ({ router }) => {
@@ -129,6 +130,7 @@ const Managing = ({ router }) => {
           rowClick={(SKU) => {
             router.push(`/warehouse/item?sku=${SKU}`)
           }}
+          defaultTableHeaders={defaultWarehouseItemsTableHeaders}
         />
       )}
       {activeTab === 'Products' && (
@@ -141,6 +143,7 @@ const Managing = ({ router }) => {
           rowClick={(SKU) => {
             router.push(`/warehouse/product?sku=${SKU}`)
           }}
+          defaultTableHeaders={defaultWarehouseProductsTableHeaders}
         />
       )}
       {dialog.message && dialog.show && (

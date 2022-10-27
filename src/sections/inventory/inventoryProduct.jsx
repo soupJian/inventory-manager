@@ -19,7 +19,6 @@ import {
 import CostModal from '../../components/cost-modal'
 import {
   statusList,
-  defaultTableHeaders,
   ExpandedTableHeaders
 } from '../../constants/pageConstants/products'
 import { formatMoney } from '../../utils/formatMoney'
@@ -51,7 +50,8 @@ const InventoryProduct = ({
   selectable,
   updataTableData,
   noShowExpand,
-  rowClick
+  rowClick,
+  defaultTableHeaders
 }) => {
   const dispatch = useDispatch()
   const [productState, productDispatch] = useReducer(productReducer, {
@@ -385,6 +385,8 @@ const InventoryProduct = ({
                                         </Popover>
                                       )}
                                     </>
+                                  ) : header.key == 'Quantity' ? (
+                                    partItem.Quantity
                                   ) : (
                                     partItem.Inventory[header.key]
                                   )}

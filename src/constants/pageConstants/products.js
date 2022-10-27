@@ -17,7 +17,7 @@ export const categoryList = [
 ]
 // disabled 表头不可取消展示
 // value和label保持一致
-export const defaultTableHeaders = [
+export const defaultInventoryProductsTableHeaders = [
   {
     label: 'Product Name',
     key: 'Name',
@@ -26,13 +26,32 @@ export const defaultTableHeaders = [
     show: true
   },
   { label: 'SKU', key: 'SKU', value: 'SKU', show: true },
-  { label: 'system ID', key: 'SystemId', value: 'system ID', show: true },
+  { label: 'System ID', key: 'SystemId', value: 'System ID', show: true },
+  {
+    label: 'Available',
+    key: 'Available',
+    value: 'Available',
+    disabled: true,
+    show: true
+  },
+  { label: 'Us Cost', key: 'TotalCost', value: 'Us Cost', show: true }
+]
+export const defaultWarehouseProductsTableHeaders = [
+  {
+    label: 'Product Name',
+    key: 'Name',
+    value: 'Product Name',
+    disabled: true,
+    show: true
+  },
+  { label: 'SKU', key: 'SKU', value: 'SKU', show: true },
+  { label: 'System ID', key: 'SystemId', value: 'System ID', show: true },
   {
     label: 'Stock',
     key: 'Stock',
     value: 'Stock',
-    disabled: true,
-    show: true
+    show: true,
+    disabled: true
   },
   {
     label: 'Available',
@@ -40,12 +59,6 @@ export const defaultTableHeaders = [
     value: 'Available',
     show: true
   },
-  // {
-  //   label: 'Reserved',
-  //   key: 'Reserved',
-  //   value: 'Reserved',
-  //   show: true
-  // }
   { label: 'Us Cost', key: 'TotalCost', value: 'Us Cost', show: true }
 ]
 

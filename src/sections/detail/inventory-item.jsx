@@ -155,7 +155,7 @@ const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
                         <>
                           <span
                             className={
-                              activeLwh == 'in.'
+                              activeLwh == 'cm'
                                 ? `${styles.activeText} ${styles.pointer}`
                                 : `${styles.pointer}`
                             }
@@ -166,7 +166,7 @@ const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
                           </span>
                           <span
                             className={
-                              activeLwh == 'cm'
+                              activeLwh == 'in.'
                                 ? `${styles.activeText} ${styles.pointer}`
                                 : `${styles.pointer}`
                             }
@@ -180,7 +180,7 @@ const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
                         <>
                           <span
                             className={
-                              activeLwh == 'cm'
+                              activeLwh == 'in.'
                                 ? `${styles.activeText} ${styles.pointer}`
                                 : `${styles.pointer}`
                             }
@@ -191,7 +191,7 @@ const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
                           </span>
                           <span
                             className={
-                              activeLwh == 'in.'
+                              activeLwh == 'cm'
                                 ? `${styles.activeText} ${styles.pointer}`
                                 : `${styles.pointer}`
                             }
@@ -213,7 +213,7 @@ const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
                         <>
                           <span
                             className={
-                              activeWeight == 'lbs.'
+                              activeWeight == 'kg'
                                 ? `${styles.activeText} ${styles.pointer}`
                                 : `${styles.pointer}`
                             }
@@ -224,7 +224,7 @@ const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
                           </span>
                           <span
                             className={
-                              activeWeight == 'kg'
+                              activeWeight == 'lbs.'
                                 ? `${styles.activeText} ${styles.pointer}`
                                 : `${styles.pointer}`
                             }
@@ -238,7 +238,7 @@ const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
                         <>
                           <span
                             className={
-                              activeWeight == 'kg'
+                              activeWeight == 'lbs.'
                                 ? `${styles.activeText} ${styles.pointer}`
                                 : `${styles.pointer}`
                             }
@@ -249,7 +249,7 @@ const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
                           </span>
                           <span
                             className={
-                              activeWeight == 'lbs.'
+                              activeWeight == 'kg'
                                 ? `${styles.activeText} ${styles.pointer}`
                                 : `${styles.pointer}`
                             }

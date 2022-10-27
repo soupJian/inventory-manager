@@ -1,6 +1,6 @@
 import { Select, Spin } from 'antd'
 import debounce from 'lodash/debounce'
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { getSearch } from '../../service/search/search-inventory'
 import styled from 'styled-components'
@@ -55,6 +55,11 @@ const DebounceSelect = ({
     }
     return debounce(loadOptions, debounceTimeout)
   }, [debounceTimeout, name, user.accessToken])
+  useEffect(() => {
+    if (value == '') {
+      setData([])
+    }
+  }, [value])
   return (
     <Select
       value={value}

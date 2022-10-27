@@ -126,7 +126,7 @@ const AddANewItem = ({
       let data = {
         ...newItem,
         // 计算Available 差额
-        Available: newItem.Available + newItemValue.Stock - newItem.Stock,
+        Available: newItem.Available + newItem.Stock - newItemValue.Stock,
         Updated: new Date(),
         TotalCost,
         SettledTime: theSameLocation ? newItem.SettledTime : new Date(),
@@ -367,7 +367,7 @@ const AddANewItem = ({
                   }}
                   inputStyles={{ width: '100%' }}
                   placeholder="0"
-                  value={newItem.attr.weight}
+                  value={newItem.attr.weight ? newItem.attr.weight : ''}
                   onChange={(e) => newItemHandler(e, 'attr')}
                   name="weight"
                   type="number"
@@ -385,7 +385,7 @@ const AddANewItem = ({
                   }}
                   inputStyles={{ width: '100%' }}
                   placeholder="0"
-                  value={newItem.attr.length}
+                  value={newItem.attr.length ? newItem.attr.length : ''}
                   onChange={(e) => newItemHandler(e, 'attr')}
                   name="length"
                   type="number"
@@ -403,7 +403,7 @@ const AddANewItem = ({
                   }}
                   inputStyles={{ width: '100%' }}
                   placeholder="0"
-                  value={newItem.attr.width}
+                  value={newItem.attr.width ? newItem.attr.width : ''}
                   onChange={(e) => newItemHandler(e, 'attr')}
                   name="width"
                   type="number"
@@ -421,7 +421,7 @@ const AddANewItem = ({
                   }}
                   inputStyles={{ width: '100%' }}
                   placeholder="0"
-                  value={newItem.attr.height}
+                  value={newItem.attr.height ? newItem.attr.height : ''}
                   onChange={(e) => newItemHandler(e, 'attr')}
                   name="height"
                   type="number"
@@ -452,7 +452,7 @@ const AddANewItem = ({
                   }}
                   inputStyles={{ width: '100%' }}
                   placeholder="0"
-                  value={newItem.Cost.ItemCost}
+                  value={newItem.Cost.ItemCost ? newItem.Cost.ItemCost : ''}
                   onChange={(e) => newItemHandler(e, 'Cost')}
                   name="ItemCost"
                   type="number"
@@ -471,7 +471,11 @@ const AddANewItem = ({
                   }}
                   inputStyles={{ width: '100%' }}
                   placeholder="0"
-                  value={newItem.Cost.CustomEntryDuty}
+                  value={
+                    newItem.Cost.CustomEntryDuty
+                      ? newItem.Cost.CustomEntryDuty
+                      : ''
+                  }
                   onChange={(e) => newItemHandler(e, 'Cost')}
                   name="CustomEntryDuty"
                   type="number"
@@ -490,7 +494,9 @@ const AddANewItem = ({
                   }}
                   inputStyles={{ width: '100%' }}
                   placeholder="0"
-                  value={newItem.Cost.OceanFreight}
+                  value={
+                    newItem.Cost.OceanFreight ? newItem.Cost.OceanFreight : ''
+                  }
                   onChange={(e) => newItemHandler(e, 'Cost')}
                   name="OceanFreight"
                   type="number"
@@ -509,7 +515,11 @@ const AddANewItem = ({
                   }}
                   inputStyles={{ width: '100%' }}
                   placeholder="0"
-                  value={newItem.Cost.WarehouseDelivery}
+                  value={
+                    newItem.Cost.WarehouseDelivery
+                      ? newItem.Cost.WarehouseDelivery
+                      : ''
+                  }
                   onChange={(e) => newItemHandler(e, 'Cost')}
                   name="WarehouseDelivery"
                   type="number"
@@ -528,7 +538,11 @@ const AddANewItem = ({
                   }}
                   inputStyles={{ width: '100%' }}
                   placeholder="0"
-                  value={newItem.Cost.CustomerShipping}
+                  value={
+                    newItem.Cost.CustomerShipping
+                      ? newItem.Cost.CustomerShipping
+                      : ''
+                  }
                   onChange={(e) => newItemHandler(e, 'Cost')}
                   name="CustomerShipping"
                   type="number"

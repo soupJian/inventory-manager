@@ -13,8 +13,8 @@ export default React.memo(TableCell)
 
 export const TableCellWrapper = styled.td`
   border-spacing: 0;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  // padding-top: 12px;
+  // padding-bottom: 12px;
   border-top: ${({ expanded }) => (expanded ? '2px solid #F0F0F0' : 'none')};
   ${({ styles }) => styles};
 

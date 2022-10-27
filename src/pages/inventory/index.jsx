@@ -15,6 +15,8 @@ import { Input } from 'antd'
 import InventoryTable from '../../sections/inventory/inventoryTable'
 import InventoryProduct from '../../sections/inventory/inventoryProduct'
 import AddANewItem from '../../components/add-edit-new-Item'
+import { defaultInventoryItemsTableHeaders } from '../../constants/pageConstants/inventory'
+import { defaultInventoryProductsTableHeaders } from '../../constants/pageConstants/products'
 import styles from './index.module.scss'
 
 const Inventory = ({ router }) => {
@@ -91,6 +93,7 @@ const Inventory = ({ router }) => {
           setDialog={setDialog}
           updataTableData={updataTableData}
           selectable={false}
+          defaultTableHeaders={defaultInventoryItemsTableHeaders}
         />
       )}
 
@@ -100,6 +103,7 @@ const Inventory = ({ router }) => {
           setDialog={setDialog}
           updataTableData={updataTableData}
           selectable={false}
+          defaultTableHeaders={defaultInventoryProductsTableHeaders}
         />
       )}
       {dialog.message && dialog.show && (

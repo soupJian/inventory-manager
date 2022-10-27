@@ -84,7 +84,7 @@ const TableHeadCell = styled.th`
   line-height: ${({ theme }) => theme.font.lineHeight.normal};
   color: ${({ theme }) => theme.colors.primaryText};
   text-align: left;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
 
   &:first-of-type {
     padding-left: 20px;

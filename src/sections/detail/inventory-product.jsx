@@ -216,7 +216,7 @@ const Product = ({
                             <>
                               <span
                                 className={
-                                  partItem.activeLwh == 'in.'
+                                  partItem.activeLwh == 'cm'
                                     ? `${styles.activeText} ${styles.pointer}`
                                     : `${styles.pointer}`
                                 }
@@ -229,7 +229,7 @@ const Product = ({
                               </span>
                               <span
                                 className={
-                                  partItem.activeLwh == 'cm'
+                                  partItem.activeLwh == 'in.'
                                     ? `${styles.activeText} ${styles.pointer}`
                                     : `${styles.pointer}`
                                 }
@@ -245,7 +245,7 @@ const Product = ({
                             <>
                               <span
                                 className={
-                                  partItem.activeLwh == 'cm'
+                                  partItem.activeLwh == 'in.'
                                     ? `${styles.activeText} ${styles.pointer}`
                                     : `${styles.pointer}`
                                 }
@@ -258,7 +258,7 @@ const Product = ({
                               </span>
                               <span
                                 className={
-                                  partItem.activeLwh == 'in.'
+                                  partItem.activeLwh == 'cm'
                                     ? `${styles.activeText} ${styles.pointer}`
                                     : `${styles.pointer}`
                                 }
@@ -284,7 +284,7 @@ const Product = ({
                           <>
                             <span
                               className={
-                                partItem.activeWeight == 'lbs.'
+                                partItem.activeWeight == 'kg'
                                   ? `${styles.activeText} ${styles.pointer}`
                                   : `${styles.pointer}`
                               }
@@ -297,7 +297,7 @@ const Product = ({
                             </span>
                             <span
                               className={
-                                partItem.activeWeight == 'kg'
+                                partItem.activeWeight == 'lbs.'
                                   ? `${styles.activeText} ${styles.pointer}`
                                   : `${styles.pointer}`
                               }
@@ -313,7 +313,7 @@ const Product = ({
                           <>
                             <span
                               className={
-                                partItem.activeWeight == 'kg'
+                                partItem.activeWeight == 'lbs.'
                                   ? `${styles.activeText} ${styles.pointer}`
                                   : `${styles.pointer}`
                               }
@@ -326,7 +326,7 @@ const Product = ({
                             </span>
                             <span
                               className={
-                                partItem.activeWeight == 'lbs.'
+                                partItem.activeWeight == 'kg'
                                   ? `${styles.activeText} ${styles.pointer}`
                                   : `${styles.pointer}`
                               }
@@ -360,6 +360,8 @@ const Product = ({
                 <AttrName>AVAILABLE</AttrName>
                 <AttrValue>{product.Available}</AttrValue>
               </AttrGroup>
+              <AttrGroup></AttrGroup>
+              <AttrGroup></AttrGroup>
             </Flex>
             <AttrGroup
               alignItems="flex-start"

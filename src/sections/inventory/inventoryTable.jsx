@@ -18,8 +18,7 @@ import CostModal from '../../components/cost-modal'
 import {
   ExpandedTableHeaders,
   statusList,
-  sortByList,
-  defaultTableHeaders
+  sortByList
 } from '../../constants/pageConstants/inventory'
 import { Row, Col, Popover, Select, Space, Button, Checkbox } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
@@ -50,7 +49,8 @@ const InventoryTable = ({
   updataTableData,
   selectable,
   noShowExpand,
-  rowClick
+  rowClick,
+  defaultTableHeaders
 }) => {
   const dispatch = useDispatch()
   const [inventoryState, InventoryDispatch] = useReducer(inventoryReducer, {
@@ -444,7 +444,7 @@ const InventoryTable = ({
                   <Icon name="clear" width="22px" height="22px" />
                   <Text>Clear</Text>
                 </BaseButton>
-                <BaseButton
+                {/* <BaseButton
                   onClick={() =>
                     confirmAction(
                       deleteSelectedItems,
@@ -462,7 +462,7 @@ const InventoryTable = ({
                 >
                   <Icon name="delete" width="22px" height="22px" />
                   <Text>Delete</Text>
-                </BaseButton>
+                </BaseButton> */}
               </Flex>
             </Flex>
           </FloatingBar>

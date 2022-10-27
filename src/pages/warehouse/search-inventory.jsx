@@ -1,5 +1,6 @@
 import React from 'react'
 import { withRouter } from 'next/router'
+import { defaultWarehouseItemsTableHeaders } from '../../constants/pageConstants/inventory'
 
 import SearchInventory from '../../sections/search/search-inventory'
 const SearchPage = ({ router }) => {
@@ -11,6 +12,7 @@ const SearchPage = ({ router }) => {
       rowClick={(SKU) => {
         router.push(`/warehouse/item?sku=${SKU}`)
       }}
+      defaultTableHeaders={defaultWarehouseItemsTableHeaders}
     />
   )
 }

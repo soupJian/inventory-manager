@@ -28,7 +28,7 @@ const TableRow = ({
             {...rest}
             bgColor={idx && idx % 2 !== 0 ? '#F6F7F9' : 'transparent'}
             onClick={() => {
-              noShowExpand ? rowClick() : setExpanded(true)
+              noShowExpand ? rowClick() : setExpanded(!expanded)
             }}
             expanded={expanded}
           >

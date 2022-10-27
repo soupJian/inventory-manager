@@ -21,17 +21,20 @@ import {
 } from '../../components/commons'
 import { getSearch } from '../../service/search/search-inventory'
 import { formatMoney } from '../../utils/formatMoney'
-import {
-  ExpandedTableHeaders,
-  defaultTableHeaders
-} from '../../constants/pageConstants/inventory'
+import { ExpandedTableHeaders } from '../../constants/pageConstants/inventory'
 import CostModal from '../../components/cost-modal'
 import { Api } from '../../utils/utils'
 import styles from './search.module.scss'
 
 const api = new Api()
 const perPage = 10
-const SearchPage = ({ router, selectable, noShowExpand, rowClick }) => {
+const SearchPage = ({
+  router,
+  selectable,
+  noShowExpand,
+  rowClick,
+  defaultTableHeaders
+}) => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
   const [costInfo, setCostInfo] = useState({

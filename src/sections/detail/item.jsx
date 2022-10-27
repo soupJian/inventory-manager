@@ -8,7 +8,6 @@ import {
   Dialog,
   Flex,
   Label,
-  Loader,
   Text,
   Wrapper
 } from '../../components/commons'
@@ -37,6 +36,17 @@ const ItemPage = ({ router }) => {
         return setDialog({ message: '', onConfirm: '', show: false })
       }
     })
+  }
+  const clearItem = (sku) => {
+    dispatch(toggleLoading(true))
+    api
+      .updateInventory(
+        { ...item, Stock: 0, Available: 0 },
+        { Authorization: `Bearer ${user.accessToken}` }
+      )
+      .then(() => {
+        fetchItem()
+      })
   }
   const deleteItem = (sku) => {
     dispatch(toggleLoading(true))
@@ -78,8 +88,8 @@ const ItemPage = ({ router }) => {
         showEditModal={modalHandler}
         onDelete={() =>
           confirmAction(
-            () => deleteItem(item.SKU),
-            'Are you sure you want to delete this item?'
+            () => clearItem(item.SKU),
+            'Are you sure you want to set the stock to be 0?'
           )
         }
         item={item}

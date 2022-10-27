@@ -38,7 +38,7 @@ export const categoryList = [
 ]
 // disabled 表头不可取消展示
 // value和label保持一致
-export const defaultTableHeaders = [
+export const defaultInventoryItemsTableHeaders = [
   {
     label: 'Item Name',
     key: 'Name',
@@ -47,9 +47,8 @@ export const defaultTableHeaders = [
     show: true
   },
   { label: 'SKU', key: 'SKU', value: 'SKU', show: true },
-  { label: 'system ID', key: 'SystemId', value: 'system ID', show: true },
-  // { label: 'Stock', key: 'Stock' },
-  // { label: 'Reserved', key: 'Reserved' },
+  { label: 'System ID', key: 'SystemId', value: 'System ID', show: true },
+  { label: 'Barcode', key: 'Barcode', value: 'Barcode', show: true },
   {
     label: 'Available',
     key: 'Available',
@@ -58,20 +57,36 @@ export const defaultTableHeaders = [
     show: true
   },
   { label: 'Location', key: 'Location', value: 'Location', show: true },
+  { label: 'Us Cost', key: 'TotalCost', value: 'Us Cost', show: true }
+]
+export const defaultWarehouseItemsTableHeaders = [
+  {
+    label: 'Item Name',
+    key: 'Name',
+    value: 'Item Name',
+    disabled: true,
+    show: true
+  },
+  { label: 'SKU', key: 'SKU', value: 'SKU', show: true },
+  { label: 'System ID', key: 'SystemId', value: 'System ID', show: true },
+  { label: 'Stock', key: 'Stock', value: 'Stock', show: true, disabled: true },
+  {
+    label: 'Available',
+    key: 'Available',
+    value: 'Available',
+    show: true
+  },
   { label: 'Barcode', key: 'Barcode', value: 'Barcode', show: true },
+  { label: 'Location', key: 'Location', value: 'Location', show: true },
   { label: 'Us Cost', key: 'TotalCost', value: 'Us Cost', show: true }
 ]
 export const ExpandedTableHeaders = [
-  // {label: "Barcode", key: "Barcode"},
-  // {label: "Reorder Alert", key: "ReorderAlert"},
-  // {label: "US Cost", key: "TotalCost"},
-  // {label: "Location", key: "Location"}
   {
     label: 'TAGS',
     key: 'Tags'
   }
 ]
-
+// 每一个items 的基础构建
 export const itemTemplate = {
   SKU: '',
   Available: 0,

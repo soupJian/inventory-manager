@@ -38,7 +38,6 @@ const Receiving = () => {
   const [lookedUpItem, setLookedUpItem] = useState(null)
   const [lookedUpItemCount, setLookedUpItemCount] = useState(0)
   const [lookedUpItemLocation, setLookedUpItemLocation] = useState([])
-  const [lookUpLoading, setLookUpLoading] = useState(false)
   const [newItemModal, setNewItemModal] = useState(false)
 
   const startScan = () => {
@@ -47,8 +46,6 @@ const Receiving = () => {
   }
   const lookUpItem = async (Item) => {
     setLookedUpItem(Item)
-    setLookedUpItemCount(Item.Stock)
-    setLookedUpItemLocation(Item.Location)
   }
   const handleLocationList = (val) => {
     setLookedUpItemLocation((list) => {
@@ -64,21 +61,27 @@ const Receiving = () => {
   }
   const saveItem = () => {
     dispatch(toggleLoading(true))
+    const arr = lookedUpItem.Location.concat(lookedUpItemLocation)
+    const set = new Set(arr)
     api
       .updateInventory(
         {
           ...lookedUpItem,
           Updated: new Date(),
-          Available:
-            lookedUpItem.Available +
-            (parseInt(lookedUpItemCount) - lookedUpItem.Stock),
-          Stock: parseInt(lookedUpItemCount),
-          Location: lookedUpItemLocation,
-          Settled: lookedUpItemLocation.length > 0
+          Available: lookedUpItem.Available + parseInt(lookedUpItemCount),
+          Stock: lookedUpItem.Stock + parseInt(lookedUpItemCount),
+          Location: Array.from(set),
+          Settled: lookedUpItemCount.length > 0
         },
         { Authorization: `Bearer ${user.accessToken}` }
       )
       .then(() => {
+        setName('')
+        setBarcode('')
+        setSku('')
+        setLookedUpItemCount(0)
+        setLookedUpItemLocation([])
+        setLookedUpItem(null)
         dispatch(toggleLoading(false))
       })
   }
