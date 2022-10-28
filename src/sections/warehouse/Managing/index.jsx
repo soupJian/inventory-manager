@@ -191,7 +191,7 @@ const Managing = ({ router }) => {
         <AddANewItem
           setNewItemModal={setNewItemModal}
           submitNewItemFinally={(SKU) =>
-            router.replace(`/warehouse/item?sku=${SKU}`)
+            router.push(`/warehouse/item?sku=${SKU}`)
           }
         />
       )}
@@ -199,7 +199,7 @@ const Managing = ({ router }) => {
         <AddProduct
           setNewProductModal={setNewProductModal}
           submitnewProductFinally={(SKU) => {
-            router.replace(`/warehouse/product?sku=${SKU}`)
+            router.push(`/warehouse/product?sku=${SKU}`)
           }}
         />
       )}

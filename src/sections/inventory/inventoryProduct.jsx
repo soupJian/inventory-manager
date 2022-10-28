@@ -54,7 +54,7 @@ const InventoryProduct = ({
   defaultTableHeaders
 }) => {
   const dispatch = useDispatch()
-  const [productState, productDispatch] = useReducer(productReducer, {
+  const [productState, setProductState] = useState({
     page: 1,
     status: []
   })
@@ -63,7 +63,6 @@ const InventoryProduct = ({
   const [productSKUs, setProductSKUs] = useState([])
   const [itemsPerPage, setItemsPerPage] = useState(10)
   const [selection, setSelection] = useState([])
-
   const [costInfo, setCostInfo] = useState({
     show: false,
     CustomEntryDuty: 0,
@@ -74,31 +73,29 @@ const InventoryProduct = ({
     total: 0
   })
   const [sortBy, setSortBy] = useState('desc') // asc 和desc
-
-  const handleStatus = (val) => {
-    productDispatch({ type: 'changeStatus', payload: val })
-  }
-
-  const fetchSKUs = () => {
-    dispatch(toggleLoading(true))
-    api
-      .getAllProducts(
-        `projectionExpression=SKU${
-          productState.status ? `&status=${productState.status.join(',')}` : ''
-        }&sort=Available&order=${sortBy}`,
-        { Authorization: `Bearer ${user.accessToken}` }
-      )
-      .then((data) => {
-        setProductSKUs(data.Items)
-        fetchMultipleProducts(data.Items)
-      })
-      .catch((err) => {
-        dispatch(toggleLoading(false))
-        console.log(err)
-      })
-  }
   const handlePage = (page) => {
-    productDispatch({ type: 'changePaginateNumber', payload: page })
+    setProductState({
+      ...productState,
+      page
+    })
+  }
+  const handleStatus = (status) => {
+    setProductState({
+      ...productState,
+      status
+    })
+  }
+  const fetchSKUs = async () => {
+    dispatch(toggleLoading(true))
+    const data = await api.getAllProducts(
+      `projectionExpression=SKU${
+        productState.status ? `&stock=${productState.status.join(',')}` : ''
+      }`,
+      { Authorization: `Bearer ${user.accessToken}` }
+    )
+    setProductSKUs(data.Items)
+    fetchMultipleProducts(data.Items)
+    dispatch(toggleLoading(false))
   }
   const confirmAction = (cb, message) => {
     setDialog({
@@ -169,7 +166,6 @@ const InventoryProduct = ({
       } else {
         const skus = products.Items?.map((item) => item.SKU)
         setSelection(skus)
-        console.log(skus)
       }
     }
   }
@@ -183,45 +179,35 @@ const InventoryProduct = ({
       return newList
     })
   }
-  const fetchMultipleProducts = (productSKUs) => {
-    const skusToShow = productSKUs.slice(
-      productState.page * itemsPerPage - itemsPerPage,
-      productState.page * itemsPerPage
-    )
-    if (skusToShow.length) {
-      let str = ''
-      skusToShow.forEach((i) => {
-        Object.values(i).map((val) => {
-          str += val + ','
-        })
-      })
-      dispatch(toggleLoading(true))
-      api
-        .getMultipleProducts(`skus=${str}&sort=Available&order=${sortBy}`, {
-          Authorization: `Bearer ${user.accessToken}`
-        })
-        .then((data) => {
-          setProducts(data)
-          dispatch(toggleLoading(false))
-        })
-        .catch((err) => {
-          dispatch(toggleLoading(false))
-        })
-    } else {
+  const fetchMultipleProducts = (list) => {
+    if (list.length == 0) {
       setProducts({})
+      return
     }
+    dispatch(toggleLoading(true))
+    let str = ''
+    list.forEach((i) => {
+      Object.values(i).map((val) => {
+        str += val + ','
+      })
+    })
+    api
+      .getMultipleProducts(`skus=${str}&sort=Available&order=${sortBy}`, {
+        Authorization: `Bearer ${user.accessToken}`
+      })
+      .then((data) => {
+        setProducts(data)
+        dispatch(toggleLoading(false))
+      })
+      .catch((err) => {
+        dispatch(toggleLoading(false))
+      })
   }
-
   useEffect(() => {
     handlePage(1)
     fetchSKUs()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productState.status.length, updataTableData, sortBy])
-
-  useEffect(() => {
-    fetchMultipleProducts(productSKUs)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productState.page, productState.status.length])
   return (
     <Wrapper styles={{ 'min-height': '100%', padding: '0' }} height="auto">
       <Flex
@@ -294,7 +280,12 @@ const InventoryProduct = ({
           paginationComponent={
             <Wrapper padding="32px 0 0">
               <Pagination
-                itemsInPage={products?.Count}
+                itemsInPage={
+                  products?.Items?.slice(
+                    productState.page * itemsPerPage - itemsPerPage,
+                    productState.page * itemsPerPage
+                  ).length
+                }
                 totalItems={productSKUs?.length}
                 totalPages={Math.ceil(productSKUs?.length / itemsPerPage)}
                 onPageChange={handlePage}
@@ -303,7 +294,10 @@ const InventoryProduct = ({
             </Wrapper>
           }
         >
-          {products.Items?.map((item, idx) => (
+          {products.Items?.slice(
+            productState.page * itemsPerPage - itemsPerPage,
+            productState.page * itemsPerPage
+          ).map((item, idx) => (
             <TableRow
               nested
               idx={idx}

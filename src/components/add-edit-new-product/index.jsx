@@ -30,6 +30,7 @@ const AddProduct = ({
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
   const [newProduct, setNewProduct] = useState({ ...newProductValue })
+  const [newProductError, setNewProductError] = useState('')
   const [partsInput, setPartsInput] = useState(
     newProduct.Parts.length == 0
       ? [
@@ -107,10 +108,8 @@ const AddProduct = ({
   // 新增
   const submitnewProduct = (e) => {
     e.preventDefault()
-    if (!newProduct.Name) {
-      message.warning('Product Name is Required')
-    } else if (!newProduct.SKU) {
-      message.warning('Product SKU is Required')
+    if (!newProduct.Name || !newProduct.SKU) {
+      setNewProductError('Required')
     } else if (Object.keys(partsInput[0].Inventory).length === 0) {
       message.warning('Product Parts is Required')
     } else {
@@ -132,26 +131,22 @@ const AddProduct = ({
       api
         .updateProduct(data, { Authorization: `Bearer ${user.accessToken}` })
         .then((data) => {
-          setNewProduct({ ...productTemplate })
-        })
-        .catch((err) => {
-          message.error('Network Error OR The SKU Already Exists')
-          setNewProduct({ ...productTemplate })
-        })
-        .finally(() => {
-          dispatch(toggleLoading(false))
-          setNewProductModal(false)
-          submitnewProductFinally(newProduct.SKU)
+          if (data.message) {
+            message.error(data.message)
+          } else {
+            setNewProduct({ ...productTemplate })
+            dispatch(toggleLoading(false))
+            setNewProductModal(false)
+            submitnewProductFinally(newProduct.SKU)
+          }
         })
     }
   }
   // 编辑
   const submitEditedProduct = (e) => {
     e.preventDefault()
-    if (!newProduct.Name) {
-      message.warning('Product Name is Required')
-    } else if (!newProduct.SKU) {
-      message.warning('Product SKU is Required')
+    if (!newProduct.Name || !newProduct.SKU) {
+      setNewProductError('Required')
     } else if (Object.keys(partsInput[0].Inventory).length === 0) {
       message.warning('Product Parts is Required')
     } else {
@@ -176,16 +171,14 @@ const AddProduct = ({
       api
         .updateProduct(data, { Authorization: `Bearer ${user.accessToken}` })
         .then((data) => {
-          setNewProduct({ ...productTemplate })
-        })
-        .catch((err) => {
-          message.error('Network Error OR The SKU Already Exists')
-          setNewProduct({ ...productTemplate })
-        })
-        .finally(() => {
           dispatch(toggleLoading(false))
-          setNewProductModal(false)
-          submitnewProductFinally(newProduct.SKU)
+          if (data.message) {
+            message.error(data.message)
+          } else {
+            setNewProduct({ ...productTemplate })
+            setNewProductModal(false)
+            submitnewProductFinally(newProduct.SKU)
+          }
         })
     }
   }
@@ -323,10 +316,19 @@ const AddProduct = ({
               <Input
                 wrapperStyles={{
                   'margin-top': '16px',
-                  'min-height': '59px'
+                  'min-height': '59px',
+                  border:
+                    newProductError && !newProduct.Name
+                      ? '2px solid #CB0000'
+                      : ''
                 }}
                 inputStyles={{ width: '100%' }}
-                placeholder="Type"
+                placeholderStyles={{
+                  color: newProductError && !newProduct.Name ? '#CB0000' : ''
+                }}
+                placeholder={
+                  newProductError && !newProduct.Name ? 'Required' : 'Type'
+                }
                 value={newProduct.Name}
                 onChange={(e) => newProductFieldHandler(e)}
                 name="Name"
@@ -341,10 +343,19 @@ const AddProduct = ({
               <Input
                 wrapperStyles={{
                   'margin-top': '16px',
-                  'min-height': '59px'
+                  'min-height': '59px',
+                  border:
+                    newProductError && !newProduct.SKU
+                      ? '2px solid #CB0000'
+                      : ''
                 }}
                 inputStyles={{ width: '100%' }}
-                placeholder="Type"
+                placeholderStyles={{
+                  color: newProductError && !newProduct.SKU ? '#CB0000' : ''
+                }}
+                placeholder={
+                  newProductError && !newProduct.SKU ? 'Required' : 'Type'
+                }
                 value={newProduct.SKU}
                 onChange={(e) => newProductFieldHandler(e)}
                 name="SKU"

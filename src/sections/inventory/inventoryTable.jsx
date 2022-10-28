@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer } from 'react'
+import React, { useEffect, useState } from 'react'
 import { toggleLoading } from '../../store/slices/globalSlice'
 import { useDispatch } from 'react-redux'
 
@@ -30,19 +30,6 @@ import styles from './index.module.scss'
 const api = new Api()
 
 const { Option } = Select
-const inventoryReducer = (state, { type, payload }) => {
-  switch (type) {
-    case 'changeStatus':
-      return { ...state, status: payload }
-    case 'changePageType':
-      return { ...state, pageType: payload, page: 1 }
-    case 'changePaginateNumber':
-      return { ...state, page: payload }
-    default:
-      return state
-  }
-}
-
 const InventoryTable = ({
   user,
   setDialog,
@@ -53,7 +40,7 @@ const InventoryTable = ({
   defaultTableHeaders
 }) => {
   const dispatch = useDispatch()
-  const [inventoryState, InventoryDispatch] = useReducer(inventoryReducer, {
+  const [inventoryState, setInventoryState] = useState({
     page: 1,
     status: []
   })
@@ -72,60 +59,56 @@ const InventoryTable = ({
     total: 0
   })
   const [sortBy, setSortBy] = useState('desc')
-  const fetchSKUs = () => {
+  const fetchSKUs = async () => {
     dispatch(toggleLoading(true))
+    const data = await api.getAllInventory(
+      `projectionExpression=SKU${
+        inventoryState.status.length
+          ? `&stock=${inventoryState.status.join(',')}`
+          : ''
+      }`,
+      { Authorization: `Bearer ${user.accessToken}` }
+    )
+    setInventorySKUs(data.Items)
+    fetchMultipleInventory(data.Items)
+    dispatch(toggleLoading(false))
+  }
+  const fetchMultipleInventory = (list) => {
+    if (list.length == 0) {
+      setInventoryData({})
+      return
+    }
+    dispatch(toggleLoading(true))
+    let str = ''
+    list.forEach((i) => {
+      Object.values(i).map((val) => {
+        str += val + ','
+      })
+    })
     api
-      .getAllInventory(
-        `projectionExpression=SKU${
-          inventoryState.status.length
-            ? `&status=${inventoryState.status.join(',')}`
-            : ''
-        }&sort=Available&order=${sortBy}`,
-        { Authorization: `Bearer ${user.accessToken}` }
-      )
+      .getMultipleInventory(`skus=${str}&sort=Available&order=${sortBy}`, {
+        Authorization: `Bearer ${user.accessToken}`
+      })
       .then((data) => {
-        setInventorySKUs(data.Items)
-        fetchMultipleInventory(data.Items)
+        setInventoryData(data)
         dispatch(toggleLoading(false))
       })
       .catch((err) => {
         console.log(err)
+        dispatch(toggleLoading(false))
       })
-  }
-  const fetchMultipleInventory = (inventorySKUs) => {
-    const skusToShow = inventorySKUs.slice(
-      inventoryState.page * itemsPerPage - itemsPerPage,
-      inventoryState.page * itemsPerPage
-    )
-    if (skusToShow?.length) {
-      dispatch(toggleLoading(true))
-      let str = ''
-      skusToShow.forEach((i) => {
-        Object.values(i).map((val) => {
-          str += val + ','
-        })
-      })
-      api
-        .getMultipleInventory(`skus=${str}&sort=Available&order=${sortBy}`, {
-          Authorization: `Bearer ${user.accessToken}`
-        })
-        .then((data) => {
-          setInventoryData(data)
-          dispatch(toggleLoading(false))
-        })
-        .catch((err) => {
-          console.log(err)
-          dispatch(toggleLoading(false))
-        })
-    } else {
-      setInventoryData({})
-    }
   }
   const handlePage = (page) => {
-    InventoryDispatch({ type: 'changePaginateNumber', payload: page })
+    setInventoryState({
+      ...inventoryState,
+      page
+    })
   }
-  const handleStatus = (val) => {
-    InventoryDispatch({ type: 'changeStatus', payload: val })
+  const handleStatus = (status) => {
+    setInventoryState({
+      ...inventoryState,
+      status
+    })
   }
   const confirmAction = (cb, message) => {
     setDialog({
@@ -204,10 +187,6 @@ const InventoryTable = ({
     })
   }
   useEffect(() => {
-    fetchMultipleInventory(inventorySKUs)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inventoryState.page, inventoryState.status.length])
-  useEffect(() => {
     handlePage(1)
     fetchSKUs()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -284,7 +263,12 @@ const InventoryTable = ({
           paginationComponent={
             <Wrapper>
               <Pagination
-                itemsInPage={inventoryData?.Count}
+                itemsInPage={
+                  inventoryData?.Items?.slice(
+                    inventoryState.page * itemsPerPage - itemsPerPage,
+                    inventoryState.page * itemsPerPage
+                  ).length
+                }
                 totalItems={inventorySKUs?.length}
                 totalPages={Math.ceil(inventorySKUs?.length / itemsPerPage)}
                 onPageChange={handlePage}
@@ -293,7 +277,10 @@ const InventoryTable = ({
             </Wrapper>
           }
         >
-          {inventoryData?.Items?.map((item, idx) => (
+          {inventoryData?.Items?.slice(
+            inventoryState.page * itemsPerPage - itemsPerPage,
+            inventoryState.page * itemsPerPage
+          ).map((item, idx) => (
             <TableRow
               nested
               idx={idx}

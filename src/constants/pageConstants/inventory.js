@@ -101,7 +101,7 @@ export const itemTemplate = {
   Created: '',
   Location: [],
   Name: '',
-  ReorderAlert: 0,
+  ReorderAlert: 10,
   // Reserved: 0,
   Settled: false,
   SettledTime: '',

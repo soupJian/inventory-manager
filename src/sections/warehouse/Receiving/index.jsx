@@ -56,7 +56,7 @@ const Receiving = ({ router }) => {
         <AddANewItem
           setNewItemModal={setNewItemModal}
           submitNewItemFinally={(SKU) =>
-            router.replace(`/warehouse/item?sku=${SKU}`)
+            router.push(`/warehouse/item?sku=${SKU}`)
           }
         />
       )}

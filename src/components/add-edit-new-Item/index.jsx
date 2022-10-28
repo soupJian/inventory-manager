@@ -8,6 +8,7 @@ import { Api } from '../../utils/utils'
 const api = new Api()
 import styled from 'styled-components'
 import { nanoid } from 'nanoid'
+import { message } from 'antd'
 
 const AddANewItem = ({
   type = 'add',
@@ -70,7 +71,7 @@ const AddANewItem = ({
   const submitNewItem = (e) => {
     setNewItemError('')
     e.preventDefault()
-    if (!newItem.Name || !newItem.Barcode) {
+    if (!newItem.Name || !newItem.SKU || !newItem.Barcode) {
       setNewItemError('Required')
     } else {
       dispatch(toggleLoading(true))
@@ -95,16 +96,17 @@ const AddANewItem = ({
       delete data['TagsInput']
       api
         .updateInventory(data, { Authorization: `Bearer ${user.accessToken}` })
-        .catch((err) => {
-          console.log(err)
-        })
-        .finally(() => {
+        .then((data) => {
           dispatch(toggleLoading(false))
-          setNewItemModal(false)
-          setNewItemError('')
-          setNewItem({ ...itemTemplate })
-          // new完成后通知父元素
-          submitNewItemFinally(newItem.SKU)
+          if (data.message) {
+            message.error(data.message)
+          } else {
+            setNewItemModal(false)
+            // new完成后通知父元素
+            submitNewItemFinally(newItem.SKU)
+            setNewItemError('')
+            setNewItem({ ...itemTemplate })
+          }
         })
     }
   }
@@ -112,7 +114,7 @@ const AddANewItem = ({
   const submitEditedItem = (e) => {
     setNewItemError('')
     e.preventDefault()
-    if (!newItem.Name || !newItem.Barcode) {
+    if (!newItem.Name || !newItem.SKU || !newItem.Barcode) {
       setNewItemError('Required')
     } else {
       dispatch(toggleLoading(true))
@@ -132,32 +134,33 @@ const AddANewItem = ({
         SettledTime: theSameLocation ? newItem.SettledTime : new Date(),
         Settled: newItem.Location.length > 0
       }
-      console.log(newItem)
       // 如果SKU发生改变，则SKU不变，新增NewSKU传递
       if (newItem.SKU != newItemValue.SKU) {
         data.NewSKU = data.SKU
         data.SKU = newItemValue.SKU
       }
-      console.log(data)
       delete data['TagsInput']
       api
         .updateInventory(data, { Authorization: `Bearer ${user.accessToken}` })
         .then((data) => {
-          modalHandler(false)
-          setNewItemError('')
-          setEditItem({ ...itemTemplate })
-          fetchItem()
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-        .finally(() => {
           dispatch(toggleLoading(false))
-          setNewItemModal(false)
-          setNewItemError('')
-          setNewItem({ ...newItemValue })
-          // 更新完成后通知父元素
-          submitNewItemFinally(newItem.SKU)
+          if (data.message) {
+            message.error(data.message)
+          } else {
+            submitNewItemFinally(newItem.SKU)
+          }
+        })
+        .then((data) => {
+          dispatch(toggleLoading(false))
+          if (data.message) {
+            message.error(data.message)
+          } else {
+            // new完成后通知父元素
+            submitNewItemFinally(newItem.SKU)
+            setNewItemModal(false)
+            setNewItemError('')
+            setNewItem({ ...newItemValue })
+          }
         })
     }
   }
@@ -206,14 +209,19 @@ const AddANewItem = ({
             }}
           >
             <InputGroup>
-              <Label htmlFor="warehouse-recieving-sku">SKU</Label>
+              <Label htmlFor="warehouse-recieving-sku">SKU*</Label>
               <Input
                 wrapperStyles={{
                   'margin-top': '16px',
-                  'min-height': '59px'
+                  'min-height': '59px',
+                  border:
+                    newItemError && !newItem.SKU ? '2px solid #CB0000' : ''
                 }}
                 inputStyles={{ width: '100%' }}
-                placeholder="Type"
+                placeholderStyles={{
+                  color: newItemError && !newItem.SKU ? '#CB0000' : ''
+                }}
+                placeholder={newItemError && !newItem.SKU ? 'Required' : 'Type'}
                 value={newItem.SKU}
                 onChange={(e) => newItemHandler(e)}
                 name="SKU"
