@@ -15,23 +15,23 @@ const DebounceSelect = ({
   itemKey,
   selectedItem,
   idx,
+  value,
   selectValue,
   setNewItemModal,
   setLookedUpItem
 }) => {
   const user = useSelector((state) => state.user)
-  const [value, setValue] = useState(selectValue)
   const [fetching, setFetching] = useState(false)
   const [data, setData] = useState([])
   const fetchRef = useRef(0)
   const handleSelect = (newValue) => {
-    setValue(newValue)
+    selectValue(newValue)
     const selectItem = data.filter((item) => item.SKU == newValue)[0]
     selectedItem(selectItem, idx)
   }
   const debounceFetcher = useMemo(() => {
     const loadOptions = async (value) => {
-      setValue(value)
+      selectValue(value)
       fetchRef.current += 1
       const fetchId = fetchRef.current
       setData([])
@@ -71,7 +71,7 @@ const DebounceSelect = ({
       filterOption={false}
       onSearch={debounceFetcher}
       onSelect={handleSelect}
-      onChange={setValue}
+      onChange={(value) => selectValue(value)}
       optionLabelProp="label"
       name={name}
       className={styles.selectInput}

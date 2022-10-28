@@ -81,7 +81,13 @@ const Type = ({ setNewItemModal }) => {
           <Label htmlFor="warehouse-recieving-name">NAME</Label>
           <SearchInput
             placeholder="Type"
-            selectValue={lookSearch.name}
+            selectValue={(value) =>
+              setLookSearch({
+                ...lookSearch,
+                name: value
+              })
+            }
+            value={lookSearch.name}
             selectedItem={lookUpItem}
             name="name"
             itemKey="Name"
@@ -94,7 +100,13 @@ const Type = ({ setNewItemModal }) => {
           <Label htmlFor="warehouse-recieving-sku">SKU</Label>
           <SearchInput
             placeholder="Type"
-            selectValue={lookSearch.sku}
+            value={lookSearch.sku}
+            selectValue={(value) =>
+              setLookSearch({
+                ...lookSearch,
+                sku: value
+              })
+            }
             selectedItem={lookUpItem}
             name="sku"
             itemKey="SKU"
@@ -107,7 +119,13 @@ const Type = ({ setNewItemModal }) => {
           <Label htmlFor="warehouse-recieving-barcode">Barcode</Label>
           <SearchInput
             placeholder="Type"
-            selectValue={lookSearch.barcode}
+            value={lookSearch.barcode}
+            selectValue={(value) =>
+              setLookSearch({
+                ...lookSearch,
+                barcode: value
+              })
+            }
             selectedItem={lookUpItem}
             name="barcode"
             itemKey="Barcode"
@@ -182,14 +200,6 @@ const Type = ({ setNewItemModal }) => {
 
 export default React.memo(Type)
 
-const Text = styled.div`
-  margin-left: 10px;
-  font-size: ${({ theme }) => theme.font.size.s};
-  font-weight: ${({ theme }) => theme.font.weight.normal};
-  font-family: ${({ theme }) => theme.font.family.primary};
-  line-height: ${({ theme }) => theme.font.lineHeight.normal};
-  color: ${({ theme }) => theme.colors.primaryText};
-`
 const InputGroup = styled.div`
   position: relative;
   width: 100%;
@@ -205,11 +215,6 @@ const Label = styled.label`
   color: ${({ theme }) => theme.colors.primaryText};
   text-transform: uppercase;
   font-weight: ${({ theme }) => theme.font.weight.medium};
-  cursor: pointer;
-`
-const TriggeringText = styled.span`
-  color: ${({ theme }) => theme.colors.accentText};
-  text-decoration: underline;
   cursor: pointer;
 `
 const CustomInputGroup = styled.div`
@@ -235,9 +240,4 @@ const LookedUpItemName = styled.h3`
   & > strong {
     font-weight: ${({ theme }) => theme.font.weight.medium};
   }
-`
-const LogoBox = styled.div`
-  width: 96px;
-  height: 96px;
-  margin-bottom: 20px;
 `
