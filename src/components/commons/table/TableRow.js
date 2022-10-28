@@ -87,8 +87,6 @@ export default React.memo(TableRow)
 export const TableRowWrapper = styled.tr`
   padding: 12px 20px;
   height: 72px;
-  border: ${({ expanded, theme }) =>
-    expanded ? '1px solid ' + theme.colors.borderColor : 'none'};
   border-radius: ${({ expanded }) => (expanded ? '10px' : '0px')};
   background-color: ${({ bgColor }) => bgColor};
   cursor: pointer;

@@ -3,8 +3,12 @@
   table {
     tr {
       height: unset;
+      background-color: #fff !important;
       td {
         padding: 16px 0 0 !important;
+      }
+      th {
+        padding: 0 !important;
       }
     }
   }
