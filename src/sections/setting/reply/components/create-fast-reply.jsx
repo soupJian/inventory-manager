@@ -11,12 +11,11 @@ import {
 import { v4 as uuidv4 } from 'uuid'
 
 const CreateFastReply = ({ updateData, openNewWindow }) => {
-  // 附件列表
-  const [fileList, setFileList] = useState([])
   const [type, setType] = useState('chat')
   const [info, setInfo] = useState({
     title: '',
-    content: ''
+    content: '',
+    files: []
   })
   const handleChangeTabs = (key) => {
     setType(key)
@@ -51,18 +50,20 @@ const CreateFastReply = ({ updateData, openNewWindow }) => {
   }
   // 删除某个 附件
   const handleClearFileList = (index) => {
-    setFileList(() => {
-      const list = [...fileList]
+    setInfo((info) => {
+      const list = [...info.files]
       list.splice(index, 1)
-      return list
+      return {
+        ...info,
+        files: list
+      }
     })
   }
   const save = async () => {
     if (type == 'email') {
       const res = await AddEmailReply({
         id: uuidv4(),
-        ...info,
-        files: [...fileList]
+        ...info
       })
       if (res && res.message == 'success') {
         updateData('email')
@@ -71,7 +72,8 @@ const CreateFastReply = ({ updateData, openNewWindow }) => {
       // type == 'chat
       const res = await AddChatReply({
         id: uuidv4(),
-        ...info
+        title: info.title,
+        content: info.content
       })
       if (res && res.message == 'success') {
         updateData('chat')
@@ -114,7 +116,7 @@ const CreateFastReply = ({ updateData, openNewWindow }) => {
                 onChange={handleUpload}
                 showUploadList={false}
                 multiple
-                fileList={fileList}
+                fileList={info.files}
                 className={styles.uploadWrap}
                 beforeUpload={() => false}
               >
@@ -128,7 +130,7 @@ const CreateFastReply = ({ updateData, openNewWindow }) => {
         </Row>
         {type == 'email' && (
           <div className={styles.fileWrap}>
-            {fileList.map((item, index) => {
+            {info.files.map((item, index) => {
               return (
                 <Button
                   key={item.url}
