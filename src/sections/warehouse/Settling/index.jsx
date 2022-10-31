@@ -23,7 +23,6 @@ import {
 } from '../../../constants/pageConstants/warehouse'
 import { locations } from '../../../constants/pageConstants/locations'
 import { ISOStringToReadableDate } from '../../../utils/utils'
-import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import styles from '../index.module.scss'
 import { formatTimeStr } from '../../../utils/formatTime'
@@ -35,7 +34,6 @@ import { updateInventory } from '../../../service/inventory'
 
 const Settline = () => {
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.user)
   const [activeTab, setActiveTab] = useState('notsettled')
   const [date, setDate] = useState('365')
   const [page, setPage] = useState(1)
@@ -119,8 +117,8 @@ const Settline = () => {
       setSettledItems(data.Items)
       handleSettledItemsToShow(data.Items, 1)
     })
-    const unSettledData = getUnsettledInventory(`date=${date}`, {
-      Authorization: `Bearer ${user.token}`
+    const unSettledData = getUnsettledInventory({
+      date
     }).then((data) => {
       let locationListObj = {}
       setUnSettledItems(data.Items)

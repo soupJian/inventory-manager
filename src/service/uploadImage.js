@@ -6,7 +6,7 @@ import axios from 'axios'
  */
 export const uploadImage = (url, file) => {
   return axios({
-    url,
+    url: process.env.IMG_UPLOAD_URL + url,
     method: 'PUT',
     data: file,
     headers: {

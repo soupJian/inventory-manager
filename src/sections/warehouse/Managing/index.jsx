@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
 import {
   Button,
   Icon,
@@ -20,7 +19,6 @@ import { defaultWarehouseProductsTableHeaders } from '../../../constants/pageCon
 import styles from '../index.module.scss'
 
 const Managing = ({ router }) => {
-  const user = useSelector((state) => state.user)
   const [activeTab, setActiveTab] = useState('Items')
   const [dialog, setDialog] = useState({
     message: '',
@@ -122,7 +120,6 @@ const Managing = ({ router }) => {
 
       {activeTab === 'Items' && (
         <InventoryTable
-          user={user}
           setDialog={setDialog}
           updataTableData={updataTableData}
           selectable={true}
@@ -135,7 +132,6 @@ const Managing = ({ router }) => {
       )}
       {activeTab === 'Products' && (
         <InventoryProduct
-          user={user}
           setDialog={setDialog}
           updataTableData={updataTableData}
           selectable={true}

@@ -1,6 +1,5 @@
 import { withRouter } from 'next/router'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
 import { Flex, Tab, Tabs, Wrapper } from '../../components/commons'
 import { SearchOutlined } from '@ant-design/icons'
 import { Input } from 'antd'
@@ -11,7 +10,6 @@ import { defaultInventoryProductsTableHeaders } from '../../constants/pageConsta
 import styles from './index.module.scss'
 
 const Inventory = ({ router }) => {
-  const user = useSelector((state) => state.user)
   const [activeTab, setActiveTab] = useState('inventory')
   return (
     <Wrapper
@@ -68,7 +66,6 @@ const Inventory = ({ router }) => {
 
       {activeTab === 'inventory' && (
         <InventoryTable
-          user={user}
           setDialog={() => null}
           updataTableData={() => null}
           selectable={false}
@@ -78,7 +75,6 @@ const Inventory = ({ router }) => {
 
       {activeTab === 'products' && (
         <InventoryProduct
-          user={user}
           setDialog={() => null}
           updataTableData={() => null}
           selectable={false}

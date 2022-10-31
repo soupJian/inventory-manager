@@ -35,7 +35,6 @@ import styles from './index.module.scss'
 const { Option } = Select
 
 const InventoryProduct = ({
-  user,
   setDialog,
   selectable,
   updataTableData,
@@ -174,8 +173,10 @@ const InventoryProduct = ({
         str += val + ','
       })
     })
-    getMultipleProducts(`skus=${str}&sort=Available&order=${sortBy}`, {
-      Authorization: `Bearer ${user.token}`
+    getMultipleProducts({
+      skus: str,
+      sort: 'Available',
+      order: sortBy
     })
       .then((data) => {
         setProducts(data)

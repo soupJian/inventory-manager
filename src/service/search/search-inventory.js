@@ -3,12 +3,9 @@ import request from '../../utils/request'
  * 获取 assets 中的 contact
  * @returns
  */
-export const getSearch = (params, token) => {
+export const getSearch = (params) => {
   return request({
-    url: `https://43kjv8b4z4.execute-api.us-west-2.amazonaws.com/v1/search-inventory`,
-    headers: {
-      Authorization: `Bearer ${token}`
-    },
+    url: `${process.env.BASE_URL}/v1/search-inventory`,
     params
   })
 }

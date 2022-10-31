@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Row, Col, Popover } from 'antd'
 import { PlusCircleFilled } from '@ant-design/icons'
 import { toggleLoading } from '../../store/slices/globalSlice'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import {
   BaseButton,
@@ -35,7 +35,6 @@ const SearchPage = ({
   defaultTableHeaders
 }) => {
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.user)
   const [costInfo, setCostInfo] = useState({
     show: false,
     CustomEntryDuty: 0,
@@ -125,12 +124,9 @@ const SearchPage = ({
   }, [router.query.search])
   const getData = useCallback(() => {
     dispatch(toggleLoading(true))
-    getSearch(
-      {
-        search
-      },
-      user.token
-    )
+    getSearch({
+      search
+    })
       .then((data) => {
         setData(data)
       })
@@ -140,12 +136,12 @@ const SearchPage = ({
       .finally(() => {
         dispatch(toggleLoading(false))
       })
-  }, [dispatch, search, user.token])
+  }, [dispatch, search])
   useEffect(() => {
     if (search) {
       getData()
     }
-  }, [getData, router, router.query.search, search, user.token])
+  }, [getData, router, router.query.search, search])
   return (
     <Wrapper
       styles={{

@@ -1,7 +1,6 @@
 import { Select, Spin } from 'antd'
 import debounce from 'lodash/debounce'
 import React, { useMemo, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { getSearch } from '../../service/search/search-inventory'
 const { Option } = Select
 
@@ -16,7 +15,6 @@ const DebounceSelect = ({
   idx,
   selectValue
 }) => {
-  const user = useSelector((state) => state.user)
   const [value, setValue] = useState(selectValue)
   const [fetching, setFetching] = useState(false)
   const [data, setData] = useState([])
@@ -37,13 +35,10 @@ const DebounceSelect = ({
         setFetching(false)
         return
       }
-      const res = await getSearch(
-        {
-          search: value,
-          column: name
-        },
-        `Bearer ${user.token}`
-      )
+      const res = await getSearch({
+        search: value,
+        column: name
+      })
       if (fetchId !== fetchRef.current) {
         // for fetch callback order
         return
@@ -52,7 +47,7 @@ const DebounceSelect = ({
       setFetching(false)
     }
     return debounce(loadOptions, debounceTimeout)
-  }, [debounceTimeout, name, user.token])
+  }, [debounceTimeout, name])
   return (
     <Select
       value={value}

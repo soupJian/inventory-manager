@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { toggleLoading } from '../../store/slices/globalSlice'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Button, Filter, Flex, Icon, Input, Modal, Wrapper } from '../commons'
 import { itemTemplate } from '../../constants/pageConstants/inventory'
 import { locations } from '../../constants/pageConstants/locations'
@@ -17,7 +17,6 @@ const AddANewItem = ({
   submitNewItemFinally
 }) => {
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.user)
   const [newItem, setNewItem] = useState({ ...newItemValue })
   const [newItemError, setNewItemError] = useState('')
   const newItemHandler = (e, nestedKey) => {
