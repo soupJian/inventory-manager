@@ -1,7 +1,9 @@
+import { getDayCount } from '../../utils/formatTime'
+const currentYear = new Date().getFullYear()
 export const dateList = [
   {
     label: 'All time',
-    value: '0'
+    value: ''
   },
   {
     label: 'Today',
@@ -25,7 +27,7 @@ export const dateList = [
   },
   {
     label: 'This year',
-    value: '365'
+    value: getDayCount(`${currentYear}/1/1`) + ''
   }
 ]
 export const UnShippedTableHeaders = [

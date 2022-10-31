@@ -28,7 +28,7 @@ const Orders = () => {
   const user = useSelector((state) => state.user)
   const [orderState, setOrderState] = useState({
     page: 1,
-    date: '365'
+    date: ''
   })
   const [unShippedOrdersToShow, setUnShippedOrdersToShow] = useState([])
   const [unShippedOrders, setUnShippedOrders] = useState([])

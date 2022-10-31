@@ -234,3 +234,14 @@ export const isLastYear = (time) => {
   const timeYear = new Date(time).getFullYear()
   return currentYear == timeYear + 1
 }
+/**
+ * 计算 今年过去多少天了
+ * @param {*} time
+ */
+export const getDayCount = (time) => {
+  const now = new Date().getTime()
+  const old_Time = new Date(time).getTime()
+  const one_day = 24 * 60 * 60 * 1000
+  const count = Math.ceil((now - old_Time) / one_day)
+  return count
+}
