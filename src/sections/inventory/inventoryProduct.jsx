@@ -78,7 +78,9 @@ const InventoryProduct = ({
     dispatch(toggleLoading(true))
     const data = await getAllProducts({
       projectionExpression: 'SKU',
-      stock: productState.status.join(',')
+      stock: productState.status.join(','),
+      sort: 'Available',
+      order: sortBy
     })
     setProductSKUs(data.Items)
     fetchMultipleProducts(data.Items)
@@ -166,13 +168,12 @@ const InventoryProduct = ({
       setProducts({})
       return
     }
+    const skusToShow = list.slice(
+      productState.page * itemsPerPage - itemsPerPage,
+      productState.page * itemsPerPage
+    )
+    const str = skusToShow.map((i) => i.SKU).join(',')
     dispatch(toggleLoading(true))
-    let str = ''
-    list.forEach((i) => {
-      Object.values(i).map((val) => {
-        str += val + ','
-      })
-    })
     getMultipleProducts({
       skus: str,
       sort: 'Available',
@@ -191,6 +192,10 @@ const InventoryProduct = ({
     fetchSKUs()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productState.status.length, updataTableData, sortBy])
+  useEffect(() => {
+    fetchMultipleProducts(productSKUs)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [productState.page])
   return (
     <Wrapper styles={{ 'min-height': '100%', padding: '0' }} height="auto">
       <Flex
@@ -263,12 +268,7 @@ const InventoryProduct = ({
           paginationComponent={
             <Wrapper padding="32px 0 0">
               <Pagination
-                itemsInPage={
-                  products?.Items?.slice(
-                    productState.page * itemsPerPage - itemsPerPage,
-                    productState.page * itemsPerPage
-                  ).length
-                }
+                itemsInPage={products?.Count}
                 totalItems={productSKUs?.length}
                 totalPages={Math.ceil(productSKUs?.length / itemsPerPage)}
                 onPageChange={handlePage}
@@ -277,10 +277,7 @@ const InventoryProduct = ({
             </Wrapper>
           }
         >
-          {products.Items?.slice(
-            productState.page * itemsPerPage - itemsPerPage,
-            productState.page * itemsPerPage
-          ).map((item, idx) => (
+          {products.Items?.map((item, idx) => (
             <TableRow
               nested
               idx={idx}

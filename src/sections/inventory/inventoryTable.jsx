@@ -66,7 +66,9 @@ const InventoryTable = ({
     dispatch(toggleLoading(true))
     const data = await getAllInventory({
       projectionExpression: 'SKU',
-      stock: inventoryState.status.join(',')
+      stock: inventoryState.status.join(','),
+      sort: 'Available',
+      order: sortBy
     })
     setInventorySKUs(data.Items)
     fetchMultipleInventory(data.Items)
@@ -77,13 +79,12 @@ const InventoryTable = ({
       setInventoryData({})
       return
     }
+    const skusToShow = list.slice(
+      inventoryState.page * itemsPerPage - itemsPerPage,
+      inventoryState.page * itemsPerPage
+    )
     dispatch(toggleLoading(true))
-    let str = ''
-    list.forEach((i) => {
-      Object.values(i).map((val) => {
-        str += val + ','
-      })
-    })
+    const str = skusToShow.map((i) => i.SKU).join(',')
     getMultipleInventory({
       skus: str,
       sort: 'Available',
@@ -182,6 +183,10 @@ const InventoryTable = ({
     })
   }
   useEffect(() => {
+    fetchMultipleInventory(inventorySKUs)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inventoryState.page])
+  useEffect(() => {
     handlePage(1)
     fetchSKUs()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -258,12 +263,7 @@ const InventoryTable = ({
           paginationComponent={
             <Wrapper>
               <Pagination
-                itemsInPage={
-                  inventoryData?.Items?.slice(
-                    inventoryState.page * itemsPerPage - itemsPerPage,
-                    inventoryState.page * itemsPerPage
-                  ).length
-                }
+                itemsInPage={inventoryData?.Count}
                 totalItems={inventorySKUs?.length}
                 totalPages={Math.ceil(inventorySKUs?.length / itemsPerPage)}
                 onPageChange={handlePage}
@@ -272,10 +272,7 @@ const InventoryTable = ({
             </Wrapper>
           }
         >
-          {inventoryData?.Items?.slice(
-            inventoryState.page * itemsPerPage - itemsPerPage,
-            inventoryState.page * itemsPerPage
-          ).map((item, idx) => (
+          {inventoryData?.Items?.map((item, idx) => (
             <TableRow
               nested
               idx={idx}
