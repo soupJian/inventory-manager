@@ -90,7 +90,7 @@ const SearchPage = ({
       itemsToBeCleared.map((item) => {
         return api.updateInventory(
           { ...item, Stock: 0, Reserved: 0, Available: 0 },
-          { Authorization: `Bearer ${user.accessToken}` }
+          { Authorization: `Bearer ${user.token}` }
         )
       })
     )
@@ -109,7 +109,7 @@ const SearchPage = ({
     Promise.all(
       selection.map((item) => {
         return api.deleteInventory(item, {
-          Authorization: `Bearer ${user.accessToken}`
+          Authorization: `Bearer ${user.token}`
         })
       })
     )
@@ -136,7 +136,7 @@ const SearchPage = ({
       {
         search
       },
-      user.accessToken
+      user.token
     )
       .then((data) => {
         setData(data)
@@ -147,12 +147,12 @@ const SearchPage = ({
       .finally(() => {
         dispatch(toggleLoading(false))
       })
-  }, [dispatch, search, user.accessToken])
+  }, [dispatch, search, user.token])
   useEffect(() => {
     if (search) {
       getData()
     }
-  }, [dispatch, getData, router, router.query.search, search, user.accessToken])
+  }, [dispatch, getData, router, router.query.search, search, user.token])
   return (
     <Wrapper
       styles={{

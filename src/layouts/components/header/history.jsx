@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import { Flex, Icon, Text, Wrapper } from '../../../components/commons'
+import { Icon, Text } from '../../../components/commons'
 import RangeAccordion from './RangeAccordion'
 
-const History = ({ children, show, onClose, user }) => {
+const History = ({ show, onClose, user }) => {
   const today = new Date()
   const yesterday = new Date()
   const last7days = new Date()

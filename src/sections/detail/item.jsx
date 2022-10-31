@@ -42,7 +42,7 @@ const ItemPage = ({ router }) => {
     api
       .updateInventory(
         { ...item, Stock: 0, Available: 0 },
-        { Authorization: `Bearer ${user.accessToken}` }
+        { Authorization: `Bearer ${user.token}` }
       )
       .then(() => {
         fetchItem()
@@ -51,7 +51,7 @@ const ItemPage = ({ router }) => {
   const deleteItem = (sku) => {
     dispatch(toggleLoading(true))
     api
-      .deleteInventory(sku, { Authorization: `Bearer ${user.accessToken}` })
+      .deleteInventory(sku, { Authorization: `Bearer ${user.token}` })
       .then((data) => {
         dispatch(toggleLoading(false))
         router.push('/inventory')
@@ -62,7 +62,7 @@ const ItemPage = ({ router }) => {
     dispatch(toggleLoading(true))
     api
       .getInventory(`sku=${router.query.sku}`, {
-        Authorization: `Bearer ${user.accessToken}`
+        Authorization: `Bearer ${user.token}`
       })
       .then((data) => {
         if (data.Items.length == 0) {

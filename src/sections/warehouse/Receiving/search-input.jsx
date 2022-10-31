@@ -45,7 +45,7 @@ const DebounceSelect = ({
           search: value,
           column: name
         },
-        `Bearer ${user.accessToken}`
+        `Bearer ${user.token}`
       )
       if (fetchId !== fetchRef.current) {
         // for fetch callback order
@@ -55,7 +55,7 @@ const DebounceSelect = ({
       setFetching(false)
     }
     return debounce(loadOptions, debounceTimeout)
-  }, [debounceTimeout, name, user.accessToken])
+  }, [debounceTimeout, name, user.token])
   useEffect(() => {
     if (value == '') {
       setData([])

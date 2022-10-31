@@ -6,9 +6,9 @@ import request from '../utils/request'
  */
 export const login = (data) => {
   return request({
-    url: 'https://43kjv8b4z4.execute-api.us-west-2.amazonaws.com/v1/login-inventory',
-    // url: 'https://oypcwmk5j1.execute-api.us-west-2.amazonaws.com/v1/login',
+    // url: 'https://43kjv8b4z4.execute-api.us-west-2.amazonaws.com/v1/login-inventory',
+    url: 'https://oypcwmk5j1.execute-api.us-west-2.amazonaws.com/v1/login',
     method: 'post',
-    data: JSON.stringify(data)
+    data
   })
 }

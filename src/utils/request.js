@@ -17,7 +17,7 @@ const request = axios.create({
 // 请求拦截
 request.interceptors.request.use(
   (config) => {
-    const token = store.getState().user.accessToken || ''
+    const token = store.getState().user.token || ''
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`
     }

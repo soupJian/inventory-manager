@@ -8,16 +8,13 @@ import styles from './index.module.scss'
 
 const Login = () => {
   const dispatch = useDispatch()
-  const [credentials, setCredentials] = useState({ username: '', password: '' })
+  const [credentials, setCredentials] = useState({ email: '', password: '' })
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [loading, setLoading] = useState(false)
 
   const submit = async () => {
-    if (
-      credentials.username.trim() == '' ||
-      credentials.password.trim() == ''
-    ) {
+    if (credentials.email.trim() == '' || credentials.password.trim() == '') {
       message.warning('Please complete the information.')
       return
     }
@@ -29,21 +26,14 @@ const Login = () => {
         setError(true)
         setErrorMessage(res.message)
       } else {
-        const { token, user_display_name, user_email, user_id, user_nicename } =
-          res
         dispatch(
           loginUser({
-            info: {
-              id: user_id,
-              displayName: user_display_name,
-              email: user_email,
-              nickname: user_nicename
-            },
+            user: res.user,
             isLoggedIn: true,
-            accessToken: token
+            token: res.token
           })
         )
-        setCredentials({ username: '', password: '' })
+        setCredentials({ email: '', password: '' })
         setError(false)
         setErrorMessage('')
       }
@@ -64,7 +54,7 @@ const Login = () => {
             <Input
               value={credentials.username}
               onChange={handleInput}
-              name="username"
+              name="email"
               size="large"
             />
           </div>

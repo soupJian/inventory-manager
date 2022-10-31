@@ -43,7 +43,7 @@ const ProductPage = ({ router }) => {
   const deleteProduct = (sku) => {
     setLoading(true)
     api
-      .deleteProduct(sku, { Authorization: `Bearer ${user.accessToken}` })
+      .deleteProduct(sku, { Authorization: `Bearer ${user.token}` })
       .then((data) => {
         setLoading(false)
         router.push('/warehouse?tab=Managing')
@@ -55,7 +55,7 @@ const ProductPage = ({ router }) => {
     dispatch(toggleLoading(true))
     api
       .getProduct(`sku=${router.query.sku}`, {
-        Authorization: `Bearer ${user.accessToken}`
+        Authorization: `Bearer ${user.token}`
       })
       .then((data) => {
         if (data.Items.length == 0) {

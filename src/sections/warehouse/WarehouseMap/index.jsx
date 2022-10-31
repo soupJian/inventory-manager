@@ -163,7 +163,7 @@ const Map = () => {
     setLocateItemLoading(true)
     api
       .getInventory(`barcode=${locatedItemInput}`, {
-        Authorization: `Bearer ${user.accessToken}`
+        Authorization: `Bearer ${user.token}`
       })
       .then((data) => {
         if (data.Items && data.Items?.length === 0) {
@@ -192,7 +192,7 @@ const Map = () => {
     dispatch(toggleLoading(true))
     api
       .getAllInventory(`projectionExpression=SKU,Location,Name,SettledTime`, {
-        Authorization: `Bearer ${user.accessToken}`
+        Authorization: `Bearer ${user.token}`
       })
       .then((data) => {
         let dataObj = {}

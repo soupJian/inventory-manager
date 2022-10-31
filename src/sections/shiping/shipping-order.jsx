@@ -64,7 +64,7 @@ const Orders = () => {
     try {
       dispatch(toggleLoading(true))
       const data = await api.getUnShippedOrders(`date=${orderState.date}`, {
-        Authorization: `Bearer ${user.accessToken}`
+        Authorization: `Bearer ${user.token}`
       })
       setUnShippedOrders(data.Items)
       handleUnShippedOrdersToShow(data.Items)

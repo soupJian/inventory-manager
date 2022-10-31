@@ -57,7 +57,7 @@ const Orders = () => {
   const fetchShippedOrders = async () => {
     dispatch(toggleLoading(true))
     const data = await api.getShippedOrders(`date=${orderState.date}`, {
-      Authorization: `Bearer ${user.accessToken}`
+      Authorization: `Bearer ${user.token}`
     })
     dispatch(toggleLoading(false))
     setShippedOrders(data.Items)

@@ -95,7 +95,7 @@ const AddANewItem = ({
       }
       delete data['TagsInput']
       api
-        .updateInventory(data, { Authorization: `Bearer ${user.accessToken}` })
+        .updateInventory(data, { Authorization: `Bearer ${user.token}` })
         .then((data) => {
           dispatch(toggleLoading(false))
           if (data.message) {
@@ -141,7 +141,7 @@ const AddANewItem = ({
       }
       delete data['TagsInput']
       api
-        .updateInventory(data, { Authorization: `Bearer ${user.accessToken}` })
+        .updateInventory(data, { Authorization: `Bearer ${user.token}` })
         .then((data) => {
           dispatch(toggleLoading(false))
           if (data.message) {

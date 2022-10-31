@@ -71,8 +71,8 @@ const Header = ({ user }) => {
               content={
                 <PopoverConent>
                   <Label>Account Info</Label>
-                  <DisplayName>{user.info.displayName}</DisplayName>
-                  <UserName>Username: {user.info.email}</UserName>
+                  <DisplayName>{user.user.displayName}</DisplayName>
+                  <UserName>Username: {user.user.email}</UserName>
                   <SignoutBtn onClick={Logout}>Sign out</SignoutBtn>
                 </PopoverConent>
               }

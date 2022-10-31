@@ -2,15 +2,14 @@ import React, { useEffect, useState } from 'react'
 // next
 import Image from 'next/image'
 // hooks
-import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 // antd
-import { Menu, Popover } from 'antd'
+import { Menu } from 'antd'
 // components
 import { Icon } from '../../../components/commons'
 import History from '../header/history'
-// redux
-import { logoutUser } from '../../../store/slices/userSlice'
+import UserCenter from '../header/userCenter'
+
 // css ----------
 import 'antd/lib/menu/style/index.css'
 import styled from 'styled-components'
@@ -18,14 +17,12 @@ import styles from './index.module.scss'
 
 const SideBar = ({ collapsed, user }) => {
   const router = useRouter()
-  const dispatch = useDispatch()
   // 默认展示的 menuItem
   const [defaultSelectedKeys, setDefaultSelectedKeys] = useState('')
   const [openKeys, setOpenKeys] = useState('')
   const [toggleHistory, setToggleHistory] = useState(false)
-  const Logout = () => {
-    dispatch(logoutUser())
-  }
+  const [toggleUserCenter, setToggleUserCenter] = useState(false)
+
   // 点击侧边栏 crm hub 事件
   const getItem = (label, key, icon, children) => {
     return {
@@ -79,42 +76,19 @@ const SideBar = ({ collapsed, user }) => {
   const actionItems = [
     {
       key: 'user cebter',
-      icon: (
-        <Popover
-          placement="rightTop"
-          content={
-            <PopoverConent>
-              <Label>Account Info</Label>
-              <DisplayName>{user.info.displayName}</DisplayName>
-              <UserName>Username: {user.info.email}</UserName>
-              <SignoutBtn onClick={Logout}>Sign out</SignoutBtn>
-            </PopoverConent>
-          }
-        >
-          <Icon name="user" width="24px" height="24px" />
-        </Popover>
-      ),
-      label: (
-        <Popover
-          placement="rightTop"
-          content={
-            <PopoverConent>
-              <Label>Account Info</Label>
-              <DisplayName>{user.info.displayName}</DisplayName>
-              <UserName>Username: {user.info.email}</UserName>
-              <SignoutBtn onClick={Logout}>Sign out</SignoutBtn>
-            </PopoverConent>
-          }
-        >
-          User Center
-        </Popover>
-      )
+      icon: <Icon name="user" width="24px" height="24px" />,
+      label: 'User Center',
+      onClick: () => {
+        setToggleHistory(false)
+        setToggleUserCenter(!toggleUserCenter)
+      }
     },
     {
       key: 'Activites',
       label: 'Activites',
       icon: <Icon name="clock" width="24px" height="24px" />,
       onClick: () => {
+        setToggleUserCenter(false)
         setToggleHistory(!toggleHistory)
       }
     }
@@ -163,6 +137,11 @@ const SideBar = ({ collapsed, user }) => {
         show={toggleHistory}
         onClose={() => setToggleHistory(false)}
       />
+      <UserCenter
+        user={user}
+        show={toggleUserCenter}
+        onClose={() => setToggleUserCenter(false)}
+      />
     </SideBarWrapper>
   )
 }
@@ -172,39 +151,4 @@ export default React.memo(SideBar)
 const SideBarWrapper = styled.aside`
   flex: 1 0 auto;
   background-color: #ffffff;
-`
-const PopoverConent = styled.div`
-  padding: 20px 16px;
-  background-color: #ffffff;
-  line-height: 20px;
-  z-index: 999;
-`
-
-const Label = styled.div`
-  font-size: ${({ theme }) => theme.font.size.xsss};
-  color: ${({ theme }) => theme.colors.secondaryText};
-`
-const DisplayName = styled.div`
-  font-size: ${({ theme }) => theme.font.size.s};
-  font-weight: ${({ theme }) => theme.font.weight.bold};
-  color: ${({ theme }) => theme.colors.primaryText};
-  margin-top: 16px;
-  white-space: nowrap;
-`
-const UserName = styled.div`
-  font-size: ${({ theme }) => theme.font.size.xs};
-  font-family: ${({ theme }) => theme.font.family.secondary};
-  color: #000000;
-  margin-top: 6px;
-  white-space: nowrap;
-`
-const SignoutBtn = styled.button`
-  margin-top: 16px;
-  min-width: auto;
-  color: ${({ theme }) => theme.colors.accentText};
-  font-size: ${({ theme }) => theme.font.size.s};
-  font-weight: 400;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
 `

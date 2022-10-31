@@ -56,7 +56,7 @@ const Type = ({ setNewItemModal }) => {
           Location: Array.from(set),
           Settled: lookedUpItemCount.length > 0
         },
-        { Authorization: `Bearer ${user.accessToken}` }
+        { Authorization: `Bearer ${user.token}` }
       )
       .then(() => {
         setLookSearch({

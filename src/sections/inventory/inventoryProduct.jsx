@@ -91,7 +91,7 @@ const InventoryProduct = ({
       `projectionExpression=SKU${
         productState.status ? `&stock=${productState.status.join(',')}` : ''
       }`,
-      { Authorization: `Bearer ${user.accessToken}` }
+      { Authorization: `Bearer ${user.token}` }
     )
     setProductSKUs(data.Items)
     fetchMultipleProducts(data.Items)
@@ -116,7 +116,7 @@ const InventoryProduct = ({
       itemsToBeCleared.map((item) => {
         return api.updateProduct(
           { ...item, Stock: 0, Reserved: 0, Available: 0 },
-          { Authorization: `Bearer ${user.accessToken}` }
+          { Authorization: `Bearer ${user.token}` }
         )
       })
     )
@@ -134,7 +134,7 @@ const InventoryProduct = ({
     Promise.all(
       selection.map((item) => {
         return api.deleteProduct(item, {
-          Authorization: `Bearer ${user.accessToken}`
+          Authorization: `Bearer ${user.token}`
         })
       })
     )
@@ -193,7 +193,7 @@ const InventoryProduct = ({
     })
     api
       .getMultipleProducts(`skus=${str}&sort=Available&order=${sortBy}`, {
-        Authorization: `Bearer ${user.accessToken}`
+        Authorization: `Bearer ${user.token}`
       })
       .then((data) => {
         setProducts(data)

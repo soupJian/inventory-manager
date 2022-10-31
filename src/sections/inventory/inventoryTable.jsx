@@ -67,7 +67,7 @@ const InventoryTable = ({
           ? `&stock=${inventoryState.status.join(',')}`
           : ''
       }`,
-      { Authorization: `Bearer ${user.accessToken}` }
+      { Authorization: `Bearer ${user.token}` }
     )
     setInventorySKUs(data.Items)
     fetchMultipleInventory(data.Items)
@@ -87,7 +87,7 @@ const InventoryTable = ({
     })
     api
       .getMultipleInventory(`skus=${str}&sort=Available&order=${sortBy}`, {
-        Authorization: `Bearer ${user.accessToken}`
+        Authorization: `Bearer ${user.token}`
       })
       .then((data) => {
         setInventoryData(data)
@@ -129,7 +129,7 @@ const InventoryTable = ({
       itemsToBeCleared.map((item) => {
         return api.updateInventory(
           { ...item, Stock: 0, Reserved: 0, Available: 0 },
-          { Authorization: `Bearer ${user.accessToken}` }
+          { Authorization: `Bearer ${user.token}` }
         )
       })
     )
@@ -147,7 +147,7 @@ const InventoryTable = ({
     Promise.all(
       selection.map((item) => {
         return api.deleteInventory(item, {
-          Authorization: `Bearer ${user.accessToken}`
+          Authorization: `Bearer ${user.token}`
         })
       })
     )

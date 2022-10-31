@@ -26,7 +26,7 @@ const RangeAccordion = ({ user, label, rangeParams }) => {
     setIsLoading(true)
     api
       .getHistory(`${rangeParams}`, {
-        Authorization: `Bearer ${user.accessToken}`
+        Authorization: `Bearer ${user.token}`
       })
       .then((data) => {
         setData(data)

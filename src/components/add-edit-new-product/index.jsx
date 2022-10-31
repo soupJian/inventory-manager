@@ -129,7 +129,7 @@ const AddProduct = ({
       }
       delete data['TagsInput']
       api
-        .updateProduct(data, { Authorization: `Bearer ${user.accessToken}` })
+        .updateProduct(data, { Authorization: `Bearer ${user.token}` })
         .then((data) => {
           if (data.message) {
             message.error(data.message)
@@ -169,7 +169,7 @@ const AddProduct = ({
       }
       delete data['TagsInput']
       api
-        .updateProduct(data, { Authorization: `Bearer ${user.accessToken}` })
+        .updateProduct(data, { Authorization: `Bearer ${user.token}` })
         .then((data) => {
           dispatch(toggleLoading(false))
           if (data.message) {

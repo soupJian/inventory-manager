@@ -90,7 +90,7 @@ const Settline = () => {
           Settled: true,
           ['Location']: locationsToBeSave
         },
-        { Authorization: `Bearer ${user.accessToken}` }
+        { Authorization: `Bearer ${user.token}` }
       )
       .then((data) => {
         if (data) {
@@ -117,7 +117,7 @@ const Settline = () => {
     dispatch(toggleLoading(true))
     const settledData = api
       .getSettledInventory(`date=${date}`, {
-        Authorization: `Bearer ${user.accessToken}`
+        Authorization: `Bearer ${user.token}`
       })
       .then((data) => {
         setSettledItems(data.Items)
@@ -125,7 +125,7 @@ const Settline = () => {
       })
     const unSettledData = api
       .getUnsettledInventory(`date=${date}`, {
-        Authorization: `Bearer ${user.accessToken}`
+        Authorization: `Bearer ${user.token}`
       })
       .then((data) => {
         let locationListObj = {}
