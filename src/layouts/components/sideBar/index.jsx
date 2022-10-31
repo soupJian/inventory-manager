@@ -8,7 +8,7 @@ import { Menu } from 'antd'
 // components
 import { Icon } from '../../../components/commons'
 import History from '../header/history'
-import UserCenter from '../header/userCenter'
+import UserCenter from '../header/UserCenter'
 
 // css ----------
 import 'antd/lib/menu/style/index.css'

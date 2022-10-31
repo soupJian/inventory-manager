@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Icon, Text } from '../../../components/commons'
-import RangeAccordion from './RangeAccordion'
+import RangeAccordion from './components/RangeAccordion'
 
 const History = ({ show, onClose, user }) => {
   const today = new Date()

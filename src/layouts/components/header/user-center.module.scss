@@ -1,0 +1,100 @@
+.container {
+  position: relative;
+  width: 604px;
+  height: 100%;
+  background-color: #ffffff;
+  box-shadow: -8px 0px 16px rgba(0, 0, 0, 0.2);
+  padding: 32px 16px 0px;
+  display: flex;
+  flex-direction: column;
+  line-height: 20px;
+}
+.content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  font-family: 'Lato';
+  font-weight: 400;
+  font-size: 14px;
+  color: #000000;
+  :global {
+    .ant-switch-checked {
+      background-color: #77d755;
+    }
+    .ant-checkbox-checked .ant-checkbox-inner {
+      background-color: #2ebebd;
+      border-color: #2ebebd;
+    }
+    .ant-checkbox-group {
+      width: 100%;
+    }
+  }
+}
+.CloseButton {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+.shallowText {
+  font-family: 'Rubik';
+  font-weight: 400;
+  font-size: 13px;
+  color: #999999;
+}
+.highLightText {
+  font-family: 'Rubik';
+  font-weight: 500;
+  font-size: 16px;
+  color: #000000;
+}
+.subTitle {
+  margin-bottom: 16px;
+}
+.loginBtn {
+  font-size: 16px;
+  color: #2c88dd;
+  cursor: pointer;
+}
+.notificationText {
+  margin: 40px 0 24px;
+  font-family: 'Rubik';
+  font-weight: 500;
+  font-size: 20px;
+  color: #000000;
+}
+.tab {
+  display: flex;
+  margin-bottom: 24px;
+  .tabItem {
+    flex: 1;
+    cursor: pointer;
+    .tabName {
+      display: flex;
+      align-items: center;
+      &.activeTab {
+        font-family: 'Rubik';
+        font-weight: 500;
+        font-size: 16px;
+        color: #2ebebd;
+      }
+      &.shallowText {
+        font-size: 16px;
+      }
+      .circle {
+        margin-left: 6px;
+        width: 8px;
+        height: 8px;
+        background-color: #fd2222;
+        border-radius: 50%;
+      }
+    }
+    .tabsBottom {
+      margin-top: 12px;
+      width: 48px;
+      height: 3px;
+      background-color: #2ebebd;
+    }
+  }
+}
