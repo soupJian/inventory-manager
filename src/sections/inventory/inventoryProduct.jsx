@@ -1,8 +1,8 @@
 import React from 'react'
-import { useEffect, useReducer, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toggleLoading } from '../../store/slices/globalSlice'
 import { useDispatch } from 'react-redux'
-
+import { updateProduct } from '../../service/product'
 import styled from 'styled-components'
 import {
   BaseButton,
@@ -25,24 +25,14 @@ import { formatMoney } from '../../utils/formatMoney'
 import { sortByList } from '../../constants/pageConstants/inventory'
 import { Row, Col, Popover, Select, Space, Button, Checkbox } from 'antd'
 import { DownOutlined, PlusCircleFilled } from '@ant-design/icons'
-import { Api } from '../../utils/utils'
+import {
+  getAllProducts,
+  getMultipleProducts,
+  deleteProduct
+} from '../../service/product'
 import styles from './index.module.scss'
 
-const api = new Api()
 const { Option } = Select
-
-const productReducer = (state, { type, payload }) => {
-  switch (type) {
-    case 'changeTab':
-      return { ...state, activeTab: payload, page: 1 }
-    case 'changeStatus':
-      return { ...state, status: payload }
-    case 'changePaginateNumber':
-      return { ...state, page: payload }
-    default:
-      return state
-  }
-}
 
 const InventoryProduct = ({
   user,
@@ -87,12 +77,10 @@ const InventoryProduct = ({
   }
   const fetchSKUs = async () => {
     dispatch(toggleLoading(true))
-    const data = await api.getAllProducts(
-      `projectionExpression=SKU${
-        productState.status ? `&stock=${productState.status.join(',')}` : ''
-      }`,
-      { Authorization: `Bearer ${user.token}` }
-    )
+    const data = await getAllProducts({
+      projectionExpression: 'SKU',
+      stock: productState.status.join(',')
+    })
     setProductSKUs(data.Items)
     fetchMultipleProducts(data.Items)
     dispatch(toggleLoading(false))
@@ -114,10 +102,7 @@ const InventoryProduct = ({
     )
     Promise.all(
       itemsToBeCleared.map((item) => {
-        return api.updateProduct(
-          { ...item, Stock: 0, Reserved: 0, Available: 0 },
-          { Authorization: `Bearer ${user.token}` }
-        )
+        return updateProduct({ ...item, Stock: 0, Reserved: 0, Available: 0 })
       })
     )
       .then((values) => {
@@ -133,9 +118,7 @@ const InventoryProduct = ({
     dispatch(toggleLoading(true))
     Promise.all(
       selection.map((item) => {
-        return api.deleteProduct(item, {
-          Authorization: `Bearer ${user.token}`
-        })
+        return deleteProduct(item)
       })
     )
       .then((values) => {
@@ -191,10 +174,9 @@ const InventoryProduct = ({
         str += val + ','
       })
     })
-    api
-      .getMultipleProducts(`skus=${str}&sort=Available&order=${sortBy}`, {
-        Authorization: `Bearer ${user.token}`
-      })
+    getMultipleProducts(`skus=${str}&sort=Available&order=${sortBy}`, {
+      Authorization: `Bearer ${user.token}`
+    })
       .then((data) => {
         setProducts(data)
         dispatch(toggleLoading(false))

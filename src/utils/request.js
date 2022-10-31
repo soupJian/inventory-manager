@@ -1,12 +1,10 @@
 import { message } from 'antd'
 import { store } from '../store/store'
 import axios from 'axios'
-// const baseURL = 'https://oypcwmk5j1.execute-api.us-west-2.amazonaws.com/v1'
-const baseURL = 'https://oypcwmk5j1.execute-api.us-west-2.amazonaws.com/v1'
-// const token = localStorage.getItem('token')
+
 // 创建一个axios实例
 const request = axios.create({
-  baseURL,
+  baseURL: process.env.CRM_BASE_URL,
   headers: {
     'Access-Control-Allow-Headers': '*',
     'Content-Type': 'application/json',
@@ -33,13 +31,15 @@ request.interceptors.response.use(
     return response.data
   },
   (error) => {
+    console.log(error)
     // 网络错误
     if (error.code == 'ERR_NETWORK') {
-      message.error(error.message)
+      message.error('ERR_NETWORK')
+    } else {
+      message.error(error.response.data.message)
     }
     // 网络错误
     return error.response.data
-    // return Promise.reject(error)
   }
 )
 

@@ -12,3 +12,13 @@ export const login = (data) => {
     data
   })
 }
+/**
+ * 用户 历史操作信息
+ */
+export const getHistory = (params) => {
+  return request({
+    url: params
+      ? `${process.env.BASE_URL}/history?${params}`
+      : `${process.env.BASE_URL}/history`
+  })
+}

@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Api, ISOStringToReadableDate } from '../../../utils/utils'
 import { Flex, Icon, Loader, Text, Wrapper } from '../../../components/commons'
-
-const api = new Api()
+import { getHistory } from '../../../service/user'
 
 const changeKeys = [
   { label: 'Available', key: 'Available' },
@@ -17,22 +15,18 @@ const changeKeys = [
   { label: 'TotalCost', key: 'Total Cost' }
 ]
 
-const RangeAccordion = ({ user, label, rangeParams }) => {
+const RangeAccordion = ({ label, rangeParams }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [data, setData] = useState({})
 
   const fetchData = () => {
     setIsLoading(true)
-    api
-      .getHistory(`${rangeParams}`, {
-        Authorization: `Bearer ${user.token}`
-      })
-      .then((data) => {
-        setData(data)
-        setIsLoading(false)
-        console.log(data)
-      })
+    getHistory(rangeParams).then((data) => {
+      setData(data)
+      setIsLoading(false)
+      console.log(data)
+    })
   }
 
   const renderChanges = (hist) => {

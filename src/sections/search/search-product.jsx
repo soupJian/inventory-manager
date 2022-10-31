@@ -12,7 +12,6 @@ import {
   Flex,
   FloatingBar,
   Icon,
-  Loader,
   Pagination,
   Table,
   TableCell,
@@ -24,10 +23,9 @@ import CostModal from '../../components/cost-modal'
 import { getSearch } from '../../service/search/search-product'
 import { formatMoney } from '../../utils/formatMoney'
 import { ExpandedTableHeaders } from '../../constants/pageConstants/products'
-import { Api } from '../../utils/utils'
 import styles from './search.module.scss'
-
-const api = new Api()
+import { updateInventory } from '../../service/inventory'
+import { deleteProduct } from '../../service/product'
 const perPage = 10
 const SearchPage = ({
   router,
@@ -89,10 +87,7 @@ const SearchPage = ({
     )
     Promise.all(
       itemsToBeCleared.map((item) => {
-        return api.updateInventory(
-          { ...item, Stock: 0, Reserved: 0, Available: 0 },
-          { Authorization: `Bearer ${user.token}` }
-        )
+        return updateInventory({ ...item, Stock: 0, Reserved: 0, Available: 0 })
       })
     )
       .then((values) => {
@@ -109,9 +104,7 @@ const SearchPage = ({
     dispatch(toggleLoading(true))
     Promise.all(
       selection.map((item) => {
-        return api.deleteProduct(item, {
-          Authorization: `Bearer ${user.token}`
-        })
+        return deleteProduct(item)
       })
     )
       .then((values) => {

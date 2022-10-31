@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import {
   BaseButton,
@@ -12,14 +11,12 @@ import {
 import Product from './inventory-product'
 import EditProduct from '../../components/add-edit-new-product'
 import { productTemplate } from '../../constants/pageConstants/products'
-import { Api } from '../../utils/utils'
 import { toggleLoading } from '../../store/slices/globalSlice'
 import { useDispatch } from 'react-redux'
-const api = new Api()
+import { getProduct, deleteProduct } from '../../service/product'
 
 const ProductPage = ({ router }) => {
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.user)
   const [product, setProduct] = useState({ ...productTemplate })
   const [dialog, setDialog] = useState({
     message: '',
@@ -40,23 +37,20 @@ const ProductPage = ({ router }) => {
       }
     })
   }
-  const deleteProduct = (sku) => {
+  const handleDeleteProduct = (sku) => {
     setLoading(true)
-    api
-      .deleteProduct(sku, { Authorization: `Bearer ${user.token}` })
-      .then((data) => {
-        setLoading(false)
-        router.push('/warehouse?tab=Managing')
-      })
+    deleteProduct(sku).then((data) => {
+      setLoading(false)
+      router.push('/warehouse?tab=Managing')
+    })
   }
 
   const modalHandler = (val) => setShowModal(val)
   const fetchProduct = () => {
     dispatch(toggleLoading(true))
-    api
-      .getProduct(`sku=${router.query.sku}`, {
-        Authorization: `Bearer ${user.token}`
-      })
+    getProduct({
+      sku: router.query.sku
+    })
       .then((data) => {
         if (data.Items.length == 0) {
           router.replace('/warehouse?tab=Managing')
@@ -99,7 +93,7 @@ const ProductPage = ({ router }) => {
         showEditModal={modalHandler}
         onDelete={() =>
           confirmAction(
-            () => deleteProduct(product.SKU),
+            () => handleDeleteProduct(product.SKU),
             'Are you sure you want to delete this product?'
           )
         }

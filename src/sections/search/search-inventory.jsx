@@ -23,10 +23,8 @@ import { getSearch } from '../../service/search/search-inventory'
 import { formatMoney } from '../../utils/formatMoney'
 import { ExpandedTableHeaders } from '../../constants/pageConstants/inventory'
 import CostModal from '../../components/cost-modal'
-import { Api } from '../../utils/utils'
 import styles from './search.module.scss'
-
-const api = new Api()
+import { updateInventory } from '../../service/inventory'
 const perPage = 10
 const SearchPage = ({
   router,
@@ -88,10 +86,7 @@ const SearchPage = ({
     )
     Promise.all(
       itemsToBeCleared.map((item) => {
-        return api.updateInventory(
-          { ...item, Stock: 0, Reserved: 0, Available: 0 },
-          { Authorization: `Bearer ${user.token}` }
-        )
+        return updateInventory({ ...item, Stock: 0, Reserved: 0, Available: 0 })
       })
     )
       .then((values) => {
@@ -108,9 +103,7 @@ const SearchPage = ({
     dispatch(toggleLoading(true))
     Promise.all(
       selection.map((item) => {
-        return api.deleteInventory(item, {
-          Authorization: `Bearer ${user.token}`
-        })
+        return deleteInventory(item)
       })
     )
       .then((values) => {

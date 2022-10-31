@@ -7,6 +7,10 @@ const nextConfig = {
       'beyond-diving.s3.us-west-2.amazonaws.com'
     ]
   },
+  env: {
+    BASE_URL: 'https://43kjv8b4z4.execute-api.us-west-2.amazonaws.com/v1',
+    CRM_BASE_URL: 'https://oypcwmk5j1.execute-api.us-west-2.amazonaws.com/v1'
+  },
   async rewrites() {
     return {
       fallback: [

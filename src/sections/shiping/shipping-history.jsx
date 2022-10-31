@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import {
   Filter,
   Flex,
@@ -13,15 +12,13 @@ import {
   dateList,
   ShippedTableHeaders
 } from '../../constants/pageConstants/shipping'
-import { Api, ISOStringToReadableDate } from '../../utils/utils'
+import { ISOStringToReadableDate } from '../../utils/utils'
 import { toggleLoading } from '../../store/slices/globalSlice'
 import { useDispatch } from 'react-redux'
-
-const api = new Api()
+import { getShippedOrders } from '../../service/shipping'
 const itemsPerPage = 10
 const Orders = () => {
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.user)
   const [orderState, setOrderState] = useState({
     page: 1,
     date: ''
@@ -56,8 +53,8 @@ const Orders = () => {
 
   const fetchShippedOrders = async () => {
     dispatch(toggleLoading(true))
-    const data = await api.getShippedOrders(`date=${orderState.date}`, {
-      Authorization: `Bearer ${user.token}`
+    const data = await getShippedOrders({
+      date: orderState.date
     })
     dispatch(toggleLoading(false))
     setShippedOrders(data.Items)

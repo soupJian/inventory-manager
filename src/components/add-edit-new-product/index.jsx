@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { toggleLoading } from '../../store/slices/globalSlice'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {
   Button,
   Flex,
@@ -14,10 +14,8 @@ import styled from 'styled-components'
 import { productTemplate } from '../../constants/pageConstants/products'
 import SearchInput from './search-input'
 import { message } from 'antd'
-import { Api } from '../../utils/utils'
 import { nanoid } from 'nanoid'
-
-const api = new Api()
+import { updateProduct } from '../../service/product'
 // type 为 add 或者edit
 const AddProduct = ({
   type = 'add',
@@ -28,7 +26,6 @@ const AddProduct = ({
   submitnewProductFinally
 }) => {
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.user)
   const [newProduct, setNewProduct] = useState({ ...newProductValue })
   const [newProductError, setNewProductError] = useState('')
   const [partsInput, setPartsInput] = useState(
@@ -128,18 +125,16 @@ const AddProduct = ({
         SystemId: nanoid()
       }
       delete data['TagsInput']
-      api
-        .updateProduct(data, { Authorization: `Bearer ${user.token}` })
-        .then((data) => {
-          if (data.message) {
-            message.error(data.message)
-          } else {
-            setNewProduct({ ...productTemplate })
-            dispatch(toggleLoading(false))
-            setNewProductModal(false)
-            submitnewProductFinally(newProduct.SKU)
-          }
-        })
+      updateProduct(data).then((data) => {
+        if (data.message) {
+          message.error(data.message)
+        } else {
+          setNewProduct({ ...productTemplate })
+          dispatch(toggleLoading(false))
+          setNewProductModal(false)
+          submitnewProductFinally(newProduct.SKU)
+        }
+      })
     }
   }
   // 编辑
@@ -168,18 +163,16 @@ const AddProduct = ({
         data.SKU = newProductValue.SKU
       }
       delete data['TagsInput']
-      api
-        .updateProduct(data, { Authorization: `Bearer ${user.token}` })
-        .then((data) => {
-          dispatch(toggleLoading(false))
-          if (data.message) {
-            message.error(data.message)
-          } else {
-            setNewProduct({ ...productTemplate })
-            setNewProductModal(false)
-            submitnewProductFinally(newProduct.SKU)
-          }
-        })
+      updateProduct(data).then((data) => {
+        dispatch(toggleLoading(false))
+        if (data.message) {
+          message.error(data.message)
+        } else {
+          setNewProduct({ ...productTemplate })
+          setNewProductModal(false)
+          submitnewProductFinally(newProduct.SKU)
+        }
+      })
     }
   }
   const submitForm = (e) => {

@@ -12,10 +12,9 @@ import {
 } from '../../../components/commons'
 import { Popover } from 'antd'
 import WarehouseUnit from './WarehouseUnit'
-import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { Api, ISOStringToReadableDate } from '../../../utils/utils'
-const api = new Api()
+import { ISOStringToReadableDate } from '../../../utils/utils'
+import { getAllInventory, getInventory } from '../../../service/inventory'
 
 const warshouseMap = [
   {
@@ -152,7 +151,6 @@ const WarehouseUnitRender = ({ warehouseData, unitItem }) => {
 }
 const Map = () => {
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.user)
   const [warehouseData, setWarehouseData] = useState({})
   const [locatedItem, setLocatedItem] = useState({})
   const [locatedItemInput, setLocatedItemInput] = useState('')
@@ -161,10 +159,9 @@ const Map = () => {
 
   const locateItem = () => {
     setLocateItemLoading(true)
-    api
-      .getInventory(`barcode=${locatedItemInput}`, {
-        Authorization: `Bearer ${user.token}`
-      })
+    getInventory({
+      barcode: locatedItemInput
+    })
       .then((data) => {
         if (data.Items && data.Items?.length === 0) {
           setLocatedItemError("Sorry, We can't find the item!")
@@ -190,10 +187,9 @@ const Map = () => {
   }
   const fetchItems = () => {
     dispatch(toggleLoading(true))
-    api
-      .getAllInventory(`projectionExpression=SKU,Location,Name,SettledTime`, {
-        Authorization: `Bearer ${user.token}`
-      })
+    getAllInventory({
+      projectionExpression: 'SKU,Location,Name,SettledTime'
+    })
       .then((data) => {
         let dataObj = {}
         data.Items.forEach((item) => {

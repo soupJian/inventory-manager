@@ -22,16 +22,19 @@ import {
 } from '../../constants/pageConstants/inventory'
 import { Row, Col, Popover, Select, Space, Button, Checkbox } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
-import { Api } from '../../utils/utils'
 import { PlusCircleFilled } from '@ant-design/icons'
 import { formatMoney } from '../../utils/formatMoney'
 import styled from 'styled-components'
 import styles from './index.module.scss'
-const api = new Api()
+import {
+  getAllInventory,
+  getMultipleInventory,
+  updateInventory,
+  deleteInventory
+} from '../../service/inventory'
 
 const { Option } = Select
 const InventoryTable = ({
-  user,
   setDialog,
   updataTableData,
   selectable,
@@ -61,14 +64,10 @@ const InventoryTable = ({
   const [sortBy, setSortBy] = useState('desc')
   const fetchSKUs = async () => {
     dispatch(toggleLoading(true))
-    const data = await api.getAllInventory(
-      `projectionExpression=SKU${
-        inventoryState.status.length
-          ? `&stock=${inventoryState.status.join(',')}`
-          : ''
-      }`,
-      { Authorization: `Bearer ${user.token}` }
-    )
+    const data = await getAllInventory({
+      projectionExpression: 'SKU',
+      stock: inventoryState.status.join(',')
+    })
     setInventorySKUs(data.Items)
     fetchMultipleInventory(data.Items)
     dispatch(toggleLoading(false))
@@ -85,10 +84,11 @@ const InventoryTable = ({
         str += val + ','
       })
     })
-    api
-      .getMultipleInventory(`skus=${str}&sort=Available&order=${sortBy}`, {
-        Authorization: `Bearer ${user.token}`
-      })
+    getMultipleInventory({
+      skus: str,
+      sort: 'Available',
+      order: sortBy
+    })
       .then((data) => {
         setInventoryData(data)
         dispatch(toggleLoading(false))
@@ -127,10 +127,7 @@ const InventoryTable = ({
     )
     Promise.all(
       itemsToBeCleared.map((item) => {
-        return api.updateInventory(
-          { ...item, Stock: 0, Reserved: 0, Available: 0 },
-          { Authorization: `Bearer ${user.token}` }
-        )
+        return updateInventory({ ...item, Stock: 0, Reserved: 0, Available: 0 })
       })
     )
       .then((values) => {
@@ -146,9 +143,7 @@ const InventoryTable = ({
     dispatch(toggleLoading(true))
     Promise.all(
       selection.map((item) => {
-        return api.deleteInventory(item, {
-          Authorization: `Bearer ${user.token}`
-        })
+        return deleteInventory(item)
       })
     )
       .then((values) => {

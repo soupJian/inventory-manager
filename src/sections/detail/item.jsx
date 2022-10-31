@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { toggleLoading } from '../../store/slices/globalSlice'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
@@ -14,12 +13,11 @@ import {
 import Item from './inventory-item'
 import AddEditItem from '../../components/add-edit-new-Item'
 import { itemTemplate } from '../../constants/pageConstants/inventory'
-import { Api } from '../../utils/utils'
-const api = new Api()
+import { getInventory } from '../../service/inventory'
+import { updateInventory, deleteInventory } from '../../service/inventory'
 
 const ItemPage = ({ router }) => {
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.user)
   const [item, setItem] = useState({ ...itemTemplate })
   const [dialog, setDialog] = useState({
     message: '',
@@ -39,31 +37,24 @@ const ItemPage = ({ router }) => {
   }
   const clearItem = (sku) => {
     dispatch(toggleLoading(true))
-    api
-      .updateInventory(
-        { ...item, Stock: 0, Available: 0 },
-        { Authorization: `Bearer ${user.token}` }
-      )
-      .then(() => {
-        fetchItem()
-      })
+
+    updateInventory({ ...item, Stock: 0, Available: 0 }).then(() => {
+      fetchItem()
+    })
   }
   const deleteItem = (sku) => {
     dispatch(toggleLoading(true))
-    api
-      .deleteInventory(sku, { Authorization: `Bearer ${user.token}` })
-      .then((data) => {
-        dispatch(toggleLoading(false))
-        router.push('/inventory')
-      })
+    deleteInventory(sku).then((data) => {
+      dispatch(toggleLoading(false))
+      router.push('/inventory')
+    })
   }
   const modalHandler = (val) => setShowModal(val)
   const fetchItem = () => {
     dispatch(toggleLoading(true))
-    api
-      .getInventory(`sku=${router.query.sku}`, {
-        Authorization: `Bearer ${user.token}`
-      })
+    getInventory({
+      sku: router.query.sku
+    })
       .then((data) => {
         if (data.Items.length == 0) {
           router.replace('/warehouse?tab=Managing')

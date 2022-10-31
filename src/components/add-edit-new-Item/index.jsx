@@ -4,8 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Button, Filter, Flex, Icon, Input, Modal, Wrapper } from '../commons'
 import { itemTemplate } from '../../constants/pageConstants/inventory'
 import { locations } from '../../constants/pageConstants/locations'
-import { Api } from '../../utils/utils'
-const api = new Api()
+import { updateInventory } from '../../service/inventory'
 import styled from 'styled-components'
 import { nanoid } from 'nanoid'
 import { message } from 'antd'
@@ -94,20 +93,18 @@ const AddANewItem = ({
         SystemId: nanoid()
       }
       delete data['TagsInput']
-      api
-        .updateInventory(data, { Authorization: `Bearer ${user.token}` })
-        .then((data) => {
-          dispatch(toggleLoading(false))
-          if (data.message) {
-            message.error(data.message)
-          } else {
-            setNewItemModal(false)
-            // new完成后通知父元素
-            submitNewItemFinally(newItem.SKU)
-            setNewItemError('')
-            setNewItem({ ...itemTemplate })
-          }
-        })
+      updateInventory(data).then((data) => {
+        dispatch(toggleLoading(false))
+        if (data.message) {
+          message.error(data.message)
+        } else {
+          setNewItemModal(false)
+          // new完成后通知父元素
+          submitNewItemFinally(newItem.SKU)
+          setNewItemError('')
+          setNewItem({ ...itemTemplate })
+        }
+      })
     }
   }
   // 编辑
@@ -140,8 +137,7 @@ const AddANewItem = ({
         data.SKU = newItemValue.SKU
       }
       delete data['TagsInput']
-      api
-        .updateInventory(data, { Authorization: `Bearer ${user.token}` })
+      updateInventory(data)
         .then((data) => {
           dispatch(toggleLoading(false))
           if (data.message) {

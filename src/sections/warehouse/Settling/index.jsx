@@ -22,13 +22,16 @@ import {
   unSettledHeaders
 } from '../../../constants/pageConstants/warehouse'
 import { locations } from '../../../constants/pageConstants/locations'
-import { Api, ISOStringToReadableDate } from '../../../utils/utils'
+import { ISOStringToReadableDate } from '../../../utils/utils'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import styles from '../index.module.scss'
 import { formatTimeStr } from '../../../utils/formatTime'
-
-const api = new Api()
+import {
+  getSettledInventory,
+  getUnsettledInventory
+} from '../../../service/inventory'
+import { updateInventory } from '../../../service/inventory'
 
 const Settline = () => {
   const dispatch = useDispatch()
@@ -82,24 +85,19 @@ const Settline = () => {
   }
   const saveLocations = (key, locationsToBeSave) => {
     let item = unSettledItems.filter((item) => item.SKU === key)[0]
-    api
-      .updateInventory(
-        {
-          ...item,
-          SettledTime: new Date(),
-          Settled: true,
-          ['Location']: locationsToBeSave
-        },
-        { Authorization: `Bearer ${user.token}` }
-      )
-      .then((data) => {
-        if (data) {
-          getData()
-        }
-        setDialog({
-          show: false
-        })
+    updateInventory({
+      ...item,
+      SettledTime: new Date(),
+      Settled: true,
+      ['Location']: locationsToBeSave
+    }).then((data) => {
+      if (data) {
+        getData()
+      }
+      setDialog({
+        show: false
       })
+    })
   }
   const confirmSettle = (item) => {
     const locationsToBeSave = [...locationList[item.SKU].map((loc) => loc)]
@@ -115,25 +113,21 @@ const Settline = () => {
   }
   const getData = () => {
     dispatch(toggleLoading(true))
-    const settledData = api
-      .getSettledInventory(`date=${date}`, {
-        Authorization: `Bearer ${user.token}`
-      })
-      .then((data) => {
-        setSettledItems(data.Items)
-        handleSettledItemsToShow(data.Items, 1)
-      })
-    const unSettledData = api
-      .getUnsettledInventory(`date=${date}`, {
-        Authorization: `Bearer ${user.token}`
-      })
-      .then((data) => {
-        let locationListObj = {}
-        setUnSettledItems(data.Items)
-        handleUnSettledItemsToShow(data.Items, 1)
-        data.Items?.forEach((item) => (locationListObj[item.SKU] = []))
-        setLocationList(locationListObj)
-      })
+    const settledData = getSettledInventory({
+      date: date
+    }).then((data) => {
+      setSettledItems(data.Items)
+      handleSettledItemsToShow(data.Items, 1)
+    })
+    const unSettledData = getUnsettledInventory(`date=${date}`, {
+      Authorization: `Bearer ${user.token}`
+    }).then((data) => {
+      let locationListObj = {}
+      setUnSettledItems(data.Items)
+      handleUnSettledItemsToShow(data.Items, 1)
+      data.Items?.forEach((item) => (locationListObj[item.SKU] = []))
+      setLocationList(locationListObj)
+    })
     Promise.all([settledData, unSettledData]).then(() => {
       dispatch(toggleLoading(false))
     })

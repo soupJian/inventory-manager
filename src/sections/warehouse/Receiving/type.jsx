@@ -10,14 +10,11 @@ import {
 } from '../../../components/commons'
 import SearchInput from './search-input'
 import styled from 'styled-components'
-import { Api } from '../../../utils/utils'
 import { locations } from '../../../constants/pageConstants/locations'
-import { useSelector } from 'react-redux'
-const api = new Api()
+import { updateInventory } from '../../../service/inventory'
 
 const Type = ({ setNewItemModal }) => {
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.user)
   const [lookSearch, setLookSearch] = useState({
     name: '',
     sku: '',
@@ -46,29 +43,24 @@ const Type = ({ setNewItemModal }) => {
     dispatch(toggleLoading(true))
     const arr = lookedUpItem.Location.concat(lookedUpItemLocation)
     const set = new Set(arr)
-    api
-      .updateInventory(
-        {
-          ...lookedUpItem,
-          Updated: new Date(),
-          Available: lookedUpItem.Available + parseInt(lookedUpItemCount),
-          Stock: lookedUpItem.Stock + parseInt(lookedUpItemCount),
-          Location: Array.from(set),
-          Settled: lookedUpItemCount.length > 0
-        },
-        { Authorization: `Bearer ${user.token}` }
-      )
-      .then(() => {
-        setLookSearch({
-          name: '',
-          sku: '',
-          barcode: ''
-        })
-        setLookedUpItemCount(0)
-        setLookedUpItemLocation([])
-        setLookedUpItem(null)
-        dispatch(toggleLoading(false))
+    updateInventory({
+      ...lookedUpItem,
+      Updated: new Date(),
+      Available: lookedUpItem.Available + parseInt(lookedUpItemCount),
+      Stock: lookedUpItem.Stock + parseInt(lookedUpItemCount),
+      Location: Array.from(set),
+      Settled: lookedUpItemCount.length > 0
+    }).then(() => {
+      setLookSearch({
+        name: '',
+        sku: '',
+        barcode: ''
       })
+      setLookedUpItemCount(0)
+      setLookedUpItemLocation([])
+      setLookedUpItem(null)
+      dispatch(toggleLoading(false))
+    })
   }
   return (
     <>

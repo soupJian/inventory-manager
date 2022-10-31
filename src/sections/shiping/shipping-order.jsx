@@ -1,6 +1,5 @@
 import { withRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import {
   Filter,
   Flex,
@@ -14,18 +13,16 @@ import {
   dateList,
   UnShippedTableHeaders
 } from '../../constants/pageConstants/shipping'
-import { Api, ISOStringToReadableDate } from '../../utils/utils'
+import { ISOStringToReadableDate } from '../../utils/utils'
 import { toggleLoading } from '../../store/slices/globalSlice'
 import { useDispatch } from 'react-redux'
 import { Button, Drawer } from 'antd'
 import DrawerDetail from './drawer-detail'
 import styles from './index.module.scss'
-
-const api = new Api()
+import { getUnShippedOrders } from '../../service/shipping'
 const itemsPerPage = 10
 const Orders = () => {
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.user)
   const [orderState, setOrderState] = useState({
     page: 1,
     date: ''
@@ -63,8 +60,8 @@ const Orders = () => {
   const fetchUnShippedOrders = async () => {
     try {
       dispatch(toggleLoading(true))
-      const data = await api.getUnShippedOrders(`date=${orderState.date}`, {
-        Authorization: `Bearer ${user.token}`
+      const data = await getUnShippedOrders({
+        date: orderState.date
       })
       setUnShippedOrders(data.Items)
       handleUnShippedOrdersToShow(data.Items)
