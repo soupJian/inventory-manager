@@ -43,7 +43,7 @@ const Type = ({ setNewItemModal }) => {
     dispatch(toggleLoading(true))
     const arr = lookedUpItem.Location.concat(lookedUpItemLocation)
     const set = new Set(arr)
-    updateInventory({
+    updateInventory('update', {
       ...lookedUpItem,
       Updated: new Date(),
       Available: lookedUpItem.Available + parseInt(lookedUpItemCount),

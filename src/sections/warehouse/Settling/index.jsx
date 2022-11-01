@@ -83,7 +83,7 @@ const Settline = () => {
   }
   const saveLocations = (key, locationsToBeSave) => {
     let item = unSettledItems.filter((item) => item.SKU === key)[0]
-    updateInventory({
+    updateInventory('update', {
       ...item,
       SettledTime: new Date(),
       Settled: true,

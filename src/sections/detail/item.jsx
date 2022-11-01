@@ -38,7 +38,7 @@ const ItemPage = ({ router }) => {
   const clearItem = (sku) => {
     dispatch(toggleLoading(true))
 
-    updateInventory({ ...item, Stock: 0, Available: 0 }).then(() => {
+    updateInventory('update', { ...item, Stock: 0, Available: 0 }).then(() => {
       fetchItem()
     })
   }

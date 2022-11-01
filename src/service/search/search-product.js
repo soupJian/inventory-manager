@@ -5,7 +5,7 @@ import request from '../../utils/request'
  */
 export const getSearch = (params) => {
   return request({
-    url: `${process.env.BASE_URL}/v1/search-product`,
+    url: `${process.env.BASE_URL}/search-product`,
     params
   })
 }

@@ -46,12 +46,16 @@ export const getUnsettledInventory = (params) => {
 }
 /**
  * 更新 inventory 或者新增 inventory
+ * type 区分 create 和 update
  */
-export const updateInventory = (data) => {
+export const updateInventory = (type, data) => {
   return request({
     url: `${process.env.BASE_URL}/inventory`,
     method: 'PUT',
-    data
+    data,
+    params: {
+      type
+    }
   })
 }
 /**

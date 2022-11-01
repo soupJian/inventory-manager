@@ -27,13 +27,16 @@ export const getProduct = (params) => {
   })
 }
 /**
- * 更新 product 或者新增 product
+ * 更新 product 或者新增 product type区分 crete 和 update
  */
-export const updateProduct = (data) => {
+export const updateProduct = (type, data) => {
   return request({
     url: `${process.env.BASE_URL}/product-inventory`,
     method: 'PUT',
-    data
+    data,
+    params: {
+      type
+    }
   })
 }
 /**

@@ -92,7 +92,7 @@ const AddANewItem = ({
         SystemId: nanoid()
       }
       delete data['TagsInput']
-      updateInventory(data).then((data) => {
+      updateInventory('create', data).then((data) => {
         dispatch(toggleLoading(false))
         if (data.message) {
           message.error(data.message)
@@ -136,7 +136,7 @@ const AddANewItem = ({
         data.SKU = newItemValue.SKU
       }
       delete data['TagsInput']
-      updateInventory(data)
+      updateInventory('update', data)
         .then((data) => {
           dispatch(toggleLoading(false))
           if (data.message) {

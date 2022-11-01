@@ -125,12 +125,12 @@ const AddProduct = ({
         SystemId: nanoid()
       }
       delete data['TagsInput']
-      updateProduct(data).then((data) => {
+      updateProduct('create', data).then((data) => {
+        dispatch(toggleLoading(false))
         if (data.message) {
           message.error(data.message)
         } else {
           setNewProduct({ ...productTemplate })
-          dispatch(toggleLoading(false))
           setNewProductModal(false)
           submitnewProductFinally(newProduct.SKU)
         }
@@ -163,7 +163,7 @@ const AddProduct = ({
         data.SKU = newProductValue.SKU
       }
       delete data['TagsInput']
-      updateProduct(data).then((data) => {
+      updateProduct('update', data).then((data) => {
         dispatch(toggleLoading(false))
         if (data.message) {
           message.error(data.message)

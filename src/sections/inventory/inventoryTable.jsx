@@ -128,7 +128,12 @@ const InventoryTable = ({
     )
     Promise.all(
       itemsToBeCleared.map((item) => {
-        return updateInventory({ ...item, Stock: 0, Reserved: 0, Available: 0 })
+        return updateInventory('update', {
+          ...item,
+          Stock: 0,
+          Reserved: 0,
+          Available: 0
+        })
       })
     )
       .then((values) => {
