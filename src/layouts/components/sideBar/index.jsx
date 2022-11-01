@@ -7,8 +7,8 @@ import { useRouter } from 'next/router'
 import { Menu } from 'antd'
 // components
 import { Icon } from '../../../components/commons'
-import History from '../header/history'
-import UserCenter from '../header/UserCenter'
+import History from '../history'
+import UserCenter from '../user-center'
 
 // css ----------
 import 'antd/lib/menu/style/index.css'

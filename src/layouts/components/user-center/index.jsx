@@ -1,3 +1,4 @@
+import { useState } from 'react'
 // redux
 import { useDispatch } from 'react-redux'
 import { logoutUser } from '../../../store/slices/userSlice'
@@ -6,11 +7,12 @@ import { Icon } from '../../../components/commons'
 import TimeSensitive from './components/time-sensitive'
 import AttentionNeeded from './components/attention-needed'
 import ImportantChange from './components/important-change'
+import { Row, Col, Switch } from 'antd'
 // css
 import styled from 'styled-components'
-import styles from './user-center.module.scss'
-import { Row, Col, Switch } from 'antd'
-import { useState } from 'react'
+import styles from './index.module.scss'
+import { useEffect } from 'react'
+// js 
 const tabList = ['Time sensitive', 'Attention needed', 'Important changes']
 // main
 const History = ({ show, onClose, user }) => {
@@ -19,6 +21,9 @@ const History = ({ show, onClose, user }) => {
   const logout = () => {
     dispatch(logoutUser())
   }
+  useEffect(()=>{
+    console.log('1234');
+  },[])
   return (
     <HistoryWrapper show={show}>
       <div className={styles.container}>
