@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
+import dynamic from 'next/dynamic'
+// redux
 import { useSelector } from 'react-redux'
-import Login from './components/login'
+// components
+const SideBar = dynamic(()=>import('./components/sideBar'))
+const Loading = dynamic(()=>import('../components/loading'))
 import { Layout } from 'antd'
-import SideBar from './components/sideBar'
-import Loading from '../components/loading'
-// import LayoutHeader from './components/header'
+// api
+import Login from './components/login'
+
 import styles from './BasicLayout.module.scss'
 import 'antd/lib/tooltip/style/index.css'
 
@@ -34,9 +38,6 @@ const BasicLayout = ({ children }) => {
             style={{ marginLeft: collapsed ? '104px' : '231px' }}
             className={styles.siteLayout}
           >
-            {/* <Header>
-              <LayoutHeader user={user} />
-            </Header> */}
             <Content>{children}</Content>
             {global.loading && (
               <Loading

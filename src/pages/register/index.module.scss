@@ -1,0 +1,44 @@
+.loginWrap {
+  width: 100vw;
+  height: 100vh;
+  background-color: #f5f6f8;
+  .login {
+    margin: auto;
+    padding: 43px 48px;
+    width: 632px;
+    background: #fff;
+    border-radius: 10px;
+    .title {
+      margin-bottom: 56px;
+      font-family: 'Rubik';
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 20px;
+      color: #000000;
+    }
+    .label {
+      margin-bottom: 10px;
+      margin-top: 16px;
+      font-family: 'Rubik';
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 14px;
+      color: #000000;
+    }
+    .submitBtn {
+      margin-top: 26px;
+      background: #000000;
+      border-radius: 10px;
+      font-family: 'Lato';
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 18px;
+      color: #ffffff;
+    }
+    .errorMsg {
+      margin-top: 10px;
+      color: red;
+      min-height: 17px;
+    }
+  }
+}

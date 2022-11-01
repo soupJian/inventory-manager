@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 // redux
 import { useDispatch } from 'react-redux'
 import { logoutUser } from '../../../store/slices/userSlice'
@@ -11,15 +11,27 @@ import { Row, Col, Switch } from 'antd'
 // css
 import styled from 'styled-components'
 import styles from './index.module.scss'
-import { useEffect } from 'react'
 // js 
 const tabList = ['Time sensitive', 'Attention needed', 'Important changes']
 // main
 const History = ({ show, onClose, user }) => {
   const dispatch = useDispatch()
   const [activeTab, setActiveTab] = useState('Time sensitive')
+  const [timeSensitiveData,setTimeSensitiveData] = useState([])
   const logout = () => {
     dispatch(logoutUser())
+  }
+  const getData = ()=>{
+    setTimeSensitiveData([
+      {
+        taskStatus: 1, // 任务即将截止 提示
+
+      },
+      {
+        taskStatus: 2, // 任务即将截止
+        
+      }
+    ])
   }
   useEffect(()=>{
     console.log('1234');
