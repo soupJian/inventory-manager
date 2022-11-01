@@ -6,7 +6,6 @@ import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
-  console.log(router)
   return (
     <Providers>
       {/* 注册页面不需要布局 */}

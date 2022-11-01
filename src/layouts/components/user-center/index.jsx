@@ -1,41 +1,107 @@
-import { useState,useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import dynamic from 'next/dynamic'
 // redux
 import { useDispatch } from 'react-redux'
 import { logoutUser } from '../../../store/slices/userSlice'
 // components
 import { Icon } from '../../../components/commons'
-import TimeSensitive from './components/time-sensitive'
-import AttentionNeeded from './components/attention-needed'
-import ImportantChange from './components/important-change'
+const TimeSensitive = dynamic(() => import('./components/time-sensitive'))
+const AttentionNeeded = dynamic(() => import('./components/attention-needed'))
+const ImportantChange = dynamic(() => import('./components/important-change'))
 import { Row, Col, Switch } from 'antd'
 // css
 import styled from 'styled-components'
 import styles from './index.module.scss'
-// js 
+// js
 const tabList = ['Time sensitive', 'Attention needed', 'Important changes']
 // main
 const History = ({ show, onClose, user }) => {
   const dispatch = useDispatch()
   const [activeTab, setActiveTab] = useState('Time sensitive')
-  const [timeSensitiveData,setTimeSensitiveData] = useState([])
+  const [timeSensitiveData, setTimeSensitiveData] = useState([])
   const logout = () => {
     dispatch(logoutUser())
   }
-  const getData = ()=>{
-    setTimeSensitiveData([
-      {
-        taskStatus: 1, // 任务即将截止 提示
-
-      },
-      {
-        taskStatus: 2, // 任务即将截止
-        
-      }
-    ])
+  const getData = () => {
+    setTimeSensitiveData(() => {
+      const list = [
+        {
+          uid: 1,
+          type: 'deal',
+          time: '2022-11-1',
+          read: true,
+          noticeName: 'Kevin Bowen',
+          noticeStatus: 1
+        },
+        {
+          uid: 2,
+          type: 'deal',
+          read: false,
+          time: '2022-11-2',
+          noticeName: 'Adam Kruger',
+          description: 'Follow up to ask the contact to pay for the invoice',
+          noticeStatus: 2 // 任务过期未完成
+        },
+        {
+          uid: 3,
+          type: 'ticket',
+          read: false,
+          time: '2022-11-1',
+          noticeName: 'Leo Bay',
+          noticeStatus: 3
+        },
+        {
+          uid: 4,
+          type: 'deal',
+          read: true,
+          time: '2022-11-2',
+          noticeName: 'Adam Kruger',
+          noticeStatus: 4 // 有新的 ticket 或者 deal 分配
+        },
+        {
+          uid: 5,
+          type: 'deal',
+          read: true,
+          time: '2022-11-1',
+          description: 'Make a mockup with the walls design for the customer',
+          noticeStatus: 5 // 有新的任务
+        },
+        {
+          uid: 6,
+          type: 'deal',
+          read: true,
+          time: '2022-11-1',
+          noticeName: 'Thomas Smith',
+          noticeStatus: 6 // 如果 deal 或者 ticket 收到新邮件 但超过一天未读
+        },
+        {
+          uid: 7,
+          type: 'deal',
+          read: true,
+          time: '2022-11-1',
+          noticeStatus: 7 // 收到 别的客服 通知  邮件的发送者出现在另外一个 deal 或者 ticket 中
+        }
+      ]
+      const newList = []
+      list.forEach((item) => {
+        const i = newList.findIndex((listItem) => item.time == listItem.time)
+        if (i >= 0) {
+          newList[i].list.push(item)
+        } else {
+          newList.push({
+            time: item.time,
+            list: [item]
+          })
+        }
+      })
+      return newList
+    })
   }
-  useEffect(()=>{
-    console.log('1234');
-  },[])
+  useEffect(() => {
+    if (show) {
+      getData()
+    }
+  }, [show])
   return (
     <HistoryWrapper show={show}>
       <div className={styles.container}>
@@ -80,7 +146,9 @@ const History = ({ show, onClose, user }) => {
               )
             })}
           </div>
-          {activeTab == 'Time sensitive' && <TimeSensitive />}
+          {activeTab == 'Time sensitive' && (
+            <TimeSensitive data={timeSensitiveData} />
+          )}
           {activeTab == 'Attention needed' && <AttentionNeeded />}
           {activeTab == 'Important changes' && <ImportantChange />}
         </div>
@@ -96,6 +164,7 @@ const HistoryWrapper = styled.div`
   top: 0;
   right: 0;
   height: 100vh;
+  overflow-y: scroll;
   z-index: ${({ theme }) => theme.zIndex.modal};
   transform: ${({ show }) => (show ? 'translateX(0)' : 'translateX(110%)')};
   transition: all 0.3s ease-in-out;
