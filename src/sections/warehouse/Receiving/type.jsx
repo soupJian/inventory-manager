@@ -56,7 +56,7 @@ const Type = ({ setNewItemModal }) => {
       data.Unsettled = 0
     } else {
       // 没有添加 Location
-      data.Unsettled = lookedUpItemCount
+      data.Unsettled = parseInt(lookedUpItemCount)
     }
     updateInventory('update', data).then(() => {
       setLookSearch({

@@ -34,7 +34,7 @@ export const settledHeaders = [
   { label: 'SKU', key: 'SKU' },
   { label: 'BARCODE', key: 'Barcode' },
   { label: 'RECEIVED ON', key: 'Received' },
-  { label: 'COUNT', key: 'Stock' },
+  { label: 'COUNT', key: 'Settled' },
   { label: 'SETTLED ON', key: 'SettledTime' },
   { label: 'LOCATION', key: 'Location' }
 ]
@@ -43,6 +43,6 @@ export const unSettledHeaders = [
   { label: 'SKU', key: 'SKU' },
   { label: 'BARCODE', key: 'Barcode' },
   { label: 'RECEIVED ON', key: 'Received' },
-  { label: 'COUNT', key: 'Stock' },
+  { label: 'COUNT', key: 'Unsettled' },
   { label: 'LOCATION', key: 'Location' }
 ]
