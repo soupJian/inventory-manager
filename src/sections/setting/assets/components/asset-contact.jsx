@@ -9,6 +9,7 @@ import 'antd/lib/checkbox/style/index.css'
 import 'antd/lib/input/style/index.css'
 import 'antd/lib/button/style/index.css'
 import {
+  formatTimeStr,
   isThisWeek,
   isLastWeek,
   isThisMonth,
@@ -207,7 +208,8 @@ const AssetsContact = ({ data }) => {
             flag = true
         }
         return flag
-      }
+      },
+      render: (_, record) => <>{formatTimeStr(record.created, 'DD/MM/YYYY')}</>
     }
   ]
   return (

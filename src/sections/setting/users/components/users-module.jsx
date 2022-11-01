@@ -7,6 +7,7 @@ import { Icon } from '../../../../components/commons'
 import UserCreateEdit from './user-create-edit'
 import { CloseOutlined } from '@ant-design/icons'
 import styles from '../index.module.scss'
+import { formatTimeStr } from '../../../../utils/formatTime'
 import { updateUser } from '../../../../service/setting/setting-user'
 
 const UserModule = ({ data, showAccessDetail, accessList, getData }) => {
@@ -165,7 +166,10 @@ const UserModule = ({ data, showAccessDetail, accessList, getData }) => {
       },
       {
         title: 'ADDED ON',
-        dataIndex: 'created'
+        dataIndex: 'created',
+        render: (_, record) => (
+          <>{formatTimeStr(record.created, 'DD/MM/YYYY')}</>
+        )
       },
       {
         title: '',
