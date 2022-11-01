@@ -13,7 +13,8 @@ const MultiSelectDropdown = ({
   headerStyles,
   optionListStyles,
   optionStyles,
-  icon
+  icon,
+  OptionWrapperStyle
 }) => {
   const [showOption, setShowOption] = useState(false)
   const nodeRef = useRef()
@@ -67,7 +68,7 @@ const MultiSelectDropdown = ({
         </Title>
         {icon && <SpanIcon>{icon}</SpanIcon>}
       </Header>
-      <OptionWrapper show={showOption}>
+      <OptionWrapper show={showOption} styles={OptionWrapperStyle}>
         <OptionList>
           {options?.map((item, idx) => (
             <Option key={idx + item.value} styles={optionStyles}>
@@ -140,6 +141,7 @@ const OptionWrapper = styled.div`
   transform: ${({ show }) =>
     show ? 'translate(-50%, 100%)' : 'translate(-50%, 105%)'};
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.16);
+  ${({ styles }) => styles && styles}
 `
 const OptionList = styled.ul`
   width: 100%;

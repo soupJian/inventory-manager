@@ -78,7 +78,8 @@ const AddANewItem = ({
         0
       )
       const settledInfo = {
-        Settled: newItem.Location.length > 0,
+        Settled: newItem.Location.length ? newItem.Stock : 0,
+        Unsettled: newItem.Location.length ? 0 : newItem.Stock,
         SettledTime: newItem.Location.length ? new Date() : ''
       }
       let data = {

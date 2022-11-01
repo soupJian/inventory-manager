@@ -13,7 +13,8 @@ const Filter = ({
   onSelect,
   multiSelect,
   wrapperStyles,
-  headerStyles
+  headerStyles,
+  OptionWrapperStyle
 }) => {
   return (
     <Wrapper styles={wrapperStyles}>
@@ -41,6 +42,7 @@ const Filter = ({
               height="14px"
             />
           }
+          OptionWrapperStyle={OptionWrapperStyle}
         />
       ) : (
         <Dropdown

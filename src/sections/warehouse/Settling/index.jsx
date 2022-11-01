@@ -86,7 +86,8 @@ const Settline = () => {
     updateInventory('update', {
       ...item,
       SettledTime: new Date(),
-      Settled: true,
+      Settled: item.Settled + item.Unsettled,
+      Unsettled: 0,
       ['Location']: locationsToBeSave
     }).then((data) => {
       if (data) {

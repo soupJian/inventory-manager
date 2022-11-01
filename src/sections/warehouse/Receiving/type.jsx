@@ -41,16 +41,24 @@ const Type = ({ setNewItemModal }) => {
   }
   const saveItem = () => {
     dispatch(toggleLoading(true))
-    const arr = lookedUpItem.Location.concat(lookedUpItemLocation)
-    const set = new Set(arr)
-    updateInventory('update', {
+    const data = {
       ...lookedUpItem,
       Updated: new Date(),
       Available: lookedUpItem.Available + parseInt(lookedUpItemCount),
-      Stock: lookedUpItem.Stock + parseInt(lookedUpItemCount),
-      Location: Array.from(set),
-      Settled: lookedUpItemCount.length > 0
-    }).then(() => {
+      Stock: lookedUpItem.Stock + parseInt(lookedUpItemCount)
+    }
+    // 如果添加了 location
+    if (lookedUpItemLocation.length) {
+      const arr = lookedUpItem.Location.concat(lookedUpItemLocation)
+      const set = new Set(arr)
+      data.Location = Array.from(set)
+      data.Settled = data.Stock
+      data.Unsettled = 0
+    } else {
+      // 没有添加 Location
+      data.Unsettled = lookedUpItemCount
+    }
+    updateInventory('update', data).then(() => {
       setLookSearch({
         name: '',
         sku: '',
@@ -173,6 +181,9 @@ const Type = ({ setNewItemModal }) => {
                 list={locations}
                 multiSelect
                 onSelect={handleLocationList}
+                OptionWrapperStyle={{
+                  'max-height': '230px'
+                }}
               />
             </InputGroup>
           </Flex>
