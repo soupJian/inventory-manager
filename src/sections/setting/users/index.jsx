@@ -236,8 +236,9 @@ const Users = () => {
       </div>
       {/* modal 这里制作全局的导出，各个 select 模块 导出在其对应模块*/}
       <Modal
+        centered
         title="Create a user"
-        visible={showCreateUserModal}
+        open={showCreateUserModal}
         footer={false}
         onCancel={() => setShowCreateUser(false)}
         wrapClassName={styles.modal}
@@ -263,7 +264,7 @@ const Users = () => {
             show: false
           })
         }
-        visible={accessInfo.show}
+        open={accessInfo.show}
       >
         <AccessDrawer
           type={accessInfo.type}

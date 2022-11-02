@@ -7,7 +7,6 @@ import {
   Button,
   Dropdown,
   Space,
-  Menu,
   Divider,
   Modal,
   Select,
@@ -40,14 +39,14 @@ const FromEmailDetail = (props) => {
   // create Deal 的 弹窗
   const [showDealDrawer, setShowDealDrawer] = useState(false)
   // 选择 create 的 下拉框 Deal 或者 Tickets
-  const chooseCreateMenu = (e) => {
+  const chooseCreateMenu = (key) => {
     // 创建一个 deal 或者 ticket
-    setCreateType(e.key)
+    setCreateType(key)
     setShowDealDrawer(true)
   }
   // 选择 assign 的 下拉框 Deal 或者 Tickets
-  const chooseAssignMenu = (e) => {
-    setAssignType(e.key)
+  const chooseAssignMenu = (key) => {
+    setAssignType(key)
     setShowAssignModal(true)
   }
   // 搜素输入框的 assign
@@ -64,38 +63,60 @@ const FromEmailDetail = (props) => {
   const handleChangeAssign = (newValue) => {
     setValue(newValue)
   }
+  // assign 的 下拉框
+  const assignMenu = [
+    {
+      label: (
+        <span
+          onClick={() => {
+            chooseAssignMenu('deal')
+          }}
+        >
+          Deal
+        </span>
+      ),
+      key: 'deal'
+    },
+    {
+      label: (
+        <span
+          onClick={() => {
+            chooseAssignMenu('ticket')
+          }}
+        >
+          Ticket
+        </span>
+      ),
+      key: 'ticket'
+    }
+  ]
   // create 的 下拉框
-  const assignMenu = (
-    <Menu
-      onClick={chooseAssignMenu}
-      items={[
-        {
-          label: 'Deal',
-          key: 'deal'
-        },
-        {
-          label: 'Ticket',
-          key: 'ticket'
-        }
-      ]}
-    />
-  )
-  // create 的 下拉框
-  const createMenu = (
-    <Menu
-      onClick={chooseCreateMenu}
-      items={[
-        {
-          label: 'Deal',
-          key: 'deal'
-        },
-        {
-          label: 'Ticket',
-          key: 'ticket'
-        }
-      ]}
-    />
-  )
+  const createMenu = [
+    {
+      label: (
+        <span
+          onClick={() => {
+            chooseCreateMenu('deal')
+          }}
+        >
+          Deal
+        </span>
+      ),
+      key: 'deal'
+    },
+    {
+      label: (
+        <span
+          onClick={() => {
+            chooseCreateMenu('ticket')
+          }}
+        >
+          Ticket
+        </span>
+      ),
+      key: 'ticket'
+    }
+  ]
   return (
     <>
       {email && (
@@ -116,7 +137,7 @@ const FromEmailDetail = (props) => {
             </Col>
             <Col>
               <Space>
-                <Dropdown overlay={assignMenu}>
+                <Dropdown menu={{ items: assignMenu }}>
                   <Button>
                     Assign <DownOutlined />
                   </Button>
@@ -124,7 +145,7 @@ const FromEmailDetail = (props) => {
                 {/* <Button onClick={() => setShowAssignModal(true)}>
                   Assign <DownOutlined />
                 </Button> */}
-                <Dropdown overlay={createMenu}>
+                <Dropdown menu={{ items: createMenu }}>
                   <Button className={styles.createBtn}>
                     Create <DownOutlined />
                   </Button>
@@ -173,7 +194,8 @@ const FromEmailDetail = (props) => {
           {email.emailAddress != ourEmail && <div>{email.content}</div>}
           {/* delete modal */}
           <Modal
-            visible={showDeleteModal}
+            centered
+            open={showDeleteModal}
             onCancel={() => setShowDeleteModal(false)}
             closable={false}
             bodyStyle={{ textAlign: 'center' }}
@@ -215,7 +237,8 @@ const FromEmailDetail = (props) => {
           </Modal>
           {/* assign modal */}
           <Modal
-            visible={showAssignModal}
+            centered
+            open={showAssignModal}
             title={
               assignType == 'deal'
                 ? 'Assign to an existing deal'
@@ -266,7 +289,7 @@ const FromEmailDetail = (props) => {
             placement="left"
             closable={false}
             onClose={() => setShowDealDrawer(false)}
-            visible={showDealDrawer}
+            open={showDealDrawer}
             key={'left'}
           >
             <CreateDealForm createType={createType} />

@@ -11,8 +11,6 @@ import DetailRepository from './components/detail-repository'
 // css ---------
 import styles from './detail-tabs.module.scss'
 
-const { TabPane } = Tabs
-
 // main
 const DetailTabs = (props) => {
   const dealInfo = props.dealInfo
@@ -22,26 +20,42 @@ const DetailTabs = (props) => {
   }
   return (
     <div className={styles['detail-tabs']}>
-      <Tabs defaultActiveKey={active} onChange={onChange}>
-        <TabPane tab="Timeline" key="Timeline">
-          <DetailTimeLine />
-        </TabPane>
-        <TabPane tab="Emails" key="Emails">
-          <DetailEmails dealInfo={dealInfo} />
-        </TabPane>
-        {/* <TabPane tab="Calls" key="Calls">
-          <DetailCalls />
-        </TabPane> */}
-        {/* <TabPane tab="Chats" key="Chats">
-          <DetailChats />
-        </TabPane> */}
-        <TabPane tab="Tasks" key="Tasks">
-          <DetailTasks />
-        </TabPane>
-        <TabPane tab="Repository" key="Repository">
-          <DetailRepository />
-        </TabPane>
-      </Tabs>
+      <Tabs
+        defaultActiveKey={active}
+        onChange={onChange}
+        items={[
+          {
+            label: 'Timeline',
+            key: 'Timeline',
+            children: <DetailTimeLine />
+          },
+          {
+            label: 'Emails',
+            key: 'Emails',
+            children: <DetailEmails dealInfo={dealInfo} />
+          },
+          // {
+          //   label: 'Calls',
+          //   key:'Calls',
+          //   children: <DetailCalls /
+          // },
+          // {
+          //   label: 'Chats',
+          //   key:'Chats',
+          //   children:  <DetailChats />
+          // },
+          {
+            label: 'Tasks',
+            key: 'Tasks',
+            children: <DetailTasks />
+          },
+          {
+            label: 'Repository',
+            key: 'Repository',
+            children: <DetailRepository />
+          }
+        ]}
+      ></Tabs>
     </div>
   )
 }

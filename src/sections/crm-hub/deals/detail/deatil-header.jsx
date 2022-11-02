@@ -21,27 +21,22 @@ const DetailHeader = () => {
   // merge modal
   const [showModalMerge, setShowModalMerge] = useState(false)
 
-  const chooseCreateMenu = (e) => {
+  const chooseCreateMenu = (key) => {
     // merge  delete
-    if (e.key == 'Merge') {
+    if (key == 'Merge') {
       setShowModalMerge(true)
     }
   }
-  const MoreMenu = (
-    <Menu
-      onClick={chooseCreateMenu}
-      items={[
-        {
-          label: 'Merge',
-          key: 'Merge'
-        },
-        {
-          label: 'Delete',
-          key: 'Delete'
-        }
-      ]}
-    />
-  )
+  const MoreMenu = [
+    {
+      label: <span onClick={() => chooseCreateMenu('Merge')}>Merge</span>,
+      key: 'Merge'
+    },
+    {
+      label: <span onClick={() => chooseCreateMenu('Delete')}>Merge</span>,
+      key: 'Delete'
+    }
+  ]
   return (
     <div className={styles['detail-header']}>
       <PageHeader
@@ -64,7 +59,11 @@ const DetailHeader = () => {
           >
             Make Call
           </Button>,
-          <Dropdown overlay={MoreMenu} key="3" className={styles.moreBtn}>
+          <Dropdown
+            menu={{ item: MoreMenu }}
+            key="3"
+            className={styles.moreBtn}
+          >
             <Button className={styles.createBtn}>
               More <DownOutlined />
             </Button>
@@ -87,16 +86,18 @@ const DetailHeader = () => {
         ]}
       >
         <Modal
+          centered
           title="Notes"
-          visible={showModalNotes}
+          open={showModalNotes}
           footer={null}
           onCancel={() => setShowModalNotes(false)}
         >
           <ModalNotes />
         </Modal>
         <Modal
+          centered
           title="Merge deals"
-          visible={showModalMerge}
+          open={showModalMerge}
           footer={null}
           onCancel={() => setShowModalMerge(false)}
           width={672}

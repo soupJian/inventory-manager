@@ -277,8 +277,9 @@ const Reply = () => {
         })}
       </Collapse>
       <Modal
+        centered
         title={`Edit ${editType} fast reply`}
-        visible={showEdit}
+        open={showEdit}
         footer={false}
         onCancel={() => setShowEdit(false)}
         destroyOnClose
@@ -291,8 +292,9 @@ const Reply = () => {
         />
       </Modal>
       <Modal
+        centered
         title="New fast reply"
-        visible={showFastReply}
+        open={showFastReply}
         footer={false}
         onCancel={() => setShowFastReply(false)}
         destroyOnClose
@@ -304,11 +306,11 @@ const Reply = () => {
         />
       </Modal>
       <Modal
+        centered
         title=""
-        visible={deleteModal.show}
+        open={deleteModal.show}
         okText="Save"
         footer={false}
-        centered
         onCancel={() =>
           setDeleteModal({
             show: false,

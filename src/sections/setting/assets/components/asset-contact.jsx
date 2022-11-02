@@ -254,8 +254,9 @@ const AssetsContact = ({ data }) => {
         </Button>
       )}
       <Modal
+        centered
         title=""
-        visible={showExportModal}
+        open={showExportModal}
         okText="Save"
         footer={false}
         // onOK={() => ()}

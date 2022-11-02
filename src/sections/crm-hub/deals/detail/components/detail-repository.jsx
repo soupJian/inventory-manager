@@ -81,8 +81,9 @@ const DetailRepository = () => {
         addNew={() => handleAddNew('QUOTES & others')}
       />
       <Modal
+        centered
         title="Add a new file"
-        visible={showAddModal}
+        open={showAddModal}
         footer={false}
         onCancel={() => {
           setShowAddModal(false)

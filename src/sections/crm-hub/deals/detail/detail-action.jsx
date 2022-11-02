@@ -187,16 +187,18 @@ const DetailAction = (props) => {
         </div>
       </div>
       <Modal
+        centered
         title="Edit a deal"
-        visible={showEditDeal}
+        open={showEditDeal}
         footer={null}
         onCancel={() => setShowEditDeal(false)}
       >
         <EditDeal dealInfo={dealInfo} />
       </Modal>
       <Modal
+        centered
         title={editContactType == 'add' ? 'Add a contact' : 'Edit contact'}
-        visible={showEditContact}
+        open={showEditContact}
         footer={null}
         onCancel={() => setShowContact(false)}
       >

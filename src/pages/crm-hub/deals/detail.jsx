@@ -10,7 +10,6 @@ import DetailAction from '../../../sections/crm-hub/deals/detail/detail-action'
 // css ------------
 import styles from './index.module.scss'
 
-const { TabPane } = Tabs
 const { Option } = Select
 
 /*
@@ -158,22 +157,28 @@ const DealDetail = () => {
           type="editable-card"
           onEdit={onEdit}
           className={styles.dealTabs}
-        >
-          {data.map((item) => (
-            <TabPane tab={item.title} key={item.key}>
-              <div className={styles.content}>
-                <div className={styles.tabs}>
-                  <DetailTabs dealInfo={item.value} />
+          items={data.map((item) => {
+            return {
+              label: item.title,
+              key: item.key,
+              children: (
+                <div className={styles.content}>
+                  <div className={styles.tabs}>
+                    <DetailTabs dealInfo={item.value} />
+                  </div>
+                  <div className={styles.action}>
+                    <DetailAction
+                      dealInfo={item.value}
+                      updateDeal={updateDeal}
+                    />
+                  </div>
                 </div>
-                <div className={styles.action}>
-                  <DetailAction dealInfo={item.value} updateDeal={updateDeal} />
-                </div>
-              </div>
-            </TabPane>
-          ))}
-        </Tabs>
+              )
+            }
+          })}
+        ></Tabs>
       )}
-      {data.length == 1 > 0 && (
+      {data.length == 1 && (
         <div className={styles.content}>
           <div className={styles.tabs}>
             <DetailTabs dealInfo={data[0]?.value} />
@@ -184,8 +189,11 @@ const DealDetail = () => {
         </div>
       )}
       <Modal
+        centered
+        keyboard={false}
+        maskClosable={false}
         title="Change status"
-        visible={showChangeStatusModal}
+        open={showChangeStatusModal}
         okText="Save"
         onOK={() => handleChangStatus()}
         onCancel={() => handleCancel()}

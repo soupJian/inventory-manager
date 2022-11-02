@@ -17,7 +17,25 @@ import 'antd/lib/button/style/index.css'
 import 'antd/lib/checkbox/style/index.css'
 // js ---------
 import { menuColumns, filterColumns } from '../util'
-const { TabPane } = Tabs
+
+const tabsList = [
+  {
+    label: 'My open deals',
+    key: '1'
+  },
+  {
+    label: 'My deals w/ new emails',
+    key: '2'
+  },
+  {
+    label: 'My deals w/ task due',
+    key: '3'
+  },
+  {
+    label: 'All deals',
+    key: '4'
+  }
+]
 
 // main FC -----------------
 const DealsTabs = ({ showListType }) => {
@@ -241,12 +259,12 @@ const DealsTabs = ({ showListType }) => {
     <>
       {showListType == 'menu' && (
         <div className={styles['deals-content-wrap']}>
-          <Tabs onChange={changeTabs} type="card" tabBarGutter={0}>
-            <TabPane tab="My open deals" key="1"></TabPane>
-            <TabPane tab="My deals w/ new emails" key="2"></TabPane>
-            <TabPane tab="My deals w/ task due" key="3"></TabPane>
-            <TabPane tab="All deals" key="4"></TabPane>
-          </Tabs>
+          <Tabs
+            onChange={changeTabs}
+            type="card"
+            tabBarGutter={0}
+            items={tabsList}
+          ></Tabs>
           <div className={styles['deals-content']}>
             <Table
               rowSelection={{

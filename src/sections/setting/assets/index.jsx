@@ -103,8 +103,9 @@ const Assets = () => {
       </div>
       {/* modal 这里制作全局的导出，哥哥 select 模块 导出在其对应模块*/}
       <Modal
+        centered
         title=""
-        visible={showExportModal}
+        open={showExportModal}
         okText="Save"
         footer={false}
         // onOK={() => ()}

@@ -88,7 +88,7 @@ const DealsHeader = ({ changeShowListType, showListType }) => {
         placement="left"
         closable={false}
         onClose={() => setShowDealDrawer(false)}
-        visible={showDealDrawer}
+        open={showDealDrawer}
         key={'left'}
       >
         <CreateDealForm />

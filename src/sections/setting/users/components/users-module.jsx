@@ -255,11 +255,11 @@ const UserModule = ({ data, showAccessDetail, accessList, getData }) => {
         </Row>
       )}
       <Modal
+        centered
         title=""
-        visible={modalInfo.show}
+        open={modalInfo.show}
         okText="Save"
         footer={false}
-        centered
         // onOK={() => ()}
         onCancel={() =>
           setModalInfo({
@@ -299,8 +299,9 @@ const UserModule = ({ data, showAccessDetail, accessList, getData }) => {
         </Row>
       </Modal>
       <Modal
+        centered
         title=""
-        visible={showEditModal}
+        open={showEditModal}
         footer={false}
         onCancel={() => setShowEditModal(false)}
         wrapClassName={styles.modal}
