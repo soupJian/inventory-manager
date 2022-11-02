@@ -46,8 +46,7 @@ const Type = ({ setNewItemModal }) => {
       Updated: new Date(),
       Available: lookedUpItem.Available + parseInt(lookedUpItemCount),
       Stock: lookedUpItem.Stock + parseInt(lookedUpItemCount),
-      Received: new Date(),
-      SettledTime: lookedUpItemLocation.length ? new Date() : ''
+      Received: new Date()
     }
     // 如果添加了 location
     if (lookedUpItemLocation.length) {
@@ -56,6 +55,7 @@ const Type = ({ setNewItemModal }) => {
       data.Location = Array.from(set)
       data.Settled = lookedUpItem.Settled + parseInt(lookedUpItemCount)
       data.Unsettled = 0
+      data.SettledTime = new Date()
     } else {
       // 没有添加 Location
       data.Unsettled =
