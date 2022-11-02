@@ -3,6 +3,7 @@ import React from 'react'
 import { Icon } from '../../../../components/commons'
 // css
 import styles from '../index.module.scss'
+
 // main
 const TimeSensitive = ({ data }) => {
   console.log(data)
@@ -17,7 +18,7 @@ const TimeSensitive = ({ data }) => {
                 return (
                   <div key={item.uid} className={styles.noticeWrap}>
                     <div className={styles.time}>{item.time}</div>
-                    {/* // 任务即将截止 提示 还有多少时间 */}
+                    {/*  任务即将截止 提示 还有多少时间 */}
                     {item.noticeStatus == 1 && (
                       <>
                         <div className={styles.notice}>

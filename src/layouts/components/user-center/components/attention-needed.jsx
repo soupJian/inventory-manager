@@ -3,6 +3,7 @@ import React from 'react'
 import { Icon } from '../../../../components/commons'
 // css
 import styles from '../index.module.scss'
+
 // main
 const AttentionNeeded = ({ data }) => {
   return (

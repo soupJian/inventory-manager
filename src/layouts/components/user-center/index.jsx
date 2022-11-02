@@ -21,6 +21,7 @@ const History = ({ show, onClose, user }) => {
   const [activeTab, setActiveTab] = useState('Time sensitive')
   const [timeSensitiveData, setTimeSensitiveData] = useState([])
   const [attentionNeededDate, setAttentionNeededData] = useState([])
+  const [importantChangeData, setImportantChangeData] = useState([])
   const logout = () => {
     dispatch(logoutUser())
   }
@@ -171,6 +172,53 @@ const History = ({ show, onClose, user }) => {
       })
       return newList
     })
+    setImportantChangeData(() => {
+      const list = [
+        {
+          uid: 1,
+          type: 'deal',
+          time: '2022-11-1',
+          read: false,
+          noticeName: 'Kevin Bowen',
+          actionPerson: 'Trish', // 执行人
+          toPerson: 'Trish', // 任务转交给谁
+          noticeStatus: 1 // 任务负责人更改
+        },
+        {
+          uid: 2,
+          type: 'ticket',
+          time: '2022-11-2',
+          read: true,
+          noticeName: 'Adam Kruger',
+          actionPerson: 'Trish', // 执行人
+          toPerson: 'Trish', // 任务转交给谁
+          noticeStatus: 2 // 该客服的 deal 或者 ticket 负责人被更改
+        },
+        {
+          uid: 3,
+          read: false,
+          time: '2022-11-1',
+          noticeName: 'Leo Bay',
+          actionPerson: 'Trish', // 执行人
+          beforeAccess: 'Viewer',
+          access: 'Admin',
+          noticeStatus: 3 // 权限更改 该客服的系统权限被更改
+        }
+      ]
+      const newList = []
+      list.forEach((item) => {
+        const i = newList.findIndex((listItem) => item.time == listItem.time)
+        if (i >= 0) {
+          newList[i].list.push(item)
+        } else {
+          newList.push({
+            time: item.time,
+            list: [item]
+          })
+        }
+      })
+      return newList
+    })
   }
   useEffect(() => {
     if (show) {
@@ -227,7 +275,9 @@ const History = ({ show, onClose, user }) => {
           {activeTab == 'Attention needed' && (
             <AttentionNeeded data={attentionNeededDate} />
           )}
-          {activeTab == 'Important changes' && <ImportantChange />}
+          {activeTab == 'Important changes' && (
+            <ImportantChange data={importantChangeData} />
+          )}
         </div>
       </div>
     </HistoryWrapper>
