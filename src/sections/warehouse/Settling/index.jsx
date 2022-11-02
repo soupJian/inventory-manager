@@ -83,12 +83,16 @@ const Settline = () => {
   }
   const saveLocations = (key, locationsToBeSave) => {
     let item = unSettledItems.filter((item) => item.SKU === key)[0]
+    const arr = item.Location.concat(locationsToBeSave)
+    const set = new Set(arr)
     updateInventory('update', {
       ...item,
       SettledTime: new Date(),
       Settled: item.Settled + item.Unsettled,
       Unsettled: 0,
-      ['Location']: locationsToBeSave
+      Updated: new Date(),
+      SettledTime: new Date(),
+      ['Location']: Array.from(set)
     }).then((data) => {
       if (data) {
         getData()

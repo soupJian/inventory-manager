@@ -104,7 +104,7 @@ export const itemTemplate = {
   ReorderAlert: 10,
   // Reserved: 0,
   Settled: 0,
-  Unsetttled: 0,
+  Unsettled: 0,
   SettledTime: '',
   Sortable: 1,
   Stock: 0,

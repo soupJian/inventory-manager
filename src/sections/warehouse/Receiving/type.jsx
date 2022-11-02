@@ -45,18 +45,21 @@ const Type = ({ setNewItemModal }) => {
       ...lookedUpItem,
       Updated: new Date(),
       Available: lookedUpItem.Available + parseInt(lookedUpItemCount),
-      Stock: lookedUpItem.Stock + parseInt(lookedUpItemCount)
+      Stock: lookedUpItem.Stock + parseInt(lookedUpItemCount),
+      Received: new Date(),
+      SettledTime: lookedUpItemLocation.length ? new Date() : ''
     }
     // 如果添加了 location
     if (lookedUpItemLocation.length) {
       const arr = lookedUpItem.Location.concat(lookedUpItemLocation)
       const set = new Set(arr)
       data.Location = Array.from(set)
-      data.Settled = data.Stock
+      data.Settled = lookedUpItem.Settled + parseInt(lookedUpItemCount)
       data.Unsettled = 0
     } else {
       // 没有添加 Location
-      data.Unsettled = parseInt(lookedUpItemCount)
+      data.Unsettled =
+        parseInt(lookedUpItem.Unsettled) + parseInt(lookedUpItemCount)
     }
     updateInventory('update', data).then(() => {
       setLookSearch({

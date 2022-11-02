@@ -128,8 +128,15 @@ const AddANewItem = ({
         Available: newItem.Available + newItem.Stock - newItemValue.Stock,
         Updated: new Date(),
         TotalCost,
-        SettledTime: theSameLocation ? newItem.SettledTime : new Date(),
-        Settled: newItem.Location.length > 0
+        SettledTime: theSameLocation ? newItem.SettledTime : new Date()
+      }
+      // 判断 Location
+      if (newItem.Location.length) {
+        data.Settled = data.Stock
+        data.Unsettled = 0
+      } else {
+        data.Unsettled = data.Stock
+        data.Settled = 0
       }
       // 如果SKU发生改变，则SKU不变，新增NewSKU传递
       if (newItem.SKU != newItemValue.SKU) {
@@ -137,27 +144,18 @@ const AddANewItem = ({
         data.SKU = newItemValue.SKU
       }
       delete data['TagsInput']
-      updateInventory('update', data)
-        .then((data) => {
-          dispatch(toggleLoading(false))
-          if (data.message) {
-            message.error(data.message)
-          } else {
-            submitNewItemFinally(newItem.SKU)
-          }
-        })
-        .then((data) => {
-          dispatch(toggleLoading(false))
-          if (data.message) {
-            message.error(data.message)
-          } else {
-            // new完成后通知父元素
-            submitNewItemFinally(newItem.SKU)
-            setNewItemModal(false)
-            setNewItemError('')
-            setNewItem({ ...newItemValue })
-          }
-        })
+      updateInventory('update', data).then((data) => {
+        dispatch(toggleLoading(false))
+        if (data.message) {
+          message.error(data.message)
+        } else {
+          // new完成后通知父元素
+          submitNewItemFinally(newItem.SKU)
+          setNewItemModal(false)
+          setNewItemError('')
+          setNewItem({ ...newItemValue })
+        }
+      })
     }
   }
   const submitForm = (e) => {
