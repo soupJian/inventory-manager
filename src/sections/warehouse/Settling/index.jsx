@@ -245,12 +245,12 @@ const Settline = () => {
             ))}
           </Table>
         ) : (
-          <>
+          <div style={{ paddingBottom: '30px' }}>
             <Table
               name="warehousing-unsettled"
               headers={unSettledHeaders}
               paginationComponent={
-                <Wrapper padding="32px 0 0">
+                <Wrapper padding="32px 0">
                   <Pagination
                     itemsInPage={unSettledItemsToShow?.length}
                     totalItems={unSettledItems?.length}
@@ -278,6 +278,9 @@ const Settline = () => {
                             wrapperStyles={{
                               flex: '1 0 auto',
                               width: '100%'
+                            }}
+                            OptionWrapperStyle={{
+                              'max-height': '230px'
                             }}
                             name={item.SKU}
                             value={locationList[item.SKU]}
@@ -346,7 +349,7 @@ const Settline = () => {
                 </Wrapper>
               </Dialog>
             )}
-          </>
+          </div>
         )}
       </Wrapper>
     </Wrapper>
