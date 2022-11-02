@@ -38,7 +38,7 @@ const tabslist = [
 // main
 const Settings = ({ router }) => {
   const hash = router.asPath.split('#')[1]
-  const [active, setActive] = useState(hash || tabslist[0])
+  const [active, setActive] = useState(hash || tabslist[0].key)
   const handleChangeTabs = (key) => {
     setActive(key)
   }
