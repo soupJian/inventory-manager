@@ -183,83 +183,81 @@ const Product = ({
                     </AttrGroup>
                     <AttrGroup>
                       <AttrValue>
-                        <AttrValue>
-                          {partItem.activeLwh == 'in.'
-                            ? partItem.Inventory.attr.length
-                            : Number(
-                                partItem.Inventory.attr.length * 0.45359237
-                              ).toFixed(1)}{' '}
-                          X{' '}
-                          {partItem.activeLwh == 'in.'
-                            ? partItem.Inventory.attr.width
-                            : Number(
-                                partItem.Inventory.attr.width * 0.45359237
-                              ).toFixed(1)}{' '}
-                          X{' '}
-                          {partItem.activeLwh == 'in.'
-                            ? partItem.Inventory.attr.height
-                            : Number(
-                                partItem.Inventory.attr.height * 0.45359237
-                              ).toFixed(1)}
-                          {partItem.activeLwh == 'in.' && (
-                            <>
-                              <span
-                                className={
-                                  partItem.activeLwh == 'cm'
-                                    ? `${styles.activeText} ${styles.pointer}`
-                                    : `${styles.pointer}`
-                                }
-                                style={{ margin: '0 5px' }}
-                                onClick={() =>
-                                  changePart('activeLwh', 'in.', index)
-                                }
-                              >
-                                in.
-                              </span>
-                              <span
-                                className={
-                                  partItem.activeLwh == 'in.'
-                                    ? `${styles.activeText} ${styles.pointer}`
-                                    : `${styles.pointer}`
-                                }
-                                onClick={() =>
-                                  changePart('activeLwh', 'cm', index)
-                                }
-                              >
-                                cm
-                              </span>
-                            </>
-                          )}
-                          {partItem.activeLwh == 'cm' && (
-                            <>
-                              <span
-                                className={
-                                  partItem.activeLwh == 'in.'
-                                    ? `${styles.activeText} ${styles.pointer}`
-                                    : `${styles.pointer}`
-                                }
-                                style={{ margin: '0 5px' }}
-                                onClick={() =>
-                                  changePart('activeLwh', 'cm', index)
-                                }
-                              >
-                                cm
-                              </span>
-                              <span
-                                className={
-                                  partItem.activeLwh == 'cm'
-                                    ? `${styles.activeText} ${styles.pointer}`
-                                    : `${styles.pointer}`
-                                }
-                                onClick={() =>
-                                  changePart('activeLwh', 'in.', index)
-                                }
-                              >
-                                in.
-                              </span>
-                            </>
-                          )}
-                        </AttrValue>
+                        {partItem.activeLwh == 'in.'
+                          ? partItem.Inventory.attr.length
+                          : Number(
+                              partItem.Inventory.attr.length * 0.45359237
+                            ).toFixed(1)}{' '}
+                        X{' '}
+                        {partItem.activeLwh == 'in.'
+                          ? partItem.Inventory.attr.width
+                          : Number(
+                              partItem.Inventory.attr.width * 0.45359237
+                            ).toFixed(1)}{' '}
+                        X{' '}
+                        {partItem.activeLwh == 'in.'
+                          ? partItem.Inventory.attr.height
+                          : Number(
+                              partItem.Inventory.attr.height * 0.45359237
+                            ).toFixed(1)}
+                        {partItem.activeLwh == 'in.' && (
+                          <>
+                            <span
+                              className={
+                                partItem.activeLwh == 'cm'
+                                  ? `${styles.activeText} ${styles.pointer}`
+                                  : `${styles.pointer}`
+                              }
+                              style={{ margin: '0 5px' }}
+                              onClick={() =>
+                                changePart('activeLwh', 'in.', index)
+                              }
+                            >
+                              in.
+                            </span>
+                            <span
+                              className={
+                                partItem.activeLwh == 'in.'
+                                  ? `${styles.activeText} ${styles.pointer}`
+                                  : `${styles.pointer}`
+                              }
+                              onClick={() =>
+                                changePart('activeLwh', 'cm', index)
+                              }
+                            >
+                              cm
+                            </span>
+                          </>
+                        )}
+                        {partItem.activeLwh == 'cm' && (
+                          <>
+                            <span
+                              className={
+                                partItem.activeLwh == 'in.'
+                                  ? `${styles.activeText} ${styles.pointer}`
+                                  : `${styles.pointer}`
+                              }
+                              style={{ margin: '0 5px' }}
+                              onClick={() =>
+                                changePart('activeLwh', 'cm', index)
+                              }
+                            >
+                              cm
+                            </span>
+                            <span
+                              className={
+                                partItem.activeLwh == 'cm'
+                                  ? `${styles.activeText} ${styles.pointer}`
+                                  : `${styles.pointer}`
+                              }
+                              onClick={() =>
+                                changePart('activeLwh', 'in.', index)
+                              }
+                            >
+                              in.
+                            </span>
+                          </>
+                        )}
                       </AttrValue>
                     </AttrGroup>
                     <AttrGroup>

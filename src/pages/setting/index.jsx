@@ -12,8 +12,28 @@ import Reply from '../../sections/setting/reply'
 // css ----------------
 import styles from './index.module.scss'
 
-const { TabPane } = Tabs
-const tabslist = ['Assigning', 'Pipeline', 'Assets', 'Users', 'Reply']
+const tabslist = [
+  {
+    label: 'Assigning',
+    key: 'Assigning'
+  },
+  {
+    label: 'Pipeline',
+    key: 'Pipeline'
+  },
+  {
+    label: 'Assets',
+    key: 'Assets'
+  },
+  {
+    label: 'Users',
+    key: 'Users'
+  },
+  {
+    label: 'Reply',
+    key: 'Reply'
+  }
+]
 
 // main
 const Settings = ({ router }) => {
@@ -36,11 +56,8 @@ const Settings = ({ router }) => {
         className={styles.tabs}
         activeKey={active}
         onChange={handleChangeTabs}
-      >
-        {tabslist.map((item) => {
-          return <TabPane tab={item} key={item}></TabPane>
-        })}
-      </Tabs>
+        items={tabslist}
+      ></Tabs>
       {active == 'Assigning' && <Assiging />}
       {active == 'Pipeline' && <Pipeline />}
       {active == 'Assets' && <Assets />}
