@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
-import styled from 'styled-components'
+// components
 import {
   Box,
   Flex,
@@ -10,8 +10,11 @@ import {
   Wrapper
 } from '../../components/commons'
 import CostModal from '../../components/cost-modal'
-import styles from './index.module.scss'
+// js
 import { formatMoney } from '../../utils/formatMoney'
+// css
+import styled from 'styled-components'
+import styles from './index.module.scss'
 
 const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
   const [costInfo, setCostInfo] = useState({

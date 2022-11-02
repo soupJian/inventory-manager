@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react'
+// css
 import styles from './index.module.scss'
 
+// main
 const LineSale = ({ echarts }) => {
   const pie = useRef(null)
   const initPie = (Xdata, Ydata) => {

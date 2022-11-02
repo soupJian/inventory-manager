@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+// components
 import {
   Row,
   Col,
@@ -16,8 +17,10 @@ import {
   DeleteOutlined
 } from '@ant-design/icons'
 import { Icon } from '../../../../../../components/commons'
+// css
 import styles from '../email.module.scss'
 
+// main
 const EmailContact = (props) => {
   /**
    * emailType: new | reply 判断是新增邮件和 回复邮件 差别在于 新增邮件 有subject 和 select 字段

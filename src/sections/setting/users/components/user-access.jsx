@@ -1,8 +1,10 @@
 import React from 'react'
+// components
 import { Table, Dropdown, Menu, Space, Button } from 'antd'
 import { Icon } from '../../../../components/commons'
 import { DownOutlined } from '@ant-design/icons'
 
+// main
 const UserAccess = ({ data, editUserAccess }) => {
   const columns = [
     {

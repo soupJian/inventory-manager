@@ -1,9 +1,11 @@
 import React from 'react'
 import { Row, Col } from 'antd'
+// components
 import SelectDay from './components/select-day'
-
+// css
 import styles from './index.module.scss'
 
+// main
 const DealsSource = () => {
   const handleChooseSelect = (item) => {
     console.log(item)

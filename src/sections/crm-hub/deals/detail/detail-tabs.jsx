@@ -8,12 +8,12 @@ import DetailEmails from './components/detail-emails'
 // import DetailChats from './components/detali-chats'
 import DetailTasks from './components/detail-tasks'
 import DetailRepository from './components/detail-repository'
-
 // css ---------
 import styles from './detail-tabs.module.scss'
-//js ------------
+
 const { TabPane } = Tabs
 
+// main
 const DetailTabs = (props) => {
   const dealInfo = props.dealInfo
   const [active, setActive] = useState('History')

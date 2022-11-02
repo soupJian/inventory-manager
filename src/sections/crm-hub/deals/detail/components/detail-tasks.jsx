@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Row, Col, Input, Button, Space, Radio, Checkbox } from 'antd'
-import { Icon } from '../../../../../components/commons'
+// components
+import { Row, Col, Input, Button } from 'antd'
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons'
 import TaskEdit from './task/task-edit'
 import TaskContent from './task/task-content'
-
+// css
 import styles from './task.module.scss'
 
+// main
 const DetailTasks = () => {
   //  this week
   const [currentWeekList, setCurrentWeekList] = useState([])

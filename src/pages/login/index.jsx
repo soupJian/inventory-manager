@@ -1,11 +1,16 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { loginUser } from '../../../store/slices/userSlice'
-import { login } from '../../../service/user'
+import Router from 'next/router'
+// components
+import { loginUser } from '../../store/slices/userSlice'
+import Loading from '../../components/loading'
 import { Row, Col, Input, Button, message } from 'antd'
-import Loading from '../../../components/loading'
+// api
+import { login } from '../../service/user'
+// css
 import styles from './index.module.scss'
 
+// main
 const Login = () => {
   const dispatch = useDispatch()
   const [credentials, setCredentials] = useState({ email: '', password: '' })
@@ -36,6 +41,7 @@ const Login = () => {
         setCredentials({ email: '', password: '' })
         setError(false)
         setErrorMessage('')
+        Router.push('/')
       }
     }
   }

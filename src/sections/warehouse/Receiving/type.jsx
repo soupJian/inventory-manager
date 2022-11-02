@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { toggleLoading } from '../../../store/slices/globalSlice'
 import { useDispatch } from 'react-redux'
+// components
 import {
   Button,
   Flex,
@@ -9,10 +9,15 @@ import {
   Filter
 } from '../../../components/commons'
 import SearchInput from './search-input'
-import styled from 'styled-components'
+// js
+import { toggleLoading } from '../../../store/slices/globalSlice'
 import { locations } from '../../../constants/pageConstants/locations'
+// api
 import { updateInventory } from '../../../service/inventory'
+// css
+import styled from 'styled-components'
 
+// main
 const Type = ({ setNewItemModal }) => {
   const dispatch = useDispatch()
   const [lookSearch, setLookSearch] = useState({

@@ -1,12 +1,13 @@
 // React next -------------
 import React from 'react'
-// antd ui -------------
+// components
 import { Row, Col, Space, Button, Select, Input } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 // css ---------------
 import styles from './index.module.scss'
 const { Option } = Select
 
+// main
 const FromEmailHeader = () => {
   const handleChange = (value) => {
     console.log(`selected ${value}`)

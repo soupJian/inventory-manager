@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
+// components
 import { Row, Col, Checkbox, Space } from 'antd'
+// css
 import styles from '../index.module.scss'
+
 const CheckboxGroup = Checkbox.Group
 
+// main
 const SettingChat = () => {
   //
   // 客服

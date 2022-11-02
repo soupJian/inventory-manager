@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
+// components
+import SelectDay from './components/select-day'
 import {
   DownOutlined,
   ArrowUpOutlined,
   ArrowDownOutlined
 } from '@ant-design/icons'
 import { Row, Col, Progress, Dropdown, Menu, Space, Checkbox } from 'antd'
-
+// css
 import styles from './index.module.scss'
-import SelectDay from './components/select-day'
 
+// main
 const LostInItem = ({ item }) => {
   return (
     <>

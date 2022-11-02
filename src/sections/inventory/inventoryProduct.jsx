@@ -1,5 +1,6 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
+// components
 import { toggleLoading } from '../../store/slices/globalSlice'
 import { useDispatch } from 'react-redux'
 import { updateProduct } from '../../service/product'
@@ -21,19 +22,23 @@ import {
   statusList,
   ExpandedTableHeaders
 } from '../../constants/pageConstants/products'
-import { formatMoney } from '../../utils/formatMoney'
-import { sortByList } from '../../constants/pageConstants/inventory'
 import { Row, Col, Popover, Select, Space, Button, Checkbox } from 'antd'
 import { DownOutlined, PlusCircleFilled } from '@ant-design/icons'
+// api
 import {
   getAllProducts,
   getMultipleProducts,
   deleteProduct
 } from '../../service/product'
+// js
+import { sortByList } from '../../constants/pageConstants/inventory'
+import { formatMoney } from '../../utils/formatMoney'
+// css
 import styles from './index.module.scss'
 
 const { Option } = Select
 
+// main
 const InventoryProduct = ({
   setDialog,
   selectable,

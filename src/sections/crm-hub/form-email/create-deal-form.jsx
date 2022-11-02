@@ -3,6 +3,7 @@ import React from 'react'
 import { Form, Button, Select, Input, Row, Col } from 'antd'
 // js --------
 const Option = Select.Option
+
 // main FC ------------
 const CreateDealForm = (props) => {
   // 创建的 deal | ticket

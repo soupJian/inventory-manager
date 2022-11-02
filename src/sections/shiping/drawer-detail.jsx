@@ -1,5 +1,8 @@
 import React from 'react'
+// css
 import styles from './index.module.scss'
+
+// main
 const DrawerDetail = ({ info }) => {
   return (
     <div className={styles.drawer}>

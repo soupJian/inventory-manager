@@ -1,10 +1,11 @@
-import Image from 'next/image'
-import { toggleLoading } from '../../store/slices/globalSlice'
-import { useDispatch } from 'react-redux'
 import { useCallback, useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import Image from 'next/image'
+// components
+import { toggleLoading } from '../../store/slices/globalSlice'
 import { Row, Col, Popover } from 'antd'
 import { PlusCircleFilled } from '@ant-design/icons'
-import styled from 'styled-components'
+
 import {
   BaseButton,
   Box,
@@ -19,13 +20,20 @@ import {
   Text,
   Wrapper
 } from '../../components/commons'
+import CostModal from '../../components/cost-modal'
+// api
+import { updateInventory } from '../../service/inventory'
 import { getSearch } from '../../service/search/search-inventory'
+// js
 import { formatMoney } from '../../utils/formatMoney'
 import { ExpandedTableHeaders } from '../../constants/pageConstants/inventory'
-import CostModal from '../../components/cost-modal'
+// css
+import styled from 'styled-components'
 import styles from './search.module.scss'
-import { updateInventory } from '../../service/inventory'
+
 const perPage = 10
+
+// main
 const SearchPage = ({
   router,
   selectable,

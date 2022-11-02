@@ -14,6 +14,7 @@ import styled from 'styled-components'
 import styles from './index.module.scss'
 // js
 const tabList = ['Time sensitive', 'Attention needed', 'Important changes']
+
 // main
 const History = ({ show, onClose, user }) => {
   const dispatch = useDispatch()

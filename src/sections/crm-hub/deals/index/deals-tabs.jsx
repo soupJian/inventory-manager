@@ -1,10 +1,9 @@
 // react next -----------
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-// antd -------------
+// components ------------
 import { Table, Tabs, Row, Col, Button } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
-// components ------------
 import DealsFilter from './deals-filter'
 import Icon from '../../../../components/commons/icons/Icon'
 // css ----------
@@ -20,7 +19,7 @@ import 'antd/lib/checkbox/style/index.css'
 import { menuColumns, filterColumns } from '../util'
 const { TabPane } = Tabs
 
-// main FC ---------------------------------------------------------------------------------
+// main FC -----------------
 const DealsTabs = ({ showListType }) => {
   // 路由
   const router = useRouter()

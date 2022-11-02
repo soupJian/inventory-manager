@@ -1,14 +1,17 @@
 import React from 'react'
+// components
 import { Row, Col, Input, Select, Space, DatePicker, Radio, Button } from 'antd'
-import { Icon } from '../../../../../../components/commons'
 import { DeleteOutlined, CheckOutlined } from '@ant-design/icons'
+// css
 import styles from '../task.module.scss'
+
 const { Option } = Select
 
 /**
  *
  * @returns 新增和编辑 都是 一个模板，根据类型展示字段
  */
+// main
 const TaskEdit = (props) => {
   // 关闭 task 模块
   const { discount, type } = props

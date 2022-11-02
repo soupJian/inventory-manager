@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { withRouter } from 'next/router'
+// components
 import { Flex, Icon, Input, Tab, Tabs, Wrapper } from '../../components/commons'
 import Managing from '../../sections/warehouse/Managing'
 import Receiving from '../../sections/warehouse/Receiving'
 import Settling from '../../sections/warehouse/Settling'
 import WarehouseMap from '../../sections/warehouse/WarehouseMap'
 
+// main
 const Warehouse = ({ router }) => {
   const [activeTab, setActiveTab] = useState('Receiving')
   const handleChangeTab = (key) => {

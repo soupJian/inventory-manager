@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
+// components
 import { Row, Col, Select, Space, Button } from 'antd'
 import { DownloadOutlined } from '@ant-design/icons'
 import EmailContact from './email-contact'
+// ss
 import styles from '../email.module.scss'
 
 const { Option } = Select
 
+// main
 const EmailCollapseContent = (props) => {
   const { emailListItem } = props
   // 是否展示邮件模块

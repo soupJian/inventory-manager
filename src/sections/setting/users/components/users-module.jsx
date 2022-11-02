@@ -1,15 +1,20 @@
 import React, { useState } from 'react'
-import { toggleLoading } from '../../../../store/slices/globalSlice'
 import { useDispatch } from 'react-redux'
+// components
 import { DownOutlined } from '@ant-design/icons'
 import { Table, Row, Col, Button, Modal, Space, Popover, Radio } from 'antd'
 import { Icon } from '../../../../components/commons'
 import UserCreateEdit from './user-create-edit'
 import { CloseOutlined } from '@ant-design/icons'
-import styles from '../index.module.scss'
+// js
+import { toggleLoading } from '../../../../store/slices/globalSlice'
 import { formatTimeStr } from '../../../../utils/formatTime'
+// api
 import { updateUser } from '../../../../service/setting/setting-user'
+// css
+import styles from '../index.module.scss'
 
+// main
 const UserModule = ({ data, showAccessDetail, accessList, getData }) => {
   const dispatch = useDispatch()
   const [showSelectedView, setShowSelectedView] = useState(false)

@@ -1,7 +1,10 @@
 import React from 'react'
+// components
 import { Row, Col, Input, Switch, Divider, Button } from 'antd'
+// css
 import styles from '../index.module.scss'
 
+// main
 // type string  edit  create
 const AccessDrawer = (props) => {
   const {

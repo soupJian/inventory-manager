@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Form, Button, Select, Input, Row, Col } from 'antd'
 // js --------
 const Option = Select.Option
+
 // main FC ------------
 const EditDeal = ({ dealInfo }) => {
   const [interestList, setInterestList] = useState([])

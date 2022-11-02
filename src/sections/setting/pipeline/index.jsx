@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { toggleLoading } from '../../../store/slices/globalSlice'
-import { Row, Col, Select } from 'antd'
 // components -----------
+import { Row, Col, Select } from 'antd'
 import PipelineItem from './components/pipeline-item.jsx'
 // api
 import {
@@ -12,9 +11,12 @@ import {
   getReplacePipeline,
   getReturnReplacePipeline
 } from '../../../service/setting/setting-pipeline'
-import styles from './index.module.scss'
+// js
 import { pipelineReturn, headerSelectOption } from '../../../constants/setting'
-//js =---------
+import { toggleLoading } from '../../../store/slices/globalSlice'
+// css
+import styles from './index.module.scss'
+
 const { Option } = Select
 
 const Pipeline = () => {

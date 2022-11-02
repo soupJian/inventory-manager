@@ -1,7 +1,10 @@
 import React, { useEffect, useRef } from 'react'
+// components
 import { Row, Col } from 'antd'
+// css
 import styles from './index.module.scss'
 
+// main
 const SalesRange = ({ salesRange, echarts }) => {
   const barRef = useRef(null)
   // 渲染柱状图

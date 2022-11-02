@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+// components
 import { Row, Col, Input } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import {
@@ -11,7 +12,10 @@ import {
   StatusSeven,
   StatusEight
 } from './timeline/status'
+// css
 import styles from './timeline.module.scss'
+
+// main
 const DetailTimeLine = () => {
   const [data, setData] = useState([])
   useEffect(() => {

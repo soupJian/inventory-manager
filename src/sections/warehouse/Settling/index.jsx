@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { toggleLoading } from '../../../store/slices/globalSlice'
 import { useDispatch } from 'react-redux'
+// components
 import {
   Filter,
   Flex,
@@ -13,9 +13,18 @@ import {
   Tabs,
   Wrapper,
   Dialog,
-  BaseButton
+  BaseButton,
+  Tooltip
 } from '../../../components/commons'
-import Tooltip from '../../../components/commons/Tooltip/Tooltip'
+// api
+import {
+  getSettledInventory,
+  getUnsettledInventory
+} from '../../../service/inventory'
+import { updateInventory } from '../../../service/inventory'
+// js
+import { toggleLoading } from '../../../store/slices/globalSlice'
+import { formatTimeStr } from '../../../utils/formatTime'
 import {
   dateList,
   settledHeaders,
@@ -23,15 +32,11 @@ import {
 } from '../../../constants/pageConstants/warehouse'
 import { locations } from '../../../constants/pageConstants/locations'
 import { ISOStringToReadableDate } from '../../../utils/utils'
+// css
 import styled from 'styled-components'
 import styles from '../index.module.scss'
-import { formatTimeStr } from '../../../utils/formatTime'
-import {
-  getSettledInventory,
-  getUnsettledInventory
-} from '../../../service/inventory'
-import { updateInventory } from '../../../service/inventory'
 
+// main
 const Settline = () => {
   const dispatch = useDispatch()
   const [activeTab, setActiveTab] = useState('notsettled')

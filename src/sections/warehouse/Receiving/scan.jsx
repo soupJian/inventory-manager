@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
+// components
 import { Box, Flex, Modal } from '../../../components/commons'
+// css
 import styled from 'styled-components'
 
+// main
 const Receiving = () => {
   const [scanning, setScanning] = useState(false)
   const [scan, setScan] = useState(false)

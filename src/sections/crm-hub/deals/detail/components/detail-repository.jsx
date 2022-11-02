@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
+// components
 import { Modal } from 'antd'
 import ImgWrap from './reposoitory/img-wrap'
 import AddModal from './reposoitory/add-modal'
+// css
 import styles from './repository.module.scss'
 
+// main
 const DetailRepository = () => {
   const [logoList, setLogoList] = useState([])
   // 是否展示 add 对话框

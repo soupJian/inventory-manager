@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
+// components
 import { Row, Col, Select, Switch, Checkbox, Space } from 'antd'
+// css
 import styles from '../index.module.scss'
+
 const { Option } = Select
 const CheckboxGroup = Checkbox.Group
 
+// main
 const SettingDeal = () => {
   // 是否打开
   const [open, setOpen] = useState(false)

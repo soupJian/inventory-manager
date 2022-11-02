@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react'
+// components
 import { Tabs, Table, Row, Col, Select, Input } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
-
-import styles from './index.module.scss'
 import {
   MyActiveTasksColumns,
   MyOverDueTasksColumns,
   MyCompletedTasksColumns,
   AllTasksColumns
 } from './util'
+// css
+import styles from './index.module.scss'
+
 const { TabPane } = Tabs
 const { Option } = Select
 

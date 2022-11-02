@@ -9,12 +9,13 @@ import Pipeline from '../../sections/setting/pipeline'
 import Assets from '../../sections/setting/assets'
 import Users from '../../sections/setting/users'
 import Reply from '../../sections/setting/reply'
-
 // css ----------------
 import styles from './index.module.scss'
-//js --------
+
 const { TabPane } = Tabs
 const tabslist = ['Assigning', 'Pipeline', 'Assets', 'Users', 'Reply']
+
+// main
 const Settings = ({ router }) => {
   const hash = router.asPath.split('#')[1]
   const [active, setActive] = useState(hash || tabslist[0])

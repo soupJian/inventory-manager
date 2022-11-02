@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { toggleLoading } from '../../store/slices/globalSlice'
 import { useDispatch } from 'react-redux'
-
+// components
 import {
   BaseButton,
   Flex,
@@ -15,25 +15,30 @@ import {
   Wrapper
 } from '../../components/commons'
 import CostModal from '../../components/cost-modal'
-import {
-  ExpandedTableHeaders,
-  statusList,
-  sortByList
-} from '../../constants/pageConstants/inventory'
 import { Row, Col, Popover, Select, Space, Button, Checkbox } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
 import { PlusCircleFilled } from '@ant-design/icons'
 import { formatMoney } from '../../utils/formatMoney'
-import styled from 'styled-components'
-import styles from './index.module.scss'
+// api
 import {
   getAllInventory,
   getMultipleInventory,
   updateInventory,
   deleteInventory
 } from '../../service/inventory'
+// js
+import {
+  ExpandedTableHeaders,
+  statusList,
+  sortByList
+} from '../../constants/pageConstants/inventory'
+// css
+import styled from 'styled-components'
+import styles from './index.module.scss'
 
 const { Option } = Select
+
+// main
 const InventoryTable = ({
   setDialog,
   updataTableData,

@@ -1,13 +1,9 @@
 import React, { useState } from 'react'
+// components
 import { Table, Row, Col, Button, Modal } from 'antd'
 import { Icon } from '../../../../components/commons'
 import { CloseOutlined } from '@ant-design/icons'
-import styles from '../index.module.scss'
-import 'antd/lib/dropdown/style/index.css'
-import 'antd/lib/pagination/style/index.css'
-import 'antd/lib/checkbox/style/index.css'
-import 'antd/lib/input/style/index.css'
-import 'antd/lib/button/style/index.css'
+// js
 import {
   formatTimeStr,
   isThisWeek,
@@ -19,7 +15,15 @@ import {
   isLastYear
 } from '../../../../utils/formatTime'
 import { exportExcel } from '../../../../utils/export-excel'
+// css
+import styles from '../index.module.scss'
+import 'antd/lib/dropdown/style/index.css'
+import 'antd/lib/pagination/style/index.css'
+import 'antd/lib/checkbox/style/index.css'
+import 'antd/lib/input/style/index.css'
+import 'antd/lib/button/style/index.css'
 
+// main
 const AssetsContact = ({ data }) => {
   const [filterData, setFilterData] = useState([])
   const [isFilter, setIsFilter] = useState(false)

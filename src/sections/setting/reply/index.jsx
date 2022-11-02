@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+// components
 import { Collapse, Button, Row, Col, Space, Modal } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
 import { Icon } from '../../../components/commons'
-import styles from './index.module.scss'
 import EditFastReply from './components/edit-fast-reply'
 import CreateFastReply from './components/create-fast-reply'
+// api
 import {
   getAllChatReply,
   getAllEmailReply,
@@ -14,11 +15,15 @@ import {
   deleteChatReply,
   deleteEmailReply
 } from '../../../service/setting/setting-reply'
-import { toggleLoading } from '../../../store/slices/globalSlice'
 import { uploadImage } from '../../../service/uploadImage'
+// js
+import { toggleLoading } from '../../../store/slices/globalSlice'
+// css
+import styles from './index.module.scss'
 
 const { Panel } = Collapse
 
+// main
 const Reply = () => {
   const dispatch = useDispatch()
   // chat 回复信息列表

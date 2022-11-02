@@ -1,15 +1,16 @@
 // React next -------------
 import React, { useState } from 'react'
-// antd ui -------------
+// components ----------------
 import { Row, Col, Space, Button, Select, Input, Drawer } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
-// components ----------------
 import Icon from '../../../../components/commons/icons/Icon'
 import CreateDealForm from './create-deal-form'
 // css ---------------
 import styles from './index.module.scss'
+
 const { Option } = Select
 
+// main
 const DealsHeader = ({ changeShowListType, showListType }) => {
   const [showDealDrawer, setShowDealDrawer] = useState(false)
   const handleChange = (value) => {

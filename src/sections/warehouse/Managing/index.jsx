@@ -1,4 +1,5 @@
 import { useState } from 'react'
+// components
 import {
   Button,
   Icon,
@@ -14,10 +15,13 @@ import InventoryTable from '../../inventory/inventoryTable'
 import InventoryProduct from '../../inventory/inventoryProduct'
 import AddANewItem from '../../../components/add-edit-new-Item'
 import AddProduct from '../../../components/add-edit-new-product'
+// js
 import { defaultWarehouseItemsTableHeaders } from '../../../constants/pageConstants/inventory'
 import { defaultWarehouseProductsTableHeaders } from '../../../constants/pageConstants/products'
+// css
 import styles from '../index.module.scss'
 
+// main
 const Managing = ({ router }) => {
   const [activeTab, setActiveTab] = useState('Items')
   const [dialog, setDialog] = useState({

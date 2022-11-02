@@ -1,8 +1,9 @@
 import React from 'react'
 // antd --------------
 import { Form, Button, Select, Input, Row, Col } from 'antd'
-// js --------
+
 const Option = Select.Option
+
 // main FC ------------
 const CreateDealForm = () => {
   const [form] = Form.useForm()

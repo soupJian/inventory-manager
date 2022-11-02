@@ -4,9 +4,12 @@ import { Row, Col, Select } from 'antd'
 import AssigningDeal from './components/assigning-deal'
 import AssigningCall from './components/assigning-call'
 import AssigningChat from './components/assigning-chat'
+// css
 import styles from './index.module.scss'
-//js =---------
+
 const { Option } = Select
+
+// main
 const Assiging = () => {
   const [headerSelect, setHeaderSelect] = useState('Mockup inquiry form')
 

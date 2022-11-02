@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
+// components
 import { Input, Row, Col, Button } from 'antd'
 import { Icon } from '../../../../../../components/commons'
+//css
 import styles from './index.module.scss'
 
+// main
 const ModalNotes = () => {
   const [noteValue, setNoteValue] = useState('')
 

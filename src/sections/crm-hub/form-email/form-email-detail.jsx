@@ -1,6 +1,6 @@
 // react next -----------
 import React, { useState } from 'react'
-// antd -------------
+// componnets ------------
 import {
   Row,
   Col,
@@ -15,16 +15,14 @@ import {
 } from 'antd'
 import { Icon } from '../../../components/commons'
 import { DeleteOutlined, DownOutlined } from '@ant-design/icons'
-// componnets ------------
 import CreateDealForm from './create-deal-form'
 // CSS -------------
 import styles from './index.module.scss'
-
 // js static------------
 const { Option } = Select
 const ourEmail = 'inquiry@westshade.com'
 
-// default render ---------------
+// main ---------------
 const FromEmailDetail = (props) => {
   const { email, handleDeleteEmail } = props
   // delete 的弹窗

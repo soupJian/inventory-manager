@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+// components
 import { Row, Col, Select, Input, Button, Modal } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import AssetsContact from './components/asset-contact'
-import styles from './index.module.scss'
+// api
 import { getContacts } from '../../../service/setting/setting-assets'
+// js
 import { formatTimeStr } from '../../../utils/formatTime'
 import { exportExcel } from '../../../utils/export-excel'
 import { toggleLoading } from '../../../store/slices/globalSlice'
+// css
+import styles from './index.module.scss'
+
 const { Option } = Select
 
+// main
 const Assets = () => {
   const dispatch = useDispatch()
   const [headerSelect, setHeaderSelect] = useState('Contact')

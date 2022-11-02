@@ -1,6 +1,8 @@
 import React from 'react'
+// components
 import { Form, Button, Input } from 'antd'
 
+// main
 const AddModal = ({ addSave }) => {
   const [form] = Form.useForm()
   // 信息提交给父元素 调用接口

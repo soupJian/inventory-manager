@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react'
+// css
 import styles from './index.module.scss'
 
+// main
 const PieTotalOpenDeals = ({ echarts, data }) => {
   const pie = useRef(null)
   const initPie = () => {

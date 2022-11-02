@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
-import styled from 'styled-components'
+// components
 import { Box, Flex, Icon, Text, Wrapper } from '../../components/commons'
-import styles from './index.module.scss'
-import { formatMoney } from '../../utils/formatMoney'
 import CostModal from '../../components/cost-modal'
+// js
+import { formatMoney } from '../../utils/formatMoney'
+// css
+import styled from 'styled-components'
+import styles from './index.module.scss'
 
 const Product = ({
   product,

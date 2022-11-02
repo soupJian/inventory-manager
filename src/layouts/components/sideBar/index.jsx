@@ -9,12 +9,12 @@ import { Menu } from 'antd'
 import { Icon } from '../../../components/commons'
 import History from '../history'
 import UserCenter from '../user-center'
-
 // css ----------
 import 'antd/lib/menu/style/index.css'
 import styled from 'styled-components'
 import styles from './index.module.scss'
 
+// main
 const SideBar = ({ collapsed, user }) => {
   const router = useRouter()
   // 默认展示的 menuItem

@@ -1,15 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
+// components
 import { Tabs, Row, Col, Input, Button, Upload } from 'antd'
 import { Icon } from '../../../../components/commons'
 import { CloseCircleFilled } from '@ant-design/icons'
-import styles from '../index.module.scss'
-import { useState } from 'react'
+// api
 import {
   AddChatReply,
   AddEmailReply
 } from '../../../../service/setting/setting-reply'
+// js
 import { v4 as uuidv4 } from 'uuid'
+// css
+import styles from '../index.module.scss'
 
+// main
 const CreateFastReply = ({ updateData, openNewWindow }) => {
   const [type, setType] = useState('chat')
   const [info, setInfo] = useState({

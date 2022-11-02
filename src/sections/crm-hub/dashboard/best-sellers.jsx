@@ -1,8 +1,11 @@
 import React from 'react'
+// components
 import { Table, Row, Col } from 'antd'
-
-import styles from './index.module.scss'
 import SelectDay from './components/select-day'
+// css
+import styles from './index.module.scss'
+
+// main
 const BestSellers = ({ BestSellersList }) => {
   // 切换 时间选择
   const handleChooseSelect = (item) => {

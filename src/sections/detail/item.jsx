@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
-import { toggleLoading } from '../../store/slices/globalSlice'
 import { useDispatch } from 'react-redux'
-import styled from 'styled-components'
+// components
 import {
   BaseButton,
   Dialog,
@@ -12,9 +11,13 @@ import {
 } from '../../components/commons'
 import Item from './inventory-item'
 import AddEditItem from '../../components/add-edit-new-Item'
+// js
+import { toggleLoading } from '../../store/slices/globalSlice'
 import { itemTemplate } from '../../constants/pageConstants/inventory'
 import { getInventory } from '../../service/inventory'
 import { updateInventory, deleteInventory } from '../../service/inventory'
+// css
+import styled from 'styled-components'
 
 const ItemPage = ({ router }) => {
   const dispatch = useDispatch()

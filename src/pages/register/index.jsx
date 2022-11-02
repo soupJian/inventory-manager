@@ -1,10 +1,14 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { login } from '../../service/user'
+// components
 import { Row, Col, Input, Button } from 'antd'
 import Loading from '../../components/loading'
+// api
+import { login } from '../../service/user'
+// css
 import styles from './index.module.scss'
 
+// main
 const Register = () => {
   const router = useRouter()
   const [credentials, setCredentials] = useState({ email: '', password: '' })

@@ -1,7 +1,11 @@
 import React from 'react'
+// components
 import { Row, Col } from 'antd'
-import styles from './index.module.scss'
 import SelectDay from './components/select-day'
+// css
+import styles from './index.module.scss'
+
+// main
 const NewContact = () => {
   // 切换 时间选择
   const handleChooseSelect = (item) => {

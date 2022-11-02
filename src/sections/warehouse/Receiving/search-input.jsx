@@ -1,12 +1,17 @@
-import { Alert, Select, Spin } from 'antd'
-import debounce from 'lodash/debounce'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
+// components
+import { Select, Spin } from 'antd'
+// js
+import debounce from 'lodash/debounce'
+// api
 import { getSearch } from '../../../service/search/search-inventory'
+// css
 import styled from 'styled-components'
-const { Option } = Select
-
 import styles from '../index.module.scss'
 
+const { Option } = Select
+
+// main
 const DebounceSelect = ({
   debounceTimeout = 500,
   name,

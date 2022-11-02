@@ -6,11 +6,12 @@ import Icon from '../../../../../components/commons/icons/Icon'
 import EmailHeader from './email/email-list-header'
 import EmailCollapseContent from './email/email-collapse-content'
 import EmailContact from './email/email-contact'
-// js
-const { Panel } = Collapse
 // css ----------
 import styles from './email.module.scss'
 
+const { Panel } = Collapse
+
+// main
 const DetailEamil = (props) => {
   const dealInfo = props.dealInfo
   // new email

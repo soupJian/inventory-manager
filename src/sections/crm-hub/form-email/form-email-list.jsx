@@ -1,8 +1,11 @@
 // react next -----------
 import React from 'react'
-// antd -------------
+// components
 import { List } from 'antd'
+// css
 import styles from './index.module.scss'
+
+// main
 const FromEmailList = (props) => {
   const { emailList, selectedIndex, chooseSelectIndex } = props
   return (

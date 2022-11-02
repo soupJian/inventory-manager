@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 // antd --------------
 import { Form, Button, Space, Input } from 'antd'
-// js --------
+
 // main FC ------------
 const EditContact = (props) => {
   const { editContactType, editContactInfo, editIndex } = props

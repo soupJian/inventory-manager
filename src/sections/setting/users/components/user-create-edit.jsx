@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react'
+// components
 import { Button, Form, Input, Select } from 'antd'
-const { Option } = Select
+// css
 import styles from '../index.module.scss'
+
+const { Option } = Select
+// main
 const UserCreateEdit = ({
   type,
   modalInfo,

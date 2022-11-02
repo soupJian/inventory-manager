@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { toggleLoading } from '../../../../store/slices/globalSlice'
+// components
 import { Row, Col, Input, Select, Space, Button, message } from 'antd'
 import { DeleteOutlined, CheckOutlined } from '@ant-design/icons'
-import { pipelineColors } from '../../../../constants/setting'
+// api
 import {
   postSalesPipeline,
   postSupportPipeline,
@@ -11,11 +11,16 @@ import {
   postReplacePipeline,
   postReturnReplacePipeline
 } from '../../../../service/setting/setting-pipeline'
-import styles from '../index.module.scss'
 import PipelineEdit from './pipeline-edit'
+// js
+import { pipelineColors } from '../../../../constants/setting'
+import { toggleLoading } from '../../../../store/slices/globalSlice'
+// css
+import styles from '../index.module.scss'
 
 const { Option } = Select
 
+// main
 const PipelineSales = ({ list, getData, type }) => {
   const dispatch = useDispatch()
   const [statusName, setStatusName] = useState('')

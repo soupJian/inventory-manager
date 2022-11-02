@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <Providers>
       {/* 注册页面不需要布局 */}
-      {router.route == '/register' ? (
+      {router.route == '/register' || router.route == '/login' ? (
         <>
           <Component {...pageProps} />
         </>

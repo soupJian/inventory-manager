@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
+// components
 import { Row, Col, Input, Button, message, Upload } from 'antd'
 import { Icon } from '../../../../components/commons'
 import { CloseCircleFilled } from '@ant-design/icons'
-import { useState } from 'react'
+// css
 import styles from '../index.module.scss'
+
+// main
 const EditFastReply = (props) => {
   const { editType, detail, saveEdit, openNewWindow } = props
   const [info, setInfo] = useState(detail)

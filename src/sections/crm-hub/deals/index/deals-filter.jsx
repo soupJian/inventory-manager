@@ -1,14 +1,13 @@
 import React from 'react'
 import { useRouter } from 'next/router'
-
 // antd ---------
 import { Row, Col } from 'antd'
-
 // css -------------
 import styles from './index.module.scss'
 // js
 import { switchStatusColor } from '../util'
 
+// main
 const DealsFilter = ({ filterData, status }) => {
   const router = useRouter()
   const data = filterData.filter((item) => {

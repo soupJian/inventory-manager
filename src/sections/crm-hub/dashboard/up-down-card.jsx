@@ -1,9 +1,12 @@
 import React from 'react'
+// components
 import { Row, Col } from 'antd'
 import { Icon } from '../../../components/commons'
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons'
+// css
 import styles from './index.module.scss'
 
+// main
 const UpDownCard = ({
   background,
   iconName,

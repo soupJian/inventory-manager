@@ -1,6 +1,9 @@
 import React from 'react'
+// components
 import { Icon } from '../../../../components/commons'
+// css
 import styles from '../index.module.scss'
+// main
 const timeSensitive = ({ data }) => {
   console.log(data)
   return (

@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
+// components
 import { Menu, Dropdown, Space } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
+// css
 import styles from '../index.module.scss'
+// js
 // 选择时间的数组
 const DayList = [
   { key: 1, text: 'This Week' },
@@ -13,6 +16,8 @@ const DayList = [
   { key: 7, text: 'This Year' },
   { key: 8, text: 'Last Year' }
 ]
+
+// main
 const SelectDay = ({ handleChooseSelect }) => {
   const [dayKey, setDayKey] = useState('This Month')
   // 切换 展示 状态类型

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { toggleLoading } from '../../../store/slices/globalSlice'
 import { useDispatch } from 'react-redux'
+// components
 import {
   Button,
   Flex,
@@ -12,9 +12,13 @@ import {
 } from '../../../components/commons'
 import { Popover } from 'antd'
 import WarehouseUnit from './WarehouseUnit'
-import styled from 'styled-components'
+// js
+import { toggleLoading } from '../../../store/slices/globalSlice'
 import { ISOStringToReadableDate } from '../../../utils/utils'
+// api
 import { getAllInventory, getInventory } from '../../../service/inventory'
+// css
+import styled from 'styled-components'
 
 const warshouseMap = [
   {
@@ -49,6 +53,7 @@ const warshouseMap = [
   }
 ]
 
+// main
 const WarehouseUnitRender = ({ warehouseData, unitItem }) => {
   return (
     <WarehouseUnit

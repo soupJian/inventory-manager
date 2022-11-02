@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
+// components
 import { Alert, Icon, Tab, Tabs, Wrapper } from '../../../components/commons'
-import styled from 'styled-components'
 import AddANewItem from '../../../components/add-edit-new-Item'
 import ReceivingScan from './scan'
 import ReceivingType from './type'
+// css
+import styled from 'styled-components'
 
+// main
 const Receiving = ({ router }) => {
   const [activeTab, setActiveTab] = useState('scan')
   const [newItemModal, setNewItemModal] = useState(false)

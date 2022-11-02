@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+// components
 import {
   Filter,
   Flex,
@@ -8,15 +10,19 @@ import {
   TableRow,
   Wrapper
 } from '../../components/commons'
+// js
 import {
   dateList,
   ShippedTableHeaders
 } from '../../constants/pageConstants/shipping'
 import { ISOStringToReadableDate } from '../../utils/utils'
 import { toggleLoading } from '../../store/slices/globalSlice'
-import { useDispatch } from 'react-redux'
+// api
 import { getShippedOrders } from '../../service/shipping'
+
 const itemsPerPage = 10
+
+// main
 const Orders = () => {
   const dispatch = useDispatch()
   const [orderState, setOrderState] = useState({

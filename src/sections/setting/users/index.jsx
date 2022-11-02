@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { toggleLoading } from '../../../store/slices/globalSlice'
+// components
 import { Row, Col, Select, Drawer, Button, Modal, message } from 'antd'
 import UserModule from './components/users-module'
 import UserAccess from './components/user-access'
 import UserCreateEdit from './components/user-create-edit'
 import AccessDrawer from './components/access-drawer'
-import styles from './index.module.scss'
 // api
 import {
   getAllUser,
@@ -15,7 +14,10 @@ import {
   updateAccess,
   postCreateAccess
 } from '../../../service/setting/setting-user'
+// js
+import { toggleLoading } from '../../../store/slices/globalSlice'
 import { v4 as uuidv4 } from 'uuid'
+// css
 
 const { Option } = Select
 

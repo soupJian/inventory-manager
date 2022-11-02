@@ -1,8 +1,11 @@
 import React from 'react'
+// components
 import Icon from '../../../../../../components/commons/icons/Icon'
 import { Row, Col, Button } from 'antd'
+// css
 import styles from '../email.module.scss'
 
+// main
 const EmailHeader = (item) => {
   return (
     <Row

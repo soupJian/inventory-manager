@@ -9,10 +9,10 @@ import Icon from '../../../../components/commons/icons/Icon'
 import ModalNotes from './components/header/modal-notes'
 import ModalMerge from './components/header/modal-merge'
 // css -------------
-// 导入space样式
 import 'antd/lib/space/style/index.css'
 import styles from './index.module.scss'
 
+// main
 const DetailHeader = () => {
   const router = useRouter()
 

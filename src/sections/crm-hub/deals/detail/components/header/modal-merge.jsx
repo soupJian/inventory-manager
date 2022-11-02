@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
+// components
 import { Row, Col, Select, Space, Button } from 'antd'
+// css
 import styles from './index.module.scss'
+// js
 const { Option } = Select
 
+// main
 const ModalMerge = () => {
   // assign list
   const [assignList, setAssignList] = useState([])

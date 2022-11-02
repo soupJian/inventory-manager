@@ -1,9 +1,13 @@
 import React from 'react'
+// components
 import { Row, Col, Input, Select } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
+// css
 import styles from './index.module.scss'
+
 const { Option } = Select
 
+// main
 const TaskHeader = () => {
   const handleChangePipeline = (value) => {
     console.log(`selected ${value}`)

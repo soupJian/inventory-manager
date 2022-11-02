@@ -9,8 +9,9 @@ import EditContact from './components/action/modal-edit-contact'
 // css ----------
 import styles from './detail-action.module.scss'
 
-// js ------------
 const { Option } = Select
+
+// main
 const DetailAction = (props) => {
   // deal 信息
   const { dealInfo, updateDeal } = props

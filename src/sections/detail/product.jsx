@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import styled from 'styled-components'
+import { useDispatch } from 'react-redux'
+// components
 import {
   BaseButton,
   Dialog,
@@ -8,13 +9,17 @@ import {
   Text,
   Wrapper
 } from '../../components/commons'
+// components
 import Product from './inventory-product'
 import EditProduct from '../../components/add-edit-new-product'
+// js
 import { productTemplate } from '../../constants/pageConstants/products'
 import { toggleLoading } from '../../store/slices/globalSlice'
-import { useDispatch } from 'react-redux'
 import { getProduct, deleteProduct } from '../../service/product'
+// css
+import styled from 'styled-components'
 
+//main
 const ProductPage = ({ router }) => {
   const dispatch = useDispatch()
   const [product, setProduct] = useState({ ...productTemplate })

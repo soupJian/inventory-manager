@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Image from 'next/image'
+// components
 import { Row, Col, Space, Button } from 'antd'
 import { DeleteOutlined, DownloadOutlined } from '@ant-design/icons'
+// css
 import styles from '../repository.module.scss'
 
 const ImgWrap = ({ list, title, addNew }) => {

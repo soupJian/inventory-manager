@@ -1,19 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import {
-  Row,
-  Col,
-  Input,
-  Select,
-  Space,
-  DatePicker,
-  Radio,
-  Button,
-  Checkbox
-} from 'antd'
+import React, { useState } from 'react'
+// components
+import { Row, Col, Space, Button, Checkbox } from 'antd'
 import { Icon } from '../../../../../../components/commons'
 import TaskEdit from './task-edit'
+// css
 import styles from '../task.module.scss'
 
+// main
 const TaskContent = (props) => {
   const { taskItem, handleChangeStatus } = props
   const [showEdit, setShowEdit] = useState(false)
