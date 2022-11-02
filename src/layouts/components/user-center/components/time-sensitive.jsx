@@ -4,7 +4,7 @@ import { Icon } from '../../../../components/commons'
 // css
 import styles from '../index.module.scss'
 // main
-const timeSensitive = ({ data }) => {
+const TimeSensitive = ({ data }) => {
   console.log(data)
   return (
     <>
@@ -192,4 +192,4 @@ const timeSensitive = ({ data }) => {
   )
 }
 
-export default timeSensitive
+export default TimeSensitive

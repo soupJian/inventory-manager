@@ -20,6 +20,7 @@ const History = ({ show, onClose, user }) => {
   const dispatch = useDispatch()
   const [activeTab, setActiveTab] = useState('Time sensitive')
   const [timeSensitiveData, setTimeSensitiveData] = useState([])
+  const [attentionNeededDate, setAttentionNeededData] = useState([])
   const logout = () => {
     dispatch(logoutUser())
   }
@@ -32,7 +33,7 @@ const History = ({ show, onClose, user }) => {
           time: '2022-11-1',
           read: true,
           noticeName: 'Kevin Bowen',
-          noticeStatus: 1
+          noticeStatus: 1 // 任务即将截止 提示 还有多少时间
         },
         {
           uid: 2,
@@ -49,7 +50,7 @@ const History = ({ show, onClose, user }) => {
           read: false,
           time: '2022-11-1',
           noticeName: 'Leo Bay',
-          noticeStatus: 3
+          noticeStatus: 3 // 收到新邮件
         },
         {
           uid: 4,
@@ -81,6 +82,79 @@ const History = ({ show, onClose, user }) => {
           read: true,
           time: '2022-11-1',
           noticeStatus: 7 // 收到 别的客服 通知  邮件的发送者出现在另外一个 deal 或者 ticket 中
+        }
+      ]
+      const newList = []
+      list.forEach((item) => {
+        const i = newList.findIndex((listItem) => item.time == listItem.time)
+        if (i >= 0) {
+          newList[i].list.push(item)
+        } else {
+          newList.push({
+            time: item.time,
+            list: [item]
+          })
+        }
+      })
+      return newList
+    })
+    setAttentionNeededData(() => {
+      const list = [
+        {
+          uid: 1,
+          type: 'deal',
+          time: '2022-11-1',
+          read: false,
+          noticeName: 'Kevin Bowen',
+          actionPerson: 'Trish', // 执行人
+          deleted: false, // 被删除？
+          noticeStatus: 1 // 你的ticket或者deal被 别的 客服删除
+        },
+        {
+          uid: 2,
+          type: 'ticket',
+          read: true,
+          time: '2022-11-2',
+          noticeName: 'Adam Kruger',
+          actionPerson: 'Trish',
+          deleted: true,
+          description: 'Send a new mockup to the customer',
+          noticeStatus: 2 // 负责的任务被删除
+        },
+        {
+          uid: 3,
+          read: false,
+          time: '2022-11-1',
+          noticeName: 'Leo Bay',
+          noticeStatus: 3 // 邮寄标签已创建
+        },
+        {
+          uid: 4,
+          read: true,
+          time: '2022-11-2',
+          noticeName: 'Adam Kruger',
+          noticeStatus: 4 // 替换货物已寄出，且工厂留有 note
+        },
+        {
+          uid: 5,
+          read: true,
+          time: '2022-11-1',
+          noticeName: 'Kevin Mitch',
+          noticeStatus: 5 // 替换货物库存不足
+        },
+        {
+          uid: 6,
+          read: true,
+          time: '2022-11-1',
+          noticeName: 'Thomas Smith',
+          noticeStatus: 6 // 工厂收到寄回的货物，且留有 note
+        },
+        {
+          uid: 7,
+          read: true,
+          time: '2022-11-1',
+          noticeName: 'Kevin Bowden',
+          noticeStatus: 7 // 新的订单，负责的 deal 顾客成功下单
         }
       ]
       const newList = []
@@ -150,7 +224,9 @@ const History = ({ show, onClose, user }) => {
           {activeTab == 'Time sensitive' && (
             <TimeSensitive data={timeSensitiveData} />
           )}
-          {activeTab == 'Attention needed' && <AttentionNeeded />}
+          {activeTab == 'Attention needed' && (
+            <AttentionNeeded data={attentionNeededDate} />
+          )}
           {activeTab == 'Important changes' && <ImportantChange />}
         </div>
       </div>

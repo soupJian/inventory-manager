@@ -10,9 +10,9 @@ const CostItem = ({ costInfo, total, name }) => {
       {name && (
         <div className={styles.costItemName}>
           {name}{' '}
-          <spam style={{ marginLeft: '20px' }}>
+          <span style={{ marginLeft: '20px' }}>
             ${formatMoney(costInfo.TotalCost)}
-          </spam>
+          </span>
         </div>
       )}
       <Row gutter={[16, 16]}>
@@ -82,7 +82,6 @@ const CostItem = ({ costInfo, total, name }) => {
 }
 
 const CostModal = ({ costInfo, setCostInfo }) => {
-  console.log(costInfo)
   return (
     <Modal
       onClose={() => {
@@ -97,10 +96,10 @@ const CostModal = ({ costInfo, setCostInfo }) => {
         </div>
         {costInfo.parts ? (
           <>
-            {costInfo.parts.map((item) => {
+            {costInfo.parts.map((item, index) => {
               return (
                 <CostItem
-                  key={item.SKU}
+                  key={index}
                   name={item.Name}
                   costInfo={{ ...item.Cost, TotalCost: item.TotalCost }}
                   total={costInfo.total}

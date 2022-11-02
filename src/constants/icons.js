@@ -42,6 +42,7 @@ const icons = {
   sales: '/images/icons/icon-sales.png',
   'edit-active': '/images/icons/icon-edit-active.png',
   'user-deactivate': '/images/icons/icon-user-deactivate.png',
-  'clock-alarm': '/images/icons/icon-clock-alarm.png'
+  'clock-alarm': '/images/icons/icon-clock-alarm.png',
+  idea: '/images/icons/icon-idea.png'
 }
 export default icons
