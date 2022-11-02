@@ -6,7 +6,6 @@ import styles from '../index.module.scss'
 
 // main
 const TimeSensitive = ({ data }) => {
-  console.log(data)
   return (
     <>
       {data.map((i) => {

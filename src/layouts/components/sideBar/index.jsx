@@ -95,7 +95,14 @@ const SideBar = ({ collapsed, user }) => {
   ]
   // 路由改变 需要判断是否展开 menu
   useEffect(() => {
-    setDefaultSelectedKeys(`/${router.route.split('/')[1]}`)
+    const key = `/${router.route.split('/')[1]}`
+    if (key == '/crm-hub') {
+      setDefaultSelectedKeys(
+        `/${router.route.split('/')[1]}/${router.route.split('/')[2]}`
+      )
+    } else {
+      setDefaultSelectedKeys(`/${router.route.split('/')[1]}`)
+    }
     setOpenKeys(`/${router.route.split('/')[1]}`)
   }, [router.route])
   return (
@@ -128,6 +135,7 @@ const SideBar = ({ collapsed, user }) => {
         onOpenChange={(key) => {
           setOpenKeys(key[1])
         }}
+        onSelect={({ key }) => setDefaultSelectedKeys(key)}
       />
       <div className={styles.userAction}>
         <Menu mode="inline" items={actionItems} />
