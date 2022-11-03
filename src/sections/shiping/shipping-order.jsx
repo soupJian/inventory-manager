@@ -160,6 +160,7 @@ const Orders = () => {
         open={detailDrawerInfo.show}
         key="left"
         width={612}
+        className={styles.drawerWrap}
       >
         {detailDrawerInfo.info && <DrawerDetail info={detailDrawerInfo.info} />}
       </Drawer>
