@@ -10,12 +10,18 @@ import {
   Text,
   Wrapper
 } from '../../components/commons'
-import styled from 'styled-components'
-import { productTemplate } from '../../constants/pageConstants/products'
+// components
 import SearchInput from './search-input'
 import { message } from 'antd'
-import { nanoid } from 'nanoid'
+// api
 import { updateProduct } from '../../service/product'
+// js
+import { productTemplate } from '../../constants/pageConstants/products'
+import { nanoid } from 'nanoid'
+// css
+import styled from 'styled-components'
+
+// main
 // type 为 add 或者edit
 const AddProduct = ({
   type = 'add',

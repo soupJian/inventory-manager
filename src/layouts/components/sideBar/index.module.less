@@ -35,37 +35,33 @@
   :global {
     .ant-menu {
       font-size: 16px;
-    }
-    .ant-menu-root {
-      margin-top: 52px !important;
-    }
-    .ant-menu.ant-menu-inline-collapsed {
-      width: 72px;
-      margin: 0 auto;
-      .ant-menu-item {
-        padding: 0 calc(50% - 24px / 2);
+      &.ant-menu-root {
+        margin-top: 52px !important;
       }
-      .ant-menu-submenu {
-        .ant-menu-submenu-title {
+      // 折叠
+      &.ant-menu-inline-collapsed {
+        width: 72px;
+        margin: 0 auto;
+        .ant-menu-item {
           padding: 0 calc(50% - 24px / 2);
         }
+        .ant-menu-submenu {
+          .ant-menu-submenu-title {
+            padding: 0 calc(50% - 24px / 2);
+          }
+        }
+        .ant-menu-item-icon {
+          vertical-align: middle;
+        }
       }
-      .ant-menu-item-icon {
-        vertical-align: middle;
+      .ant-menu-item,
+      .ant-menu-submenu {
+        margin-top: 32px;
+        margin-bottom: 0 !important;
+        min-height: 46px;
+        line-height: 46px;
+        border-radius: 10px;
       }
-    }
-    .ant-menu-inline,
-    .ant-menu-vertical,
-    .ant-menu-vertical-left {
-      border-right: none;
-    }
-    .ant-menu-item,
-    .ant-menu-submenu {
-      margin-top: 32px;
-      margin-bottom: 0 !important;
-      min-height: 46px;
-      line-height: 46px;
-      border-radius: 10px;
     }
     .ant-menu-submenu-inline {
       .ant-menu-item {
@@ -88,40 +84,32 @@
     .ant-menu-item-only-child {
       margin-top: 20px;
     }
+    // 去除 item 右侧竖线
     .ant-menu-inline .ant-menu-selected::after,
     .ant-menu-inline .ant-menu-item-selected::after {
       display: none;
     }
-
+    // sub-menu 被选中后
     .ant-menu-submenu-selected {
-      color: #000 !important;
       background-color: #ececec !important;
       font-weight: 700;
       font-size: 16px;
       .ant-menu {
         font-weight: normal;
-        .ant-menu-item-selected {
-          background-color: #fff !important;
-        }
         .ant-menu-item:hover {
-          background-color: #fff !important;
           font-weight: 700;
         }
       }
     }
-    .ant-menu-submenu:hover
-      > .ant-menu-submenu-title
-      > .ant-menu-submenu-arrow {
-      color: #000;
-    }
+    // 被选中 或者 鼠标 hover
     .ant-menu-item-selected,
     .ant-menu-item:hover,
     .ant-menu-submenu-title:hover {
-      color: #000 !important;
       background-color: #ececec !important;
       font-weight: 700;
       font-size: 16px;
     }
+    // icon
     .ant-menu-item,
     .ant-menu-submenu {
       img {
@@ -141,17 +129,8 @@
         img {
           opacity: 1;
         }
-        .ant-menu-submenu-title {
-          color: #000 !important;
-          font-weight: 700;
-          font-size: 16px;
-        }
-        .ant-menu-item-selected {
-          color: #000 !important;
-          font-weight: 700;
-          font-size: 16px;
-        }
       }
     }
+    
   }
 }

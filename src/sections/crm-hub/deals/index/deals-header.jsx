@@ -6,7 +6,7 @@ import { SearchOutlined } from '@ant-design/icons'
 import Icon from '../../../../components/commons/icons/Icon'
 import CreateDealForm from './create-deal-form'
 // css ---------------
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 const { Option } = Select
 

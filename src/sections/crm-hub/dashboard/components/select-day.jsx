@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Menu, Dropdown, Space } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
 // css
-import styles from '../index.module.scss'
+import styles from '../index.module.less'
 // js
 // 选择时间的数组
 const DayList = [

@@ -8,7 +8,7 @@ import FromEmailHeader from '../../../sections/crm-hub/form-email/form-eamil-hea
 import FromEmailList from '../../../sections/crm-hub/form-email/form-email-list'
 import FromEmailDetail from '../../../sections/crm-hub/form-email/form-email-detail'
 // css---------
-import styles from './index.module.scss'
+import styles from './index.module.less'
 // main FC----------------
 const FormEmail = () => {
   // 邮件列表

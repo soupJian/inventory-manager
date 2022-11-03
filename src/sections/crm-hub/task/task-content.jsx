@@ -9,7 +9,7 @@ import {
   AllTasksColumns
 } from './util'
 // css
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 const { TabPane } = Tabs
 const { Option } = Select

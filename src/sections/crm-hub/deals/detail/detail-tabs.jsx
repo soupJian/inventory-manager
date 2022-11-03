@@ -9,7 +9,7 @@ import DetailEmails from './components/detail-emails'
 import DetailTasks from './components/detail-tasks'
 import DetailRepository from './components/detail-repository'
 // css ---------
-import styles from './detail-tabs.module.scss'
+import styles from './detail-tabs.module.less'
 
 // main
 const DetailTabs = (props) => {

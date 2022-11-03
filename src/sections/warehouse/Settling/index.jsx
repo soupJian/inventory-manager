@@ -34,7 +34,7 @@ import { locations } from '../../../constants/pageConstants/locations'
 import { ISOStringToReadableDate } from '../../../utils/utils'
 // css
 import styled from 'styled-components'
-import styles from '../index.module.scss'
+import styles from '../index.module.less'
 
 // main
 const Settline = () => {

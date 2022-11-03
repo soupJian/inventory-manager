@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 // components
 import { Button, Form, Input, Select } from 'antd'
 // css
-import styles from '../index.module.scss'
+import styles from '../index.module.less'
 
 const { Option } = Select
 // main

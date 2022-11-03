@@ -2,7 +2,7 @@ import React from 'react'
 import { Row, Col } from 'antd'
 import { Modal } from '../commons'
 import { formatMoney } from '../../utils/formatMoney'
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 const CostItem = ({ costInfo, total, name }) => {
   return (

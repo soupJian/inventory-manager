@@ -16,12 +16,7 @@ import {
 } from '../../../../utils/formatTime'
 import { exportExcel } from '../../../../utils/export-excel'
 // css
-import styles from '../index.module.scss'
-import 'antd/lib/dropdown/style/index.css'
-import 'antd/lib/pagination/style/index.css'
-import 'antd/lib/checkbox/style/index.css'
-import 'antd/lib/input/style/index.css'
-import 'antd/lib/button/style/index.css'
+import styles from '../index.module.less'
 
 // main
 const AssetsContact = ({ data }) => {

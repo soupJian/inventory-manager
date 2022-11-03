@@ -11,7 +11,7 @@ import { formatTimeStr } from '../../../utils/formatTime'
 import { exportExcel } from '../../../utils/export-excel'
 import { toggleLoading } from '../../../store/slices/globalSlice'
 // css
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 const { Option } = Select
 

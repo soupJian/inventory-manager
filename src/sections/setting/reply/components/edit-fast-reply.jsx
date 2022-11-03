@@ -4,7 +4,7 @@ import { Row, Col, Input, Button, message, Upload } from 'antd'
 import { Icon } from '../../../../components/commons'
 import { CloseCircleFilled } from '@ant-design/icons'
 // css
-import styles from '../index.module.scss'
+import styles from '../index.module.less'
 
 // main
 const EditFastReply = (props) => {

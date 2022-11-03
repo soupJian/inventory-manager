@@ -29,7 +29,7 @@ import { updateInventory } from '../../service/inventory'
 import { deleteProduct } from '../../service/product'
 // css
 import styled from 'styled-components'
-import styles from './search.module.scss'
+import styles from './search.module.less'
 
 const perPage = 10
 

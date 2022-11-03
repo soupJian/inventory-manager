@@ -9,8 +9,7 @@ import Icon from '../../../../components/commons/icons/Icon'
 import ModalNotes from './components/header/modal-notes'
 import ModalMerge from './components/header/modal-merge'
 // css -------------
-import 'antd/lib/space/style/index.css'
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 // main
 const DetailHeader = () => {

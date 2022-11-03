@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router'
 import Providers from '../components/providers'
 import BasicLayout from '../layouts/BasicLayout'
-import 'antd/lib/style/index.css'
-import '../styles/globals.css'
+import '../styles/global.css'
+import '../styles/reset-antd.css'
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()

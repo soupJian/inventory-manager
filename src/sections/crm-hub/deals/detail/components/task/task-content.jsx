@@ -4,7 +4,7 @@ import { Row, Col, Space, Button, Checkbox } from 'antd'
 import { Icon } from '../../../../../../components/commons'
 import TaskEdit from './task-edit'
 // css
-import styles from '../task.module.scss'
+import styles from '../task.module.less'
 
 // main
 const TaskContent = (props) => {

@@ -34,7 +34,7 @@ import {
 } from '../../constants/pageConstants/inventory'
 // css
 import styled from 'styled-components'
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 const { Option } = Select
 

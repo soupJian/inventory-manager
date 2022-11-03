@@ -19,7 +19,7 @@ import AddProduct from '../../../components/add-edit-new-product'
 import { defaultWarehouseItemsTableHeaders } from '../../../constants/pageConstants/inventory'
 import { defaultWarehouseProductsTableHeaders } from '../../../constants/pageConstants/products'
 // css
-import styles from '../index.module.scss'
+import styles from '../index.module.less'
 
 // main
 const Managing = ({ router }) => {

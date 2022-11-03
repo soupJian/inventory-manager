@@ -14,7 +14,7 @@ import CostModal from '../../components/cost-modal'
 import { formatMoney } from '../../utils/formatMoney'
 // css
 import styled from 'styled-components'
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
   const [costInfo, setCostInfo] = useState({

@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 // components
 import { Row, Col } from 'antd'
 // css
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 // main
 const SalesRange = ({ salesRange, echarts }) => {

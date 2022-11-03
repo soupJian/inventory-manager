@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 // components
 import { Row, Col, Checkbox, Space } from 'antd'
 // css
-import styles from '../index.module.scss'
+import styles from '../index.module.less'
 
 const CheckboxGroup = Checkbox.Group
 

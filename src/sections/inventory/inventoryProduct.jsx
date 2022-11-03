@@ -34,7 +34,7 @@ import {
 import { sortByList } from '../../constants/pageConstants/inventory'
 import { formatMoney } from '../../utils/formatMoney'
 // css
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 const { Option } = Select
 

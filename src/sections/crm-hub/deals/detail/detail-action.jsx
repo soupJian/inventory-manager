@@ -7,7 +7,7 @@ import Icon from '../../../../components/commons/icons/Icon'
 import EditDeal from './components/action/modal-edit-deal'
 import EditContact from './components/action/modal-edit-contact'
 // css ----------
-import styles from './detail-action.module.scss'
+import styles from './detail-action.module.less'
 
 const { Option } = Select
 

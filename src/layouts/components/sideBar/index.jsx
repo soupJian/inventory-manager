@@ -10,9 +10,8 @@ import { Icon } from '../../../components/commons'
 import History from '../history'
 import UserCenter from '../user-center'
 // css ----------
-import 'antd/lib/menu/style/index.css'
 import styled from 'styled-components'
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 // main
 const SideBar = ({ collapsed, user }) => {

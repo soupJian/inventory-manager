@@ -8,8 +8,7 @@ const SideBar = dynamic(() => import('./components/sideBar'))
 const Loading = dynamic(() => import('../components/loading'))
 import { Layout } from 'antd'
 
-import styles from './BasicLayout.module.scss'
-import 'antd/lib/tooltip/style/index.css'
+import styles from './BasicLayout.module.less'
 
 const { Content, Sider } = Layout
 

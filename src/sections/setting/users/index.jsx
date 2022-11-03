@@ -18,7 +18,7 @@ import {
 import { toggleLoading } from '../../../store/slices/globalSlice'
 import { v4 as uuidv4 } from 'uuid'
 // css
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 const { Option } = Select
 

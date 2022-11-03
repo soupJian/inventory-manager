@@ -8,7 +8,7 @@ import { Row, Col, Input, Button, message } from 'antd'
 // api
 import { login } from '../../service/user'
 // css
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 // main
 const Login = () => {

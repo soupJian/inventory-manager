@@ -4,7 +4,7 @@ import React from 'react'
 import { Row, Col, Space, Button, Select, Input } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 // css ---------------
-import styles from './index.module.scss'
+import styles from './index.module.less'
 const { Option } = Select
 
 // main

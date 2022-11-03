@@ -7,7 +7,7 @@ import InventoryTable from '../../sections/inventory/inventoryTable'
 import InventoryProduct from '../../sections/inventory/inventoryProduct'
 import { defaultInventoryItemsTableHeaders } from '../../constants/pageConstants/inventory'
 import { defaultInventoryProductsTableHeaders } from '../../constants/pageConstants/products'
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 const Inventory = ({ router }) => {
   const [activeTab, setActiveTab] = useState('inventory')

@@ -4,7 +4,7 @@ import { Row, Col, Select, Space, Button } from 'antd'
 import { DownloadOutlined } from '@ant-design/icons'
 import EmailContact from './email-contact'
 // ss
-import styles from '../email.module.scss'
+import styles from '../email.module.less'
 
 const { Option } = Select
 

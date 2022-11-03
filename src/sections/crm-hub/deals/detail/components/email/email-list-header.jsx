@@ -3,7 +3,7 @@ import React from 'react'
 import Icon from '../../../../../../components/commons/icons/Icon'
 import { Row, Col, Button } from 'antd'
 // css
-import styles from '../email.module.scss'
+import styles from '../email.module.less'
 
 // main
 const EmailHeader = (item) => {

@@ -13,7 +13,7 @@ import {
   StatusEight
 } from './timeline/status'
 // css
-import styles from './timeline.module.scss'
+import styles from './timeline.module.less'
 
 // main
 const DetailTimeLine = () => {

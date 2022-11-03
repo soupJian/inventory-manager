@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 // css
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 // main
 const PieTotalOpenDeals = ({ echarts, data }) => {

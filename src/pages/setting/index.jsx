@@ -10,7 +10,7 @@ import Assets from '../../sections/setting/assets'
 import Users from '../../sections/setting/users'
 import Reply from '../../sections/setting/reply'
 // css ----------------
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 const tabslist = [
   {

@@ -11,7 +11,7 @@ const ImportantChange = dynamic(() => import('./components/important-change'))
 import { Row, Col, Switch } from 'antd'
 // css
 import styled from 'styled-components'
-import styles from './index.module.scss'
+import styles from './index.module.less'
 // js
 const tabList = ['Time sensitive', 'Attention needed', 'Important changes']
 

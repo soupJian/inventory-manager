@@ -16,7 +16,7 @@ import { Icon } from '../../../components/commons'
 import { DeleteOutlined, DownOutlined } from '@ant-design/icons'
 import CreateDealForm from './create-deal-form'
 // CSS -------------
-import styles from './index.module.scss'
+import styles from './index.module.less'
 // js static------------
 const { Option } = Select
 const ourEmail = 'inquiry@westshade.com'

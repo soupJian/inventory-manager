@@ -6,7 +6,7 @@ import Loading from '../../components/loading'
 // api
 import { login } from '../../service/user'
 // css
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 // main
 const Register = () => {

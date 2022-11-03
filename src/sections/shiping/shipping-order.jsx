@@ -23,7 +23,7 @@ import { toggleLoading } from '../../store/slices/globalSlice'
 // api
 import { getUnShippedOrders } from '../../service/shipping'
 // css
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 const itemsPerPage = 10
 const Orders = () => {

@@ -5,7 +5,7 @@ import { SearchOutlined, PlusOutlined } from '@ant-design/icons'
 import TaskEdit from './task/task-edit'
 import TaskContent from './task/task-content'
 // css
-import styles from './task.module.scss'
+import styles from './task.module.less'
 
 // main
 const DetailTasks = () => {

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 // antd ---------
 import { Row, Col } from 'antd'
 // css -------------
-import styles from './index.module.scss'
+import styles from './index.module.less'
 // js
 import { switchStatusColor } from '../util'
 

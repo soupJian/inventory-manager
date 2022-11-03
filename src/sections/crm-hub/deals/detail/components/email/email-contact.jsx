@@ -18,7 +18,7 @@ import {
 } from '@ant-design/icons'
 import { Icon } from '../../../../../../components/commons'
 // css
-import styles from '../email.module.scss'
+import styles from '../email.module.less'
 
 // main
 const EmailContact = (props) => {

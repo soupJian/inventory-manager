@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 // components
 import { Row, Col, Select, Space, Button } from 'antd'
 // css
-import styles from './index.module.scss'
+import styles from './index.module.less'
 // js
 const { Option } = Select
 

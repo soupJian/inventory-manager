@@ -4,7 +4,7 @@ import React, { useMemo, useRef, useState } from 'react'
 import { getSearch } from '../../service/search/search-inventory'
 const { Option } = Select
 
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 const DebounceSelect = ({
   debounceTimeout = 500,

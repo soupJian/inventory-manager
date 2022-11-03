@@ -9,7 +9,7 @@ import {
   isNextMonth,
   isLastMonth
 } from '../../../utils/formatTime'
-import styles from './index.module.scss'
+import styles from './index.module.less'
 import { Checkbox, Space } from 'antd'
 import { RightOutlined } from '@ant-design/icons'
 // 根据表格 status 状态 渲染背景色

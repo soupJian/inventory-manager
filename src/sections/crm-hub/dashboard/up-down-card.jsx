@@ -4,7 +4,7 @@ import { Row, Col } from 'antd'
 import { Icon } from '../../../components/commons'
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons'
 // css
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 // main
 const UpDownCard = ({

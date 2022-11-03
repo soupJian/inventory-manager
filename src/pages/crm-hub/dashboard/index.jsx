@@ -12,7 +12,7 @@ import NoOfSales from '../../../sections/crm-hub/dashboard/no-of-sales'
 import NoofSalesAmount from '../../../sections/crm-hub/dashboard/no-of-sales-amount'
 import * as echarts from 'echarts'
 
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 const Dashboard = () => {
   // 头部面板数据

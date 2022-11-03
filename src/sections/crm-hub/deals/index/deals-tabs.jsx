@@ -7,14 +7,7 @@ import { CloseOutlined } from '@ant-design/icons'
 import DealsFilter from './deals-filter'
 import Icon from '../../../../components/commons/icons/Icon'
 // css ----------
-import styles from './index.module.scss'
-// table 组件 导入，由于 next 按需导入机制 只导入了 table 样式 需要手动导入 其他样式
-import 'antd/lib/dropdown/style/index.css'
-import 'antd/lib/pagination/style/index.css'
-import 'antd/lib/checkbox/style/index.css'
-import 'antd/lib/input/style/index.css'
-import 'antd/lib/button/style/index.css'
-import 'antd/lib/checkbox/style/index.css'
+import styles from './index.module.less'
 // js ---------
 import { menuColumns, filterColumns } from '../util'
 

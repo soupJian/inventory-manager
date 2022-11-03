@@ -11,7 +11,7 @@ import {
 // js
 import { v4 as uuidv4 } from 'uuid'
 // css
-import styles from '../index.module.scss'
+import styles from '../index.module.less'
 
 // main
 const CreateFastReply = ({ updateData, openNewWindow }) => {

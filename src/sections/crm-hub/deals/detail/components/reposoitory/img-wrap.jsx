@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { Row, Col, Space, Button } from 'antd'
 import { DeleteOutlined, DownloadOutlined } from '@ant-design/icons'
 // css
-import styles from '../repository.module.scss'
+import styles from '../repository.module.less'
 
 const ImgWrap = ({ list, title, addNew }) => {
   return (

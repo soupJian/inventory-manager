@@ -2,7 +2,7 @@ import React from 'react'
 // components
 import { Row, Col, Input, Switch, Divider, Button } from 'antd'
 // css
-import styles from '../index.module.scss'
+import styles from '../index.module.less'
 
 // main
 // type string  edit  create

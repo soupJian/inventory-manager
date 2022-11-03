@@ -3,7 +3,7 @@ import React from 'react'
 import { Row, Col, Input, Select, Space, DatePicker, Radio, Button } from 'antd'
 import { DeleteOutlined, CheckOutlined } from '@ant-design/icons'
 // css
-import styles from '../task.module.scss'
+import styles from '../task.module.less'
 
 const { Option } = Select
 

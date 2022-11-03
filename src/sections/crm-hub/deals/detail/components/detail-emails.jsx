@@ -7,7 +7,7 @@ import EmailHeader from './email/email-list-header'
 import EmailCollapseContent from './email/email-collapse-content'
 import EmailContact from './email/email-contact'
 // css ----------
-import styles from './email.module.scss'
+import styles from './email.module.less'
 
 const { Panel } = Collapse
 

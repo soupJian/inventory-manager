@@ -8,7 +8,7 @@ import DetailHeader from '../../../sections/crm-hub/deals/detail/deatil-header'
 import DetailTabs from '../../../sections/crm-hub/deals/detail/detail-tabs'
 import DetailAction from '../../../sections/crm-hub/deals/detail/detail-action'
 // css ------------
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 const { Option } = Select
 

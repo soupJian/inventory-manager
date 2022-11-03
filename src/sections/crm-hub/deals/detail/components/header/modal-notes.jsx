@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Input, Row, Col, Button } from 'antd'
 import { Icon } from '../../../../../../components/commons'
 //css
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 // main
 const ModalNotes = () => {

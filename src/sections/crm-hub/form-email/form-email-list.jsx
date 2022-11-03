@@ -3,7 +3,7 @@ import React from 'react'
 // components
 import { List } from 'antd'
 // css
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 // main
 const FromEmailList = (props) => {

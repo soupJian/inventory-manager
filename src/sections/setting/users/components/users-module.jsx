@@ -12,7 +12,7 @@ import { formatTimeStr } from '../../../../utils/formatTime'
 // api
 import { updateUser } from '../../../../service/setting/setting-user'
 // css
-import styles from '../index.module.scss'
+import styles from '../index.module.less'
 
 // main
 const UserModule = ({ data, showAccessDetail, accessList, getData }) => {

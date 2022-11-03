@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons'
 import { Row, Col, Progress, Dropdown, Menu, Space, Checkbox } from 'antd'
 // css
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 // main
 const LostInItem = ({ item }) => {

@@ -3,7 +3,7 @@ import React from 'react'
 import { Row, Col } from 'antd'
 import SelectDay from './components/select-day'
 // css
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 // main
 const NewContact = () => {

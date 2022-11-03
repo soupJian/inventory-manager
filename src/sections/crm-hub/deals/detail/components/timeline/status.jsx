@@ -4,7 +4,7 @@ import { Row, Col, Space } from 'antd'
 import { Icon } from '../../../../../../components/commons'
 import TaskContent from '../task/task-content'
 // css
-import styles from '../timeline.module.scss'
+import styles from '../timeline.module.less'
 
 // main
 // 状态一 这个deal的负责人把这个 deal 分配给别人时候

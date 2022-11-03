@@ -5,7 +5,7 @@ import AssigningDeal from './components/assigning-deal'
 import AssigningCall from './components/assigning-call'
 import AssigningChat from './components/assigning-chat'
 // css
-import styles from './index.module.scss'
+import styles from './index.module.less'
 
 const { Option } = Select
 

@@ -4,7 +4,7 @@ import { Modal } from 'antd'
 import ImgWrap from './reposoitory/img-wrap'
 import AddModal from './reposoitory/add-modal'
 // css
-import styles from './repository.module.scss'
+import styles from './repository.module.less'
 
 // main
 const DetailRepository = () => {
