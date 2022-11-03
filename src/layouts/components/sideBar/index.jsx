@@ -99,11 +99,13 @@ const SideBar = ({ collapsed, user }) => {
       setDefaultSelectedKeys(
         `/${router.route.split('/')[1]}/${router.route.split('/')[2]}`
       )
+      setOpenKeys(`/${router.route.split('/')[1]}`)
     } else {
       setDefaultSelectedKeys(`/${router.route.split('/')[1]}`)
     }
-    setOpenKeys(`/${router.route.split('/')[1]}`)
-  }, [router.route])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <SideBarWrapper
       className={styles.SideBarWrapper}
