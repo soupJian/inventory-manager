@@ -4,3 +4,6 @@
 .ant-table-tbody > tr.ant-table-row-selected > td {
   background: unset !important;
 }
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background-color: #ccc !important;
+}
