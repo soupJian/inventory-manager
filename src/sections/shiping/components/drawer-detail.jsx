@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Checkbox, Row, Col, Popover, Button } from 'antd'
 import { PlusCircleFilled } from '@ant-design/icons'
 // css
-import styles from './index.module.less'
+import styles from '../index.module.less'
 
 const staticProduct = [
   {

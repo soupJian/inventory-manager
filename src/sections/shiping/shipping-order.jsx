@@ -1,6 +1,7 @@
 import { withRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import dynamic from 'next/dynamic'
 // components
 import {
   Filter,
@@ -12,7 +13,9 @@ import {
   Wrapper
 } from '../../components/commons'
 import { Button, Drawer } from 'antd'
-import DrawerDetail from './drawer-detail'
+const DrawerDetail = dynamic(() => import('./components/drawer-detail'))
+const DrawerShip = dynamic(() => import('./components/drawer-ship'))
+
 // js
 import {
   dateList,
@@ -35,7 +38,11 @@ const Orders = () => {
   const [unShippedOrdersToShow, setUnShippedOrdersToShow] = useState([])
   const [unShippedOrders, setUnShippedOrders] = useState([])
   // const [itemsPerPage, setItemsPerPage] = useState(10)
-  const [detailDrawerInfo, setDetailDrawerInfo] = useState({
+  const [drawerDetailInfo, setDrawerDetailInfo] = useState({
+    show: false,
+    info: null
+  })
+  const [drawerShipInfo, setDrawerShipInfo] = useState({
     show: false,
     info: null
   })
@@ -129,7 +136,7 @@ const Orders = () => {
                     <span
                       className={styles.activeText}
                       onClick={() =>
-                        setDetailDrawerInfo({
+                        setDrawerDetailInfo({
                           show: true,
                           info: item
                         })
@@ -138,7 +145,17 @@ const Orders = () => {
                       Detail
                     </span>
                   ) : cell.key === 'ShipBtn' ? (
-                    <Button className={styles.Btn}>Ship</Button>
+                    <Button
+                      className={styles.Btn}
+                      onClick={() => {
+                        setDrawerShipInfo({
+                          show: true,
+                          info: item
+                        })
+                      }}
+                    >
+                      Ship
+                    </Button>
                   ) : (
                     item[cell.key]
                   )}
@@ -148,22 +165,44 @@ const Orders = () => {
           ))}
         </Table>
       </Wrapper>
-      <Drawer
-        title={`Order #${detailDrawerInfo.info?.Id}`}
-        placement="left"
-        closable={false}
-        onClose={() =>
-          setDetailDrawerInfo({
-            show: false
-          })
-        }
-        open={detailDrawerInfo.show}
-        key="left"
-        width={612}
-        className={styles.drawerWrap}
-      >
-        {detailDrawerInfo.info && <DrawerDetail info={detailDrawerInfo.info} />}
-      </Drawer>
+      {drawerDetailInfo.show && (
+        <Drawer
+          title={`Order #${drawerDetailInfo.info.Id}`}
+          placement="left"
+          closable={false}
+          onClose={() =>
+            setDrawerDetailInfo({
+              show: false,
+              info: null
+            })
+          }
+          open={drawerDetailInfo.show}
+          key="left"
+          width={612}
+          className={styles.drawerWrap}
+        >
+          <DrawerDetail info={drawerDetailInfo.info} />
+        </Drawer>
+      )}
+      {drawerShipInfo.show && (
+        <Drawer
+          title={`Shipping Order #${drawerShipInfo.info.Id}`}
+          placement="left"
+          closable={false}
+          onClose={() =>
+            setDrawerShipInfo({
+              show: false,
+              info: null
+            })
+          }
+          open={drawerShipInfo.show}
+          key="left"
+          width={612}
+          className={styles.drawerWrap}
+        >
+          <DrawerShip />
+        </Drawer>
+      )}
     </>
   )
 }
