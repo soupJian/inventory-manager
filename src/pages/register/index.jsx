@@ -1,23 +1,22 @@
-import { useState } from 'react'
-import { useRouter } from 'next/router'
+import { useState, useEffect } from 'react'
+import { withRouter } from 'next/router'
 // components
 import { Row, Col, Input, Button } from 'antd'
 import Loading from '../../components/loading'
 // api
-import { login } from '../../service/user'
+import { PutRegister } from '../../service/user'
+// js
+import { getParameter } from '../../utils/utils'
 // css
 import styles from './index.module.less'
 
 // main
-const Register = () => {
-  const router = useRouter()
-  const [credentials, setCredentials] = useState({ email: '', password: '' })
+const Register = ({ router }) => {
+  const [credentials, setCredentials] = useState({ password: '' })
   const [errorMessage, setErrorMessage] = useState('')
   const [loading, setLoading] = useState(false)
-
   const submit = async () => {
     if (
-      credentials.email.trim() == '' ||
       credentials.password.trim() == '' ||
       credentials.confirmPassword.trim() == ''
     ) {
@@ -29,9 +28,9 @@ const Register = () => {
       return
     }
     setLoading(true)
-    const res = await login({
-      email: credentials.email,
-      password: credentials.password
+    const res = await PutRegister({
+      password: credentials.password,
+      id: router.query.id
     })
     setLoading(false)
     if (res.message) {
@@ -45,13 +44,20 @@ const Register = () => {
     setErrorMessage('')
     setCredentials({ ...credentials, [e.target.name]: e.target.value })
   }
+  useEffect(() => {
+    const id = getParameter('id', router.asPath)
+    console.log('id:', id)
+    if (!id) {
+      router.replace('/')
+    }
+  }, [router])
 
   return (
     <Row className={styles.loginWrap}>
       <Col className={styles.login}>
         <>
           <div className={styles.title}>SIGN UP</div>
-          <div className={styles.label}>USERNAME</div>
+          {/* <div className={styles.label}>USERNAME</div>
           <div>
             <Input
               value={credentials.username}
@@ -59,7 +65,7 @@ const Register = () => {
               name="email"
               size="large"
             />
-          </div>
+          </div> */}
           <div className={styles.label} style={{ marginTop: '13px' }}>
             PASSWORD
           </div>
@@ -104,4 +110,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default withRouter(Register)

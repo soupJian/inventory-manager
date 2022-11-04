@@ -154,7 +154,8 @@ const Users = () => {
       ...user,
       id: uuidv4(),
       created: new Date().toISOString(),
-      active: true
+      active: true,
+      online: false
     })
     dispatch(toggleLoading(false))
     if (res.message == 'success') {

@@ -43,8 +43,8 @@ const UserModule = ({ data, showAccessDetail, accessList, getData }) => {
     setSelectedRowKeys([])
     setShowSelectedView(false)
   }
-  // deactivate
-  const handleDeactivate = async () => {
+  // toggle deactivate
+  const handleToggleActivate = async () => {
     if (modalInfo.type == 'single') {
       const user = { ...modalInfo.user }
       user.accessInfo && delete user.accessInfo
@@ -203,6 +203,9 @@ const UserModule = ({ data, showAccessDetail, accessList, getData }) => {
                   user: record
                 })
               }}
+              style={{
+                color: '#2C88DD'
+              }}
             >
               {record.active ? 'deactivate' : 'active'}
             </Button>
@@ -239,11 +242,12 @@ const UserModule = ({ data, showAccessDetail, accessList, getData }) => {
           <Col>
             <Button
               onClick={() => {
-                setModalInfo({
-                  ...modalInfo,
-                  show: true,
-                  type: 'group'
-                })
+                console.log(modalInfo)
+                // setModalInfo({
+                //   ...modalInfo,
+                //   show: true,
+                //   type: 'group'
+                // })
               }}
             >
               <Space>
@@ -279,7 +283,7 @@ const UserModule = ({ data, showAccessDetail, accessList, getData }) => {
             <Space>
               <Button
                 className={styles.confirmBtn}
-                onClick={() => handleDeactivate()}
+                onClick={() => handleToggleActivate()}
               >
                 YES
               </Button>

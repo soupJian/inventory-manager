@@ -12,6 +12,17 @@ export const login = (data) => {
   })
 }
 /**
+ * 注册
+ * @param {*} data  {username,password}
+ */
+export const PutRegister = (data) => {
+  return request({
+    url: '/register',
+    method: 'put',
+    data
+  })
+}
+/**
  * 用户 历史操作信息
  */
 export const getHistory = (params) => {
