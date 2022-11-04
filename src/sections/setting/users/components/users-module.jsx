@@ -242,12 +242,10 @@ const UserModule = ({ data, showAccessDetail, accessList, getData }) => {
           <Col>
             <Button
               onClick={() => {
-                console.log(modalInfo)
-                // setModalInfo({
-                //   ...modalInfo,
-                //   show: true,
-                //   type: 'group'
-                // })
+                setModalInfo({
+                  show: true,
+                  type: 'group'
+                })
               }}
             >
               <Space>
@@ -275,7 +273,9 @@ const UserModule = ({ data, showAccessDetail, accessList, getData }) => {
       >
         <div className={styles.modalSubTitle}>
           Are you sure you want to{' '}
-          {modalInfo.user?.active ? 'deactive' : 'active'}{' '}
+          {modalInfo.type == 'group' || modalInfo.user?.active
+            ? 'deactivate'
+            : 'active'}{' '}
           {`${modalInfo.type == 'group' ? 'these users' : 'this user'}`}?
         </div>
         <Row justify="center">
