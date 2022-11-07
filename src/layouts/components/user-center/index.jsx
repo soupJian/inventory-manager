@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 // redux
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { logoutUser } from '../../../store/slices/userSlice'
 // components
 import { Icon } from '../../../components/commons'
@@ -16,8 +16,9 @@ import styles from './index.module.less'
 const tabList = ['Time sensitive', 'Attention needed', 'Important changes']
 
 // main
-const History = ({ show, onClose, user }) => {
+const History = ({ show, onClose }) => {
   const dispatch = useDispatch()
+  const user = useSelector((state) => state.user)
   const [activeTab, setActiveTab] = useState('Time sensitive')
   const [timeSensitiveData, setTimeSensitiveData] = useState([])
   const [attentionNeededDate, setAttentionNeededData] = useState([])

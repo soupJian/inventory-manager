@@ -121,7 +121,7 @@ const Users = () => {
       return
     }
     if (accessInfo.type == 'edit') {
-      //edit
+      // edit
       const newAccess = { ...accessInfo.access }
       delete newAccess.userList
       const res = await updateAccess(newAccess)

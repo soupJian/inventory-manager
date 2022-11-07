@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
-// next
+import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 // hooks
 import { useRouter } from 'next/router'
 // antd
 import { Menu } from 'antd'
 // components
 import { Icon } from '../../../components/commons'
-import History from '../history'
-import UserCenter from '../user-center'
+const History = dynamic(() => import('../history'))
+const UserCenter = dynamic(() => import('../user-center'))
 // css ----------
 import styled from 'styled-components'
 import styles from './index.module.less'
@@ -23,80 +23,191 @@ const SideBar = ({ collapsed, user }) => {
   const [toggleUserCenter, setToggleUserCenter] = useState(false)
 
   // 点击侧边栏 crm hub 事件
-  const getItem = (label, key, icon, children) => {
-    return {
-      key,
-      icon,
-      children,
-      label,
-      onClick: () => {
-        if (!children) {
-          router.push(key)
+  const getItem = useCallback(
+    (label, key, icon, children) => {
+      return {
+        key,
+        icon,
+        children,
+        label,
+        onClick: () => {
+          if (!children) {
+            router.push(key)
+          }
         }
       }
-    }
-  }
+    },
+    [router]
+  )
   // 侧边栏 menu 路由等...
-  const menuItems = [
-    getItem(
-      'Inventory',
-      '/inventory',
-      <Icon name="inventory" width="24px" height="24px" />
-    ),
-    getItem(
-      'Warehouse',
-      '/warehouse',
-      <Icon name="warehouse" width="24px" height="24px" />
-    ),
-    getItem(
-      'Shipping',
-      '/shipping',
-      <Icon name="orders" width="24px" height="24px" />
-    ),
-    getItem(
-      'Orders',
-      '/orders',
-      <Icon name="bill" width="24px" height="24px" />
-    ),
-    getItem(
-      'CRM Hub',
-      '/crm-hub',
-      <Icon name="crmhub" width="24px" height="24px" />,
-      [
-        getItem('Forms & Emails', '/crm-hub/form-email'),
-        getItem('Deals', '/crm-hub/deals'),
-        getItem('Chats', '/crm-hub/chats'),
-        getItem('Tickets', '/crm-hub/tickets'),
-        getItem('Task', '/crm-hub/task'),
-        getItem('Dashboard', '/crm-hub/dashboard')
-      ]
-    ),
-    getItem(
-      'Setting',
-      '/setting',
-      <Icon name="setting" width="24px" height="24px" />
-    )
-  ]
-  const actionItems = [
+  const [menuItems, setMenuItems] = useState([])
+  const [actionItems, setActionItems] = useState([
     {
-      key: 'user cebter',
+      key: 'user center',
       icon: <Icon name="user" width="24px" height="24px" />,
       label: 'User Center',
       onClick: () => {
         setToggleHistory(false)
         setToggleUserCenter(!toggleUserCenter)
       }
-    },
-    {
-      key: 'Activites',
-      label: 'Activites',
-      icon: <Icon name="clock" width="24px" height="24px" />,
-      onClick: () => {
-        setToggleUserCenter(false)
-        setToggleHistory(!toggleHistory)
-      }
     }
-  ]
+  ])
+  // 动态左侧菜单栏 sidebar路由
+  useEffect(() => {
+    const accessList = user.user.access.accesses
+    setMenuItems((list) => {
+      const newList = [...list]
+      // inventory 模块
+      if (
+        accessList.includes('inventory') ||
+        user.userRole == 'Super Admin' ||
+        user.user.Role == 'Admin'
+      ) {
+        newList.push(
+          getItem(
+            'Inventory',
+            '/inventory',
+            <Icon name="inventory" width="24px" height="24px" />
+          )
+        )
+      }
+      // warehouse 模块
+      if (
+        accessList.includes('warehouse') ||
+        user.userRole == 'Super Admin' ||
+        user.user.Role == 'Admin'
+      ) {
+        newList.push(
+          getItem(
+            'Warehouse',
+            '/warehouse',
+            <Icon name="warehouse" width="24px" height="24px" />
+          )
+        )
+      }
+      // shipping 模块
+      if (
+        accessList.includes('shipping') ||
+        user.userRole == 'Super Admin' ||
+        user.user.Role == 'Admin'
+      ) {
+        newList.push(
+          getItem(
+            'Shipping',
+            '/shipping',
+            <Icon name="orders" width="24px" height="24px" />
+          )
+        )
+      }
+      // orders 模块
+      if (
+        accessList.includes('orders') ||
+        user.userRole == 'Super Admin' ||
+        user.user.Role == 'Admin'
+      ) {
+        newList.push(
+          getItem(
+            'Orders',
+            '/orders',
+            <Icon name="bill" width="24px" height="24px" />
+          )
+        )
+      }
+      // crm-hub
+      if (
+        accessList.includes('crmFormEmail') ||
+        accessList.includes('crmChats') ||
+        accessList.includes('crmDeals') ||
+        accessList.includes('crmTickets') ||
+        accessList.includes('crmTasks') ||
+        accessList.includes('crmDashDashboard') ||
+        user.userRole == 'Super Admin' ||
+        user.user.Role == 'Admin'
+      ) {
+        const crmhubList = []
+        if (accessList.includes('crmFormEmail')) {
+          crmhubList.push(getItem('Forms & Emails', '/crm-hub/form-email'))
+        }
+        if (accessList.includes('crmDeals')) {
+          crmhubList.push(getItem('Deals', '/crm-hub/deals'))
+        }
+        if (accessList.includes('crmChats')) {
+          crmhubList.push(getItem('Deals', '/crm-hub/deals'))
+        }
+        if (accessList.includes('Tickets')) {
+          crmhubList.push(getItem('Tickets', '/crm-hub/tickets'))
+        }
+        if (accessList.includes('Task')) {
+          crmhubList.push(getItem('Task', '/crm-hub/task'))
+        }
+        if (accessList.includes('Dashboard')) {
+          crmhubList.push(getItem('Dashboard', '/crm-hub/dashboard'))
+        }
+        newList.push(
+          getItem(
+            'CRM Hub',
+            '/crm-hub',
+            <Icon name="crmhub" width="24px" height="24px" />,
+            crmhubList
+          )
+        )
+      }
+      // setting 模块
+      if (
+        accessList.includes('settingAssiging') ||
+        accessList.includes('settingPipeline') ||
+        accessList.includes('settingAssets') ||
+        accessList.includes('settingUsers') ||
+        accessList.includes('settingReply') ||
+        user.userRole == 'Super Admin' ||
+        user.user.Role == 'Admin'
+      ) {
+        let settingRouter = '/setting/assigning'
+        if (accessList.includes('settingAssiging')) {
+          settingRouter = '/setting/assigning'
+        } else if (accessList.includes('settingPipeline')) {
+          settingRouter = '/setting/pipeline'
+        } else if (accessList.includes('settingAssets')) {
+          settingRouter = '/setting/assets'
+        } else if (accessList.includes('settingUsers')) {
+          settingRouter = '/setting/users'
+        } else if (accessList.includes('settingReply')) {
+          settingRouter = '/setting/reply'
+        } else {
+          // super admin || admin
+          settingRouter = '/setting/assigning'
+        }
+        newList.push(
+          getItem(
+            'Setting',
+            '/setting/assigning',
+            <Icon name="setting" width="24px" height="24px" />
+          )
+        )
+      }
+      return newList
+    })
+    setActionItems((list) => {
+      const newList = [...list]
+      if (
+        accessList.includes('history') ||
+        user.userRole == 'Super Admin' ||
+        user.user.Role == 'Admin'
+      ) {
+        newList.push({
+          key: 'Activites',
+          label: 'Activites',
+          icon: <Icon name="clock" width="24px" height="24px" />,
+          onClick: () => {
+            setToggleUserCenter(false)
+            setToggleHistory(!toggleHistory)
+          }
+        })
+      }
+      return newList
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   // 路由改变 需要判断是否展开 menu
   useEffect(() => {
     const key = `/${router.route.split('/')[1]}`
@@ -146,13 +257,11 @@ const SideBar = ({ collapsed, user }) => {
       <div className={styles.userAction}>
         <Menu mode="inline" items={actionItems} />
       </div>
-      <History
-        user={user}
-        show={toggleHistory}
-        onClose={() => setToggleHistory(false)}
-      />
+      {user.user?.access.accesses.includes('history') && (
+        <History show={toggleHistory} onClose={() => setToggleHistory(false)} />
+      )}
+
       <UserCenter
-        user={user}
         show={toggleUserCenter}
         onClose={() => setToggleUserCenter(false)}
       />

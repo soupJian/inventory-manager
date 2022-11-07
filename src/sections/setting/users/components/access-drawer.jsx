@@ -65,6 +65,7 @@ const AccessDrawer = (props) => {
         <SwitchItem label="Inventory" name="inventory" />
         <SwitchItem label="Warehouse" name="warehouse" />
         <SwitchItem label="Shipping" name="shipping" />
+        <SwitchItem label="Orders" name="orders" />
       </Row>
       <Divider></Divider>
       {/* Customer Services */}
@@ -74,12 +75,12 @@ const AccessDrawer = (props) => {
         </Col>
       </Row>
       <Row gutter={[0, 30]}>
-        <SwitchItem label="Forms & Emails" name="formEmail" />
-        <SwitchItem label="Chats" name="chats" />
-        <SwitchItem label="Deals" name="deals" />
-        <SwitchItem label="Tickets" name="tickets" />
-        <SwitchItem label="Tasks" name="tasks" />
-        <SwitchItem label="Dashboard" name="dashboard" />
+        <SwitchItem label="Forms & Emails" name="crmFormEmail" />
+        <SwitchItem label="Chats" name="crmChats" />
+        <SwitchItem label="Deals" name="crmDeals" />
+        <SwitchItem label="Tickets" name="crmTickets" />
+        <SwitchItem label="Tasks" name="crmTasks" />
+        <SwitchItem label="Dashboard" name="crmDashDashboard" />
       </Row>
       <Divider />
       {/* GENERAL */}

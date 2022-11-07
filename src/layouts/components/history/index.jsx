@@ -1,8 +1,12 @@
-import styled from 'styled-components'
+import { useSelector } from 'react-redux'
+// components
 import { Icon, Text } from '../../../components/commons'
 import RangeAccordion from './components/RangeAccordion'
+// css
+import styled from 'styled-components'
 
-const History = ({ show, onClose, user }) => {
+const History = ({ show, onClose }) => {
+  const user = useSelector((state) => state.user)
   const today = new Date()
   const yesterday = new Date()
   const last7days = new Date()
