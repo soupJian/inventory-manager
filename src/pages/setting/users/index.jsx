@@ -7,7 +7,7 @@ import { Tabs } from 'antd'
 // components --------------
 import Users from '../../../sections/setting/users'
 // js
-import { tabslist } from '../../../constants/setting'
+import { compluteTabList } from '../../../constants/setting'
 // css ----------------
 import styles from '../index.module.less'
 
@@ -21,58 +21,7 @@ const Settings = ({ router }) => {
   useEffect(() => {
     const accessList = user.user.access.accesses
     setTabsList((list) => {
-      const newList = [...list]
-      if (
-        accessList.includes('settingAssiging') ||
-        user.userRole == 'Super Admin' ||
-        user.user.Role == 'Admin'
-      ) {
-        newList.push({
-          label: 'Assigning',
-          key: 'assigning'
-        })
-      }
-      if (
-        accessList.includes('settingPipeline') ||
-        user.userRole == 'Super Admin' ||
-        user.user.Role == 'Admin'
-      ) {
-        newList.push({
-          label: 'Pipeline',
-          key: 'pipeline'
-        })
-      }
-      if (
-        accessList.includes('settingAssets') ||
-        user.userRole == 'Super Admin' ||
-        user.user.Role == 'Admin'
-      ) {
-        newList.push({
-          label: 'Assets',
-          key: 'assets'
-        })
-      }
-      if (
-        accessList.includes('settingUsers') ||
-        user.userRole == 'Super Admin' ||
-        user.user.Role == 'Admin'
-      ) {
-        newList.push({
-          label: 'Users',
-          key: 'users'
-        })
-      }
-      if (
-        accessList.includes('settingReply') ||
-        user.userRole == 'Super Admin' ||
-        user.user.Role == 'Admin'
-      ) {
-        newList.push({
-          label: 'Reply',
-          key: 'reply'
-        })
-      }
-      return newList
+      return compluteTabList(accessList, user, list)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
