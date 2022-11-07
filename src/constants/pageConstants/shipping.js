@@ -30,6 +30,7 @@ export const dateList = [
     value: getDayCount(`${currentYear}/1/1`) + ''
   }
 ]
+// shipping order
 export const UnShippedTableHeaders = [
   {
     label: 'ORDER NO.',
@@ -56,30 +57,30 @@ export const UnShippedTableHeaders = [
     key: 'ShipBtn'
   }
 ]
-
+// shipping history
 export const ShippedTableHeaders = [
   {
     label: 'ORDER NO.',
     key: 'Id'
   },
   {
-    label: 'DESTINATION',
-    key: 'Address'
-  },
-  {
     label: 'CUSTOMER',
     key: 'Fullname'
   },
   {
-    label: 'PAYMENT',
-    key: 'Payment'
+    label: 'DESTINATION',
+    key: 'Address'
+  },
+  {
+    label: 'SHIP DATE',
+    key: 'ShipDate'
   },
   {
     label: 'ORDER DATE',
     key: 'Created'
   },
   {
-    label: 'STATUS',
-    key: 'Status'
+    label: '',
+    key: 'Action'
   }
 ]

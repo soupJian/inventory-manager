@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 // components
 import { Select, Row, Col, Input, Space, Checkbox, Button } from 'antd'
-import { PlusCircleFilled } from '@ant-design/icons'
 // js
 import { v4 as uuidv4 } from 'uuid'
 

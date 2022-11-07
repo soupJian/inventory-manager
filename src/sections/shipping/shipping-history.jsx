@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import dynamic from 'next/dynamic'
 // components
 import {
   Filter,
@@ -10,6 +11,10 @@ import {
   TableRow,
   Wrapper
 } from '../../components/commons'
+import { Button, Drawer } from 'antd'
+const DrawerDetailHistory = dynamic(() =>
+  import('./components/drawer-detail-history')
+)
 // js
 import {
   dateList,
@@ -19,9 +24,10 @@ import { ISOStringToReadableDate } from '../../utils/utils'
 import { toggleLoading } from '../../store/slices/globalSlice'
 // api
 import { getShippedOrders } from '../../service/shipping'
+// css
+import styles from './index.module.less'
 
 const itemsPerPage = 10
-
 // main
 const Orders = () => {
   const dispatch = useDispatch()
@@ -32,7 +38,10 @@ const Orders = () => {
   const [shippedOrders, setShippedOrders] = useState([])
   const [shippedOrdersToShow, setShippedOrdersToShow] = useState([])
   // const [itemsPerPage, setItemsPerPage] = useState(10)
-
+  const [drawerDetailInfo, setDrawerDetailInfo] = useState({
+    show: false,
+    info: null
+  })
   const handlePage = (page) => {
     setOrderState({
       ...orderState,
@@ -110,25 +119,53 @@ const Orders = () => {
             <TableRow idx={idx} dataId={item.Id} key={item.Id}>
               {ShippedTableHeaders.map((cell, idx) => (
                 <TableCell key={cell.key + idx}>
-                  {cell.key === 'Address'
-                    ? `${item.City}, ${item.State.toUpperCase()}`
-                    : cell.key === 'Fullname'
-                    ? `${item.FirstName}, ${item.LastName}`
-                    : cell.key === 'Payment'
-                    ? '$' + item['Payment']
-                    : cell.key === 'Created'
-                    ? ISOStringToReadableDate(item['Created'])
-                    : cell.key === 'Status'
-                    ? item.Shipped
-                      ? 'Shipped'
-                      : 'Unshipped'
-                    : item[cell.key]}
+                  {cell.key === 'Address' ? (
+                    `${item.City}, ${item.State.toUpperCase()}`
+                  ) : cell.key === 'Fullname' ? (
+                    `${item.FirstName}, ${item.LastName}`
+                  ) : cell.key === 'Created' ? (
+                    ISOStringToReadableDate(item['Created'])
+                  ) : cell.key === 'ShipDate' ? (
+                    ISOStringToReadableDate(item['Created'])
+                  ) : cell.key === 'Action' ? (
+                    <Button
+                      className={styles.Btn}
+                      onClick={() =>
+                        setDrawerDetailInfo({
+                          show: true,
+                          info: item
+                        })
+                      }
+                    >
+                      Detail
+                    </Button>
+                  ) : (
+                    item[cell.key]
+                  )}
                 </TableCell>
               ))}
             </TableRow>
           ))}
         </Table>
       </Wrapper>
+      <Drawer
+        title={`Order #${drawerDetailInfo.info?.Id}`}
+        placement="left"
+        closable={false}
+        onClose={() =>
+          setDrawerDetailInfo({
+            show: false
+          })
+        }
+        open={drawerDetailInfo.show}
+        key="1"
+        width={612}
+        className={styles.drawerWrap}
+      >
+        {drawerDetailInfo.info && (
+          <DrawerDetailHistory info={drawerDetailInfo.info} />
+        )}
+      </Drawer>
     </>
   )
 }

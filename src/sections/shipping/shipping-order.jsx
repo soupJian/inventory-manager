@@ -165,44 +165,38 @@ const Orders = () => {
           ))}
         </Table>
       </Wrapper>
-      {drawerDetailInfo.show && (
-        <Drawer
-          title={`Order #${drawerDetailInfo.info.Id}`}
-          placement="left"
-          closable={false}
-          onClose={() =>
-            setDrawerDetailInfo({
-              show: false,
-              info: null
-            })
-          }
-          open={drawerDetailInfo.show}
-          key="left"
-          width={612}
-          className={styles.drawerWrap}
-        >
-          <DrawerDetail info={drawerDetailInfo.info} />
-        </Drawer>
-      )}
-      {drawerShipInfo.show && (
-        <Drawer
-          title={`Shipping Order #${drawerShipInfo.info.Id}`}
-          placement="left"
-          closable={false}
-          onClose={() =>
-            setDrawerShipInfo({
-              show: false,
-              info: null
-            })
-          }
-          open={drawerShipInfo.show}
-          key="left"
-          width={612}
-          className={styles.drawerWrap}
-        >
-          <DrawerShip />
-        </Drawer>
-      )}
+      <Drawer
+        title={`Order #${drawerDetailInfo.info?.Id}`}
+        placement="left"
+        closable={false}
+        onClose={() =>
+          setDrawerDetailInfo({
+            show: false
+          })
+        }
+        open={drawerDetailInfo.show}
+        key="1"
+        width={612}
+        className={styles.drawerWrap}
+      >
+        {drawerDetailInfo.info && <DrawerDetail info={drawerDetailInfo.info} />}
+      </Drawer>
+      <Drawer
+        title={`Shipping Order #${drawerShipInfo.info?.Id}`}
+        placement="left"
+        closable={false}
+        onClose={() =>
+          setDrawerShipInfo({
+            show: false
+          })
+        }
+        open={drawerShipInfo.show}
+        key="2"
+        width={612}
+        className={styles.drawerWrap}
+      >
+        <DrawerShip />
+      </Drawer>
     </>
   )
 }

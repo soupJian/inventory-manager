@@ -130,7 +130,6 @@ const staticProduct = [
 
 // main
 const DrawerDetail = ({ info }) => {
-  console.log(info)
   const [productList, setProduct] = useState(
     staticProduct.map((item) => {
       return {
@@ -172,7 +171,7 @@ const DrawerDetail = ({ info }) => {
       </div>
       {productList.map((productItem, productIndex) => {
         return (
-          <div key={productItem.SKU} className={styles.product}>
+          <div key={productItem.SKU + productIndex} className={styles.product}>
             <div
               className={styles.nameHeaderWrap}
               style={{
