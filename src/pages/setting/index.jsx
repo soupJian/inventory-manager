@@ -37,15 +37,16 @@ const tabslist = [
 
 // main
 const Settings = ({ router }) => {
-  const hash = router.asPath.split('#')[1]
-  const [active, setActive] = useState(hash || tabslist[0].key)
+  const [activeTab, setActiveTab] = useState(tabslist[0].key)
   const handleChangeTabs = (key) => {
-    setActive(key)
+    setActiveTab(key)
+    router.replace(`/setting?tab=${key}`, null, { shallow: true })
   }
   useEffect(() => {
-    router.replace(`/setting#${active}`, null, { shallow: true })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [active])
+    if (router.query.tab) {
+      setActiveTab(router.query.tab)
+    }
+  }, [router])
   return (
     <>
       <Head>
@@ -54,15 +55,15 @@ const Settings = ({ router }) => {
       <div className={styles.title}>Settings</div>
       <Tabs
         className={styles.tabs}
-        activeKey={active}
+        activeKey={activeTab}
         onChange={handleChangeTabs}
         items={tabslist}
       ></Tabs>
-      {active == 'Assigning' && <Assiging />}
-      {active == 'Pipeline' && <Pipeline />}
-      {active == 'Assets' && <Assets />}
-      {active == 'Users' && <Users />}
-      {active == 'Reply' && <Reply />}
+      {activeTab == 'Assigning' && <Assiging />}
+      {activeTab == 'Pipeline' && <Pipeline />}
+      {activeTab == 'Assets' && <Assets />}
+      {activeTab == 'Users' && <Users />}
+      {activeTab == 'Reply' && <Reply />}
     </>
   )
 }
