@@ -43,7 +43,8 @@ const staticProduct = [
       }
     ],
     SKU: '123',
-    Quantity: 0
+    Quantity: 0,
+    Shipped: false
   },
   {
     Name: 'test',
@@ -82,7 +83,48 @@ const staticProduct = [
       }
     ],
     SKU: '1234',
-    Quantity: 0
+    Quantity: 0,
+    Shipped: true
+  },
+  {
+    Name: 'soupjian-test',
+    Part: [
+      {
+        Inventory: {
+          SKU: 'soupjian-test',
+          Name: 'soupjian-test',
+          Barcode: 'soupjian-test',
+          Location: ['A1-R1'],
+          attr: {
+            height: 2,
+            length: 2,
+            weight: 2,
+            width: 1
+          }
+        },
+        SKU: 'soupjian-test',
+        Quantity: 1
+      },
+      {
+        Inventory: {
+          SKU: 'TJ-3',
+          Name: 'TJ-3',
+          Barcode: 'TJ-3',
+          Location: ['A1-R1', 'A2-R2'],
+          attr: {
+            height: 2,
+            length: 2,
+            weight: 2,
+            width: 1
+          }
+        },
+        SKU: 'TJ-3',
+        Quantity: 3
+      }
+    ],
+    SKU: 'soupjian-test',
+    Quantity: 9,
+    Shipped: false
   }
 ]
 
@@ -130,244 +172,265 @@ const DrawerDetail = ({ info }) => {
       </div>
       {productList.map((productItem, productIndex) => {
         return (
-          <div key={productItem.SKU + productIndex} className={styles.product}>
-            <div className={styles.nameHeaderWrap}>
-              <Checkbox />
-              <span className={styles.productName}>{productItem.Name}</span>
+          <div key={productItem.SKU} className={styles.product}>
+            <div
+              className={styles.nameHeaderWrap}
+              style={{
+                borderBottom: `${
+                  productItem.Shipped ? 'unset' : '1px solid #e6e6e6'
+                }`
+              }}
+            >
+              <Checkbox disabled={productItem.Shipped} />
+              <span
+                className={styles.productName}
+                style={{
+                  color: `${productItem.Shipped ? '#C4C4C4' : '#262626'}`
+                }}
+              >
+                {productItem.Name}{' '}
+                {productItem.Shipped && <span> - Shipped</span>}
+              </span>
             </div>
-            <Row gutter={10} style={{ marginBottom: '17px' }}>
-              <Col span={8}>PARTS NAME</Col>
-              <Col span={4}>COUNT</Col>
-              <Col span={6}>LOCATION</Col>
-              <Col span={6}>BARCODE</Col>
-            </Row>
-            <Row gutter={[0, 16]}>
-              {productItem.Part.map((item) => {
-                return (
-                  <Col span={24} key={item.Inventory.SKU}>
-                    <Row gutter={10}>
-                      <Col span={8}>{item.Inventory.Name}</Col>
-                      <Col span={4}>{item.Quantity}</Col>
-                      <Col span={6}>
-                        {item.Inventory.Location[0]}
-                        {item.Inventory.Location.length > 1 && (
-                          <Popover
-                            content={<>{item.Inventory.Location.join(';')}</>}
-                            trigger="hover"
-                          >
-                            <PlusCircleFilled
-                              style={{
-                                marginLeft: '4px',
-                                fontSize: '18px',
-                                marginTop: '2px'
-                              }}
-                            />
-                          </Popover>
-                        )}
+            {!productItem.Shipped && (
+              <>
+                <Row gutter={10} style={{ marginBottom: '17px' }}>
+                  <Col span={8}>PARTS NAME</Col>
+                  <Col span={4}>COUNT</Col>
+                  <Col span={6}>LOCATION</Col>
+                  <Col span={6}>BARCODE</Col>
+                </Row>
+                <Row gutter={[0, 16]}>
+                  {productItem.Part.map((item) => {
+                    return (
+                      <Col span={24} key={item.Inventory.SKU}>
+                        <Row gutter={10}>
+                          <Col span={8}>{item.Inventory.Name}</Col>
+                          <Col span={4}>{item.Quantity}</Col>
+                          <Col span={6}>
+                            {item.Inventory.Location[0]}
+                            {item.Inventory.Location.length > 1 && (
+                              <Popover
+                                content={
+                                  <>{item.Inventory.Location.join(';')}</>
+                                }
+                                trigger="hover"
+                              >
+                                <PlusCircleFilled
+                                  style={{
+                                    marginLeft: '4px',
+                                    fontSize: '18px',
+                                    marginTop: '2px'
+                                  }}
+                                />
+                              </Popover>
+                            )}
+                          </Col>
+                          <Col span={6}>{item.Inventory.Barcode}</Col>
+                        </Row>
                       </Col>
-                      <Col span={6}>{item.Inventory.Barcode}</Col>
-                    </Row>
-                  </Col>
-                )
-              })}
-            </Row>
-            <Row gutter={10} style={{ margin: '17px 0' }}>
-              <Col span={12}>DIMESIONS</Col>
-              <Col span={12}>WEIGHT</Col>
-            </Row>
-            <Row gutter={[0, 16]}>
-              {productItem.Part.map((item, partIndex) => {
-                return (
-                  <Col span={24} key={item.Inventory.SKU}>
-                    <Row gutter={10}>
-                      <Col span={12}>
-                        {item.activeLwh == 'in.'
-                          ? item.Inventory.attr.length
-                          : Number(
-                              item.Inventory.attr.length * 0.45359237
-                            ).toFixed(1)}{' '}
-                        X{' '}
-                        {item.activeLwh == 'in.'
-                          ? item.Inventory.attr.width
-                          : Number(
-                              item.Inventory.attr.width * 0.45359237
-                            ).toFixed(1)}{' '}
-                        X{' '}
-                        {item.activeLwh == 'in.'
-                          ? item.Inventory.attr.height
-                          : Number(
-                              item.Inventory.attr.height * 0.45359237
-                            ).toFixed(1)}
-                        {item.activeLwh == 'in.' && (
-                          <>
-                            <span
-                              className={
-                                item.activeLwh == 'cm'
-                                  ? `${styles.activeText} ${styles.pointer}`
-                                  : `${styles.pointer}`
-                              }
-                              style={{ margin: '0 5px' }}
-                              onClick={() =>
-                                changePart(
-                                  'activeLwh',
-                                  'in.',
-                                  productIndex,
-                                  partIndex
-                                )
-                              }
-                            >
-                              in.
-                            </span>
-                            <span
-                              className={
-                                item.activeLwh == 'in.'
-                                  ? `${styles.activeText} ${styles.pointer}`
-                                  : `${styles.pointer}`
-                              }
-                              onClick={() =>
-                                changePart(
-                                  'activeLwh',
-                                  'cm',
-                                  productIndex,
-                                  partIndex
-                                )
-                              }
-                            >
-                              cm
-                            </span>
-                          </>
-                        )}
-                        {item.activeLwh == 'cm' && (
-                          <>
-                            <span
-                              className={
-                                item.activeLwh == 'in.'
-                                  ? `${styles.activeText} ${styles.pointer}`
-                                  : `${styles.pointer}`
-                              }
-                              style={{ margin: '0 5px' }}
-                              onClick={() =>
-                                changePart(
-                                  'activeLwh',
-                                  'cm',
-                                  productIndex,
-                                  partIndex
-                                )
-                              }
-                            >
-                              cm
-                            </span>
-                            <span
-                              className={
-                                item.activeLwh == 'cm'
-                                  ? `${styles.activeText} ${styles.pointer}`
-                                  : `${styles.pointer}`
-                              }
-                              onClick={() =>
-                                changePart(
-                                  'activeLwh',
-                                  'in.',
-                                  productIndex,
-                                  partIndex
-                                )
-                              }
-                            >
-                              in.
-                            </span>
-                          </>
-                        )}
+                    )
+                  })}
+                </Row>
+                <Row gutter={10} style={{ margin: '17px 0' }}>
+                  <Col span={12}>DIMESIONS</Col>
+                  <Col span={12}>WEIGHT</Col>
+                </Row>
+                <Row gutter={[0, 16]}>
+                  {productItem.Part.map((item, partIndex) => {
+                    return (
+                      <Col span={24} key={item.Inventory.SKU}>
+                        <Row gutter={10}>
+                          <Col span={12}>
+                            {item.activeLwh == 'in.'
+                              ? item.Inventory.attr.length
+                              : Number(
+                                  item.Inventory.attr.length * 0.45359237
+                                ).toFixed(1)}{' '}
+                            X{' '}
+                            {item.activeLwh == 'in.'
+                              ? item.Inventory.attr.width
+                              : Number(
+                                  item.Inventory.attr.width * 0.45359237
+                                ).toFixed(1)}{' '}
+                            X{' '}
+                            {item.activeLwh == 'in.'
+                              ? item.Inventory.attr.height
+                              : Number(
+                                  item.Inventory.attr.height * 0.45359237
+                                ).toFixed(1)}
+                            {item.activeLwh == 'in.' && (
+                              <>
+                                <span
+                                  className={
+                                    item.activeLwh == 'cm'
+                                      ? `${styles.activeText} ${styles.pointer}`
+                                      : `${styles.pointer}`
+                                  }
+                                  style={{ margin: '0 5px' }}
+                                  onClick={() =>
+                                    changePart(
+                                      'activeLwh',
+                                      'in.',
+                                      productIndex,
+                                      partIndex
+                                    )
+                                  }
+                                >
+                                  in.
+                                </span>
+                                <span
+                                  className={
+                                    item.activeLwh == 'in.'
+                                      ? `${styles.activeText} ${styles.pointer}`
+                                      : `${styles.pointer}`
+                                  }
+                                  onClick={() =>
+                                    changePart(
+                                      'activeLwh',
+                                      'cm',
+                                      productIndex,
+                                      partIndex
+                                    )
+                                  }
+                                >
+                                  cm
+                                </span>
+                              </>
+                            )}
+                            {item.activeLwh == 'cm' && (
+                              <>
+                                <span
+                                  className={
+                                    item.activeLwh == 'in.'
+                                      ? `${styles.activeText} ${styles.pointer}`
+                                      : `${styles.pointer}`
+                                  }
+                                  style={{ margin: '0 5px' }}
+                                  onClick={() =>
+                                    changePart(
+                                      'activeLwh',
+                                      'cm',
+                                      productIndex,
+                                      partIndex
+                                    )
+                                  }
+                                >
+                                  cm
+                                </span>
+                                <span
+                                  className={
+                                    item.activeLwh == 'cm'
+                                      ? `${styles.activeText} ${styles.pointer}`
+                                      : `${styles.pointer}`
+                                  }
+                                  onClick={() =>
+                                    changePart(
+                                      'activeLwh',
+                                      'in.',
+                                      productIndex,
+                                      partIndex
+                                    )
+                                  }
+                                >
+                                  in.
+                                </span>
+                              </>
+                            )}
+                          </Col>
+                          <Col span={12}>
+                            {item.activeWeight == 'lbs.'
+                              ? item.Inventory.attr.weight
+                              : Number(
+                                  item.Inventory.attr.weight * 0.45359237
+                                ).toFixed(1)}
+                            {item.activeWeight == 'lbs.' && (
+                              <>
+                                <span
+                                  className={
+                                    item.activeWeight == 'kg'
+                                      ? `${styles.activeText} ${styles.pointer}`
+                                      : `${styles.pointer}`
+                                  }
+                                  style={{ margin: '0 5px' }}
+                                  onClick={() =>
+                                    changePart(
+                                      'activeWeight',
+                                      'lbs.',
+                                      productIndex,
+                                      partIndex
+                                    )
+                                  }
+                                >
+                                  lbs.
+                                </span>
+                                <span
+                                  className={
+                                    item.activeWeight == 'lbs.'
+                                      ? `${styles.activeText} ${styles.pointer}`
+                                      : `${styles.pointer}`
+                                  }
+                                  onClick={() =>
+                                    changePart(
+                                      'activeWeight',
+                                      'kg',
+                                      productIndex,
+                                      partIndex
+                                    )
+                                  }
+                                >
+                                  kg
+                                </span>
+                              </>
+                            )}
+                            {item.activeWeight == 'kg' && (
+                              <>
+                                <span
+                                  className={
+                                    item.activeWeight == 'lbs.'
+                                      ? `${styles.activeText} ${styles.pointer}`
+                                      : `${styles.pointer}`
+                                  }
+                                  style={{ margin: '0 5px' }}
+                                  onClick={() =>
+                                    changePart(
+                                      'activeWeight',
+                                      'kg',
+                                      productIndex,
+                                      partIndex
+                                    )
+                                  }
+                                >
+                                  kg
+                                </span>
+                                <span
+                                  className={
+                                    item.activeWeight == 'kg'
+                                      ? `${styles.activeText} ${styles.pointer}`
+                                      : `${styles.pointer}`
+                                  }
+                                  onClick={() =>
+                                    changePart(
+                                      'activeWeight',
+                                      'lbs.',
+                                      productIndex,
+                                      partIndex
+                                    )
+                                  }
+                                >
+                                  lbs.
+                                </span>
+                              </>
+                            )}
+                          </Col>
+                        </Row>
                       </Col>
-                      <Col span={12}>
-                        {item.activeWeight == 'lbs.'
-                          ? item.Inventory.attr.weight
-                          : Number(
-                              item.Inventory.attr.weight * 0.45359237
-                            ).toFixed(1)}
-                        {item.activeWeight == 'lbs.' && (
-                          <>
-                            <span
-                              className={
-                                item.activeWeight == 'kg'
-                                  ? `${styles.activeText} ${styles.pointer}`
-                                  : `${styles.pointer}`
-                              }
-                              style={{ margin: '0 5px' }}
-                              onClick={() =>
-                                changePart(
-                                  'activeWeight',
-                                  'lbs.',
-                                  productIndex,
-                                  partIndex
-                                )
-                              }
-                            >
-                              lbs.
-                            </span>
-                            <span
-                              className={
-                                item.activeWeight == 'lbs.'
-                                  ? `${styles.activeText} ${styles.pointer}`
-                                  : `${styles.pointer}`
-                              }
-                              onClick={() =>
-                                changePart(
-                                  'activeWeight',
-                                  'kg',
-                                  productIndex,
-                                  partIndex
-                                )
-                              }
-                            >
-                              kg
-                            </span>
-                          </>
-                        )}
-                        {item.activeWeight == 'kg' && (
-                          <>
-                            <span
-                              className={
-                                item.activeWeight == 'lbs.'
-                                  ? `${styles.activeText} ${styles.pointer}`
-                                  : `${styles.pointer}`
-                              }
-                              style={{ margin: '0 5px' }}
-                              onClick={() =>
-                                changePart(
-                                  'activeWeight',
-                                  'kg',
-                                  productIndex,
-                                  partIndex
-                                )
-                              }
-                            >
-                              kg
-                            </span>
-                            <span
-                              className={
-                                item.activeWeight == 'kg'
-                                  ? `${styles.activeText} ${styles.pointer}`
-                                  : `${styles.pointer}`
-                              }
-                              onClick={() =>
-                                changePart(
-                                  'activeWeight',
-                                  'lbs.',
-                                  productIndex,
-                                  partIndex
-                                )
-                              }
-                            >
-                              lbs.
-                            </span>
-                          </>
-                        )}
-                      </Col>
-                    </Row>
-                  </Col>
-                )
-              })}
-              <Button className={styles.rateBtn}>Rate</Button>
-            </Row>
+                    )
+                  })}
+                  <Button className={styles.rateBtn}>Rate</Button>
+                </Row>
+              </>
+            )}
           </div>
         )
       })}
