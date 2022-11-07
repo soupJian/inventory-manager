@@ -1,8 +1,8 @@
 import { useState } from 'react'
 // components
 import { Flex, Icon, Input, Tab, Tabs, Wrapper } from '../../components/commons'
-import ShippingHistory from '../../sections/shiping/shipping-history'
-import ShippingOrder from '../../sections/shiping/shipping-order'
+import ShippingHistory from '../../sections/shipping/shipping-history'
+import ShippingOrder from '../../sections/shipping/shipping-order'
 
 // main
 const Shipping = () => {
