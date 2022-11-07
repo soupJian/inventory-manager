@@ -19,10 +19,12 @@ const Settings = ({ router }) => {
     router.push(`/setting/${key}`)
   }
   useEffect(() => {
-    const accessList = user.user.access.accesses
-    setTabsList((list) => {
-      return compluteTabList(accessList, user, list)
-    })
+    if (user.isLoggedIn) {
+      const accessList = user.user.access.accesses
+      setTabsList((list) => {
+        return compluteTabList(accessList, user, list)
+      })
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (

@@ -54,6 +54,9 @@ const SideBar = ({ collapsed, user }) => {
   ])
   // 动态左侧菜单栏 sidebar路由
   useEffect(() => {
+    if (!user.isLoggedIn) {
+      return
+    }
     const accessList = user.user.access.accesses
     setMenuItems((list) => {
       const newList = [...list]
@@ -257,7 +260,7 @@ const SideBar = ({ collapsed, user }) => {
       <div className={styles.userAction}>
         <Menu mode="inline" items={actionItems} />
       </div>
-      {user.user?.access.accesses.includes('history') && (
+      {user.user?.access?.accesses.includes('history') && (
         <History show={toggleHistory} onClose={() => setToggleHistory(false)} />
       )}
 

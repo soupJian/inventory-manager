@@ -1,24 +1,35 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import Router from 'next/router'
-// redux
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 // components
 const SideBar = dynamic(() => import('./components/sideBar'))
 const Loading = dynamic(() => import('../components/loading'))
 import { Layout } from 'antd'
-
+// js
+import { logoutUser } from '../store/slices/userSlice'
+// css
 import styles from './BasicLayout.module.less'
 
 const { Content, Sider } = Layout
 
 const BasicLayout = ({ children }) => {
+  const dispatch = useDispatch()
   const user = useSelector((store) => store.user)
   const global = useSelector((store) => store.global)
   const [collapsed, setCollapsed] = useState(false)
   if (!user.isLoggedIn) {
     Router.replace('/login')
   }
+  useEffect(() => {
+    const currentVersion = JSON.parse(
+      JSON.stringify(localStorage.getItem('version'))
+    )
+    if (!currentVersion || currentVersion != process.env.version) {
+      dispatch(logoutUser())
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   return (
     <Layout className={styles.mainLayout}>
       <Sider

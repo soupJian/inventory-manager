@@ -19,6 +19,7 @@ const Settings = ({ router }) => {
     router.push(`/setting/${key}`)
   }
   useEffect(() => {
+    if (!user.user) return
     const accessList = user.user.access.accesses
     setTabsList((list) => {
       return compluteTabList(accessList, user, list)

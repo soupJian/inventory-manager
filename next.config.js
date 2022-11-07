@@ -12,7 +12,8 @@ const nextConfig = {
   env: {
     BASE_URL: 'https://43kjv8b4z4.execute-api.us-west-2.amazonaws.com/v1',
     CRM_BASE_URL: 'https://oypcwmk5j1.execute-api.us-west-2.amazonaws.com/v1',
-    IMG_UPLOAD_URL: 'https://westshade-erp.s3.us-west-2.amazonaws.com'
+    IMG_UPLOAD_URL: 'https://westshade-erp.s3.us-west-2.amazonaws.com',
+    version: '0.0.1'
   },
   modifyVars: { '@primary-color': '#000' }, // 修改antd的primary颜色为黑色
   cssLoaderOptions: {},

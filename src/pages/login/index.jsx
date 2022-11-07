@@ -38,6 +38,8 @@ const Login = () => {
             token: res.token
           })
         )
+        // 登录成功后，配置版本信息
+        localStorage.setItem('version', process.env.version)
         setCredentials({ email: '', password: '' })
         setError(false)
         setErrorMessage('')
