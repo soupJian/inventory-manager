@@ -54,6 +54,11 @@ const SideBar = ({ collapsed, user }) => {
       <Icon name="orders" width="24px" height="24px" />
     ),
     getItem(
+      'Orders',
+      '/orders',
+      <Icon name="bill" width="24px" height="24px" />
+    ),
+    getItem(
       'CRM Hub',
       '/crm-hub',
       <Icon name="crmhub" width="24px" height="24px" />,

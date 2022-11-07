@@ -25,7 +25,9 @@ const DrawerShip = () => {
       id: uuidv4(),
       selectProduct: [],
       cappier: '',
-      trackingId: ''
+      trackingId: '', // 订单号
+      shipDate: new Date(), // 时间
+      shipStatus: '' // 状态
     }
   ])
   // 存放已经被勾选的 products ，存储SKU和当前是第几个package,
