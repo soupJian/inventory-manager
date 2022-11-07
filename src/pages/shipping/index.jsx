@@ -1,12 +1,22 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { withRouter } from 'next/router'
 // components
 import { Flex, Icon, Input, Tab, Tabs, Wrapper } from '../../components/commons'
 import ShippingHistory from '../../sections/shipping/shipping-history'
 import ShippingOrder from '../../sections/shipping/shipping-order'
 
 // main
-const Shipping = () => {
-  const [activeTab, setActiveTab] = useState('current')
+const Shipping = ({ router }) => {
+  const [activeTab, setActiveTab] = useState('orders')
+  const handleChangeTab = (key) => {
+    setActiveTab(key)
+    router.replace(`/shipping?tab=${key}`, null, { shallow: true })
+  }
+  useEffect(() => {
+    if (router.query.tab) {
+      setActiveTab(router.query.tab)
+    }
+  }, [router])
   return (
     <Wrapper
       styles={{ 'min-height': '100%', position: 'relative' }}
@@ -16,14 +26,14 @@ const Shipping = () => {
       <Flex styles={{ 'flex-wrap': 'nowrap' }} justifyContent="space-between">
         <Tabs>
           <Tab
-            onClick={() => setActiveTab('current')}
-            active={'current' === activeTab}
+            onClick={() => handleChangeTab('orders')}
+            active={'orders' === activeTab}
             idx={0}
           >
             Shipping Orders
           </Tab>
           <Tab
-            onClick={() => setActiveTab('history')}
+            onClick={() => handleChangeTab('history')}
             active={'history' === activeTab}
             idx={1}
           >
@@ -36,9 +46,9 @@ const Shipping = () => {
           startIcon={<Icon name="search" width="30px" height="30px" />}
         />
       </Flex>
-      {activeTab === 'current' ? <ShippingOrder /> : <ShippingHistory />}
+      {activeTab === 'orders' ? <ShippingOrder /> : <ShippingHistory />}
     </Wrapper>
   )
 }
 
-export default Shipping
+export default withRouter(Shipping)
