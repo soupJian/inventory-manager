@@ -167,14 +167,33 @@ const SideBar = ({ collapsed, user }) => {
         accessName == 'Admin'
       ) {
         let settingRouter = '/'
-        if (accessList.includes('settingAssiging')) {
+        if (
+          accessList.includes('settingAssiging') ||
+          accessName == 'Super Admin' ||
+          accessName == 'Admin'
+        ) {
           settingRouter = '/setting/assigning'
-        } else if (accessList.includes('settingPipeline')) {
+        } else if (
+          accessList.includes('settingPipeline') ||
+          accessName == 'Super Admin' ||
+          accessName == 'Admin'
+        ) {
           settingRouter = '/setting/pipeline'
-        } else if (accessList.includes('settingAssets')) {
+        } else if (
+          accessList.includes('settingAssets') ||
+          accessName == 'Super Admin' ||
+          accessName == 'Admin'
+        ) {
           settingRouter = '/setting/assets'
-        } else if (accessList.includes('settingReply')) {
-          settingRouter = '/setting/reply'
+        } else if (
+          accessList.includes('settingReply') ||
+          accessName == 'Super Admin' ||
+          accessName == 'Admin'
+        ) {
+          settingRouter =
+            '/setting/reply' ||
+            accessName == 'Super Admin' ||
+            accessName == 'Admin'
         } else {
           // super admin
           settingRouter = '/'
