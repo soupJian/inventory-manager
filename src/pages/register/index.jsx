@@ -33,7 +33,7 @@ const Register = ({ router }) => {
       id: router.query.id
     })
     setLoading(false)
-    if (res.message) {
+    if (res.message != 'success') {
       setErrorMessage(res.message)
     } else {
       router.push('/')
@@ -46,7 +46,6 @@ const Register = ({ router }) => {
   }
   useEffect(() => {
     const id = getParameter('id', router.asPath)
-    console.log('id:', id)
     if (!id) {
       router.replace('/')
     }
