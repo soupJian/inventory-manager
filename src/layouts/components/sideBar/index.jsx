@@ -148,7 +148,7 @@ const SideBar = ({ collapsed, user }) => {
           accessName == 'Super Admin' ||
           accessName == 'Admin'
         ) {
-          crmhubList.push(getItem('Deals', '/crm-hub/deals'))
+          crmhubList.push(getItem('Chats', '/crm-hub/chats'))
         }
         if (
           accessList.includes('Tickets') ||
