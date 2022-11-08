@@ -93,7 +93,7 @@ const AccessDrawer = (props) => {
         <SwitchItem label="Settings - Assiging" name="settingAssiging" />
         <SwitchItem label="Settings - Pipeline" name="settingPipeline" />
         <SwitchItem label="Settings - Assets" name="settingAssets" />
-        <SwitchItem label="Settings - Users" name="settingUsers" />
+        {/* <SwitchItem label="Settings - Users" name="settingUsers" /> */}
         <SwitchItem label="Settings - Reply" name="settingReply" />
         <SwitchItem label="Activity history" name="history" />
       </Row>

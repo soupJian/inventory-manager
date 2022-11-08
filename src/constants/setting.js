@@ -1,10 +1,12 @@
-export const compluteTabList = (accessList, user, list) => {
+export const compluteTabList = (user, list) => {
+  const accessList = user.user.access.accesses
+  const accessName = user.user.access.accessName
   const newList = [...list]
   // assigning
   if (
     accessList.includes('settingAssiging') ||
-    user.userRole == 'Super Admin' ||
-    user.user.Role == 'Admin'
+    accessName == 'Super Admin' ||
+    accessName == 'Admin'
   ) {
     newList.push({
       label: 'Assigning',
@@ -14,8 +16,8 @@ export const compluteTabList = (accessList, user, list) => {
   // pipeline
   if (
     accessList.includes('settingPipeline') ||
-    user.userRole == 'Super Admin' ||
-    user.user.Role == 'Admin'
+    accessName == 'Super Admin' ||
+    accessName == 'Admin'
   ) {
     newList.push({
       label: 'Pipeline',
@@ -25,8 +27,8 @@ export const compluteTabList = (accessList, user, list) => {
   // assets
   if (
     accessList.includes('settingAssets') ||
-    user.userRole == 'Super Admin' ||
-    user.user.Role == 'Admin'
+    accessName == 'Super Admin' ||
+    accessName == 'Admin'
   ) {
     newList.push({
       label: 'Assets',
@@ -34,11 +36,7 @@ export const compluteTabList = (accessList, user, list) => {
     })
   }
   // users
-  if (
-    accessList.includes('settingUsers') ||
-    user.userRole == 'Super Admin' ||
-    user.user.Role == 'Admin'
-  ) {
+  if (accessName == 'Super Admin') {
     newList.push({
       label: 'Users',
       key: 'users'
@@ -47,8 +45,8 @@ export const compluteTabList = (accessList, user, list) => {
   // reply
   if (
     accessList.includes('settingReply') ||
-    user.userRole == 'Super Admin' ||
-    user.user.Role == 'Admin'
+    accessName == 'Super Admin' ||
+    accessName == 'Admin'
   ) {
     newList.push({
       label: 'Reply',

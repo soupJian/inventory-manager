@@ -57,14 +57,16 @@ const SideBar = ({ collapsed, user }) => {
     if (!user.isLoggedIn) {
       return
     }
+    console.log(user)
     const accessList = user.user.access.accesses
+    const accessName = user.user.access.accessName
     setMenuItems((list) => {
       const newList = [...list]
       // inventory 模块
       if (
         accessList.includes('inventory') ||
-        user.userRole == 'Super Admin' ||
-        user.user.Role == 'Admin'
+        accessName == 'Super Admin' ||
+        accessName == 'Admin'
       ) {
         newList.push(
           getItem(
@@ -77,8 +79,8 @@ const SideBar = ({ collapsed, user }) => {
       // warehouse 模块
       if (
         accessList.includes('warehouse') ||
-        user.userRole == 'Super Admin' ||
-        user.user.Role == 'Admin'
+        accessName == 'Super Admin' ||
+        accessName == 'Admin'
       ) {
         newList.push(
           getItem(
@@ -91,8 +93,8 @@ const SideBar = ({ collapsed, user }) => {
       // shipping 模块
       if (
         accessList.includes('shipping') ||
-        user.userRole == 'Super Admin' ||
-        user.user.Role == 'Admin'
+        accessName == 'Super Admin' ||
+        accessName == 'Admin'
       ) {
         newList.push(
           getItem(
@@ -105,8 +107,8 @@ const SideBar = ({ collapsed, user }) => {
       // orders 模块
       if (
         accessList.includes('orders') ||
-        user.userRole == 'Super Admin' ||
-        user.user.Role == 'Admin'
+        accessName == 'Super Admin' ||
+        accessName == 'Admin'
       ) {
         newList.push(
           getItem(
@@ -124,8 +126,8 @@ const SideBar = ({ collapsed, user }) => {
         accessList.includes('crmTickets') ||
         accessList.includes('crmTasks') ||
         accessList.includes('crmDashDashboard') ||
-        user.userRole == 'Super Admin' ||
-        user.user.Role == 'Admin'
+        accessName == 'Super Admin' ||
+        accessName == 'Admin'
       ) {
         const crmhubList = []
         if (accessList.includes('crmFormEmail')) {
@@ -160,30 +162,27 @@ const SideBar = ({ collapsed, user }) => {
         accessList.includes('settingAssiging') ||
         accessList.includes('settingPipeline') ||
         accessList.includes('settingAssets') ||
-        accessList.includes('settingUsers') ||
         accessList.includes('settingReply') ||
-        user.userRole == 'Super Admin' ||
-        user.user.Role == 'Admin'
+        accessName == 'Super Admin' ||
+        accessName == 'Admin'
       ) {
-        let settingRouter = '/setting/assigning'
+        let settingRouter = '/'
         if (accessList.includes('settingAssiging')) {
           settingRouter = '/setting/assigning'
         } else if (accessList.includes('settingPipeline')) {
           settingRouter = '/setting/pipeline'
         } else if (accessList.includes('settingAssets')) {
           settingRouter = '/setting/assets'
-        } else if (accessList.includes('settingUsers')) {
-          settingRouter = '/setting/users'
         } else if (accessList.includes('settingReply')) {
           settingRouter = '/setting/reply'
         } else {
-          // super admin || admin
-          settingRouter = '/setting/assigning'
+          // super admin
+          settingRouter = '/'
         }
         newList.push(
           getItem(
             'Setting',
-            '/setting/assigning',
+            settingRouter,
             <Icon name="setting" width="24px" height="24px" />
           )
         )
@@ -194,8 +193,8 @@ const SideBar = ({ collapsed, user }) => {
       const newList = [...list]
       if (
         accessList.includes('history') ||
-        user.userRole == 'Super Admin' ||
-        user.user.Role == 'Admin'
+        accessName == 'Super Admin' ||
+        accessName == 'Admin'
       ) {
         newList.push({
           key: 'Activites',

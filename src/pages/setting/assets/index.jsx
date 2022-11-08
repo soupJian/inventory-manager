@@ -20,9 +20,8 @@ const Settings = ({ router }) => {
   }
   useEffect(() => {
     if (!user.user) return
-    const accessList = user.user.access.accesses
     setTabsList((list) => {
-      return compluteTabList(accessList, user, list)
+      return compluteTabList(user, list)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
