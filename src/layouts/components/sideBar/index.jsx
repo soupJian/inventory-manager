@@ -129,32 +129,58 @@ const SideBar = ({ collapsed, user }) => {
         accessName == 'Admin'
       ) {
         const crmhubList = []
-        if (accessList.includes('crmFormEmail')) {
+        if (
+          accessList.includes('crmFormEmail') ||
+          accessName == 'Super Admin' ||
+          accessName == 'Admin'
+        ) {
           crmhubList.push(getItem('Forms & Emails', '/crm-hub/form-email'))
         }
-        if (accessList.includes('crmDeals')) {
+        if (
+          accessList.includes('crmDeals') ||
+          accessName == 'Super Admin' ||
+          accessName == 'Admin'
+        ) {
           crmhubList.push(getItem('Deals', '/crm-hub/deals'))
         }
-        if (accessList.includes('crmChats')) {
+        if (
+          accessList.includes('crmChats') ||
+          accessName == 'Super Admin' ||
+          accessName == 'Admin'
+        ) {
           crmhubList.push(getItem('Deals', '/crm-hub/deals'))
         }
-        if (accessList.includes('Tickets')) {
+        if (
+          accessList.includes('Tickets') ||
+          accessName == 'Super Admin' ||
+          accessName == 'Admin'
+        ) {
           crmhubList.push(getItem('Tickets', '/crm-hub/tickets'))
         }
-        if (accessList.includes('Task')) {
+        if (
+          accessList.includes('Task') ||
+          accessName == 'Super Admin' ||
+          accessName == 'Admin'
+        ) {
           crmhubList.push(getItem('Task', '/crm-hub/task'))
         }
-        if (accessList.includes('Dashboard')) {
+        if (
+          accessList.includes('Dashboard') ||
+          accessName == 'Super Admin' ||
+          accessName == 'Admin'
+        ) {
           crmhubList.push(getItem('Dashboard', '/crm-hub/dashboard'))
         }
-        newList.push(
-          getItem(
-            'CRM Hub',
-            '/crm-hub',
-            <Icon name="crmhub" width="24px" height="24px" />,
-            crmhubList
+        if (crmhubList.length > 0) {
+          newList.push(
+            getItem(
+              'CRM Hub',
+              '/crm-hub',
+              <Icon name="crmhub" width="24px" height="24px" />,
+              crmhubList
+            )
           )
-        )
+        }
       }
       // setting 模块
       if (
