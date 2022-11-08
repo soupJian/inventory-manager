@@ -19,7 +19,7 @@ const Settings = ({ router }) => {
     router.push(`/setting/${key}`)
   }
   useEffect(() => {
-    if (!user.user) return
+    if (!user.isLoggedIn) return
     setTabsList((list) => {
       return compluteTabList(user, list)
     })
