@@ -48,10 +48,18 @@ const SideBar = ({ collapsed, user }) => {
       label: 'User Center',
       onClick: () => {
         setToggleHistory(false)
-        setToggleUserCenter(!toggleUserCenter)
+        setToggleUserCenter((flag) => {
+          return !flag
+        })
       }
     }
   ])
+  const handleToggleHistory = () => {
+    setToggleUserCenter(false)
+    setToggleHistory((flag) => {
+      return !flag
+    })
+  }
   // 动态左侧菜单栏 sidebar路由
   useEffect(() => {
     if (!user.isLoggedIn) {
@@ -244,10 +252,7 @@ const SideBar = ({ collapsed, user }) => {
           key: 'Activites',
           label: 'Activites',
           icon: <Icon name="clock" width="24px" height="24px" />,
-          onClick: () => {
-            setToggleUserCenter(false)
-            setToggleHistory(!toggleHistory)
-          }
+          onClick: () => handleToggleHistory()
         })
       }
       return newList
@@ -267,7 +272,6 @@ const SideBar = ({ collapsed, user }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
   return (
     <SideBarWrapper
       className={styles.SideBarWrapper}
@@ -303,7 +307,9 @@ const SideBar = ({ collapsed, user }) => {
       <div className={styles.userAction}>
         <Menu mode="inline" items={actionItems} />
       </div>
-      {user.user?.access?.accesses.includes('history') && (
+      {(user.user.access?.accesses.includes('history') ||
+        user.user.access?.accessName == 'Super Admin' ||
+        user.user.access?.accessName == 'Admin') && (
         <History show={toggleHistory} onClose={() => setToggleHistory(false)} />
       )}
 
