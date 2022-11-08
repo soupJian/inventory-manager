@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 // components
 import {
   Button,
@@ -18,6 +18,7 @@ import AddProduct from '../../../components/add-edit-new-product'
 // js
 import { defaultWarehouseItemsTableHeaders } from '../../../constants/pageConstants/inventory'
 import { defaultWarehouseProductsTableHeaders } from '../../../constants/pageConstants/products'
+import { getParameter } from '../../../utils/utils'
 // css
 import styles from '../index.module.less'
 
@@ -32,11 +33,19 @@ const Managing = ({ router }) => {
   const [newItemModal, setNewItemModal] = useState(false)
   const [newProductModal, setNewProductModal] = useState(false)
   const [updataTableData, setUpdateTableData] = useState(false)
-  const submitNewFinally = () => {
-    setUpdateTableData((update) => {
-      return !update
-    })
+  const handleChangeTab = (key) => {
+    setActiveTab(key)
+    router.replace(`/warehouse?tab=Managing&current=${key}`)
   }
+  useEffect(() => {
+    const tab = getParameter('current', router.asPath)
+    if (tab == 'Products') {
+      setActiveTab('Products')
+    } else {
+      setActiveTab('Items')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   return (
     <Wrapper styles={{ 'min-height': '100%' }} height="auto" padding=" 0 ">
       <Flex
@@ -103,7 +112,7 @@ const Managing = ({ router }) => {
         justifyContent="space-between"
       >
         <div
-          onClick={() => setActiveTab('Items')}
+          onClick={() => handleChangeTab('Items')}
           style={{
             color: activeTab == 'Items' ? '#000000' : '#999999',
             cursor: 'pointer'
@@ -112,7 +121,7 @@ const Managing = ({ router }) => {
           Items
         </div>
         <div
-          onClick={() => setActiveTab('Products')}
+          onClick={() => handleChangeTab('Products')}
           style={{
             color: activeTab == 'Products' ? '#000000' : '#999999',
             cursor: 'pointer'
