@@ -40,23 +40,25 @@ const BasicLayout = ({ children }) => {
       return
     }
     const accessList = user.user.access.accesses
-    const accessName = user.user.access.accessName
     const pathname = router.pathname
+    console.log(pathname)
     let flag = false
     switch (pathname) {
-      case '' || '/':
+      case '':
+      case '/':
         flag = true
         break
-      case '/inventory' ||
-        '/inventory/search-inventory' ||
-        '/inventory/search-product':
+      case '/inventory':
+      case '/inventory/search-inventory':
+      case '/inventory/search-product':
         flag = accessList.includes(accessObject.inventory)
         break
-      case '/warehouse' ||
-        '/warehouse/item' ||
-        '/warehouse/product' ||
-        '/warehouse/search-product' ||
-        '/warehouse/search-inventory':
+      case '/warehouse':
+      case '/warehouse/item':
+      case '/warehouse/product':
+      case '/warehouse/search-product':
+      case '/warehouse/search-inventory':
+        console.log('123')
         flag = accessList.includes(accessObject.warehouse)
         break
       case '/shipping':
@@ -71,10 +73,12 @@ const BasicLayout = ({ children }) => {
       case '/crm-hub/chats':
         flag = accessList.includes(accessObject.crmChats)
         break
-      case '/crm-hub/deals' || '/crm-hub/deals/detail':
+      case '/crm-hub/deals':
+      case '/crm-hub/deals/detail':
         flag = accessList.includes(accessObject.crmDeals)
         break
-      case '/crm-hub/tickets' || '/crm-hub/tickets/detail':
+      case '/crm-hub/tickets':
+      case '/crm-hub/tickets/detail':
         flag = accessList.includes(accessObject.crmTickets)
         break
       case '/crm-hub/tasks':
