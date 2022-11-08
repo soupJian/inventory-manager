@@ -9,6 +9,7 @@ import { CloseOutlined } from '@ant-design/icons'
 // js
 import { toggleLoading } from '../../../../store/slices/globalSlice'
 import { formatTimeStr } from '../../../../utils/formatTime'
+import { SuperAdmin } from '../../../../constants/setting'
 // api
 import { updateUser } from '../../../../service/setting/setting-user'
 // css
@@ -105,7 +106,7 @@ const UserModule = ({
                 <Col span={21} className={styles.title}>
                   <Space>
                     {item.accessName}
-                    {item.accessName != 'Super Admin' && (
+                    {item.accessName != SuperAdmin && (
                       <a
                         className={styles.link}
                         onClick={() => showAccessDetail(item)}

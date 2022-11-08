@@ -3,6 +3,8 @@ import React from 'react'
 import { Table, Dropdown, Menu, Space, Button } from 'antd'
 import { Icon } from '../../../../components/commons'
 import { DownOutlined } from '@ant-design/icons'
+// js
+import { SuperAdmin, Admin } from '../../../../constants/setting'
 
 // main
 const UserAccess = ({ data, editUserAccess }) => {
@@ -55,20 +57,19 @@ const UserAccess = ({ data, editUserAccess }) => {
                 <DownOutlined />
               </Space>
             </Dropdown>
-            {record.accessName != 'Super Admin' &&
-              record.accessName != 'Admin' && (
-                <Button
-                  style={{ marginLeft: '40px' }}
-                  onClick={() => {
-                    editUserAccess(record)
-                  }}
-                >
-                  <Space>
-                    <Icon name="edit" width="11px" height="11px"></Icon>
-                    Edit
-                  </Space>
-                </Button>
-              )}
+            {record.accessName != SuperAdmin && record.accessName != Admin && (
+              <Button
+                style={{ marginLeft: '40px' }}
+                onClick={() => {
+                  editUserAccess(record)
+                }}
+              >
+                <Space>
+                  <Icon name="edit" width="11px" height="11px"></Icon>
+                  Edit
+                </Space>
+              </Button>
+            )}
           </>
         )
       }

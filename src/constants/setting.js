@@ -1,3 +1,5 @@
+export const SuperAdmin = 'Super Admin'
+export const Admin = 'Admin'
 export const accessObject = {
   // inventory
   inventory: 'inventory',
@@ -18,6 +20,7 @@ export const accessObject = {
   settingAssiging: 'settingAssiging',
   settingPipeline: 'settingPipeline',
   settingAssets: 'settingAssets',
+  settingUsers: 'settingUsers',
   settingReply: 'settingReply',
   // history
   history: 'history'
@@ -27,51 +30,35 @@ export const compluteTabList = (user, list) => {
   const accessName = user.user.access.accessName
   const newList = [...list]
   // assigning
-  if (
-    accessList.includes(accessObject.settingAssiging) ||
-    accessName == 'Super Admin' ||
-    accessName == 'Admin'
-  ) {
+  if (accessList.includes(accessObject.settingAssiging)) {
     newList.push({
       label: 'Assigning',
       key: 'assigning'
     })
   }
   // pipeline
-  if (
-    accessList.includes(accessObject.settingPipeline) ||
-    accessName == 'Super Admin' ||
-    accessName == 'Admin'
-  ) {
+  if (accessList.includes(accessObject.settingPipeline)) {
     newList.push({
       label: 'Pipeline',
       key: 'pipeline'
     })
   }
   // assets
-  if (
-    accessList.includes(accessObject.settingAssets) ||
-    accessName == 'Super Admin' ||
-    accessName == 'Admin'
-  ) {
+  if (accessList.includes(accessObject.settingAssets)) {
     newList.push({
       label: 'Assets',
       key: 'assets'
     })
   }
   // users
-  if (accessName == 'Super Admin') {
+  if (accessList.includes(accessObject.settingUsers)) {
     newList.push({
       label: 'Users',
       key: 'users'
     })
   }
   // reply
-  if (
-    accessList.includes(accessObject.settingReply) ||
-    accessName == 'Super Admin' ||
-    accessName == 'Admin'
-  ) {
+  if (accessList.includes(accessObject.settingReply)) {
     newList.push({
       label: 'Reply',
       key: 'reply'

@@ -50,95 +50,53 @@ const BasicLayout = ({ children }) => {
       case '/inventory' ||
         '/inventory/search-inventory' ||
         '/inventory/search-product':
-        flag =
-          accessName == 'Super Admin' ||
-          accessName == 'Admin' ||
-          accessList.includes(accessObject.inventory)
+        flag = accessList.includes(accessObject.inventory)
         break
       case '/warehouse' ||
         '/warehouse/item' ||
         '/warehouse/product' ||
         '/warehouse/search-product' ||
         '/warehouse/search-inventory':
-        flag =
-          accessName == 'Super Admin' ||
-          accessName == 'Admin' ||
-          accessList.includes(accessObject.warehouse)
+        flag = accessList.includes(accessObject.warehouse)
         break
       case '/shipping':
-        flag =
-          accessName == 'Super Admin' ||
-          accessName == 'Admin' ||
-          accessList.includes(accessObject.shipping)
+        flag = accessList.includes(accessObject.shipping)
         break
       case '/orders':
-        flag =
-          accessName == 'Super Admin' ||
-          accessName == 'Admin' ||
-          accessList.includes(accessObject.orders)
+        flag = accessList.includes(accessObject.orders)
         break
       case '/crm-hub/form-email':
-        flag =
-          accessName == 'Super Admin' ||
-          accessName == 'Admin' ||
-          accessList.includes(accessObject.crmFormEmail)
+        flag = accessList.includes(accessObject.crmFormEmail)
         break
       case '/crm-hub/chats':
-        flag =
-          accessName == 'Super Admin' ||
-          accessName == 'Admin' ||
-          accessList.includes(accessObject.crmChats)
+        flag = accessList.includes(accessObject.crmChats)
         break
       case '/crm-hub/deals' || '/crm-hub/deals/detail':
-        flag =
-          accessName == 'Super Admin' ||
-          accessName == 'Admin' ||
-          accessList.includes(accessObject.crmDeals)
+        flag = accessList.includes(accessObject.crmDeals)
         break
       case '/crm-hub/tickets' || '/crm-hub/tickets/detail':
-        flag =
-          accessName == 'Super Admin' ||
-          accessName == 'Admin' ||
-          accessList.includes(accessObject.crmTickets)
+        flag = accessList.includes(accessObject.crmTickets)
         break
       case '/crm-hub/tasks':
-        flag =
-          accessName == 'Super Admin' ||
-          accessName == 'Admin' ||
-          accessList.includes(accessObject.crmTasks)
+        flag = accessList.includes(accessObject.crmTasks)
         break
       case '/crm-hub/dashboard':
-        flag =
-          accessName == 'Super Admin' ||
-          accessName == 'Admin' ||
-          accessList.includes(accessObject.crmDashboard)
+        flag = accessList.includes(accessObject.crmDashboard)
         break
       case '/setting/assigning':
-        flag =
-          accessName == 'Super Admin' ||
-          accessName == 'Admin' ||
-          accessList.includes(accessObject.settingAssiging)
+        flag = accessList.includes(accessObject.settingAssiging)
         break
       case '/setting/pipeline':
-        flag =
-          accessName == 'Super Admin' ||
-          accessName == 'Admin' ||
-          accessList.includes(accessObject.settingPipeline)
+        flag = accessList.includes(accessObject.settingPipeline)
         break
       case '/setting/assets':
-        flag =
-          accessName == 'Super Admin' ||
-          accessName == 'Admin' ||
-          accessList.includes(accessObject.settingAssets)
+        flag = accessList.includes(accessObject.settingAssets)
         break
       case '/setting/users':
-        flag = accessName == 'Super Admin'
+        flag = accessList.includes(accessObject.settingUsers)
         break
       case '/setting/reply':
-        flag =
-          accessName == 'Super Admin' ||
-          accessName == 'Admin' ||
-          accessList.includes(accessObject.settingReply)
+        flag = accessList.includes(accessObject.settingReply)
         break
       default:
         flag = false

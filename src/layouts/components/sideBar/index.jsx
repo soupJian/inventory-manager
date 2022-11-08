@@ -72,11 +72,7 @@ const SideBar = ({ collapsed, user }) => {
     setMenuItems((list) => {
       const newList = [...list]
       // inventory 模块
-      if (
-        accessList.includes(accessObject.inventory) ||
-        accessName == 'Super Admin' ||
-        accessName == 'Admin'
-      ) {
+      if (accessList.includes(accessObject.inventory)) {
         newList.push(
           getItem(
             'Inventory',
@@ -86,11 +82,7 @@ const SideBar = ({ collapsed, user }) => {
         )
       }
       // warehouse 模块
-      if (
-        accessList.includes(accessObject.warehouse) ||
-        accessName == 'Super Admin' ||
-        accessName == 'Admin'
-      ) {
+      if (accessList.includes(accessObject.warehouse)) {
         newList.push(
           getItem(
             'Warehouse',
@@ -100,11 +92,7 @@ const SideBar = ({ collapsed, user }) => {
         )
       }
       // shipping 模块
-      if (
-        accessList.includes(accessObject.shipping) ||
-        accessName == 'Super Admin' ||
-        accessName == 'Admin'
-      ) {
+      if (accessList.includes(accessObject.shipping)) {
         newList.push(
           getItem(
             'Shipping',
@@ -114,11 +102,7 @@ const SideBar = ({ collapsed, user }) => {
         )
       }
       // orders 模块
-      if (
-        accessList.includes(accessObject.orders) ||
-        accessName == 'Super Admin' ||
-        accessName == 'Admin'
-      ) {
+      if (accessList.includes(accessObject.orders)) {
         newList.push(
           getItem(
             'Orders',
@@ -134,51 +118,25 @@ const SideBar = ({ collapsed, user }) => {
         accessList.includes(accessObject.crmDeals) ||
         accessList.includes(accessObject.crmTickets) ||
         accessList.includes(accessObject.crmTasks) ||
-        accessList.includes(accessObject.crmDashboard) ||
-        accessName == 'Super Admin' ||
-        accessName == 'Admin'
+        accessList.includes(accessObject.crmDashboard)
       ) {
         const crmhubList = []
-        if (
-          accessList.includes(accessObject.crmFormEmail) ||
-          accessName == 'Super Admin' ||
-          accessName == 'Admin'
-        ) {
+        if (accessList.includes(accessObject.crmFormEmail)) {
           crmhubList.push(getItem('Forms & Emails', '/crm-hub/form-email'))
         }
-        if (
-          accessList.includes(accessObject.crmDeals) ||
-          accessName == 'Super Admin' ||
-          accessName == 'Admin'
-        ) {
+        if (accessList.includes(accessObject.crmDeals)) {
           crmhubList.push(getItem('Deals', '/crm-hub/deals'))
         }
-        if (
-          accessList.includes(accessObject.crmChats) ||
-          accessName == 'Super Admin' ||
-          accessName == 'Admin'
-        ) {
+        if (accessList.includes(accessObject.crmChats)) {
           crmhubList.push(getItem('Chats', '/crm-hub/chats'))
         }
-        if (
-          accessList.includes(accessObject.crmTickets) ||
-          accessName == 'Super Admin' ||
-          accessName == 'Admin'
-        ) {
+        if (accessList.includes(accessObject.crmTickets)) {
           crmhubList.push(getItem('Tickets', '/crm-hub/tickets'))
         }
-        if (
-          accessList.includes(accessObject.crmTasks) ||
-          accessName == 'Super Admin' ||
-          accessName == 'Admin'
-        ) {
+        if (accessList.includes(accessObject.crmTasks)) {
           crmhubList.push(getItem('Task', '/crm-hub/task'))
         }
-        if (
-          accessList.includes(accessObject.crmDashboard) ||
-          accessName == 'Super Admin' ||
-          accessName == 'Admin'
-        ) {
+        if (accessList.includes(accessObject.crmDashboard)) {
           crmhubList.push(getItem('Dashboard', '/crm-hub/dashboard'))
         }
         if (crmhubList.length > 0) {
@@ -198,39 +156,20 @@ const SideBar = ({ collapsed, user }) => {
         accessList.includes(accessObject.settingPipeline) ||
         accessList.includes(accessObject.settingAssets) ||
         accessList.includes(accessObject.settingReply) ||
-        accessName == 'Super Admin' ||
-        accessName == 'Admin'
+        accessList.includes(accessObject.settingUsers)
       ) {
         let settingRouter = '/'
-        if (
-          accessList.includes(accessObject.settingAssiging) ||
-          accessName == 'Super Admin' ||
-          accessName == 'Admin'
-        ) {
+        if (accessList.includes(accessObject.settingAssiging)) {
           settingRouter = '/setting/assigning'
-        } else if (
-          accessList.includes(accessObject.settingPipeline) ||
-          accessName == 'Super Admin' ||
-          accessName == 'Admin'
-        ) {
+        } else if (accessList.includes(accessObject.settingPipeline)) {
           settingRouter = '/setting/pipeline'
-        } else if (
-          accessList.includes(accessObject.settingAssets) ||
-          accessName == 'Super Admin' ||
-          accessName == 'Admin'
-        ) {
+        } else if (accessList.includes(accessObject.settingAssets)) {
           settingRouter = '/setting/assets'
-        } else if (
-          accessList.includes(accessObject.settingReply) ||
-          accessName == 'Super Admin' ||
-          accessName == 'Admin'
-        ) {
-          settingRouter =
-            '/setting/reply' ||
-            accessName == 'Super Admin' ||
-            accessName == 'Admin'
+        } else if (accessList.includes(accessObject.settingReply)) {
+          settingRouter = '/setting/reply'
+        } else if (accessList.includes(accessObject.settingReply)) {
+          settingRouter = '/setting/users'
         } else {
-          // super admin
           settingRouter = '/'
         }
         newList.push(
@@ -245,11 +184,7 @@ const SideBar = ({ collapsed, user }) => {
     })
     setActionItems((list) => {
       const newList = [...list]
-      if (
-        accessList.includes(accessObject.history) ||
-        accessName == 'Super Admin' ||
-        accessName == 'Admin'
-      ) {
+      if (accessList.includes(accessObject.history)) {
         newList.push({
           key: 'Activites',
           label: 'Activites',
@@ -309,9 +244,7 @@ const SideBar = ({ collapsed, user }) => {
       <div className={styles.userAction}>
         <Menu mode="inline" items={actionItems} />
       </div>
-      {(user.user.access?.accesses.includes(accessObject.history) ||
-        user.user.access?.accessName == 'Super Admin' ||
-        user.user.access?.accessName == 'Admin') && (
+      {user.user.access?.accesses.includes(accessObject.history) && (
         <History show={toggleHistory} onClose={() => setToggleHistory(false)} />
       )}
 
