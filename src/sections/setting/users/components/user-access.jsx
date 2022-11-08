@@ -23,7 +23,7 @@ const UserAccess = ({ data, editUserAccess }) => {
       }
     },
     {
-      title: 'USERLIST',
+      title: 'USER LIST',
       dataIndex: 'userList',
       render: (_, record) => {
         return (

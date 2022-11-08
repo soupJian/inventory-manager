@@ -47,7 +47,6 @@ const Users = () => {
     dispatch(toggleLoading(true))
     const userRes = await getAllUser()
     const accessRes = await getAllAccess()
-    console.log(accessRes)
     setUserList(
       userRes.Items.map((item) => {
         return {
@@ -69,7 +68,6 @@ const Users = () => {
   // 编辑用户 权限
   const editUserAccess = useCallback(
     (record) => {
-      console.log(record)
       setAccessInfo({
         ...accessInfo,
         show: true,
@@ -98,7 +96,6 @@ const Users = () => {
     setAccessInfo((info) => {
       const newInfo = { ...info }
       newInfo.access[e.target.name] = e.target.value
-      console.log(newInfo)
       return newInfo
     })
   }, [])
@@ -109,6 +106,14 @@ const Users = () => {
       show: true,
       type: 'edit'
       // access: access
+    })
+  }
+  const showCreateAccess = () => {
+    setAccessInfo({
+      ...accessInfo,
+      show: true,
+      type: 'create',
+      access: defaultAccess
     })
   }
   // create access
@@ -205,12 +210,7 @@ const Users = () => {
             <Button
               className={styles.exportBtn}
               onClick={() => {
-                setAccessInfo({
-                  ...accessInfo,
-                  show: true,
-                  type: 'create',
-                  access: defaultAccess
-                })
+                showCreateAccess()
               }}
             >
               Create access
@@ -224,6 +224,7 @@ const Users = () => {
           <UserModule
             data={userList}
             showAccessDetail={showAccessDetail}
+            showCreateAccess={showCreateAccess}
             accessList={accessList}
             getData={getData}
           />

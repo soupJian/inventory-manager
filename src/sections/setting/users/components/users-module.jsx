@@ -15,7 +15,13 @@ import { updateUser } from '../../../../service/setting/setting-user'
 import styles from '../index.module.less'
 
 // main
-const UserModule = ({ data, showAccessDetail, accessList, getData }) => {
+const UserModule = ({
+  data,
+  showAccessDetail,
+  accessList,
+  getData,
+  showCreateAccess
+}) => {
   const dispatch = useDispatch()
   const [showSelectedView, setShowSelectedView] = useState(false)
   // 选择的表格数据
@@ -147,11 +153,20 @@ const UserModule = ({ data, showAccessDetail, accessList, getData }) => {
             <Popover
               placement="bottom"
               content={
-                <DropMenu
-                  accessList={accessList}
-                  value={record.access}
-                  changeUserAccess={(e) => changeUserAccess(e, record)}
-                />
+                <>
+                  <DropMenu
+                    accessList={accessList}
+                    value={record.access}
+                    changeUserAccess={(e) => changeUserAccess(e, record)}
+                  />
+                  <div
+                    className={styles.link}
+                    style={{ marginTop: '16px' }}
+                    onClick={() => showCreateAccess()}
+                  >
+                    Create new access
+                  </div>
+                </>
               }
               overlayClassName={styles.dropDownItem}
             >
