@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux'
 import {
   Filter,
   Flex,
-  Icon,
   Pagination,
   Tab,
   Table,
@@ -13,8 +12,7 @@ import {
   Tabs,
   Wrapper,
   Dialog,
-  BaseButton,
-  Tooltip
+  BaseButton
 } from '../../../components/commons'
 import { Popover } from 'antd'
 import { PlusCircleFilled } from '@ant-design/icons'
