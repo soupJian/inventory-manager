@@ -9,6 +9,8 @@ import { Menu } from 'antd'
 import { Icon } from '../../../components/commons'
 const History = dynamic(() => import('../history'))
 const UserCenter = dynamic(() => import('../user-center'))
+// js
+import { accessObject } from '../../../constants/setting'
 // css ----------
 import styled from 'styled-components'
 import styles from './index.module.less'
@@ -71,7 +73,7 @@ const SideBar = ({ collapsed, user }) => {
       const newList = [...list]
       // inventory 模块
       if (
-        accessList.includes('inventory') ||
+        accessList.includes(accessObject.inventory) ||
         accessName == 'Super Admin' ||
         accessName == 'Admin'
       ) {
@@ -85,7 +87,7 @@ const SideBar = ({ collapsed, user }) => {
       }
       // warehouse 模块
       if (
-        accessList.includes('warehouse') ||
+        accessList.includes(accessObject.warehouse) ||
         accessName == 'Super Admin' ||
         accessName == 'Admin'
       ) {
@@ -99,7 +101,7 @@ const SideBar = ({ collapsed, user }) => {
       }
       // shipping 模块
       if (
-        accessList.includes('shipping') ||
+        accessList.includes(accessObject.shipping) ||
         accessName == 'Super Admin' ||
         accessName == 'Admin'
       ) {
@@ -113,7 +115,7 @@ const SideBar = ({ collapsed, user }) => {
       }
       // orders 模块
       if (
-        accessList.includes('orders') ||
+        accessList.includes(accessObject.orders) ||
         accessName == 'Super Admin' ||
         accessName == 'Admin'
       ) {
@@ -127,53 +129,53 @@ const SideBar = ({ collapsed, user }) => {
       }
       // crm-hub
       if (
-        accessList.includes('crmFormEmail') ||
-        accessList.includes('crmChats') ||
-        accessList.includes('crmDeals') ||
-        accessList.includes('crmTickets') ||
-        accessList.includes('crmTasks') ||
-        accessList.includes('crmDashDashboard') ||
+        accessList.includes(accessObject.crmFormEmail) ||
+        accessList.includes(accessObject.crmChats) ||
+        accessList.includes(accessObject.crmDeals) ||
+        accessList.includes(accessObject.crmTickets) ||
+        accessList.includes(accessObject.crmTasks) ||
+        accessList.includes(accessObject.crmDashboard) ||
         accessName == 'Super Admin' ||
         accessName == 'Admin'
       ) {
         const crmhubList = []
         if (
-          accessList.includes('crmFormEmail') ||
+          accessList.includes(accessObject.crmFormEmail) ||
           accessName == 'Super Admin' ||
           accessName == 'Admin'
         ) {
           crmhubList.push(getItem('Forms & Emails', '/crm-hub/form-email'))
         }
         if (
-          accessList.includes('crmDeals') ||
+          accessList.includes(accessObject.crmDeals) ||
           accessName == 'Super Admin' ||
           accessName == 'Admin'
         ) {
           crmhubList.push(getItem('Deals', '/crm-hub/deals'))
         }
         if (
-          accessList.includes('crmChats') ||
+          accessList.includes(accessObject.crmChats) ||
           accessName == 'Super Admin' ||
           accessName == 'Admin'
         ) {
           crmhubList.push(getItem('Chats', '/crm-hub/chats'))
         }
         if (
-          accessList.includes('Tickets') ||
+          accessList.includes(accessObject.crmTickets) ||
           accessName == 'Super Admin' ||
           accessName == 'Admin'
         ) {
           crmhubList.push(getItem('Tickets', '/crm-hub/tickets'))
         }
         if (
-          accessList.includes('Task') ||
+          accessList.includes(accessObject.crmTasks) ||
           accessName == 'Super Admin' ||
           accessName == 'Admin'
         ) {
           crmhubList.push(getItem('Task', '/crm-hub/task'))
         }
         if (
-          accessList.includes('Dashboard') ||
+          accessList.includes(accessObject.crmDashboard) ||
           accessName == 'Super Admin' ||
           accessName == 'Admin'
         ) {
@@ -192,34 +194,34 @@ const SideBar = ({ collapsed, user }) => {
       }
       // setting 模块
       if (
-        accessList.includes('settingAssiging') ||
-        accessList.includes('settingPipeline') ||
-        accessList.includes('settingAssets') ||
-        accessList.includes('settingReply') ||
+        accessList.includes(accessObject.settingAssiging) ||
+        accessList.includes(accessObject.settingPipeline) ||
+        accessList.includes(accessObject.settingAssets) ||
+        accessList.includes(accessObject.settingReply) ||
         accessName == 'Super Admin' ||
         accessName == 'Admin'
       ) {
         let settingRouter = '/'
         if (
-          accessList.includes('settingAssiging') ||
+          accessList.includes(accessObject.settingAssiging) ||
           accessName == 'Super Admin' ||
           accessName == 'Admin'
         ) {
           settingRouter = '/setting/assigning'
         } else if (
-          accessList.includes('settingPipeline') ||
+          accessList.includes(accessObject.settingPipeline) ||
           accessName == 'Super Admin' ||
           accessName == 'Admin'
         ) {
           settingRouter = '/setting/pipeline'
         } else if (
-          accessList.includes('settingAssets') ||
+          accessList.includes(accessObject.settingAssets) ||
           accessName == 'Super Admin' ||
           accessName == 'Admin'
         ) {
           settingRouter = '/setting/assets'
         } else if (
-          accessList.includes('settingReply') ||
+          accessList.includes(accessObject.settingReply) ||
           accessName == 'Super Admin' ||
           accessName == 'Admin'
         ) {
@@ -244,7 +246,7 @@ const SideBar = ({ collapsed, user }) => {
     setActionItems((list) => {
       const newList = [...list]
       if (
-        accessList.includes('history') ||
+        accessList.includes(accessObject.history) ||
         accessName == 'Super Admin' ||
         accessName == 'Admin'
       ) {
@@ -307,7 +309,7 @@ const SideBar = ({ collapsed, user }) => {
       <div className={styles.userAction}>
         <Menu mode="inline" items={actionItems} />
       </div>
-      {(user.user.access?.accesses.includes('history') ||
+      {(user.user.access?.accesses.includes(accessObject.history) ||
         user.user.access?.accessName == 'Super Admin' ||
         user.user.access?.accessName == 'Admin') && (
         <History show={toggleHistory} onClose={() => setToggleHistory(false)} />

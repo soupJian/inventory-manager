@@ -9,6 +9,7 @@ import NoAccess from './components/no-access'
 import { Layout } from 'antd'
 // js
 import { logoutUser } from '../store/slices/userSlice'
+import { accessObject } from '../constants/setting'
 // css
 import styles from './BasicLayout.module.less'
 // js
@@ -52,7 +53,7 @@ const BasicLayout = ({ children }) => {
         flag =
           accessName == 'Super Admin' ||
           accessName == 'Admin' ||
-          accessList.includes('inventory')
+          accessList.includes(accessObject.inventory)
         break
       case '/warehouse' ||
         '/warehouse/item' ||
@@ -62,73 +63,73 @@ const BasicLayout = ({ children }) => {
         flag =
           accessName == 'Super Admin' ||
           accessName == 'Admin' ||
-          accessList.includes('warehouse')
+          accessList.includes(accessObject.warehouse)
         break
       case '/shipping':
         flag =
           accessName == 'Super Admin' ||
           accessName == 'Admin' ||
-          accessList.includes('shipping')
+          accessList.includes(accessObject.shipping)
         break
       case '/orders':
         flag =
           accessName == 'Super Admin' ||
           accessName == 'Admin' ||
-          accessList.includes('orders')
+          accessList.includes(accessObject.orders)
         break
       case '/crm-hub/form-email':
         flag =
           accessName == 'Super Admin' ||
           accessName == 'Admin' ||
-          accessList.includes('crmFormEmail')
+          accessList.includes(accessObject.crmFormEmail)
         break
       case '/crm-hub/chats':
         flag =
           accessName == 'Super Admin' ||
           accessName == 'Admin' ||
-          accessList.includes('crmChats')
+          accessList.includes(accessObject.crmChats)
         break
       case '/crm-hub/deals' || '/crm-hub/deals/detail':
         flag =
           accessName == 'Super Admin' ||
           accessName == 'Admin' ||
-          accessList.includes('crmDeals')
+          accessList.includes(accessObject.crmDeals)
         break
       case '/crm-hub/tickets' || '/crm-hub/tickets/detail':
         flag =
           accessName == 'Super Admin' ||
           accessName == 'Admin' ||
-          accessList.includes('crmTickets')
+          accessList.includes(accessObject.crmTickets)
         break
       case '/crm-hub/tasks':
         flag =
           accessName == 'Super Admin' ||
           accessName == 'Admin' ||
-          accessList.includes('crmTasks')
+          accessList.includes(accessObject.crmTasks)
         break
       case '/crm-hub/dashboard':
         flag =
           accessName == 'Super Admin' ||
           accessName == 'Admin' ||
-          accessList.includes('crmDashDashboard')
+          accessList.includes(accessObject.crmDashboard)
         break
       case '/setting/assigning':
         flag =
           accessName == 'Super Admin' ||
           accessName == 'Admin' ||
-          accessList.includes('settingAssiging')
+          accessList.includes(accessObject.settingAssiging)
         break
       case '/setting/pipeline':
         flag =
           accessName == 'Super Admin' ||
           accessName == 'Admin' ||
-          accessList.includes('settingPipeline')
+          accessList.includes(accessObject.settingPipeline)
         break
       case '/setting/assets':
         flag =
           accessName == 'Super Admin' ||
           accessName == 'Admin' ||
-          accessList.includes('settingAssets')
+          accessList.includes(accessObject.settingAssets)
         break
       case '/setting/users':
         flag = accessName == 'Super Admin'
@@ -137,7 +138,7 @@ const BasicLayout = ({ children }) => {
         flag =
           accessName == 'Super Admin' ||
           accessName == 'Admin' ||
-          accessList.includes('settingReply')
+          accessList.includes(accessObject.settingReply)
         break
       default:
         flag = false

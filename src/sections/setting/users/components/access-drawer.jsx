@@ -1,6 +1,8 @@
 import React from 'react'
 // components
 import { Row, Col, Input, Switch, Divider, Button } from 'antd'
+// js
+import { accessObject } from '../../../../constants/setting'
 // css
 import styles from '../index.module.less'
 
@@ -62,10 +64,10 @@ const AccessDrawer = (props) => {
         </Col>
       </Row>
       <Row gutter={[0, 30]}>
-        <SwitchItem label="Inventory" name="inventory" />
-        <SwitchItem label="Warehouse" name="warehouse" />
-        <SwitchItem label="Shipping" name="shipping" />
-        <SwitchItem label="Orders" name="orders" />
+        <SwitchItem label="Inventory" name={accessObject.inventory} />
+        <SwitchItem label="Warehouse" name={accessObject.warehouse} />
+        <SwitchItem label="Shipping" name={accessObject.shipping} />
+        <SwitchItem label="Orders" name={accessObject.orders} />
       </Row>
       <Divider></Divider>
       {/* Customer Services */}
@@ -75,12 +77,12 @@ const AccessDrawer = (props) => {
         </Col>
       </Row>
       <Row gutter={[0, 30]}>
-        <SwitchItem label="Forms & Emails" name="crmFormEmail" />
-        <SwitchItem label="Chats" name="crmChats" />
-        <SwitchItem label="Deals" name="crmDeals" />
-        <SwitchItem label="Tickets" name="crmTickets" />
-        <SwitchItem label="Tasks" name="crmTasks" />
-        <SwitchItem label="Dashboard" name="crmDashDashboard" />
+        <SwitchItem label="Forms & Emails" name={accessObject.crmFormEmail} />
+        <SwitchItem label="Chats" name={accessObject.crmChats} />
+        <SwitchItem label="Deals" name={accessObject.crmDeals} />
+        <SwitchItem label="Tickets" name={accessObject.crmTickets} />
+        <SwitchItem label="Tasks" name={accessObject.crmTasks} />
+        <SwitchItem label="Dashboard" name={accessObject.crmDashboard} />
       </Row>
       <Divider />
       {/* GENERAL */}
@@ -90,12 +92,21 @@ const AccessDrawer = (props) => {
         </Col>
       </Row>
       <Row gutter={[0, 30]}>
-        <SwitchItem label="Settings - Assiging" name="settingAssiging" />
-        <SwitchItem label="Settings - Pipeline" name="settingPipeline" />
-        <SwitchItem label="Settings - Assets" name="settingAssets" />
+        <SwitchItem
+          label="Settings - Assiging"
+          name={accessObject.settingAssiging}
+        />
+        <SwitchItem
+          label="Settings - Pipeline"
+          name={accessObject.settingPipeline}
+        />
+        <SwitchItem
+          label="Settings - Assets"
+          name={accessObject.settingAssets}
+        />
         {/* <SwitchItem label="Settings - Users" name="settingUsers" /> */}
-        <SwitchItem label="Settings - Reply" name="settingReply" />
-        <SwitchItem label="Activity history" name="history" />
+        <SwitchItem label="Settings - Reply" name={accessObject.settingReply} />
+        <SwitchItem label="Activity history" name={accessObject.history} />
       </Row>
       <Row justify="end">
         <Col>
