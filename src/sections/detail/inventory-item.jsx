@@ -145,15 +145,15 @@ const Item = ({ loading, item, backLink, onDelete, showEditModal }) => {
                     <AttrValue>
                       {activeLwh == 'in.'
                         ? item.attr.length
-                        : Number(item.attr.length * 0.45359237).toFixed(1)}{' '}
+                        : Number(item.attr.length * 2.54).toFixed(1)}{' '}
                       X{' '}
                       {activeLwh == 'in.'
                         ? item.attr.width
-                        : Number(item.attr.width * 0.45359237).toFixed(1)}{' '}
+                        : Number(item.attr.width * 2.54).toFixed(1)}{' '}
                       X{' '}
                       {activeLwh == 'in.'
                         ? item.attr.height
-                        : Number(item.attr.height * 0.45359237).toFixed(1)}
+                        : Number(item.attr.height * 2.54).toFixed(1)}
                       {activeLwh == 'in.' && (
                         <>
                           <span

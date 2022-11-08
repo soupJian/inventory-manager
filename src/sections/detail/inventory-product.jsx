@@ -186,19 +186,19 @@ const Product = ({
                         {partItem.activeLwh == 'in.'
                           ? partItem.Inventory.attr.length
                           : Number(
-                              partItem.Inventory.attr.length * 0.45359237
+                              partItem.Inventory.attr.length * 2.54
                             ).toFixed(1)}{' '}
                         X{' '}
                         {partItem.activeLwh == 'in.'
                           ? partItem.Inventory.attr.width
                           : Number(
-                              partItem.Inventory.attr.width * 0.45359237
+                              partItem.Inventory.attr.width * 2.54
                             ).toFixed(1)}{' '}
                         X{' '}
                         {partItem.activeLwh == 'in.'
                           ? partItem.Inventory.attr.height
                           : Number(
-                              partItem.Inventory.attr.height * 0.45359237
+                              partItem.Inventory.attr.height * 2.54
                             ).toFixed(1)}
                         {partItem.activeLwh == 'in.' && (
                           <>

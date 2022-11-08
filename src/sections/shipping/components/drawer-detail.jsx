@@ -244,19 +244,19 @@ const DrawerDetail = ({ info }) => {
                             {item.activeLwh == 'in.'
                               ? item.Inventory.attr.length
                               : Number(
-                                  item.Inventory.attr.length * 0.45359237
+                                  item.Inventory.attr.length * 2.54
                                 ).toFixed(1)}{' '}
                             X{' '}
                             {item.activeLwh == 'in.'
                               ? item.Inventory.attr.width
                               : Number(
-                                  item.Inventory.attr.width * 0.45359237
+                                  item.Inventory.attr.width * 2.54
                                 ).toFixed(1)}{' '}
                             X{' '}
                             {item.activeLwh == 'in.'
                               ? item.Inventory.attr.height
                               : Number(
-                                  item.Inventory.attr.height * 0.45359237
+                                  item.Inventory.attr.height * 2.54
                                 ).toFixed(1)}
                             {item.activeLwh == 'in.' && (
                               <>
