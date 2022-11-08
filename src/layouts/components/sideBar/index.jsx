@@ -57,7 +57,6 @@ const SideBar = ({ collapsed, user }) => {
     if (!user.isLoggedIn) {
       return
     }
-    console.log(user)
     const accessList = user.user.access.accesses
     const accessName = user.user.access.accessName
     setMenuItems((list) => {

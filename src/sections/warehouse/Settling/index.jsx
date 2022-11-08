@@ -16,6 +16,8 @@ import {
   BaseButton,
   Tooltip
 } from '../../../components/commons'
+import { Popover } from 'antd'
+import { PlusCircleFilled } from '@ant-design/icons'
 // api
 import {
   getSettledInventory,
@@ -207,13 +209,8 @@ const Settline = () => {
                     ) : i.key === 'Location' ? (
                       <Flex justifyContent="flex-start">
                         {item[i.key][0]}
-                        {item[i.key].length > 1 && (
-                          <Tooltip
-                            wrapperStyles={{ 'margin-left': '4px' }}
-                            contentStyles={{
-                              'background-color': '#ffffff'
-                            }}
-                            place="top"
+                        {item['Location'].length > 1 && (
+                          <Popover
                             content={
                               <Wrapper>
                                 <HeaderText>All Locations</HeaderText>
@@ -224,19 +221,16 @@ const Settline = () => {
                                 </Flex>
                               </Wrapper>
                             }
+                            trigger="hover"
                           >
-                            <Button
-                              styles={{
-                                padding: '3px',
-                                'background-color': '#000000',
-                                'border-radius': '50%',
-                                width: '20px',
-                                height: '20px'
+                            <PlusCircleFilled
+                              style={{
+                                marginLeft: '4px',
+                                fontSize: '18px',
+                                marginTop: '2px'
                               }}
-                            >
-                              <Icon name="add" width="100%" height="100%" />
-                            </Button>
-                          </Tooltip>
+                            />
+                          </Popover>
                         )}
                       </Flex>
                     ) : i.key === 'Received' ? (

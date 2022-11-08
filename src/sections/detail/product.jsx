@@ -57,12 +57,12 @@ const ProductPage = ({ router }) => {
       sku: router.query.sku
     })
       .then((data) => {
-        if (data.Items.length == 0) {
+        if (!data.Item) {
           router.replace('/warehouse?tab=Managing')
         } else {
-          setProduct(data.Items[0])
+          setProduct(data.Item)
           setPartsInput(
-            data.Items[0].Parts.map((item) => {
+            data.Item.Parts.map((item) => {
               return {
                 activeLwh: 'in.',
                 activeWeight: 'lbs.',
