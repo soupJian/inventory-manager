@@ -43,19 +43,7 @@ const SideBar = ({ collapsed, user }) => {
   )
   // 侧边栏 menu 路由等...
   const [menuItems, setMenuItems] = useState([])
-  const [actionItems, setActionItems] = useState([
-    {
-      key: 'user center',
-      icon: <Icon name="user" width="24px" height="24px" />,
-      label: 'User Center',
-      onClick: () => {
-        setToggleHistory(false)
-        setToggleUserCenter((flag) => {
-          return !flag
-        })
-      }
-    }
-  ])
+  const [actionItems, setActionItems] = useState([])
   const handleToggleHistory = () => {
     setToggleUserCenter(false)
     setToggleHistory((flag) => {
@@ -68,9 +56,8 @@ const SideBar = ({ collapsed, user }) => {
       return
     }
     const accessList = user.user.access.accesses
-    const accessName = user.user.access.accessName
-    setMenuItems((list) => {
-      const newList = [...list]
+    setMenuItems(() => {
+      const newList = []
       // inventory 模块
       if (accessList.includes(accessObject.inventory)) {
         newList.push(
@@ -182,8 +169,20 @@ const SideBar = ({ collapsed, user }) => {
       }
       return newList
     })
-    setActionItems((list) => {
-      const newList = [...list]
+    setActionItems(() => {
+      const newList = [
+        {
+          key: 'user center',
+          icon: <Icon name="user" width="24px" height="24px" />,
+          label: 'User Center',
+          onClick: () => {
+            setToggleHistory(false)
+            setToggleUserCenter((flag) => {
+              return !flag
+            })
+          }
+        }
+      ]
       if (accessList.includes(accessObject.history)) {
         newList.push({
           key: 'Activites',

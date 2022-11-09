@@ -27,7 +27,6 @@ export const accessObject = {
 }
 export const compluteTabList = (user, list) => {
   const accessList = user.user.access.accesses
-  const accessName = user.user.access.accessName
   const newList = [...list]
   // assigning
   if (accessList.includes(accessObject.settingAssiging)) {
