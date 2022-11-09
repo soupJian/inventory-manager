@@ -1,3 +1,14 @@
+.userSelectWrap{
+  margin-top: 27px;
+  display: flex;
+  justify-content: flex-end;
+  :global{
+    .ant-select:not(.ant-select-customize-input) .ant-select-selector{
+      width: 200px;
+      border-radius: 10px;
+    }
+  }
+}
 .activeText {
   cursor: pointer;
   font-family: 'Lato';
@@ -16,6 +27,17 @@
   line-height: 19px;
   text-align: center;
   color: #ffffff;
+}
+.tableWrap{
+  margin-top: 23px;
+  padding: 0 28px 0 33px ;
+  border-radius: 10px;
+  background-color: #fff;
+  :global {
+    .ant-table-pagination-right {
+      justify-content: flex-start;
+    }
+  }
 }
 .drawerWrap {
   :global {

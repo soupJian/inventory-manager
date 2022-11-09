@@ -22,7 +22,7 @@ const columns = [
     render: (_, record) => `${record.FirstName}, ${record.LastName}`
   },
   {
-    title: 'Payment',
+    title: 'PAYMENT',
     dataIndex: 'Payment',
     render: (_, record) => `$${formatMoney(Number(record.Payment))}`
   },
@@ -73,7 +73,7 @@ const Orders = () => {
 
   return (
     <>
-      <div className={styles.container}>
+      <div className={styles.userSelectWrap}>
         <Space>
           <span>Order date</span>
           <Select
