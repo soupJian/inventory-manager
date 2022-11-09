@@ -30,6 +30,16 @@ export const dateList = [
     value: getDayCount(`${currentYear}/1/1`) + ''
   }
 ]
+export const sortByList = [
+  {
+    label: 'Payment (high to low)',
+    value: 'desc'
+  },
+  {
+    label: 'Payment (low to high)',
+    value: 'asc'
+  }
+]
 // shipping order
 export const UnShippedTableHeaders = [
   {

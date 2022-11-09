@@ -7,3 +7,11 @@
 .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
   background-color: #ccc !important;
 }
+/* 表格tr颜色 */
+.ant-table-row:nth-child(odd) {
+  background-color: #f6f7f9;
+}
+/* 表格 th */
+.ant-table-thead > tr > th {
+  background-color: #fff !important;
+}

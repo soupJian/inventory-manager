@@ -2,15 +2,15 @@ import { useState, useEffect } from 'react'
 import { withRouter } from 'next/router'
 // components
 import { Flex, Icon, Input, Tab, Tabs, Wrapper } from '../../components/commons'
-import ShippingHistory from '../../sections/shipping/shipping-history'
-import ShippingOrder from '../../sections/shipping/shipping-order'
+import OrdersHistory from '../../sections/orders/orders-history'
+import CurrentOrder from '../../sections/orders/current-order'
 
 // main
 const Orders = ({ router }) => {
   const [activeTab, setActiveTab] = useState('current')
   const handleChangeTab = (key) => {
     setActiveTab(key)
-    router.replace(`/shipping?tab=${key}`, null, { shallow: true })
+    router.replace(`/orders?tab=${key}`, null, { shallow: true })
   }
   useEffect(() => {
     if (router.query.tab) {
@@ -46,7 +46,7 @@ const Orders = ({ router }) => {
           startIcon={<Icon name="search" width="30px" height="30px" />}
         />
       </Flex>
-      {activeTab === 'current' ? <ShippingOrder /> : <ShippingHistory />}
+      {activeTab === 'current' ? <CurrentOrder /> : <OrdersHistory />}
     </Wrapper>
   )
 }
