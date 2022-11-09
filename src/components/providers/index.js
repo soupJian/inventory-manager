@@ -1,14 +1,12 @@
-import MainStateProvider from "./MainStateProvider"
-import ThemeWrapper from "./ThemeProvider"
+import MainStateProvider from './MainStateProvider'
+import ThemeWrapper from './ThemeProvider'
 
-const Providers = ({children}) => {
-    return (
-        <MainStateProvider>
-            <ThemeWrapper>
-                {children}
-            </ThemeWrapper>
-        </MainStateProvider>
-    )
+const HomeProviders = ({ children, store }) => {
+  return (
+    <MainStateProvider store={store}>
+      <ThemeWrapper>{children}</ThemeWrapper>
+    </MainStateProvider>
+  )
 }
 
-export default Providers
+export default HomeProviders
