@@ -2,7 +2,8 @@ import { withRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 // components
-import { Button, Table, Select, Space } from 'antd'
+import { Button, Table, Select, Space, Modal } from 'antd'
+import ModalShipping from './components/modal-shipping'
 // js
 import { dateList, sortByList } from '../../constants/pageConstants/shipping'
 import { ISOStringToReadableDate } from '../../utils/utils'
@@ -13,49 +14,6 @@ import { getUnShippedOrders } from '../../service/shipping'
 // css
 import styles from './index.module.less'
 
-const columns = [
-  {
-    title: 'ORDER NO.',
-    dataIndex: 'Id'
-  },
-  {
-    title: 'CUSTOMER',
-    render: (_, record) => `${record.FirstName}, ${record.LastName}`
-  },
-  {
-    title: 'PAYMENT',
-    dataIndex: 'Payment',
-    render: (_, record) => `$${formatMoney(Number(record.Payment))}`
-  },
-  {
-    title: 'ORDER DATE',
-    dataIndex: 'Created',
-    render: (_, record) => ISOStringToReadableDate(record.Created)
-  },
-  {
-    title: 'Status',
-    dataIndex: 'Status',
-    render: (_, record) => {
-      return (
-        <>
-          {record.Status == 'Processing' && Processing}
-          {record.Status == 'Shipped' && (
-            <span className={styles.link}>Shipped</span>
-          )}
-        </>
-      )
-    }
-  },
-  {
-    title: '',
-    render: (_, record) => (
-      <Button type="primary" className={styles.Btn}>
-        Detail
-      </Button>
-    )
-  }
-]
-
 const Orders = () => {
   const dispatch = useDispatch()
   const [orderState, setOrderState] = useState({
@@ -63,12 +21,10 @@ const Orders = () => {
     date: ''
   })
   const [orderData, setOrderData] = useState([])
-  const handleDate = (val) => {
-    setOrderState({
-      ...orderState,
-      date: val
-    })
-  }
+  const [shippingModal, setShippingModal] = useState({
+    show: false,
+    info: null
+  })
   const fetchUnShippedOrders = async () => {
     try {
       dispatch(toggleLoading(true))
@@ -82,6 +38,58 @@ const Orders = () => {
       console.log(err)
     }
   }
+  const columns = [
+    {
+      title: 'ORDER NO.',
+      dataIndex: 'Id'
+    },
+    {
+      title: 'CUSTOMER',
+      render: (_, record) => `${record.FirstName}, ${record.LastName}`
+    },
+    {
+      title: 'PAYMENT',
+      dataIndex: 'Payment',
+      render: (_, record) => `$${formatMoney(Number(record.Payment))}`
+    },
+    {
+      title: 'ORDER DATE',
+      dataIndex: 'Created',
+      render: (_, record) => ISOStringToReadableDate(record.Created)
+    },
+    {
+      title: 'Status',
+      dataIndex: 'Status',
+      render: (_, record) => {
+        return (
+          <>
+            {record.Status == 'Processing' && Processing}
+            {/* {record.Status == 'Shipped' && ( */}
+            <span
+              className={styles.activeText}
+              onClick={() => {
+                setShippingModal({
+                  show: true,
+                  info: record
+                })
+              }}
+            >
+              Shipped
+            </span>
+            {/* // )} */}
+          </>
+        )
+      }
+    },
+    {
+      title: '',
+      render: (_, record) => (
+        <Button type="primary" className={styles.Btn}>
+          Detail
+        </Button>
+      )
+    }
+  ]
   useEffect(() => {
     fetchUnShippedOrders()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -128,6 +136,19 @@ const Orders = () => {
           }}
         />
       </div>
+      <Modal
+        open={shippingModal.show}
+        footer={null}
+        centered
+        title="Shipping status"
+        onCancel={() =>
+          setShippingModal({
+            show: false
+          })
+        }
+      >
+        {shippingModal.info && <ModalShipping info={shippingModal.info} />}
+      </Modal>
     </>
   )
 }
