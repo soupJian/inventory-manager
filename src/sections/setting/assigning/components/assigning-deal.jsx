@@ -1,17 +1,30 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 // components
 import { Row, Col, Select, Switch, Checkbox, Space } from 'antd'
+// api
+import {
+  getInquirySetting,
+  getRepresentatives,
+  updateInquirySetting
+} from '../../../../service/setting/setting-assigning'
+// js
+import { toggleLoading } from '../../../../store/slices/globalSlice'
 // css
 import styles from '../index.module.less'
 
-const { Option } = Select
+// const { Option } = Select
 const CheckboxGroup = Checkbox.Group
 
 // main
 const SettingDeal = () => {
-  // 是否打开
-  const [open, setOpen] = useState(false)
-  // 客服
+  const dispatch = useDispatch()
+  const [setting, setSetting] = useState({
+    autoAssign: false,
+    representatives: [],
+    ruleNum: 0
+  })
+  // 所有的客服
   const [customerList, setCustomerList] = useState([
     { id: 1, name: 'Cathy1' },
     { id: 2, name: 'Neela2' },
@@ -27,87 +40,123 @@ const SettingDeal = () => {
     { id: 12, name: 'Trish12' }
   ])
   // 自动分配 按照 价格
-  const [rulePrice, setRulePrice] = useState([
-    {
-      range: '$0 - $400',
-      personName: ['Cathy', 'Neela']
-    },
-    {
-      range: '$401 - $999',
-      personName: ['Cathy', 'Neela']
-    },
-    {
-      range: 'Over $999',
-      personName: ['Trish']
-    }
-  ])
-  const [ruleInterest, setRuleInterest] = useState([
-    {
-      range: 'Canopy tent',
-      personName: ['Cathy', 'Neela']
-    },
-    {
-      range: 'Umbrella',
-      personName: ['Cathy', 'Neela']
-    },
-    {
-      range: 'Table covers',
-      personName: ['Trish']
-    },
-    {
-      range: 'Display products',
-      personName: ['Cathy', 'Neela']
-    },
-    {
-      range: 'Inflatables',
-      personName: ['Cathy', 'Neela']
-    }
-  ])
+  // const [rulePrice, setRulePrice] = useState([
+  //   {
+  //     range: '$0 - $400',
+  //     personName: ['Cathy', 'Neela']
+  //   },
+  //   {
+  //     range: '$401 - $999',
+  //     personName: ['Cathy', 'Neela']
+  //   },
+  //   {
+  //     range: 'Over $999',
+  //     personName: ['Trish']
+  //   }
+  // ])
+  // const [ruleInterest, setRuleInterest] = useState([
+  //   {
+  //     range: 'Canopy tent',
+  //     personName: ['Cathy', 'Neela']
+  //   },
+  //   {
+  //     range: 'Umbrella',
+  //     personName: ['Cathy', 'Neela']
+  //   },
+  //   {
+  //     range: 'Table covers',
+  //     personName: ['Trish']
+  //   },
+  //   {
+  //     range: 'Display products',
+  //     personName: ['Cathy', 'Neela']
+  //   },
+  //   {
+  //     range: 'Inflatables',
+  //     personName: ['Cathy', 'Neela']
+  //   }
+  // ])
   // 自动分配规则
   const [radioRule, setRadioRule] = useState(0)
-  // 选择的客服
-  const [checkedList, setCheckedList] = useState([])
   // 是否全选
   const [checkAll, setCheckAll] = useState(false)
   // checkbox one
   const handleChangeCheckbox = (list) => {
-    setCheckedList(list)
     setCheckAll(list.length === customerList.length)
+    const data = {
+      ...setting,
+      representatives: list
+    }
+    setSetting(data)
+    updateSetting(data)
   }
   // checkbox all
   const handleCheckAll = (e) => {
-    setCheckedList(
-      e.target.checked ? customerList.map((item) => item.name) : []
-    )
+    const list = e.target.checked ? customerList.map((item) => item.id) : []
     setCheckAll(e.target.checked)
+    const data = {
+      ...setting,
+      representatives: list
+    }
+    setSetting(data)
+    updateSetting(data)
   }
-
   // toggle 打开/关闭 自动创建 deal
   const handleChangeSwitch = (checked) => {
-    setOpen(checked)
+    const data = { ...setting, autoAssign: checked }
+    setSetting(data)
+    updateSetting(data)
   }
   // radio 选择 分配规则
   const handleChangeRule = (e, value) => {
     setRadioRule(value)
   }
   // 选择 价格 对应的人 radioRule == 1  price
-  const handleChangeRulePerson = (values, ruleItem) => {
-    setRulePrice((list) => {
-      const newList = [...list]
-      const index = newList.findIndex((item) => item.range == ruleItem.range)
-      newList[index].personName = values
-      return newList
-    })
-  }
+  // const handleChangeRulePerson = (values, ruleItem) => {
+  //   setRulePrice((list) => {
+  //     const newList = [...list]
+  //     const index = newList.findIndex((item) => item.range == ruleItem.range)
+  //     newList[index].personName = values
+  //     return newList
+  //   })
+  // }
   // radioRule == 2 选择 interest
-  const handleChangeRuleInterest = (values, ruleItem) => {
-    setRuleInterest((list) => {
-      const newList = [...list]
-      const index = newList.findIndex((item) => item.range == ruleItem.range)
-      newList[index].personName = values
-      return newList
-    })
+  // const handleChangeRuleInterest = (values, ruleItem) => {
+  //   setRuleInterest((list) => {
+  //     const newList = [...list]
+  //     const index = newList.findIndex((item) => item.range == ruleItem.range)
+  //     newList[index].personName = values
+  //     return newList
+  //   })
+  // }
+  // 获取配置
+  const getSetting = async () => {
+    const res = await getInquirySetting()
+    setSetting(res.Item)
+    if (res.Item.autoAssign) {
+      await getAllCustomer()
+    }
   }
+  // 获取所有的客服
+  const getAllCustomer = async () => {
+    const res = await getRepresentatives()
+    setCustomerList(res.Items)
+  }
+  const updateSetting = async (data) => {
+    const res = await updateInquirySetting(data)
+    if (res.message == 'success') {
+      getSetting()
+    }
+  }
+  const getData = async () => {
+    dispatch(toggleLoading(true))
+    await getSetting()
+    dispatch(toggleLoading(false))
+  }
+  useEffect(() => {
+    getData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   return (
     <div className={styles.container}>
       <div className={styles.containerTitle}>AUTO ASSIGN</div>
@@ -120,11 +169,14 @@ const SettingDeal = () => {
             manually
           </Col>
           <Col>
-            <Switch checked={open} onChange={handleChangeSwitch} />
+            <Switch
+              checked={setting.autoAssign}
+              onChange={handleChangeSwitch}
+            />
           </Col>
         </Row>
       </div>
-      {open && (
+      {setting.autoAssign && (
         <>
           <div className={styles.wrap}>
             <div className={styles.subTitle}>Auto create deal in Pipeline</div>
@@ -152,15 +204,15 @@ const SettingDeal = () => {
               </Col>
               <Col span={24}>
                 <CheckboxGroup
-                  value={checkedList}
+                  value={setting.representatives}
                   onChange={handleChangeCheckbox}
-                  style={{ wudth: '100%' }}
+                  style={{ width: '100%' }}
                 >
                   <Row gutter={[0, 10]}>
                     {customerList.map((item) => {
                       return (
                         <Col key={item.id} span={6}>
-                          <Checkbox value={item.name}>{item.name}</Checkbox>
+                          <Checkbox value={item.id}>{item.fullName}</Checkbox>
                         </Col>
                       )
                     })}
@@ -184,7 +236,7 @@ const SettingDeal = () => {
                   </span>
                 </Space>
               </Col>
-              <Col>
+              {/* <Col>
                 <Space>
                   <Checkbox
                     checked={radioRule == 1}
@@ -201,8 +253,8 @@ const SettingDeal = () => {
                     </Col>
                   </Row>
                 </Space>
-              </Col>
-              <Col>
+              </Col> */}
+              {/* <Col>
                 {radioRule == 1 && (
                   <Row className={styles.rulePersonWrap} gutter={[0, 24]}>
                     {rulePrice.map((ruleItem) => {
@@ -244,8 +296,8 @@ const SettingDeal = () => {
                     })}
                   </Row>
                 )}
-              </Col>
-              <Col span={24}>
+              </Col> */}
+              {/* <Col span={24}>
                 <Space>
                   <Checkbox
                     checked={radioRule == 2}
@@ -255,8 +307,8 @@ const SettingDeal = () => {
                     Assign to a customer representative based on the interest
                   </span>
                 </Space>
-              </Col>
-              <Col>
+              </Col> */}
+              {/* <Col>
                 {radioRule == 2 && (
                   <Row className={styles.rulePersonWrap} gutter={[0, 24]}>
                     {ruleInterest.map((ruleItem) => {
@@ -298,7 +350,7 @@ const SettingDeal = () => {
                     })}
                   </Row>
                 )}
-              </Col>
+              </Col> */}
             </Row>
           </div>
         </>
