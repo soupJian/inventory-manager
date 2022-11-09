@@ -102,8 +102,9 @@ const Orders = () => {
           dataSource={orderData}
           rowKey="Id"
           pagination={{
-            showTotal: (total) =>
-              `Showing ${total} of ${orderData.length} items`
+            showTotal: (total, range) => {
+              return `Showing ${range[1] - range[0] + 1} of ${total} items`
+            }
           }}
         />
       </div>
