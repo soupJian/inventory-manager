@@ -246,7 +246,6 @@ const SideBar = ({ collapsed, user }) => {
       {user.user.access?.accesses.includes(accessObject.history) && (
         <History show={toggleHistory} onClose={() => setToggleHistory(false)} />
       )}
-
       <UserCenter
         show={toggleUserCenter}
         onClose={() => setToggleUserCenter(false)}
