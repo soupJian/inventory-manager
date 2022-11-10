@@ -72,7 +72,18 @@ const UserAccess = ({ data, editUserAccess }) => {
       }
     }
   ]
-  return <Table columns={columns} dataSource={data} rowKey="id" />
+  return (
+    <Table
+      columns={columns}
+      dataSource={data}
+      rowKey="id"
+      pagination={{
+        showTotal: (total, range) => {
+          return `Showing ${range[1] - range[0] + 1} of ${total} access`
+        }
+      }}
+    />
+  )
 }
 
 export default React.memo(UserAccess)

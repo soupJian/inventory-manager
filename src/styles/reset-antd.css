@@ -15,3 +15,8 @@
 .ant-table-thead > tr > th {
   background-color: #fff !important;
 }
+/* 多选 */
+.ant-dropdown-menu-item-selected,
+.ant-dropdown-menu-submenu-title-selected {
+  background-color: #ccc !important;
+}

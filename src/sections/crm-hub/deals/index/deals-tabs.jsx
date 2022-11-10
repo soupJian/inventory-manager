@@ -268,7 +268,9 @@ const DealsTabs = ({ showListType }) => {
               dataSource={data}
               onChange={tableMenuChange}
               pagination={{
-                showTotal: (total) => `Showing ${total} of ${data.length} deals`
+                showTotal: (total, range) => {
+                  return `Showing ${range[1] - range[0] + 1} of ${total} deals`
+                }
               }}
               // 点击行
               onRow={(record) => {

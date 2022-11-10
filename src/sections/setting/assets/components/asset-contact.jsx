@@ -222,7 +222,9 @@ const AssetsContact = ({ data }) => {
         dataSource={data}
         onChange={tableChange}
         pagination={{
-          showTotal: (total) => `Showing ${total} of ${data.length} deals`
+          showTotal: (total, range) => {
+            return `Showing ${range[1] - range[0] + 1} of ${total} deals`
+          }
         }}
         rowKey="id"
       />

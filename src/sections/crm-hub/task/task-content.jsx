@@ -126,7 +126,9 @@ const TaskTabs = () => {
         dataSource={data}
         rowKey="id"
         pagination={{
-          showTotal: (total) => `Showing ${total} tasks`
+          showTotal: (total, range) => {
+            return `Showing ${range[1] - range[0] + 1} of ${total} tasks`
+          }
         }}
         key={key}
       />
