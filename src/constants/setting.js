@@ -1,5 +1,4 @@
 export const SuperAdmin = 'Super Admin'
-export const Admin = 'Admin'
 export const accessObject = {
   // inventory
   inventory: 'inventory',

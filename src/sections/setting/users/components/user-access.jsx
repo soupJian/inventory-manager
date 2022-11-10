@@ -1,10 +1,8 @@
 import React from 'react'
 // components
-import { Table, Dropdown, Menu, Space, Button } from 'antd'
+import { Table, Dropdown, Space, Button, Row, Col } from 'antd'
 import { Icon } from '../../../../components/commons'
 import { DownOutlined } from '@ant-design/icons'
-// js
-import { SuperAdmin, Admin } from '../../../../constants/setting'
 
 // main
 const UserAccess = ({ data, editUserAccess }) => {
@@ -29,35 +27,34 @@ const UserAccess = ({ data, editUserAccess }) => {
       dataIndex: 'userList',
       render: (_, record) => {
         return (
-          <>
-            <Dropdown
-              overlay={
-                <Menu
-                  items={[
-                    {
-                      key: '1',
-                      label: (
-                        <Space direction="vertical">
-                          {record.userList.map((item) => {
-                            return <span key={item.id}>{item.fullName}</span>
-                          })}
-                        </Space>
-                      )
-                    }
-                  ]}
-                />
-              }
-            >
-              <Space style={{ cursor: 'pointer' }}>
-                <div style={{ minWidth: '100px' }}>
-                  {record.userList.length > 0
-                    ? record.userList[0].fullName
-                    : ''}
-                </div>
+          <Dropdown
+            menu={{
+              items: record.userList.map((item) => {
+                return {
+                  label: item.fullName,
+                  key: item.id
+                }
+              })
+            }}
+          >
+            <Row justify="space-between">
+              <Col style={{ minWidth: '100px' }}>
+                {record.userList.length > 0 ? record.userList[0].fullName : ''}
+              </Col>
+              <Col>
                 <DownOutlined />
-              </Space>
-            </Dropdown>
-            {record.accessName != SuperAdmin && record.accessName != Admin && (
+              </Col>
+            </Row>
+          </Dropdown>
+        )
+      }
+    },
+    {
+      title: '',
+      render: (_, record) => {
+        return (
+          <>
+            {!record.defaultAccess && (
               <Button
                 style={{ marginLeft: '40px' }}
                 onClick={() => {
