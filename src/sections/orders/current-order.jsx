@@ -2,13 +2,15 @@ import { withRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 // components
-import { Button, Table, Select, Space, Modal } from 'antd'
+import { Button, Table, Select, Space, Modal, Drawer } from 'antd'
 import ModalShipping from './components/modal-shipping'
+import DrawerOrder from './components/drawer-order'
 // js
 import { dateList, sortByList } from '../../constants/pageConstants/shipping'
 import { ISOStringToReadableDate } from '../../utils/utils'
 import { formatMoney } from '../../utils/formatMoney'
 import { toggleLoading } from '../../store/slices/globalSlice'
+import { formatTimeStr } from 'antd/lib/statistic/utils'
 // api
 import { getUnShippedOrders } from '../../service/shipping'
 // css
@@ -22,6 +24,10 @@ const Orders = () => {
   })
   const [orderData, setOrderData] = useState([])
   const [shippingModal, setShippingModal] = useState({
+    show: false,
+    info: null
+  })
+  const [drawerInfo, setDrawerInfo] = useState({
     show: false,
     info: null
   })
@@ -84,7 +90,16 @@ const Orders = () => {
     {
       title: '',
       render: (_, record) => (
-        <Button type="primary" className={styles.Btn}>
+        <Button
+          type="primary"
+          className={styles.Btn}
+          onClick={() =>
+            setDrawerInfo({
+              show: true,
+              info: record
+            })
+          }
+        >
           Detail
         </Button>
       )
@@ -150,6 +165,31 @@ const Orders = () => {
       >
         {shippingModal.info && <ModalShipping info={shippingModal.info} />}
       </Modal>
+      <Drawer
+        title={
+          <>
+            <div>{`Order #${drawerInfo.info?.Id}`}</div>
+            <div>{`Created on: ${formatTimeStr(
+              drawerInfo.info?.OrderInfo?.Created,
+              'DD/MM/YYYY hh:mm a'
+            )}`}</div>
+          </>
+        }
+        placement="left"
+        closable={false}
+        onClose={() =>
+          setDrawerInfo({
+            ...drawerInfo,
+            show: false
+          })
+        }
+        open={drawerInfo.show}
+        key="2"
+        width={700}
+        className={styles.drawerWrap}
+      >
+        <DrawerOrder />
+      </Drawer>
     </>
   )
 }
