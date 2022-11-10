@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { useSelector, useDispatch } from 'react-redux'
+import Router from 'next/router'
 // components
 const SideBar = dynamic(() => import('./components/sideBar'))
 const Loading = dynamic(() => import('../components/loading'))
@@ -20,14 +21,16 @@ const BasicLayout = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false)
 
   useEffect(() => {
+    if (!user.isLoggedIn) {
+      Router.replace('/login')
+    }
     const currentVersion = JSON.parse(
       JSON.stringify(localStorage.getItem('version'))
     )
     if (!currentVersion || currentVersion != process.env.version) {
       dispatch(logoutUser())
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [dispatch, user])
   return (
     <Layout className={styles.mainLayout}>
       <Sider

@@ -236,8 +236,8 @@ const History = ({ show, onClose }) => {
           <div className={`${styles.shallowText} ${styles.subTitle}`}>
             Account Info
           </div>
-          <div style={{ margin: '6px 0' }}>Username: {user.user.email}</div>
-          <div>Role: {user.user.userRole}</div>
+          <div style={{ margin: '6px 0' }}>Username: {user.user?.email}</div>
+          <div>Role: {user.user?.userRole}</div>
           <div style={{ margin: '20px 0 24px' }}>
             <span className={styles.loginBtn} onClick={() => logout()}>
               Sign out

@@ -243,7 +243,7 @@ const SideBar = ({ collapsed, user }) => {
       <div className={styles.userAction}>
         <Menu mode="inline" items={actionItems} />
       </div>
-      {user.user.access?.accesses.includes(accessObject.history) && (
+      {user.user?.access?.accesses.includes(accessObject.history) && (
         <History show={toggleHistory} onClose={() => setToggleHistory(false)} />
       )}
       <UserCenter

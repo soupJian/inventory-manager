@@ -16,10 +16,7 @@ function MyApp({ Component, pageProps }) {
   const user = store.getState().user
   const [hasAccess, setHasAccess] = useState(false)
   useEffect(() => {
-    if (!user.isLoggedIn) {
-      return
-    }
-    const accessList = user.user.access.accesses
+    const accessList = user.user?.access?.accesses || []
     const pathname = router.pathname
     let flag = false
     switch (pathname) {
