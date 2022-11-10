@@ -10,7 +10,6 @@ import { dateList, sortByList } from '../../constants/pageConstants/shipping'
 import { ISOStringToReadableDate } from '../../utils/utils'
 import { formatMoney } from '../../utils/formatMoney'
 import { toggleLoading } from '../../store/slices/globalSlice'
-import { formatTimeStr } from 'antd/lib/statistic/utils'
 // api
 import { getUnShippedOrders } from '../../service/shipping'
 // css
@@ -166,15 +165,6 @@ const Orders = () => {
         {shippingModal.info && <ModalShipping info={shippingModal.info} />}
       </Modal>
       <Drawer
-        title={
-          <>
-            <div>{`Order #${drawerInfo.info?.Id}`}</div>
-            <div>{`Created on: ${formatTimeStr(
-              drawerInfo.info?.OrderInfo?.Created,
-              'DD/MM/YYYY hh:mm a'
-            )}`}</div>
-          </>
-        }
         placement="left"
         closable={false}
         onClose={() =>
@@ -188,7 +178,7 @@ const Orders = () => {
         width={700}
         className={styles.drawerWrap}
       >
-        <DrawerOrder />
+        <DrawerOrder type="current" />
       </Drawer>
     </>
   )

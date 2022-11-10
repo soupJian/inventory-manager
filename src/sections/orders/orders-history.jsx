@@ -1,56 +1,28 @@
 import { withRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Button, Table, Select, Space } from 'antd'
+import { Button, Table, Select, Space, Drawer } from 'antd'
+import DrawerOrder from './components/drawer-order'
 // js
 import { dateList, sortByList } from '../../constants/pageConstants/shipping'
 import { ISOStringToReadableDate } from '../../utils/utils'
 import { formatMoney } from '../../utils/formatMoney'
 import { toggleLoading } from '../../store/slices/globalSlice'
+import { formatTimeStr } from 'antd/lib/statistic/utils'
 // api
 import { getShippedOrders } from '../../service/shipping'
 // css
 import styles from './index.module.less'
-
-const columns = [
-  {
-    title: 'ORDER NO.',
-    dataIndex: 'Id'
-  },
-  {
-    title: 'CUSTOMER',
-    render: (_, record) => `${record.FirstName}, ${record.LastName}`
-  },
-  {
-    title: 'PAYMENT',
-    dataIndex: 'Payment',
-    render: (_, record) => `$${formatMoney(Number(record.Payment))}`
-  },
-  {
-    title: 'ORDER DATE',
-    dataIndex: 'Created',
-    render: (_, record) => ISOStringToReadableDate(record.Created)
-  },
-  {
-    title: 'COMPLETED ON',
-    dataIndex: 'Status',
-    render: (_, record) => ISOStringToReadableDate(record.Created)
-  },
-  {
-    title: '',
-    render: (_, record) => (
-      <Button type="primary" className={styles.Btn}>
-        Detail
-      </Button>
-    )
-  }
-]
 
 const Orders = () => {
   const dispatch = useDispatch()
   const [orderState, setOrderState] = useState({
     sortBy: 'asc',
     date: ''
+  })
+  const [drawerInfo, setDrawerInfo] = useState({
+    show: false,
+    info: null
   })
   const [orderData, setOrderData] = useState([])
   const fetchShippedOrders = async () => {
@@ -66,6 +38,48 @@ const Orders = () => {
       console.log(err)
     }
   }
+  const columns = [
+    {
+      title: 'ORDER NO.',
+      dataIndex: 'Id'
+    },
+    {
+      title: 'CUSTOMER',
+      render: (_, record) => `${record.FirstName}, ${record.LastName}`
+    },
+    {
+      title: 'PAYMENT',
+      dataIndex: 'Payment',
+      render: (_, record) => `$${formatMoney(Number(record.Payment))}`
+    },
+    {
+      title: 'ORDER DATE',
+      dataIndex: 'Created',
+      render: (_, record) => ISOStringToReadableDate(record.Created)
+    },
+    {
+      title: 'COMPLETED ON',
+      dataIndex: 'Status',
+      render: (_, record) => ISOStringToReadableDate(record.Created)
+    },
+    {
+      title: '',
+      render: (_, record) => (
+        <Button
+          type="primary"
+          className={styles.Btn}
+          onClick={() =>
+            setDrawerInfo({
+              show: true,
+              info: record
+            })
+          }
+        >
+          Detail
+        </Button>
+      )
+    }
+  ]
   useEffect(() => {
     fetchShippedOrders()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -113,6 +127,22 @@ const Orders = () => {
           }}
         />
       </div>
+      <Drawer
+        placement="left"
+        closable={false}
+        onClose={() =>
+          setDrawerInfo({
+            ...drawerInfo,
+            show: false
+          })
+        }
+        open={drawerInfo.show}
+        key="2"
+        width={700}
+        className={styles.drawerWrap}
+      >
+        <DrawerOrder type="history" />
+      </Drawer>
     </>
   )
 }

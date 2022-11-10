@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Row, Col, Button, Modal, Space } from 'antd'
 // js
 import { formatMoney } from '../../../utils/formatMoney'
+import { formatTimeStr } from '../../../utils/formatTime'
 // css
 import styles from '../index.module.less'
 
@@ -11,7 +12,7 @@ const order = {
     // 订单信息
     OrderNo: '12345', // 订单编号
     Payment: 200, // 消费金额
-    Created: '2022-22-09', // 订单创建时间
+    Created: new Date(), // 订单创建时间
     // 目前已知设计稿 四种 ，需要 与 UI 确认，每一个包裹状态改变，如果改变订单状态需要确认
     OrderStatus: '', // 订单状态 Shipped 、Processing、 Delivered  、In Transit(最后两个状态需要去物流中心主抓取)
     Subtotal: 100, // 折扣前 的价格
@@ -38,7 +39,15 @@ const order = {
       Carrier: 'Fedex', // 快递公司  Fedex，UPS，USPS
       TrackId: '1Z923875HY284K727213', // 快递单号
       Status: 'Shipped', // 单独的包裹状态 Shipped 和 Not Shipped
-      shipDate: '2022-11-09' // 以仓库人员 提交时间为准 还是 邮寄时间为准 待确认
+      shipDate: new Date(), // 以仓库人员 提交时间为准 还是 邮寄时间为准 待确认
+      DeleveredTime: new Date() // 送达时间
+    },
+    {
+      Carrier: 'Fedex', // 快递公司  Fedex，UPS，USPS
+      TrackId: '1Z923875H27213', // 快递单号
+      Status: 'Shipped', // 单独的包裹状态 Shipped 和 Not Shipped
+      shipDate: new Date(), // 以仓库人员 提交时间为准 还是 邮寄时间为准 待确认
+      DeleveredTime: new Date() // 送达时间
     }
   ],
   ProductInfo: [
@@ -90,8 +99,10 @@ const discountList = [
     Name: '50% off'
   }
 ]
-
-const DrawerOrder = () => {
+/**
+ * type current 和 history
+ */
+const DrawerOrder = ({ type }) => {
   const [showModal, setShowModal] = useState(false)
   // 取消订单
   const handleCancelOrder = () => {
@@ -100,6 +111,43 @@ const DrawerOrder = () => {
   return (
     <>
       <div className={styles.drawer}>
+        <Row className={styles.headerWrap} gutter={[0, 16]}>
+          <Col
+            span={24}
+            className={styles.orderTitle}
+          >{`Order #${order.OrderInfo.OrderNo}`}</Col>
+          <Col
+            span={24}
+            className={styles.orderSubTitle}
+          >{`Created on: ${formatTimeStr(
+            order.OrderInfo.Created,
+            'DD/MM/YY hh:mm a'
+          )}`}</Col>
+          {type == 'history' && (
+            <Col span={24}>
+              <Row className={styles.orderSubTitle}>
+                <Col>Delivered on: </Col>
+                <Col style={{ marginLeft: '5px' }}>
+                  <Row gutter={[0, 8]}>
+                    {order.PackageInfo.map((packageItem) => {
+                      return (
+                        <Col span={24} key={packageItem.TrackId}>
+                          {formatTimeStr(
+                            order.OrderInfo.Created,
+                            'DD/MM/YY hh:mm a'
+                          )}{' '}
+                          <span style={{ color: '#2C88DD' }}>
+                            {packageItem.Carrier}
+                          </span>
+                        </Col>
+                      )
+                    })}
+                  </Row>
+                </Col>
+              </Row>
+            </Col>
+          )}
+        </Row>
         <Row className={styles.infoWrap}>
           <Col span={12}>
             <div className={styles.title}>BILLING INFO</div>
@@ -232,51 +280,55 @@ const DrawerOrder = () => {
             ${formatMoney(order.OrderInfo.TotalPrice)}
           </Col>
         </Row>
-        <Row justify="end" className={styles.footerWrap}>
-          <Col>
-            <Button
-              type="primary"
-              className={styles.cancelBtn}
-              onClick={() => setShowModal(true)}
-            >
-              Cancle Order
-            </Button>
-          </Col>
-        </Row>
-      </div>
-      <Modal
-        centered
-        title=""
-        open={showModal}
-        okText="Save"
-        footer={false}
-        // onOK={() => ()}
-        onCancel={() => setShowModal(false)}
-        wrapClassName={styles.modal}
-      >
-        <div className={styles.modalSubTitle}>
-          Are you sure you want to cancel this order?
-        </div>
-        <Row justify="center">
-          <Col>
-            <Space>
+        {type == 'current' && (
+          <Row justify="end" className={styles.footerWrap}>
+            <Col>
               <Button
                 type="primary"
-                className={styles.confirmBtn}
-                onClick={() => handleCancelOrder()}
-              >
-                YES
-              </Button>
-              <Button
                 className={styles.cancelBtn}
-                onClick={() => setShowModal(false)}
+                onClick={() => setShowModal(true)}
               >
-                NO
+                Cancle Order
               </Button>
-            </Space>
-          </Col>
-        </Row>
-      </Modal>
+            </Col>
+          </Row>
+        )}
+      </div>
+      {type == 'current' && (
+        <Modal
+          centered
+          title=""
+          open={showModal}
+          okText="Save"
+          footer={false}
+          // onOK={() => ()}
+          onCancel={() => setShowModal(false)}
+          wrapClassName={styles.modal}
+        >
+          <div className={styles.modalSubTitle}>
+            Are you sure you want to cancel this order?
+          </div>
+          <Row justify="center">
+            <Col>
+              <Space>
+                <Button
+                  type="primary"
+                  className={styles.confirmBtn}
+                  onClick={() => handleCancelOrder()}
+                >
+                  YES
+                </Button>
+                <Button
+                  className={styles.cancelBtn}
+                  onClick={() => setShowModal(false)}
+                >
+                  NO
+                </Button>
+              </Space>
+            </Col>
+          </Row>
+        </Modal>
+      )}
     </>
   )
 }
