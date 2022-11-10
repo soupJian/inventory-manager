@@ -11,7 +11,6 @@ const order = {
   OrderInfo: {
     // 订单信息
     OrderNo: '12345', // 订单编号
-    Payment: 200, // 消费金额
     Created: new Date(), // 订单创建时间
     // 目前已知设计稿 四种 ，需要 与 UI 确认，每一个包裹状态改变，如果改变订单状态需要确认
     OrderStatus: '', // 订单状态 Shipped 、Processing、 Delivered  、In Transit(最后两个状态需要去物流中心主抓取)
@@ -20,7 +19,7 @@ const order = {
     DiscountId: 1,
     ShippingCost: 30,
     Tax: 10,
-    TotalPrice: 12345 // 最终支付金额
+    Payment: 200 // 消费金额
   },
   CustomerInfo: {
     // 购买人 相关信息
