@@ -130,7 +130,6 @@ const Orders = () => {
         />
       </div>
       <Drawer
-        title={`Order #${drawerDetailInfo.info?.Id}`}
         placement="left"
         closable={false}
         onClose={() =>
@@ -146,7 +145,6 @@ const Orders = () => {
         {drawerDetailInfo.info && <DrawerDetail info={drawerDetailInfo.info} />}
       </Drawer>
       <Drawer
-        title={`Shipping Order #${drawerShipInfo.info?.Id}`}
         placement="left"
         closable={false}
         onClose={() =>

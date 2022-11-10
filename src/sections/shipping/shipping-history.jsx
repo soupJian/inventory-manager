@@ -109,7 +109,6 @@ const Orders = () => {
         />
       </div>
       <Drawer
-        title={`Order #${drawerDetailInfo.info?.Id}`}
         placement="left"
         closable={false}
         onClose={() =>

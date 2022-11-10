@@ -6,7 +6,6 @@ import { formatTimeStr } from '../../../utils/formatTime'
 // css
 import styles from '../index.module.less'
 
-// main
 const order = {
   OrderInfo: {
     // 订单信息
@@ -99,6 +98,8 @@ const discountList = [
     Name: '50% off'
   }
 ]
+
+// main
 /**
  * type current 和 history
  */
@@ -285,7 +286,7 @@ const DrawerOrder = ({ type }) => {
             <Col>
               <Button
                 type="primary"
-                className={styles.cancelBtn}
+                className={styles.cancelOrderBtn}
                 onClick={() => setShowModal(true)}
               >
                 Cancle Order
