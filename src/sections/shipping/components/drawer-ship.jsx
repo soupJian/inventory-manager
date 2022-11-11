@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 // components
 import { Select, Row, Col, Input, Space, Checkbox, Button } from 'antd'
 // js
@@ -7,175 +7,92 @@ import { v4 as uuidv4 } from 'uuid'
 // css
 import styles from '../index.module.less'
 
-const order = {
-  OrderInfo: {
-    // 订单信息
-    OrderNo: '12345', // 订单编号
-    Created: new Date(), // 订单创建时间
-    // 目前已知设计稿 四种 ，需要 与 UI 确认，每一个包裹状态改变，如果改变订单状态需要确认
-    OrderStatus: '', // 订单状态 Shipped 、Processing、 Delivered  、In Transit(最后两个状态需要去物流中心主抓取)
-    Subtotal: 100, // 折扣前 的价格
-    Discount: 20,
-    DiscountId: 1,
-    ShippingCost: 30,
-    Tax: 10,
-    Payment: 200 // 消费金额
-  },
-  CustomerInfo: {
-    // 购买人 相关信息
-    FullName: 'John Doe',
-    Phone: '123 456 7890',
-    Address1: '1234 Preserve Road',
-    Address2: '',
-    City: 'lrvine', // 城市
-    State: 'CA', // 州
-    ZipCode: '12345', // 邮编
-    Email: 'soupjian@163.com'
-  },
-  PackageInfo: [
-    // 包裹相关信息
-    {
-      Carrier: 'Fedex', // 快递公司  Fedex，UPS，USPS
-      TrackId: '1Z923875HY284K727213', // 快递单号
-      Status: 'Shipped', // 单独的包裹状态 Shipped 和 Not Shipped
-      shipDate: new Date(), // 以仓库人员 提交时间为准 还是 邮寄时间为准 待确认
-      DeleveredTime: new Date() // 送达时间
-    },
-    {
-      Carrier: 'Fedex', // 快递公司  Fedex，UPS，USPS
-      TrackId: '1Z923875H27213', // 快递单号
-      Status: 'Shipped', // 单独的包裹状态 Shipped 和 Not Shipped
-      shipDate: new Date(), // 以仓库人员 提交时间为准 还是 邮寄时间为准 待确认
-      DeleveredTime: new Date() // 送达时间
-    }
-  ],
-  ProductInfo: [
-    // 订单涉及到的 产品
-    {
-      Name: 'Kapri Umbrella Aqua 7.5 ft',
-      SKU: 'JZ-1640',
-      Price: 300.0,
-      Discount: 90.0,
-      Quanity: 2, // 数量
-      Parts: [
-        {
-          SKU: '',
-          Quanity: '',
-          Inventory: {}
-        }
-      ]
-    }
-  ],
-  InvoiceInfo: {
-    // 发票相关信息
-    InvoiceNumber: '123',
-    invoiceDate: '2022-11-09',
-    invoiceNotes: ''
-  },
-  BillingInfo: {
-    // 计费信息
-    FullName: 'John Doe',
-    Phone: '123 456 7890',
-    Address1: '1234 Preserve Road',
-    Address2: '',
-    City: 'lrvine', // 城市
-    State: 'CA', // 州
-    ZipCode: '12345', // 邮编
-    Email: 'soupjian@163.com'
-  }
-}
 // main
-const DrawerShip = () => {
-  const productList = [
-    {
-      SKU: 'TJ-2',
-      Name: 'TJ-2'
-    },
-    {
-      SKU: 'TJ-3',
-      Name: 'TJ-3'
-    }
-  ]
-  // 包裹列表
-  const [packageList, setPackageList] = useState([
-    {
-      id: uuidv4(),
-      selectProduct: [],
-      cappier: '',
-      trackingId: '', // 订单号
-      shipDate: new Date(), // 时间
-      shipStatus: '' // 状态
-    }
-  ])
+const DrawerShip = ({ info }) => {
+  const [order, setOrder] = useState(info)
   // 存放已经被勾选的 products ，存储SKU和当前是第几个package,
   // 当前的package中的是可以勾选和取消
   // 不在当前的package disabled
   const [selectedProduct, setSelectedProduct] = useState([])
   const handleChange = (value, index, key) => {
-    setPackageList((list) => {
-      const newList = [...list]
-      newList[index][key] = value
-      return newList
+    setOrder((oldOrder) => {
+      const newOrder = JSON.parse(JSON.stringify(oldOrder))
+      newOrder.packageInfo[index][key] = value
+      return newOrder
     })
   }
   // checkbox product
   const handleSelectProduct = (value, productItem, index) => {
-    setPackageList((list) => {
-      const newList = [...list]
+    setOrder((oldOrder) => {
+      const newOrder = JSON.parse(JSON.stringify(oldOrder))
       // 勾选
       if (value) {
-        newList[index].selectProduct.push(productItem.SKU)
+        newOrder.packageInfo[index].selectProduct.push(productItem.SystemId)
       } else {
-        const i = newList[index].selectProduct.findIndex(
-          (item) => item == productItem.SKU
+        const i = newOrder.packageInfo[index].selectProduct.findIndex(
+          (item) => item == productItem.SystemId
         )
-        newList[index].selectProduct.splice(i, 1)
+        newOrder.packageInfo[index].selectProduct.splice(i, 1)
       }
-      console.log('packageList----------')
-      console.log(newList)
-      return newList
+      return newOrder
     })
     // 已经被勾选的 checkbox
     setSelectedProduct((list) => {
       const newList = [...list]
       if (value) {
         newList.push({
-          SKU: productItem.SKU,
+          SystemId: productItem.SystemId,
           index
         })
       } else {
-        const i = newList.findIndex((item) => item == productItem.SKU)
+        const i = newList.findIndex((item) => item == productItem.SystemId)
         newList.splice(i, 1)
       }
-      console.log(newList)
       return newList
     })
   }
   // add
   const addPackage = () => {
-    setPackageList((list) => {
-      const newList = [...list]
-      newList.push({
+    setOrder((oldOrder) => {
+      const newOrder = JSON.parse(JSON.stringify(oldOrder))
+      newOrder.packageInfo.push({
         id: uuidv4(),
         selectProduct: [],
         cappier: '',
         trackingId: ''
       })
-      return newList
+      return newOrder
     })
   }
   const submit = () => {
-    console.log(packageList)
+    console.log(order)
   }
+  useEffect(() => {
+    if (info.packageInfo.length == 0) {
+      setOrder(() => {
+        const newOrder = JSON.parse(JSON.stringify(info))
+        newOrder.packageInfo.push({
+          id: uuidv4(),
+          selectProduct: [],
+          cappier: '',
+          trackingId: ''
+        })
+        return newOrder
+      })
+    } else {
+      setOrder(info)
+    }
+  }, [info])
+
   return (
     <div className={styles.drawerShip}>
       <div className={styles.headerWrap} gutter={[0, 16]}>
         <div
           span={24}
           className={styles.orderTitle}
-        >{`Shipping Order #WS${order.OrderInfo.OrderNo}`}</div>
+        >{`Shipping Order #WS${order.id}`}</div>
       </div>
-      {packageList.map((packageItem, packageIndex) => {
+      {order.packageInfo.map((packageItem, packageIndex) => {
         return (
           <div key={packageItem.id} style={{ marginBottom: '40px' }}>
             <div className={styles.title}>Package {packageIndex + 1}</div>
@@ -183,15 +100,15 @@ const DrawerShip = () => {
               Select the product(s) to ship in one package:
             </div>
             <Row gutter={[0, 32]} style={{ marginTop: '40px' }}>
-              {productList.map((productItem) => {
+              {order.products.map((productItem) => {
                 return (
-                  <Col span={24} key={productItem.SKU}>
+                  <Col span={24} key={productItem.SystemId}>
                     <Space align="center">
                       <Checkbox
                         disabled={
                           selectedProduct.findIndex(
                             (selectItem) =>
-                              selectItem.SKU == productItem.SKU &&
+                              selectItem.SystemId == productItem.SystemId &&
                               selectItem.index != packageIndex
                           ) >= 0
                         }
@@ -208,7 +125,7 @@ const DrawerShip = () => {
                           color: `${
                             selectedProduct.findIndex(
                               (selectItem) =>
-                                selectItem.SKU == productItem.SKU &&
+                                selectItem.SystemId == productItem.SystemId &&
                                 selectItem.index != packageIndex
                             ) >= 0
                               ? '#C4C4C4'

@@ -6,7 +6,8 @@ const Loading = ({
   right = 0,
   bottom = 0,
   top = 0,
-  tip = 'Loading...'
+  tip = 'Loading...',
+  style
 }) => {
   return (
     <Spin
@@ -23,7 +24,8 @@ const Loading = ({
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
-        zIndex: 9999
+        zIndex: 9999,
+        ...style
       }}
     />
   )

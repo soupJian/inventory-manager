@@ -6,83 +6,6 @@ import { formatTimeStr } from '../../../utils/formatTime'
 // css
 import styles from '../index.module.less'
 
-const order = {
-  OrderInfo: {
-    // 订单信息
-    OrderNo: '12345', // 订单编号
-    Created: new Date(), // 订单创建时间
-    // 目前已知设计稿 四种 ，需要 与 UI 确认，每一个包裹状态改变，如果改变订单状态需要确认
-    OrderStatus: '', // 订单状态 Shipped 、Processing、 Delivered  、In Transit(最后两个状态需要去物流中心主抓取)
-    Subtotal: 100, // 折扣前 的价格
-    Discount: 20,
-    DiscountId: 1,
-    ShippingCost: 30,
-    Tax: 10,
-    Payment: 200 // 消费金额
-  },
-  CustomerInfo: {
-    // 购买人 相关信息
-    FullName: 'John Doe',
-    Phone: '123 456 7890',
-    Address1: '1234 Preserve Road',
-    Address2: '',
-    City: 'lrvine', // 城市
-    State: 'CA', // 州
-    ZipCode: '12345', // 邮编
-    Email: 'soupjian@163.com'
-  },
-  PackageInfo: [
-    // 包裹相关信息
-    {
-      Carrier: 'Fedex', // 快递公司  Fedex，UPS，USPS
-      TrackId: '1Z923875HY284K727213', // 快递单号
-      Status: 'Shipped', // 单独的包裹状态 Shipped 和 Not Shipped
-      shipDate: new Date(), // 以仓库人员 提交时间为准 还是 邮寄时间为准 待确认
-      DeleveredTime: new Date() // 送达时间
-    },
-    {
-      Carrier: 'Fedex', // 快递公司  Fedex，UPS，USPS
-      TrackId: '1Z923875H27213', // 快递单号
-      Status: 'Shipped', // 单独的包裹状态 Shipped 和 Not Shipped
-      shipDate: new Date(), // 以仓库人员 提交时间为准 还是 邮寄时间为准 待确认
-      DeleveredTime: new Date() // 送达时间
-    }
-  ],
-  ProductInfo: [
-    // 订单涉及到的 产品
-    {
-      Name: 'Kapri Umbrella Aqua 7.5 ft',
-      SKU: 'JZ-1640',
-      Price: 300.0,
-      Discount: 90.0,
-      Quanity: 2, // 数量
-      Parts: [
-        {
-          SKU: '',
-          Quanity: '',
-          Inventory: {}
-        }
-      ]
-    }
-  ],
-  InvoiceInfo: {
-    // 发票相关信息
-    InvoiceNumber: '123',
-    invoiceDate: '2022-11-09',
-    invoiceNotes: ''
-  },
-  BillingInfo: {
-    // 计费信息
-    FullName: 'John Doe',
-    Phone: '123 456 7890',
-    Address1: '1234 Preserve Road',
-    Address2: '',
-    City: 'lrvine', // 城市
-    State: 'CA', // 州
-    ZipCode: '12345', // 邮编
-    Email: 'soupjian@163.com'
-  }
-}
 const discountList = [
   {
     id: 1,
@@ -102,7 +25,7 @@ const discountList = [
 /**
  * type current 和 history
  */
-const DrawerOrder = ({ type }) => {
+const DrawerOrder = ({ info, type }) => {
   const [showModal, setShowModal] = useState(false)
   // 取消订单
   const handleCancelOrder = () => {
@@ -115,12 +38,12 @@ const DrawerOrder = ({ type }) => {
           <Col
             span={24}
             className={styles.orderTitle}
-          >{`Order #${order.OrderInfo.OrderNo}`}</Col>
+          >{`Order #${info.id}`}</Col>
           <Col
             span={24}
             className={styles.orderSubTitle}
           >{`Created on: ${formatTimeStr(
-            order.OrderInfo.Created,
+            info.created,
             'DD/MM/YY hh:mm a'
           )}`}</Col>
           {type == 'history' && (
@@ -129,13 +52,10 @@ const DrawerOrder = ({ type }) => {
                 <Col>Delivered on: </Col>
                 <Col style={{ marginLeft: '5px' }}>
                   <Row gutter={[0, 8]}>
-                    {order.PackageInfo.map((packageItem) => {
+                    {info.packageInfo.map((packageItem) => {
                       return (
                         <Col span={24} key={packageItem.TrackId}>
-                          {formatTimeStr(
-                            order.OrderInfo.Created,
-                            'DD/MM/YY hh:mm a'
-                          )}{' '}
+                          {formatTimeStr(info.created, 'DD/MM/YY hh:mm a')}{' '}
                           <span style={{ color: '#2C88DD' }}>
                             {packageItem.Carrier}
                           </span>
@@ -153,35 +73,35 @@ const DrawerOrder = ({ type }) => {
             <div className={styles.title}>BILLING INFO</div>
             <Row className={styles.infoDescription}>
               <Col span={24} className={styles.name}>
-                {order.CustomerInfo.FullName}
+                {info.customerInfo.fullName}
               </Col>
-              <Col span={24}>{order.BillingInfo.Address1}</Col>
-              {order.BillingInfo.Address2 && (
-                <Col span={24}>{order.BillingInfo.Address2}</Col>
+              <Col span={24}>{info.billingInfo.address1}</Col>
+              {info.billingInfo.address2 && (
+                <Col span={24}>{info.billingInfo.address2}</Col>
               )}
               <Col span={24}>
-                {order.BillingInfo.City},{order.BillingInfo.State}{' '}
-                {order.BillingInfo.ZipCode}
+                {info.customerInfo.city}, {info.customerInfo.state}{' '}
+                {info.customerInfo.zipcode}
               </Col>
-              <Col span={24}>{order.BillingInfo.Phone}</Col>
-              <Col span={24}>{order.BillingInfo.Email}</Col>
+              <Col span={24}>{info.billingInfo.phone}</Col>
+              <Col span={24}>{info.billingInfo.email}</Col>
             </Row>
           </Col>
           <Col span={12}>
             <div className={styles.title}>SHIPPING INFO</div>
             <Row className={styles.infoDescription}>
               <Col span={24} className={styles.name}>
-                {order.CustomerInfo.FullName}
+                {info.customerInfo.fullName}
               </Col>
-              <Col span={24}>{order.CustomerInfo.Address1}</Col>
-              {order.CustomerInfo.Address2 && (
-                <Col span={24}>{order.CustomerInfo.Address2}</Col>
+              <Col span={24}>{info.customerInfo.address1}</Col>
+              {info.customerInfo.address2 && (
+                <Col span={24}>{info.customerInfo.address2}</Col>
               )}
               <Col span={24}>
-                {order.CustomerInfo.City},{order.CustomerInfo.State}{' '}
-                {order.CustomerInfo.ZipCode}
+                {info.customerInfo.city}, {info.customerInfo.state}{' '}
+                {info.customerInfo.zipcode}
               </Col>
-              <Col span={24}>{order.CustomerInfo.Phone}</Col>
+              <Col span={24}>{info.customerInfo.phone}</Col>
             </Row>
           </Col>
         </Row>
@@ -195,18 +115,18 @@ const DrawerOrder = ({ type }) => {
             </tr>
           </thead>
           <tbody>
-            {order.ProductInfo.map((productItem) => {
+            {info.products.map((productItem) => {
               return (
                 <tr key={productItem.SKU}>
                   <td>
                     <div className={styles.name}>{productItem.Name}</div>
                     <div className={styles.sku}>SKU: {productItem.SKU}</div>
                   </td>
-                  <td>{productItem.Quanity}</td>
+                  <td>{productItem.Quantity}</td>
                   <td>${formatMoney(productItem.Price.toFixed(2))}</td>
                   <td>
                     {productItem.Discount > 0 ? '-' : ''}$
-                    {formatMoney(productItem.Discount.toFixed(2))}
+                    {/* {formatMoney(productItem.Discount.toFixed(2))} */}
                   </td>
                 </tr>
               )
@@ -220,14 +140,14 @@ const DrawerOrder = ({ type }) => {
               <Col
                 key={discountItem.id}
                 className={`${styles.discountName} ${
-                  order.OrderInfo.DiscountId == discountItem.id
+                  info.DiscountId == discountItem.id
                     ? styles.activeDiscount
                     : ''
                 }`}
               >
                 {discountItem.Name}
                 {index != discountList.length - 1 &&
-                order.OrderInfo.DiscountId != discountItem.id
+                info.DiscountId != discountItem.id
                   ? ';'
                   : ''}
               </Col>
@@ -243,7 +163,7 @@ const DrawerOrder = ({ type }) => {
               <Row justify="space-between" align="middle">
                 <Col className={styles.summaryLabel}>Items Subtotal</Col>
                 <Col className={styles.summaryValue}>
-                  ${formatMoney(order.OrderInfo.Subtotal)}
+                  ${formatMoney(info.subtotal)}
                 </Col>
               </Row>
             </Col>
@@ -251,8 +171,7 @@ const DrawerOrder = ({ type }) => {
               <Row justify="space-between" align="middle">
                 <Col className={styles.summaryLabel}>Discount</Col>
                 <Col className={styles.summaryValue}>
-                  {order.OrderInfo.Discount > 0 ? '-' : ''}$
-                  {formatMoney(order.OrderInfo.Discount)}
+                  {info.Discount > 0 ? '-' : ''}${formatMoney(info.Discount)}
                 </Col>
               </Row>
             </Col>
@@ -260,7 +179,7 @@ const DrawerOrder = ({ type }) => {
               <Row justify="space-between" align="middle">
                 <Col className={styles.summaryLabel}>Shipping cost</Col>
                 <Col className={styles.summaryValue}>
-                  ${formatMoney(order.OrderInfo.ShippingCost)}
+                  ${formatMoney(info.shippingCost)}
                 </Col>
               </Row>
             </Col>
@@ -268,7 +187,7 @@ const DrawerOrder = ({ type }) => {
               <Row justify="space-between" align="middle">
                 <Col className={styles.summaryLabel}>Tax</Col>
                 <Col className={styles.summaryValue}>
-                  ${formatMoney(order.OrderInfo.Tax)}
+                  ${formatMoney(info.tax)}
                 </Col>
               </Row>
             </Col>
@@ -277,7 +196,7 @@ const DrawerOrder = ({ type }) => {
         <Row justify="space-between" align="middle">
           <Col className={styles.totalLabel}>Total</Col>
           <Col className={styles.summaryValue}>
-            ${formatMoney(order.OrderInfo.Payment)}
+            ${formatMoney(info.totalAmount)}
           </Col>
         </Row>
         {type == 'current' && (

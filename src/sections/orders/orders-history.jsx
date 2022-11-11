@@ -8,9 +8,8 @@ import { dateList, sortByList } from '../../constants/pageConstants/shipping'
 import { ISOStringToReadableDate } from '../../utils/utils'
 import { formatMoney } from '../../utils/formatMoney'
 import { toggleLoading } from '../../store/slices/globalSlice'
-import { formatTimeStr } from 'antd/lib/statistic/utils'
 // api
-import { getShippedOrders } from '../../service/shipping'
+import { getAllOrders } from '../../service/orders'
 // css
 import styles from './index.module.less'
 
@@ -25,10 +24,10 @@ const Orders = () => {
     info: null
   })
   const [orderData, setOrderData] = useState([])
-  const fetchShippedOrders = async () => {
+  const getData = async () => {
     try {
       dispatch(toggleLoading(true))
-      const data = await getShippedOrders({
+      const data = await getAllOrders({
         date: orderState.date
       })
       setOrderData(data.Items)
@@ -41,26 +40,23 @@ const Orders = () => {
   const columns = [
     {
       title: 'ORDER NO.',
-      dataIndex: 'Id'
+      dataIndex: 'id'
     },
     {
       title: 'CUSTOMER',
-      render: (_, record) => `${record.FirstName}, ${record.LastName}`
+      render: (_, record) => record.customerInfo.fullName
     },
     {
       title: 'PAYMENT',
-      dataIndex: 'Payment',
-      render: (_, record) => `$${formatMoney(Number(record.Payment))}`
+      render: (_, record) => `$${formatMoney(Number(record.totalAmount))}`
     },
     {
       title: 'ORDER DATE',
-      dataIndex: 'Created',
-      render: (_, record) => ISOStringToReadableDate(record.Created)
+      render: (_, record) => ISOStringToReadableDate(record.created)
     },
     {
       title: 'COMPLETED ON',
-      dataIndex: 'Status',
-      render: (_, record) => ISOStringToReadableDate(record.Created)
+      render: (_, record) => ISOStringToReadableDate(record.created)
     },
     {
       title: '',
@@ -81,7 +77,7 @@ const Orders = () => {
     }
   ]
   useEffect(() => {
-    fetchShippedOrders()
+    getData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderState.date, orderState.sortBy])
 
@@ -119,7 +115,7 @@ const Orders = () => {
         <Table
           columns={columns}
           dataSource={orderData}
-          rowKey="Id"
+          rowKey="id"
           pagination={{
             showTotal: (total, range) => {
               return `Showing ${range[1] - range[0] + 1} of ${total} items`

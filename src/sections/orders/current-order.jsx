@@ -11,7 +11,7 @@ import { ISOStringToReadableDate } from '../../utils/utils'
 import { formatMoney } from '../../utils/formatMoney'
 import { toggleLoading } from '../../store/slices/globalSlice'
 // api
-import { getUnShippedOrders } from '../../service/shipping'
+import { getAllOrders, getOrder } from '../../service/orders'
 // css
 import styles from './index.module.less'
 
@@ -28,60 +28,75 @@ const Orders = () => {
   })
   const [drawerInfo, setDrawerInfo] = useState({
     show: false,
+    id: null,
     info: null
   })
-  const fetchUnShippedOrders = async () => {
+  const getData = async () => {
     try {
       dispatch(toggleLoading(true))
-      const data = await getUnShippedOrders({
+      const data = await getAllOrders({
         date: orderState.date
       })
       setOrderData(data.Items)
+      console.log(data)
       dispatch(toggleLoading(false))
     } catch (err) {
       dispatch(toggleLoading(false))
       console.log(err)
     }
   }
+
+  const showDetail = async (id) => {
+    if (id != drawerInfo.id) {
+      const { Item } = await getOrder(id)
+      setDrawerInfo({
+        show: true,
+        id,
+        info: Item
+      })
+    } else {
+      setDrawerInfo({
+        ...drawerInfo,
+        show: true
+      })
+    }
+  }
   const columns = [
     {
       title: 'ORDER NO.',
-      dataIndex: 'Id'
+      dataIndex: 'id'
     },
     {
       title: 'CUSTOMER',
-      render: (_, record) => `${record.FirstName}, ${record.LastName}`
+      render: (_, record) => record.customerInfo.fullName
     },
     {
       title: 'PAYMENT',
-      dataIndex: 'Payment',
-      render: (_, record) => `$${formatMoney(Number(record.Payment))}`
+      render: (_, record) => `$${formatMoney(Number(record.totalAmount))}`
     },
     {
       title: 'ORDER DATE',
-      dataIndex: 'Created',
-      render: (_, record) => ISOStringToReadableDate(record.Created)
+      render: (_, record) => ISOStringToReadableDate(record.created)
     },
     {
       title: 'Status',
-      dataIndex: 'Status',
       render: (_, record) => {
         return (
           <>
-            {record.Status == 'Processing' && Processing}
-            {/* {record.Status == 'Shipped' && ( */}
-            <span
-              className={styles.activeText}
-              onClick={() => {
-                setShippingModal({
-                  show: true,
-                  info: record
-                })
-              }}
-            >
-              Shipped
-            </span>
-            {/* // )} */}
+            {record.orderStatus == 'Processing' && 'Processing'}
+            {record.orderStatus == 'Shipped' && (
+              <span
+                className={styles.activeText}
+                onClick={() => {
+                  setShippingModal({
+                    show: true,
+                    info: record
+                  })
+                }}
+              >
+                Shipped
+              </span>
+            )}
           </>
         )
       }
@@ -92,12 +107,7 @@ const Orders = () => {
         <Button
           type="primary"
           className={styles.Btn}
-          onClick={() =>
-            setDrawerInfo({
-              show: true,
-              info: record
-            })
-          }
+          onClick={() => showDetail(record.id)}
         >
           Detail
         </Button>
@@ -105,7 +115,7 @@ const Orders = () => {
     }
   ]
   useEffect(() => {
-    fetchUnShippedOrders()
+    getData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderState.date])
 
@@ -143,7 +153,7 @@ const Orders = () => {
         <Table
           columns={columns}
           dataSource={orderData}
-          rowKey="Id"
+          rowKey="id"
           pagination={{
             showTotal: (total, range) => {
               return `Showing ${range[1] - range[0] + 1} of ${total} items`
@@ -174,11 +184,13 @@ const Orders = () => {
           })
         }
         open={drawerInfo.show}
-        key="2"
+        key="detail"
         width={700}
         className={styles.drawerWrap}
       >
-        <DrawerOrder type="current" />
+        {drawerInfo.info && (
+          <DrawerOrder type="current" info={drawerInfo.info} />
+        )}
       </Drawer>
     </>
   )
