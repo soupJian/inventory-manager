@@ -39,9 +39,11 @@ function MyApp({ Component, pageProps }) {
         flag = accessList.includes(accessObject.warehouse)
         break
       case '/shipping':
+      case '/shipping/history':
         flag = accessList.includes(accessObject.shipping)
         break
       case '/orders':
+      case '/orders/history':
         flag = accessList.includes(accessObject.orders)
         break
       case '/crm-hub/form-email':

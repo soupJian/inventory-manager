@@ -2,21 +2,10 @@ import { useState, useEffect } from 'react'
 import { withRouter } from 'next/router'
 // components
 import { Flex, Icon, Input, Tab, Tabs, Wrapper } from '../../components/commons'
-import OrdersHistory from '../../sections/orders/orders-history'
 import CurrentOrder from '../../sections/orders/current-order'
 
 // main
 const Orders = ({ router }) => {
-  const [activeTab, setActiveTab] = useState('current')
-  const handleChangeTab = (key) => {
-    setActiveTab(key)
-    router.replace(`/orders?tab=${key}`, null, { shallow: true })
-  }
-  useEffect(() => {
-    if (router.query.tab) {
-      setActiveTab(router.query.tab)
-    }
-  }, [router])
   return (
     <Wrapper
       styles={{ 'min-height': '100%', position: 'relative' }}
@@ -25,18 +14,10 @@ const Orders = ({ router }) => {
     >
       <Flex styles={{ 'flex-wrap': 'nowrap' }} justifyContent="space-between">
         <Tabs>
-          <Tab
-            onClick={() => handleChangeTab('current')}
-            active={'current' === activeTab}
-            idx={0}
-          >
+          <Tab active={true} idx={0}>
             Current Orders
           </Tab>
-          <Tab
-            onClick={() => handleChangeTab('history')}
-            active={'history' === activeTab}
-            idx={1}
-          >
+          <Tab idx={1} onClick={() => router.push('/orders/history')}>
             Order History
           </Tab>
         </Tabs>
@@ -46,7 +27,7 @@ const Orders = ({ router }) => {
           startIcon={<Icon name="search" width="30px" height="30px" />}
         />
       </Flex>
-      {activeTab === 'current' ? <CurrentOrder /> : <OrdersHistory />}
+      <CurrentOrder />
     </Wrapper>
   )
 }

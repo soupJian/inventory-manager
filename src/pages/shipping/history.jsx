@@ -1,7 +1,7 @@
 import { withRouter } from 'next/router'
 // components
 import { Flex, Icon, Input, Tab, Tabs, Wrapper } from '../../components/commons'
-import ShippingOrder from '../../sections/shipping/shipping-order'
+import ShippingHistory from '../../sections/shipping/shipping-history'
 
 // main
 const Shipping = ({ router }) => {
@@ -13,10 +13,10 @@ const Shipping = ({ router }) => {
     >
       <Flex styles={{ 'flex-wrap': 'nowrap' }} justifyContent="space-between">
         <Tabs>
-          <Tab active={true} idx={0}>
+          <Tab onClick={() => router.push('/shipping')} idx={0}>
             Shipping Orders
           </Tab>
-          <Tab onClick={() => router.push('/shipping/history')} idx={1}>
+          <Tab active={true} idx={1}>
             Shipping History
           </Tab>
         </Tabs>
@@ -26,7 +26,7 @@ const Shipping = ({ router }) => {
           startIcon={<Icon name="search" width="30px" height="30px" />}
         />
       </Flex>
-      <ShippingOrder />
+      <ShippingHistory />
     </Wrapper>
   )
 }
