@@ -44,7 +44,7 @@ export const updateProduct = (type, data) => {
  */
 export const deleteProduct = (sku) => {
   return request({
-    url: `${process.env.BASE_URL}/product-?sku=${sku}`,
+    url: `${process.env.BASE_URL}/product-inventory?sku=${sku}`,
     method: 'DELETE'
   })
 }
