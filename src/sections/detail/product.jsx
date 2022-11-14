@@ -46,7 +46,7 @@ const ProductPage = ({ router }) => {
     setLoading(true)
     deleteProduct(sku).then((data) => {
       setLoading(false)
-      router.push('/warehouse?tab=Managing')
+      router.push('/warehouse/managing')
     })
   }
 
@@ -58,7 +58,7 @@ const ProductPage = ({ router }) => {
     })
       .then((data) => {
         if (!data.Item) {
-          router.replace('/warehouse?tab=Managing')
+          router.replace('/warehouse/managing')
         } else {
           setProduct(data.Item)
           setPartsInput(

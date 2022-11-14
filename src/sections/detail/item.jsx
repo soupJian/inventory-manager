@@ -60,7 +60,7 @@ const ItemPage = ({ router }) => {
     })
       .then((data) => {
         if (data.Items.length == 0) {
-          router.replace('/warehouse?tab=Managing')
+          router.replace('/warehouse/managing')
         } else {
           setItem(data.Items[0])
         }

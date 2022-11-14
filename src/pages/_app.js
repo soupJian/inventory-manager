@@ -33,6 +33,9 @@ function MyApp({ Component, pageProps }) {
         flag = accessList.includes(accessObject.inventory)
         break
       case '/warehouse':
+      case '/warehouse/settling':
+      case '/warehouse/managing':
+      case '/warehouse/map':
       case '/warehouse/item':
       case '/warehouse/product':
       case '/warehouse/search-product':

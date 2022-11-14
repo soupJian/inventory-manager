@@ -36,7 +36,6 @@ const Inventory = ({ router }) => {
       </Flex>
       <InventoryProduct
         setDialog={() => null}
-        updataTableData={() => null}
         selectable={false}
         defaultTableHeaders={defaultInventoryProductsTableHeaders}
       />

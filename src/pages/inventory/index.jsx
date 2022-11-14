@@ -39,7 +39,6 @@ const Inventory = ({ router }) => {
 
       <InventoryTable
         setDialog={() => null}
-        updataTableData={() => null}
         selectable={false}
         defaultTableHeaders={defaultInventoryItemsTableHeaders}
       />

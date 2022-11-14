@@ -41,7 +41,6 @@ const { Option } = Select
 // main
 const InventoryTable = ({
   setDialog,
-  updataTableData,
   selectable,
   noShowExpand,
   rowClick,
@@ -200,7 +199,7 @@ const InventoryTable = ({
     handlePage(1)
     fetchSKUs()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inventoryState.status.length, updataTableData, sortBy])
+  }, [inventoryState.status.length, sortBy])
   return (
     <>
       <Flex

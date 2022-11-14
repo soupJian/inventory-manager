@@ -1,8 +1,15 @@
+import { useEffect, useState } from 'react'
 import { withRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 // components
-import { Flex, Tab, Tabs, Wrapper } from '../../components/commons'
+import { Flex, Icon, Input, Tab, Tabs, Wrapper } from '../../components/commons'
+const Managing = dynamic(() => import('../../sections/warehouse/Managing'))
 const Receiving = dynamic(() => import('../../sections/warehouse/Receiving'))
+const Settling = dynamic(() => import('../../sections/warehouse/Settling'))
+const WarehouseMap = dynamic(() =>
+  import('../../sections/warehouse/WarehouseMap')
+)
+
 // main
 const Warehouse = ({ router }) => {
   return (
@@ -13,10 +20,10 @@ const Warehouse = ({ router }) => {
     >
       <Flex justifyContent="space-between">
         <Tabs>
-          <Tab active={true} idx={0}>
+          <Tab onClick={() => router.push('/warehouse')} idx={0}>
             Receiving
           </Tab>
-          <Tab onClick={() => router.push('/warehouse/settling')} idx={1}>
+          <Tab active={true} idx={1}>
             Settling
           </Tab>
           <Tab onClick={() => router.push('/warehouse/managing')} idx={2}>
@@ -26,8 +33,13 @@ const Warehouse = ({ router }) => {
             Map
           </Tab>
         </Tabs>
+        {/* <Input
+            type="text"
+            placeholder="Search name or SKU"
+            startIcon={<Icon name="search" width="30px" height="30px" />}
+          /> */}
       </Flex>
-      <Receiving />
+      <Settling />
     </Wrapper>
   )
 }

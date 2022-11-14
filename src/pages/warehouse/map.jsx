@@ -2,7 +2,10 @@ import { withRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 // components
 import { Flex, Tab, Tabs, Wrapper } from '../../components/commons'
-const Receiving = dynamic(() => import('../../sections/warehouse/Receiving'))
+const WarehouseMap = dynamic(() =>
+  import('../../sections/warehouse/WarehouseMap')
+)
+
 // main
 const Warehouse = ({ router }) => {
   return (
@@ -13,7 +16,7 @@ const Warehouse = ({ router }) => {
     >
       <Flex justifyContent="space-between">
         <Tabs>
-          <Tab active={true} idx={0}>
+          <Tab onClick={() => router.push('/warehouse')} idx={0}>
             Receiving
           </Tab>
           <Tab onClick={() => router.push('/warehouse/settling')} idx={1}>
@@ -22,12 +25,16 @@ const Warehouse = ({ router }) => {
           <Tab onClick={() => router.push('/warehouse/managing')} idx={2}>
             Managing
           </Tab>
-          <Tab onClick={() => router.push('/warehouse/map')} idx={3}>
+          <Tab
+            onClick={() => router.push('/warehouse/map')}
+            active={true}
+            idx={3}
+          >
             Map
           </Tab>
         </Tabs>
       </Flex>
-      <Receiving />
+      <WarehouseMap />
     </Wrapper>
   )
 }

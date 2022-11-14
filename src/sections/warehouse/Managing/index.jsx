@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 // components
 import {
   Button,
@@ -23,7 +24,8 @@ import { getParameter } from '../../../utils/utils'
 import styles from '../index.module.less'
 
 // main
-const Managing = ({ router }) => {
+const Managing = () => {
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState('Items')
   const [dialog, setDialog] = useState({
     message: '',
@@ -32,10 +34,9 @@ const Managing = ({ router }) => {
   })
   const [newItemModal, setNewItemModal] = useState(false)
   const [newProductModal, setNewProductModal] = useState(false)
-  const [updataTableData, setUpdateTableData] = useState(false)
   const handleChangeTab = (key) => {
     setActiveTab(key)
-    router.replace(`/warehouse?tab=Managing&current=${key}`)
+    router.replace(`/warehouse/managing?current=${key}`)
   }
   useEffect(() => {
     const tab = getParameter('current', router.asPath)
@@ -134,7 +135,6 @@ const Managing = ({ router }) => {
       {activeTab === 'Items' && (
         <InventoryTable
           setDialog={setDialog}
-          updataTableData={updataTableData}
           selectable={true}
           noShowExpand={true}
           rowClick={(SKU) => {
@@ -146,7 +146,6 @@ const Managing = ({ router }) => {
       {activeTab === 'Products' && (
         <InventoryProduct
           setDialog={setDialog}
-          updataTableData={updataTableData}
           selectable={true}
           noShowExpand={true}
           rowClick={(SKU) => {
