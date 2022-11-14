@@ -24,6 +24,7 @@ const Orders = () => {
   const [orderData, setOrderData] = useState([])
   const [shippingModal, setShippingModal] = useState({
     show: false,
+    id: null,
     info: null
   })
   const [drawerInfo, setDrawerInfo] = useState({
@@ -45,7 +46,7 @@ const Orders = () => {
       console.log(err)
     }
   }
-
+  // detail
   const showDetail = async (id) => {
     if (id != drawerInfo.id) {
       const { Item } = await getOrder(id)
@@ -56,6 +57,22 @@ const Orders = () => {
       })
     } else {
       setDrawerInfo({
+        ...drawerInfo,
+        show: true
+      })
+    }
+  }
+  // status为shipped时候，点击查看详情
+  const showShipped = async (id) => {
+    if (id != shippingModal.id) {
+      const { Item } = await getOrder(id)
+      setShippingModal({
+        show: true,
+        id,
+        info: Item
+      })
+    } else {
+      setShippingModal({
         ...drawerInfo,
         show: true
       })
@@ -83,19 +100,15 @@ const Orders = () => {
       render: (_, record) => {
         return (
           <>
-            {record.orderStatus == 'Processing' && 'Processing'}
-            {record.orderStatus == 'Shipped' && (
+            {record.orderStatus == 'Shipped' ? (
               <span
                 className={styles.activeText}
-                onClick={() => {
-                  setShippingModal({
-                    show: true,
-                    info: record
-                  })
-                }}
+                onClick={() => showShipped(record.id)}
               >
-                Shipped
+                {record.orderStatus}
               </span>
+            ) : (
+              record.orderStatus
             )}
           </>
         )
