@@ -93,7 +93,7 @@ const SideBar = ({ collapsed, user }) => {
         newList.push(
           getItem(
             'Orders',
-            '/orders/current',
+            '/orders',
             <Icon name="bill" width="24px" height="24px" />
           )
         )
