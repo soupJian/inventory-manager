@@ -16,7 +16,7 @@ import {
   DownOutlined,
   DeleteOutlined
 } from '@ant-design/icons'
-import { Icon } from '../../../../../../components/commons'
+import { Icon } from '@/components/commons'
 // css
 import styles from '../email.module.less'
 

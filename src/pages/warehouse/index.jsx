@@ -1,8 +1,8 @@
 import { withRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 // components
-import { Flex, Tab, Tabs, Wrapper } from '../../components/commons'
-const Receiving = dynamic(() => import('../../sections/warehouse/Receiving'))
+import { Flex, Tab, Tabs, Wrapper } from '@/components/commons'
+const Receiving = dynamic(() => import('@/sections/warehouse/Receiving'))
 // main
 const Warehouse = ({ router }) => {
   return (

@@ -8,14 +8,14 @@ import {
   Loader,
   Text,
   Wrapper
-} from '../../components/commons'
+} from '@/components/commons'
 // components
 import Product from './inventory-product'
-import EditProduct from '../../components/add-edit-new-product'
+import EditProduct from '@/components/add-edit-new-product'
 // js
-import { productTemplate } from '../../constants/pageConstants/products'
-import { toggleLoading } from '../../store/slices/globalSlice'
-import { getProduct, deleteProduct } from '../../service/product'
+import { productTemplate } from '@/constants/pageConstants/products'
+import { toggleLoading } from '@/store/slices/globalSlice'
+import { getProduct, deleteProduct } from '@/service/product'
 // css
 import styled from 'styled-components'
 

@@ -7,11 +7,11 @@ const DrawerDetailHistory = dynamic(() =>
   import('./components/drawer-detail-history')
 )
 // js
-import { dateList } from '../../constants/pageConstants/shipping'
-import { ISOStringToReadableDate } from '../../utils/utils'
-import { toggleLoading } from '../../store/slices/globalSlice'
+import { dateList } from '@/constants/pageConstants/shipping'
+import { ISOStringToReadableDate } from '@/utils/utils'
+import { toggleLoading } from '@/store/slices/globalSlice'
 // api
-import { getAllOrders, getOrder } from '../../service/orders'
+import { getAllOrders, getOrder } from '@/service/orders'
 // css
 import styles from './index.module.less'
 

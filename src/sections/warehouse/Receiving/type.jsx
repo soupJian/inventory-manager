@@ -1,19 +1,13 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 // components
-import {
-  Button,
-  Flex,
-  Input,
-  Wrapper,
-  Filter
-} from '../../../components/commons'
+import { Button, Flex, Input, Wrapper, Filter } from '@/components/commons'
 import SearchInput from './search-input'
 // js
-import { toggleLoading } from '../../../store/slices/globalSlice'
-import { locations } from '../../../constants/pageConstants/locations'
+import { toggleLoading } from '@/store/slices/globalSlice'
+import { locations } from '@/constants/pageConstants/locations'
 // api
-import { updateInventory } from '../../../service/inventory'
+import { updateInventory } from '@/service/inventory'
 // css
 import styled from 'styled-components'
 

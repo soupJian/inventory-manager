@@ -9,17 +9,17 @@ import {
   Flex,
   Text,
   Wrapper
-} from '../../../components/commons'
+} from '@/components/commons'
 import { Input } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import InventoryTable from '../../inventory/inventoryTable'
 import InventoryProduct from '../../inventory/inventoryProduct'
-import AddANewItem from '../../../components/add-edit-new-Item'
-import AddProduct from '../../../components/add-edit-new-product'
+import AddANewItem from '@/components/add-edit-new-Item'
+import AddProduct from '@/components/add-edit-new-product'
 // js
-import { defaultWarehouseItemsTableHeaders } from '../../../constants/pageConstants/inventory'
-import { defaultWarehouseProductsTableHeaders } from '../../../constants/pageConstants/products'
-import { getParameter } from '../../../utils/utils'
+import { defaultWarehouseItemsTableHeaders } from '@/constants/pageConstants/inventory'
+import { defaultWarehouseProductsTableHeaders } from '@/constants/pageConstants/products'
+import { getParameter } from '@/utils/utils'
 // css
 import styles from '../index.module.less'
 

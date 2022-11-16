@@ -5,9 +5,9 @@ import Head from 'next/head'
 // antd -----------------
 import { Tabs } from 'antd'
 // components --------------
-import Assiging from '../../../sections/setting/assigning'
+import Assiging from '@/sections/setting/assigning'
 // js
-import { compluteTabList } from '../../../constants/setting'
+import { compluteTabList } from '@/constants/setting'
 // css ----------------
 import styles from '../index.module.less'
 

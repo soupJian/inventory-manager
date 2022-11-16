@@ -2,7 +2,7 @@ import React from 'react'
 // components
 import { Row, Col, Input, Switch, Divider, Button } from 'antd'
 // js
-import { accessObject } from '../../../../constants/setting'
+import { accessObject } from '@/constants/setting'
 // css
 import styles from '../index.module.less'
 

@@ -13,25 +13,22 @@ import {
   Wrapper,
   Dialog,
   BaseButton
-} from '../../../components/commons'
+} from '@/components/commons'
 import { Popover } from 'antd'
 import { PlusCircleFilled } from '@ant-design/icons'
 // api
-import {
-  getSettledInventory,
-  getUnsettledInventory
-} from '../../../service/inventory'
-import { updateInventory } from '../../../service/inventory'
+import { getSettledInventory, getUnsettledInventory } from '@/service/inventory'
+import { updateInventory } from '@/service/inventory'
 // js
-import { toggleLoading } from '../../../store/slices/globalSlice'
-import { formatTimeStr } from '../../../utils/formatTime'
+import { toggleLoading } from '@/store/slices/globalSlice'
+import { formatTimeStr } from '@/utils/formatTime'
 import {
   dateList,
   settledHeaders,
   unSettledHeaders
-} from '../../../constants/pageConstants/warehouse'
-import { locations } from '../../../constants/pageConstants/locations'
-import { ISOStringToReadableDate } from '../../../utils/utils'
+} from '@/constants/pageConstants/warehouse'
+import { locations } from '@/constants/pageConstants/locations'
+import { ISOStringToReadableDate } from '@/utils/utils'
 // css
 import styled from 'styled-components'
 import styles from '../index.module.less'

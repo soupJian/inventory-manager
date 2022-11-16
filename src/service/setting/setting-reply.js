@@ -1,4 +1,4 @@
-import request from '../../utils/request'
+import request from '@/utils/request'
 /**
  * 获取所有的 聊天快速回复
  * @returns

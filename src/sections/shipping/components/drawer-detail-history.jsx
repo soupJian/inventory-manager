@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 // components
-import { Checkbox, Row, Col, Popover, Button, Space } from 'antd'
-import { PlusCircleFilled } from '@ant-design/icons'
+import { Row, Col } from 'antd'
 // css
 import styles from '../index.module.less'
 

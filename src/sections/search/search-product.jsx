@@ -17,16 +17,16 @@ import {
   TableRow,
   Text,
   Wrapper
-} from '../../components/commons'
-import CostModal from '../../components/cost-modal'
+} from '@/components/commons'
+import CostModal from '@/components/cost-modal'
 // js
-import { toggleLoading } from '../../store/slices/globalSlice'
-import { formatMoney } from '../../utils/formatMoney'
-import { ExpandedTableHeaders } from '../../constants/pageConstants/products'
+import { toggleLoading } from '@/store/slices/globalSlice'
+import { formatMoney } from '@/utils/formatMoney'
+import { ExpandedTableHeaders } from '@/constants/pageConstants/products'
 // api
-import { getSearch } from '../../service/search/search-product'
-import { updateInventory } from '../../service/inventory'
-import { deleteProduct } from '../../service/product'
+import { getSearch } from '@/service/search/search-product'
+import { updateInventory } from '@/service/inventory'
+import { deleteProduct } from '@/service/product'
 // css
 import styled from 'styled-components'
 import styles from './search.module.less'

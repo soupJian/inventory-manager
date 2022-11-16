@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 // components
 import { Checkbox, Row, Col, Popover, Button } from 'antd'
 import { PlusCircleFilled } from '@ant-design/icons'
 // css
 import styles from '../index.module.less'
-import { useEffect } from 'react'
 
 // main
 const DrawerDetail = ({ info }) => {

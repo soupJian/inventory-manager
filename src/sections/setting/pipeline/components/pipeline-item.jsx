@@ -10,11 +10,11 @@ import {
   postReturnPipeline,
   postReplacePipeline,
   postReturnReplacePipeline
-} from '../../../../service/setting/setting-pipeline'
+} from '@/service/setting/setting-pipeline'
 import PipelineEdit from './pipeline-edit'
 // js
-import { pipelineColors } from '../../../../constants/setting'
-import { toggleLoading } from '../../../../store/slices/globalSlice'
+import { pipelineColors } from '@/constants/setting'
+import { toggleLoading } from '@/store/slices/globalSlice'
 // css
 import styles from '../index.module.less'
 

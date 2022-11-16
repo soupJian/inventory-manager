@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 // components
 import { Table, Row, Col, Button, Modal } from 'antd'
-import { Icon } from '../../../../components/commons'
+import { Icon } from '@/components/commons'
 import { CloseOutlined } from '@ant-design/icons'
 // js
 import {
@@ -13,8 +13,8 @@ import {
   islastdays,
   isSameYear,
   isLastYear
-} from '../../../../utils/formatTime'
-import { exportExcel } from '../../../../utils/export-excel'
+} from '@/utils/formatTime'
+import { exportExcel } from '@/utils/export-excel'
 // css
 import styles from '../index.module.less'
 

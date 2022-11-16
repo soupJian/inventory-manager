@@ -1,6 +1,8 @@
 import React from 'react'
+// components
 import { Spin } from 'antd'
 
+// main
 const Loading = ({
   left = 0,
   right = 0,

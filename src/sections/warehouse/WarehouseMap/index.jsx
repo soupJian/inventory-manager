@@ -9,14 +9,14 @@ import {
   Loader,
   Text,
   Wrapper
-} from '../../../components/commons'
+} from '@/components/commons'
 import { Popover } from 'antd'
 import WarehouseUnit from './WarehouseUnit'
 // js
-import { toggleLoading } from '../../../store/slices/globalSlice'
-import { ISOStringToReadableDate } from '../../../utils/utils'
+import { toggleLoading } from '@/store/slices/globalSlice'
+import { ISOStringToReadableDate } from '@/utils/utils'
 // api
-import { getAllInventory, getInventory } from '../../../service/inventory'
+import { getAllInventory, getInventory } from '@/service/inventory'
 // css
 import styled from 'styled-components'
 

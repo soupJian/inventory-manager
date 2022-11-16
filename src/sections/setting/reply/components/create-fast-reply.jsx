@@ -1,13 +1,10 @@
 import React, { useState } from 'react'
 // components
 import { Tabs, Row, Col, Input, Button, Upload } from 'antd'
-import { Icon } from '../../../../components/commons'
+import { Icon } from '@/components/commons'
 import { CloseCircleFilled } from '@ant-design/icons'
 // api
-import {
-  AddChatReply,
-  AddEmailReply
-} from '../../../../service/setting/setting-reply'
+import { AddChatReply, AddEmailReply } from '@/service/setting/setting-reply'
 // js
 import { v4 as uuidv4 } from 'uuid'
 // css

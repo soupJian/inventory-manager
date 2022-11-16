@@ -5,9 +5,9 @@ import { withRouter } from 'next/router'
 // antd -----------------
 import { Tabs } from 'antd'
 // components --------------
-import Pipeline from '../../../sections/setting/pipeline'
+import Pipeline from '@/sections/setting/pipeline'
 // js
-import { compluteTabList } from '../../../constants/setting'
+import { compluteTabList } from '@/constants/setting'
 // css ----------------
 import styles from '../index.module.less'
 

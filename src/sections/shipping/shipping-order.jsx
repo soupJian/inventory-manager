@@ -6,11 +6,11 @@ import { Button, Drawer, Table, Select, Space } from 'antd'
 const DrawerDetail = dynamic(() => import('./components/drawer-detail'))
 const DrawerShip = dynamic(() => import('./components/drawer-ship'))
 // js
-import { dateList } from '../../constants/pageConstants/shipping'
-import { ISOStringToReadableDate } from '../../utils/utils'
-import { toggleLoading } from '../../store/slices/globalSlice'
+import { dateList } from '@/constants/pageConstants/shipping'
+import { ISOStringToReadableDate } from '@/utils/utils'
+import { toggleLoading } from '@/store/slices/globalSlice'
 // api
-import { getAllOrders, getOrder } from '../../service/orders'
+import { getAllOrders, getOrder } from '@/service/orders'
 // css
 import styles from './index.module.less'
 

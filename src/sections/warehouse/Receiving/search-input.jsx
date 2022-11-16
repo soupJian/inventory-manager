@@ -4,7 +4,7 @@ import { Select, Spin } from 'antd'
 // js
 import debounce from 'lodash/debounce'
 // api
-import { getSearch } from '../../../service/search/search-inventory'
+import { getSearch } from '@/service/search/search-inventory'
 // css
 import styled from 'styled-components'
 import styles from '../index.module.less'

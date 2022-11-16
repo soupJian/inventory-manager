@@ -13,9 +13,9 @@ import {
   postCreateUser,
   updateAccess,
   postCreateAccess
-} from '../../../service/setting/setting-user'
+} from '@/service/setting/setting-user'
 // js
-import { toggleLoading } from '../../../store/slices/globalSlice'
+import { toggleLoading } from '@/store/slices/globalSlice'
 import { v4 as uuidv4 } from 'uuid'
 // css
 import styles from './index.module.less'

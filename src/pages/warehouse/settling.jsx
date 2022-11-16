@@ -1,15 +1,8 @@
-import { useEffect, useState } from 'react'
 import { withRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 // components
-import { Flex, Icon, Input, Tab, Tabs, Wrapper } from '../../components/commons'
-const Managing = dynamic(() => import('../../sections/warehouse/Managing'))
-const Receiving = dynamic(() => import('../../sections/warehouse/Receiving'))
+import { Flex, Tab, Tabs, Wrapper } from '../../components/commons'
 const Settling = dynamic(() => import('../../sections/warehouse/Settling'))
-const WarehouseMap = dynamic(() =>
-  import('../../sections/warehouse/WarehouseMap')
-)
-
 // main
 const Warehouse = ({ router }) => {
   return (

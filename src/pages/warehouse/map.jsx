@@ -1,10 +1,8 @@
 import { withRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 // components
-import { Flex, Tab, Tabs, Wrapper } from '../../components/commons'
-const WarehouseMap = dynamic(() =>
-  import('../../sections/warehouse/WarehouseMap')
-)
+import { Flex, Tab, Tabs, Wrapper } from '@/components/commons'
+const WarehouseMap = dynamic(() => import('@/sections/warehouse/WarehouseMap'))
 
 // main
 const Warehouse = ({ router }) => {

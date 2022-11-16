@@ -4,9 +4,9 @@ import { useRouter } from 'next/router'
 // antd -----------
 import { Tabs, Modal, Select } from 'antd'
 // components -------------
-import DetailHeader from '../../../sections/crm-hub/deals/detail/deatil-header'
-import DetailTabs from '../../../sections/crm-hub/deals/detail/detail-tabs'
-import DetailAction from '../../../sections/crm-hub/deals/detail/detail-action'
+import DetailHeader from '@/sections/crm-hub/deals/detail/deatil-header'
+import DetailTabs from '@/sections/crm-hub/deals/detail/detail-tabs'
+import DetailAction from '@/sections/crm-hub/deals/detail/detail-action'
 // css ------------
 import styles from './index.module.less'
 

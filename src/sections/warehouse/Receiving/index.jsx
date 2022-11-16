@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 // components
-import { Alert, Icon, Tab, Tabs, Wrapper } from '../../../components/commons'
-import AddANewItem from '../../../components/add-edit-new-Item'
+import { Alert, Icon, Tab, Tabs, Wrapper } from '@/components/commons'
+import AddANewItem from '@/components/add-edit-new-Item'
 import ReceivingScan from './scan'
 import ReceivingType from './type'
 // css

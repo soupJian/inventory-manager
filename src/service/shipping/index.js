@@ -1,4 +1,4 @@
-import request from '../../utils/request'
+import request from '@/utils/request'
 /**
  * 获取 所有 shipped 的订单
  */

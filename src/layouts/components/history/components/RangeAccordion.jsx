@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react'
+// components
+import { Flex, Icon, Loader, Text, Wrapper } from '@/components/commons'
+// api
+import { getHistory } from '@/service/user'
+// css
 import styled from 'styled-components'
-import {
-  Flex,
-  Icon,
-  Loader,
-  Text,
-  Wrapper
-} from '../../../../components/commons'
-import { getHistory } from '../../../../service/user'
 
 const changeKeys = [
   { label: 'Available', key: 'Available' },

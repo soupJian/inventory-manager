@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 // components
 import { Col, Space, Input, Button, message } from 'antd'
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons'
-import { Icon } from '../../../../components/commons'
+import { Icon } from '@/components/commons'
 // css
 import styles from '../index.module.less'
 

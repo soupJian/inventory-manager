@@ -6,11 +6,11 @@ import { useRouter } from 'next/router'
 // antd
 import { Menu } from 'antd'
 // components
-import { Icon } from '../../../components/commons'
+import { Icon } from '@/components/commons'
 const History = dynamic(() => import('../history'))
 const UserCenter = dynamic(() => import('../user-center'))
 // js
-import { accessObject } from '../../../constants/setting'
+import { accessObject } from '@/constants/setting'
 // css ----------
 import styled from 'styled-components'
 import styles from './index.module.less'

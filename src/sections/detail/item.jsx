@@ -8,14 +8,14 @@ import {
   Label,
   Text,
   Wrapper
-} from '../../components/commons'
+} from '@/components/commons'
 import Item from './inventory-item'
-import AddEditItem from '../../components/add-edit-new-Item'
+import AddEditItem from '@/components/add-edit-new-Item'
 // js
-import { toggleLoading } from '../../store/slices/globalSlice'
-import { itemTemplate } from '../../constants/pageConstants/inventory'
-import { getInventory } from '../../service/inventory'
-import { updateInventory, deleteInventory } from '../../service/inventory'
+import { toggleLoading } from '@/store/slices/globalSlice'
+import { itemTemplate } from '@/constants/pageConstants/inventory'
+import { getInventory } from '@/service/inventory'
+import { updateInventory, deleteInventory } from '@/service/inventory'
 // css
 import styled from 'styled-components'
 

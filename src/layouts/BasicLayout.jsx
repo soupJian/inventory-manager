@@ -4,10 +4,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import Router from 'next/router'
 // components
 const SideBar = dynamic(() => import('./components/sideBar'))
-const Loading = dynamic(() => import('../components/loading'))
+const Loading = dynamic(() => import('@/components/loading'))
 import { Layout } from 'antd'
 // js
-import { logoutUser } from '../store/slices/userSlice'
+import { logoutUser } from '@/store/slices/userSlice'
 // css
 import styles from './BasicLayout.module.less'
 // js

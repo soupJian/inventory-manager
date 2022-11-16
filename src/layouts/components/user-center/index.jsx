@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 // redux
 import { useDispatch, useSelector } from 'react-redux'
-import { logoutUser } from '../../../store/slices/userSlice'
+import { logoutUser } from '@/store/slices/userSlice'
 // components
-import { Icon } from '../../../components/commons'
+import { Icon } from '@/components/commons'
 const TimeSensitive = dynamic(() => import('./components/time-sensitive'))
 const AttentionNeeded = dynamic(() => import('./components/attention-needed'))
 const ImportantChange = dynamic(() => import('./components/important-change'))

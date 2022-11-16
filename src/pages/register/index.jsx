@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react'
 import { withRouter } from 'next/router'
 // components
 import { Row, Col, Input, Button } from 'antd'
-import Loading from '../../components/loading'
+import Loading from '@/components/loading'
 // api
-import { PutRegister } from '../../service/user'
+import { PutRegister } from '@/service/user'
 // js
-import { getParameter } from '../../utils/utils'
+import { getParameter } from '@/utils/utils'
 // css
 import styles from './index.module.less'
 

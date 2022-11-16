@@ -2,10 +2,10 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 // antd
-import { PageHeader, Button, Modal, Dropdown, Menu } from 'antd'
+import { PageHeader, Button, Modal, Dropdown } from 'antd'
 import { LeftOutlined, DownOutlined } from '@ant-design/icons'
 // components
-import Icon from '../../../../components/commons/icons/Icon'
+import Icon from '@/components/commons/icons/Icon'
 import ModalNotes from './components/header/modal-notes'
 import ModalMerge from './components/header/modal-merge'
 // css -------------

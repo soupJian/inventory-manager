@@ -10,10 +10,10 @@ import {
   getReturnPipeline,
   getReplacePipeline,
   getReturnReplacePipeline
-} from '../../../service/setting/setting-pipeline'
+} from '@/service/setting/setting-pipeline'
 // js
-import { pipelineReturn, headerSelectOption } from '../../../constants/setting'
-import { toggleLoading } from '../../../store/slices/globalSlice'
+import { pipelineReturn, headerSelectOption } from '@/constants/setting'
+import { toggleLoading } from '@/store/slices/globalSlice'
 // css
 import styles from './index.module.less'
 

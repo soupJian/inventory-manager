@@ -1,6 +1,8 @@
-import { useRouter } from 'next/router'
+import React, { useRouter } from 'next/router'
+// components
+
+// main
 import { Button, Result } from 'antd'
-import React from 'react'
 const NoAccess = () => {
   const router = useRouter()
   return (

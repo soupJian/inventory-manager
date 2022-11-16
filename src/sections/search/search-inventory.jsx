@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Image from 'next/image'
 // components
-import { toggleLoading } from '../../store/slices/globalSlice'
+import { toggleLoading } from '@/store/slices/globalSlice'
 import { Row, Col, Popover } from 'antd'
 import { PlusCircleFilled } from '@ant-design/icons'
 
@@ -19,14 +19,14 @@ import {
   TableRow,
   Text,
   Wrapper
-} from '../../components/commons'
-import CostModal from '../../components/cost-modal'
+} from '@/components/commons'
+import CostModal from '@/components/cost-modal'
 // api
-import { updateInventory } from '../../service/inventory'
-import { getSearch } from '../../service/search/search-inventory'
+import { updateInventory } from '@/service/inventory'
+import { getSearch } from '@/service/search/search-inventory'
 // js
-import { formatMoney } from '../../utils/formatMoney'
-import { ExpandedTableHeaders } from '../../constants/pageConstants/inventory'
+import { formatMoney } from '@/utils/formatMoney'
+import { ExpandedTableHeaders } from '@/constants/pageConstants/inventory'
 // css
 import styled from 'styled-components'
 import styles from './search.module.less'

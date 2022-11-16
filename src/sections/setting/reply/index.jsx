@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 // components
 import { Collapse, Button, Row, Col, Space, Modal } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
-import { Icon } from '../../../components/commons'
+import { Icon } from '@/components/commons'
 import EditFastReply from './components/edit-fast-reply'
 import CreateFastReply from './components/create-fast-reply'
 // api
@@ -14,10 +14,10 @@ import {
   updateEmailReply,
   deleteChatReply,
   deleteEmailReply
-} from '../../../service/setting/setting-reply'
-import { uploadImage } from '../../../service/uploadImage'
+} from '@/service/setting/setting-reply'
+import { uploadImage } from '@/service/uploadImage'
 // js
-import { toggleLoading } from '../../../store/slices/globalSlice'
+import { toggleLoading } from '@/store/slices/globalSlice'
 // css
 import styles from './index.module.less'
 

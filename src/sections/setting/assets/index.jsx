@@ -5,11 +5,11 @@ import { Row, Col, Select, Input, Button, Modal } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import AssetsContact from './components/asset-contact'
 // api
-import { getContacts } from '../../../service/setting/setting-assets'
+import { getContacts } from '@/service/setting/setting-assets'
 // js
-import { formatTimeStr } from '../../../utils/formatTime'
-import { exportExcel } from '../../../utils/export-excel'
-import { toggleLoading } from '../../../store/slices/globalSlice'
+import { formatTimeStr } from '@/utils/formatTime'
+import { exportExcel } from '@/utils/export-excel'
+import { toggleLoading } from '@/store/slices/globalSlice'
 // css
 import styles from './index.module.less'
 

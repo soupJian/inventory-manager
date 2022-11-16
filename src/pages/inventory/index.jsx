@@ -1,9 +1,9 @@
 import { withRouter } from 'next/router'
-import { Flex, Tab, Tabs, Wrapper } from '../../components/commons'
+import { Flex, Tab, Tabs, Wrapper } from '@/components/commons'
 import { SearchOutlined } from '@ant-design/icons'
 import { Input } from 'antd'
-import InventoryTable from '../../sections/inventory/inventoryTable'
-import { defaultInventoryItemsTableHeaders } from '../../constants/pageConstants/inventory'
+import InventoryTable from '@/sections/inventory/inventoryTable'
+import { defaultInventoryItemsTableHeaders } from '@/constants/pageConstants/inventory'
 import styles from './index.module.less'
 
 const Inventory = ({ router }) => {

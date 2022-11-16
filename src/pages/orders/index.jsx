@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react'
 import { withRouter } from 'next/router'
 // components
-import { Flex, Icon, Input, Tab, Tabs, Wrapper } from '../../components/commons'
-import CurrentOrder from '../../sections/orders/current-order'
+import { Flex, Icon, Input, Tab, Tabs, Wrapper } from '@/components/commons'
+import CurrentOrder from '@/sections/orders/current-order'
 
 // main
 const Orders = ({ router }) => {

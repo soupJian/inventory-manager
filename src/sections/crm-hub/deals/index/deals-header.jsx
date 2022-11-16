@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 // components ----------------
 import { Row, Col, Space, Button, Select, Input, Drawer } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
-import Icon from '../../../../components/commons/icons/Icon'
+import Icon from '@/components/commons/icons/Icon'
 import CreateDealForm from './create-deal-form'
 // css ---------------
 import styles from './index.module.less'

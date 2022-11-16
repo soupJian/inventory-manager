@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { toggleLoading } from '../../store/slices/globalSlice'
 import { useDispatch } from 'react-redux'
 import {
   Button,
@@ -9,14 +8,15 @@ import {
   Modal,
   Text,
   Wrapper
-} from '../../components/commons'
+} from '@/components/commons'
 // components
 import SearchInput from './search-input'
 import { message } from 'antd'
 // api
-import { updateProduct } from '../../service/product'
+import { updateProduct } from '@/service/product'
 // js
-import { productTemplate } from '../../constants/pageConstants/products'
+import { productTemplate } from '@/constants/pageConstants/products'
+import { toggleLoading } from '@/store/slices/globalSlice'
 import { nanoid } from 'nanoid'
 // css
 import styled from 'styled-components'

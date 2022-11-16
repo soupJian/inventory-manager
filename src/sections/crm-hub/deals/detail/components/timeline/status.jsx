@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 // components
 import { Row, Col, Space } from 'antd'
-import { Icon } from '../../../../../../components/commons'
+import { Icon } from '@/components/commons'
 import TaskContent from '../task/task-content'
 // css
 import styles from '../timeline.module.less'

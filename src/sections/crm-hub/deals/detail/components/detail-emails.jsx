@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Row, Col, Input, Space, Button, Collapse, select } from 'antd'
+import { Row, Col, Input, Space, Button, Collapse } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 // components
-import Icon from '../../../../../components/commons/icons/Icon'
+import Icon from '@/components/commons/icons/Icon'
 import EmailHeader from './email/email-list-header'
 import EmailCollapseContent from './email/email-collapse-content'
 import EmailContact from './email/email-contact'

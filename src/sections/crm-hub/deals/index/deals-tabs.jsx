@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { Table, Tabs, Row, Col, Button } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import DealsFilter from './deals-filter'
-import Icon from '../../../../components/commons/icons/Icon'
+import Icon from '@/components/commons/icons/Icon'
 // css ----------
 import styles from './index.module.less'
 // js ---------

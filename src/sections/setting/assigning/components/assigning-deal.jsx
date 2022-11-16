@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 // components
-import { Row, Col, Select, Switch, Checkbox, Space } from 'antd'
+import { Row, Col, Switch, Checkbox, Space } from 'antd'
 // api
 import {
   getInquirySetting,
   getRepresentatives,
   updateInquirySetting
-} from '../../../../service/setting/setting-assigning'
+} from '@/service/setting/setting-assigning'
 // js
-import { toggleLoading } from '../../../../store/slices/globalSlice'
+import { toggleLoading } from '@/store/slices/globalSlice'
 // css
 import styles from '../index.module.less'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 // components
 import { Table, Dropdown, Space, Button, Row, Col } from 'antd'
-import { Icon } from '../../../../components/commons'
+import { Icon } from '@/components/commons'
 import { DownOutlined } from '@ant-design/icons'
 
 // main

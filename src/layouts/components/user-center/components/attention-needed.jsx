@@ -1,6 +1,6 @@
 import React from 'react'
 // components
-import { Icon } from '../../../../components/commons'
+import { Icon } from '@/components/commons'
 // css
 import styles from '../index.module.less'
 

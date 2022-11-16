@@ -6,12 +6,12 @@ import { Button, Table, Select, Space, Modal, Drawer } from 'antd'
 import ModalShipping from './components/modal-shipping'
 import DrawerOrder from './components/drawer-order'
 // js
-import { dateList, sortByList } from '../../constants/pageConstants/shipping'
-import { ISOStringToReadableDate } from '../../utils/utils'
-import { formatMoney } from '../../utils/formatMoney'
-import { toggleLoading } from '../../store/slices/globalSlice'
+import { dateList, sortByList } from '@/constants/pageConstants/shipping'
+import { ISOStringToReadableDate } from '@/utils/utils'
+import { formatMoney } from '@/utils/formatMoney'
+import { toggleLoading } from '@/store/slices/globalSlice'
 // api
-import { getAllOrders, getOrder } from '../../service/orders'
+import { getAllOrders, getOrder } from '@/service/orders'
 // css
 import styles from './index.module.less'
 

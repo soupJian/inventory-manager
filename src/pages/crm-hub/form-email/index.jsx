@@ -4,9 +4,9 @@ import Head from 'next/head'
 // antd -------------
 import { Row, Col } from 'antd'
 // components ------------
-import FromEmailHeader from '../../../sections/crm-hub/form-email/form-eamil-header'
-import FromEmailList from '../../../sections/crm-hub/form-email/form-email-list'
-import FromEmailDetail from '../../../sections/crm-hub/form-email/form-email-detail'
+import FromEmailHeader from '@/sections/crm-hub/form-email/form-eamil-header'
+import FromEmailList from '@/sections/crm-hub/form-email/form-email-list'
+import FromEmailDetail from '@/sections/crm-hub/form-email/form-email-detail'
 // css---------
 import styles from './index.module.less'
 // main FC----------------

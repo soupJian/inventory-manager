@@ -1,7 +1,7 @@
 import { withRouter } from 'next/router'
 // components
-import { Flex, Icon, Input, Tab, Tabs, Wrapper } from '../../components/commons'
-import OrdersHistory from '../../sections/orders/orders-history'
+import { Flex, Icon, Input, Tab, Tabs, Wrapper } from '@/components/commons'
+import OrdersHistory from '@/sections/orders/orders-history'
 
 // main
 const Orders = ({ router }) => {

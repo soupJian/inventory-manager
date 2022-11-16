@@ -1,9 +1,13 @@
 import React from 'react'
+// components
 import { Row, Col } from 'antd'
 import { Modal } from '../commons'
-import { formatMoney } from '../../utils/formatMoney'
+// js
+import { formatMoney } from '@/utils/formatMoney'
+// css
 import styles from './index.module.less'
 
+// main
 const CostItem = ({ costInfo, total, name }) => {
   return (
     <div className={styles.costItem}>

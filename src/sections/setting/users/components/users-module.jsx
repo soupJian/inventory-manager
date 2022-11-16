@@ -3,15 +3,15 @@ import { useDispatch } from 'react-redux'
 // components
 import { DownOutlined } from '@ant-design/icons'
 import { Table, Row, Col, Button, Modal, Space, Popover, Radio } from 'antd'
-import { Icon } from '../../../../components/commons'
+import { Icon } from '@/components/commons'
 import UserCreateEdit from './user-create-edit'
 import { CloseOutlined } from '@ant-design/icons'
 // js
-import { toggleLoading } from '../../../../store/slices/globalSlice'
-import { formatTimeStr } from '../../../../utils/formatTime'
-import { SuperAdmin } from '../../../../constants/setting'
+import { toggleLoading } from '@/store/slices/globalSlice'
+import { formatTimeStr } from '@/utils/formatTime'
+import { SuperAdmin } from '@/constants/setting'
 // api
-import { updateUser } from '../../../../service/setting/setting-user'
+import { updateUser } from '@/service/setting/setting-user'
 // css
 import styles from '../index.module.less'
 

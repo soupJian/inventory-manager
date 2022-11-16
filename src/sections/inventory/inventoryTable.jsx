@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { toggleLoading } from '../../store/slices/globalSlice'
+import { toggleLoading } from '@/store/slices/globalSlice'
 import { useDispatch } from 'react-redux'
 // components
 import {
@@ -13,25 +13,25 @@ import {
   TableRow,
   Text,
   Wrapper
-} from '../../components/commons'
-import CostModal from '../../components/cost-modal'
+} from '@/components/commons'
+import CostModal from '@/components/cost-modal'
 import { Row, Col, Popover, Select, Space, Button, Checkbox } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
 import { PlusCircleFilled } from '@ant-design/icons'
-import { formatMoney } from '../../utils/formatMoney'
+import { formatMoney } from '@/utils/formatMoney'
 // api
 import {
   getAllInventory,
   getMultipleInventory,
   updateInventory,
   deleteInventory
-} from '../../service/inventory'
+} from '@/service/inventory'
 // js
 import {
   ExpandedTableHeaders,
   statusList,
   sortByList
-} from '../../constants/pageConstants/inventory'
+} from '@/constants/pageConstants/inventory'
 // css
 import styled from 'styled-components'
 import styles from './index.module.less'

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 // components
-import { Box, Flex, Modal } from '../../../components/commons'
+import { Box, Flex, Modal } from '@/components/commons'
 // css
 import styled from 'styled-components'
 

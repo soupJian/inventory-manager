@@ -1,6 +1,6 @@
 import React from 'react'
 import { withRouter } from 'next/router'
-import { defaultInventoryItemsTableHeaders } from '../../constants/pageConstants/inventory'
+import { defaultInventoryItemsTableHeaders } from '@/constants/pageConstants/inventory'
 
 import SearchInventory from '../../sections/search/search-inventory'
 const SearchPage = ({ router }) => {

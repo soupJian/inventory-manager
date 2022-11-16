@@ -1,17 +1,10 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 // components
-import {
-  Box,
-  Flex,
-  Icon,
-  Loader,
-  Text,
-  Wrapper
-} from '../../components/commons'
-import CostModal from '../../components/cost-modal'
+import { Box, Flex, Icon, Loader, Text, Wrapper } from '@/components/commons'
+import CostModal from '@/components/cost-modal'
 // js
-import { formatMoney } from '../../utils/formatMoney'
+import { formatMoney } from '@/utils/formatMoney'
 // css
 import styled from 'styled-components'
 import styles from './index.module.less'

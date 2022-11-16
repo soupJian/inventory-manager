@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 // components
 import { Row, Col, Space, Button, Checkbox } from 'antd'
-import { Icon } from '../../../../../../components/commons'
+import { Icon } from '@/components/commons'
 import TaskEdit from './task-edit'
 // css
 import styles from '../task.module.less'

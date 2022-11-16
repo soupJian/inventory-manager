@@ -1,6 +1,6 @@
 import React from 'react'
 // components
-import Icon from '../../../../../../components/commons/icons/Icon'
+import Icon from '@/components/commons/icons/Icon'
 import { Row, Col, Button } from 'antd'
 // css
 import styles from '../email.module.less'

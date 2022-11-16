@@ -1,5 +1,5 @@
 import { message } from 'antd'
-import { store } from '../store/store'
+import { store } from '@/store/store'
 import axios from 'axios'
 
 // 创建一个axios实例

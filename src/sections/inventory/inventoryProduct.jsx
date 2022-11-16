@@ -1,9 +1,9 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 // components
-import { toggleLoading } from '../../store/slices/globalSlice'
+import { toggleLoading } from '@/store/slices/globalSlice'
 import { useDispatch } from 'react-redux'
-import { updateProduct } from '../../service/product'
+import { updateProduct } from '@/service/product'
 import styled from 'styled-components'
 import {
   BaseButton,
@@ -16,12 +16,12 @@ import {
   TableRow,
   Text,
   Wrapper
-} from '../../components/commons'
-import CostModal from '../../components/cost-modal'
+} from '@/components/commons'
+import CostModal from '@/components/cost-modal'
 import {
   statusList,
   ExpandedTableHeaders
-} from '../../constants/pageConstants/products'
+} from '@/constants/pageConstants/products'
 import { Row, Col, Popover, Select, Space, Button, Checkbox } from 'antd'
 import { DownOutlined, PlusCircleFilled } from '@ant-design/icons'
 // api
@@ -29,10 +29,10 @@ import {
   getAllProducts,
   getMultipleProducts,
   deleteProduct
-} from '../../service/product'
+} from '@/service/product'
 // js
-import { sortByList } from '../../constants/pageConstants/inventory'
-import { formatMoney } from '../../utils/formatMoney'
+import { sortByList } from '@/constants/pageConstants/inventory'
+import { formatMoney } from '@/utils/formatMoney'
 // css
 import styles from './index.module.less'
 

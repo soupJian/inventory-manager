@@ -1,14 +1,20 @@
 import React, { useState } from 'react'
+
 import { toggleLoading } from '../../store/slices/globalSlice'
 import { useDispatch } from 'react-redux'
+// components
 import { Button, Filter, Flex, Icon, Input, Modal, Wrapper } from '../commons'
-import { itemTemplate } from '../../constants/pageConstants/inventory'
-import { locations } from '../../constants/pageConstants/locations'
-import { updateInventory } from '../../service/inventory'
-import styled from 'styled-components'
+// api
+import { updateInventory } from '@/service/inventory'
+// js
+import { itemTemplate } from '@/constants/pageConstants/inventory'
+import { locations } from '@/constants/pageConstants/locations'
 import { nanoid } from 'nanoid'
 import { message } from 'antd'
+// css
+import styled from 'styled-components'
 
+// main
 const AddANewItem = ({
   type = 'add',
   title = 'Add a new item',

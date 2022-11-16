@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Row, Col, Button, Modal, Space } from 'antd'
 // js
-import { formatMoney } from '../../../utils/formatMoney'
-import { formatTimeStr } from '../../../utils/formatTime'
+import { formatMoney } from '@/utils/formatMoney'
+import { formatTimeStr } from '@/utils/formatTime'
 // css
 import styles from '../index.module.less'
 

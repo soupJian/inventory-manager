@@ -2,11 +2,11 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Router from 'next/router'
 // components
-import { loginUser } from '../../store/slices/userSlice'
-import Loading from '../../components/loading'
+import { loginUser } from '@/store/slices/userSlice'
+import Loading from '@/components/loading'
 import { Row, Col, Input, Button, message } from 'antd'
 // api
-import { login } from '../../service/user'
+import { login } from '@/service/user'
 // css
 import styles from './index.module.less'
 
