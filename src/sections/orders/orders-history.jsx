@@ -28,7 +28,8 @@ const Orders = () => {
     try {
       dispatch(toggleLoading(true))
       const data = await getAllOrderHistory({
-        date: orderState.date
+        date: orderState.date,
+        order: orderState.sortBy
       })
       setOrderData(data.Items)
       dispatch(toggleLoading(false))
@@ -95,6 +96,7 @@ const Orders = () => {
                 date: value
               })
             }
+            value={orderData.date}
             options={dateList}
           />
           <span>Sort by</span>
@@ -107,6 +109,7 @@ const Orders = () => {
                 sortBy: value
               })
             }
+            value={orderData.sortBy}
             options={sortByList}
           />
         </Space>
@@ -137,7 +140,9 @@ const Orders = () => {
         width={700}
         className={styles.drawerWrap}
       >
-        <DrawerOrder type="history" />
+        {drawerInfo.info && (
+          <DrawerOrder type="history" info={drawerInfo.info} />
+        )}
       </Drawer>
     </>
   )

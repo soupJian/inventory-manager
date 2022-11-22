@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react"
 // components
-import { Checkbox, Row, Col, Popover, Button } from 'antd'
-import { PlusCircleFilled } from '@ant-design/icons'
+import { Checkbox, Row, Col, Popover, Button } from "antd"
+import { PlusCircleFilled } from "@ant-design/icons"
 // css
-import styles from '../index.module.less'
+import styles from "../index.module.less"
 
 // main
 const DrawerDetail = ({ info }) => {
@@ -16,20 +16,25 @@ const DrawerDetail = ({ info }) => {
     })
   }
   useEffect(() => {
-    console.log(info)
     setProduct(() => {
-      return info.products.map((item) => {
-        return {
-          ...item,
-          Parts: item.Parts.map((i) => {
+      const order = JSON.parse(JSON.stringify(info))
+      order.packageInfo.forEach((packageItem) => {
+        order.products.forEach((productItem) => {
+          if (packageItem.systemIds.includes(productItem.SystemId)) {
+            productItem.cappier = packageItem.cappier
+            productItem.trackingId = packageItem.trackingId
+            productItem.Shipped = true
+          }
+          productItem.Parts = productItem.Parts.map((i) => {
             return {
               ...i,
-              activeLwh: 'in.',
-              activeWeight: 'lbs.'
+              activeLwh: "in.",
+              activeWeight: "lbs."
             }
           })
-        }
+        })
       })
+      return order.products
     })
   }, [info])
   return (
@@ -48,13 +53,13 @@ const DrawerDetail = ({ info }) => {
           <div className={styles.address}>{info.customerInfo.address2}</div>
         )}
         <div>
-          {info.customerInfo.city}, {info.customerInfo.state}{' '}
+          {info.customerInfo.city}, {info.customerInfo.state}{" "}
           {info.customerInfo.zipcode}
         </div>
         <div>{info.customerInfo.phone}</div>
       </div>
       <div className={styles.title}>PRODUCTS</div>
-      <div className={styles['product-description']}>
+      <div className={styles["product-description"]}>
         Select products to see rate if they’re shipped together:
       </div>
       {productList.map((productItem, productIndex) => {
@@ -64,7 +69,7 @@ const DrawerDetail = ({ info }) => {
               className={styles.nameHeaderWrap}
               style={{
                 borderBottom: `${
-                  productItem.Shipped ? 'unset' : '1px solid #e6e6e6'
+                  productItem.Shipped ? "unset" : "1px solid #e6e6e6"
                 }`
               }}
             >
@@ -72,16 +77,16 @@ const DrawerDetail = ({ info }) => {
               <span
                 className={styles.productName}
                 style={{
-                  color: `${productItem.Shipped ? '#C4C4C4' : '#262626'}`
+                  color: `${productItem.Shipped ? "#C4C4C4" : "#262626"}`
                 }}
               >
-                {productItem.Name}{' '}
+                {productItem.Name}{" "}
                 {productItem.Shipped && <span> - Shipped</span>}
               </span>
             </div>
             {!productItem.Shipped && (
               <>
-                <Row gutter={10} style={{ marginBottom: '17px' }}>
+                <Row gutter={10} style={{ marginBottom: "17px" }}>
                   <Col span={8}>PARTS NAME</Col>
                   <Col span={4}>COUNT</Col>
                   <Col span={6}>LOCATION</Col>
@@ -99,15 +104,15 @@ const DrawerDetail = ({ info }) => {
                             {item.Inventory.Location.length > 1 && (
                               <Popover
                                 content={
-                                  <>{item.Inventory.Location.join(';')}</>
+                                  <>{item.Inventory.Location.join(";")}</>
                                 }
                                 trigger="hover"
                               >
                                 <PlusCircleFilled
                                   style={{
-                                    marginLeft: '4px',
-                                    fontSize: '18px',
-                                    marginTop: '2px'
+                                    marginLeft: "4px",
+                                    fontSize: "18px",
+                                    marginTop: "2px"
                                   }}
                                 />
                               </Popover>
@@ -121,7 +126,7 @@ const DrawerDetail = ({ info }) => {
                 </Row>
                 <Row gutter={[0, 16]}>
                   <Col span={24}>
-                    <Row style={{ marginTop: '16px' }} gutter={10}>
+                    <Row style={{ marginTop: "16px" }} gutter={10}>
                       <Col span={12}>DIMESIONS</Col>
                       <Col span={12}>WEIGHT</Col>
                     </Row>
@@ -131,36 +136,36 @@ const DrawerDetail = ({ info }) => {
                       <Col span={24} key={item.Inventory.SKU}>
                         <Row gutter={10}>
                           <Col span={12}>
-                            {item.activeLwh == 'in.'
+                            {item.activeLwh == "in."
                               ? item.Inventory.attr.length
                               : Number(
                                   item.Inventory.attr.length * 2.54
-                                ).toFixed(1)}{' '}
-                            X{' '}
-                            {item.activeLwh == 'in.'
+                                ).toFixed(1)}{" "}
+                            X{" "}
+                            {item.activeLwh == "in."
                               ? item.Inventory.attr.width
                               : Number(
                                   item.Inventory.attr.width * 2.54
-                                ).toFixed(1)}{' '}
-                            X{' '}
-                            {item.activeLwh == 'in.'
+                                ).toFixed(1)}{" "}
+                            X{" "}
+                            {item.activeLwh == "in."
                               ? item.Inventory.attr.height
                               : Number(
                                   item.Inventory.attr.height * 2.54
                                 ).toFixed(1)}
-                            {item.activeLwh == 'in.' && (
+                            {item.activeLwh == "in." && (
                               <>
                                 <span
                                   className={
-                                    item.activeLwh == 'cm'
+                                    item.activeLwh == "cm"
                                       ? `${styles.activeText} ${styles.pointer}`
                                       : `${styles.pointer}`
                                   }
-                                  style={{ margin: '0 5px' }}
+                                  style={{ margin: "0 5px" }}
                                   onClick={() =>
                                     changePart(
-                                      'activeLwh',
-                                      'in.',
+                                      "activeLwh",
+                                      "in.",
                                       productIndex,
                                       partIndex
                                     )
@@ -170,14 +175,14 @@ const DrawerDetail = ({ info }) => {
                                 </span>
                                 <span
                                   className={
-                                    item.activeLwh == 'in.'
+                                    item.activeLwh == "in."
                                       ? `${styles.activeText} ${styles.pointer}`
                                       : `${styles.pointer}`
                                   }
                                   onClick={() =>
                                     changePart(
-                                      'activeLwh',
-                                      'cm',
+                                      "activeLwh",
+                                      "cm",
                                       productIndex,
                                       partIndex
                                     )
@@ -187,19 +192,19 @@ const DrawerDetail = ({ info }) => {
                                 </span>
                               </>
                             )}
-                            {item.activeLwh == 'cm' && (
+                            {item.activeLwh == "cm" && (
                               <>
                                 <span
                                   className={
-                                    item.activeLwh == 'in.'
+                                    item.activeLwh == "in."
                                       ? `${styles.activeText} ${styles.pointer}`
                                       : `${styles.pointer}`
                                   }
-                                  style={{ margin: '0 5px' }}
+                                  style={{ margin: "0 5px" }}
                                   onClick={() =>
                                     changePart(
-                                      'activeLwh',
-                                      'cm',
+                                      "activeLwh",
+                                      "cm",
                                       productIndex,
                                       partIndex
                                     )
@@ -209,14 +214,14 @@ const DrawerDetail = ({ info }) => {
                                 </span>
                                 <span
                                   className={
-                                    item.activeLwh == 'cm'
+                                    item.activeLwh == "cm"
                                       ? `${styles.activeText} ${styles.pointer}`
                                       : `${styles.pointer}`
                                   }
                                   onClick={() =>
                                     changePart(
-                                      'activeLwh',
-                                      'in.',
+                                      "activeLwh",
+                                      "in.",
                                       productIndex,
                                       partIndex
                                     )
@@ -228,24 +233,24 @@ const DrawerDetail = ({ info }) => {
                             )}
                           </Col>
                           <Col span={12}>
-                            {item.activeWeight == 'lbs.'
+                            {item.activeWeight == "lbs."
                               ? item.Inventory.attr.weight
                               : Number(
                                   item.Inventory.attr.weight * 0.45359237
                                 ).toFixed(1)}
-                            {item.activeWeight == 'lbs.' && (
+                            {item.activeWeight == "lbs." && (
                               <>
                                 <span
                                   className={
-                                    item.activeWeight == 'kg'
+                                    item.activeWeight == "kg"
                                       ? `${styles.activeText} ${styles.pointer}`
                                       : `${styles.pointer}`
                                   }
-                                  style={{ margin: '0 5px' }}
+                                  style={{ margin: "0 5px" }}
                                   onClick={() =>
                                     changePart(
-                                      'activeWeight',
-                                      'lbs.',
+                                      "activeWeight",
+                                      "lbs.",
                                       productIndex,
                                       partIndex
                                     )
@@ -255,14 +260,14 @@ const DrawerDetail = ({ info }) => {
                                 </span>
                                 <span
                                   className={
-                                    item.activeWeight == 'lbs.'
+                                    item.activeWeight == "lbs."
                                       ? `${styles.activeText} ${styles.pointer}`
                                       : `${styles.pointer}`
                                   }
                                   onClick={() =>
                                     changePart(
-                                      'activeWeight',
-                                      'kg',
+                                      "activeWeight",
+                                      "kg",
                                       productIndex,
                                       partIndex
                                     )
@@ -272,19 +277,19 @@ const DrawerDetail = ({ info }) => {
                                 </span>
                               </>
                             )}
-                            {item.activeWeight == 'kg' && (
+                            {item.activeWeight == "kg" && (
                               <>
                                 <span
                                   className={
-                                    item.activeWeight == 'lbs.'
+                                    item.activeWeight == "lbs."
                                       ? `${styles.activeText} ${styles.pointer}`
                                       : `${styles.pointer}`
                                   }
-                                  style={{ margin: '0 5px' }}
+                                  style={{ margin: "0 5px" }}
                                   onClick={() =>
                                     changePart(
-                                      'activeWeight',
-                                      'kg',
+                                      "activeWeight",
+                                      "kg",
                                       productIndex,
                                       partIndex
                                     )
@@ -294,14 +299,14 @@ const DrawerDetail = ({ info }) => {
                                 </span>
                                 <span
                                   className={
-                                    item.activeWeight == 'kg'
+                                    item.activeWeight == "kg"
                                       ? `${styles.activeText} ${styles.pointer}`
                                       : `${styles.pointer}`
                                   }
                                   onClick={() =>
                                     changePart(
-                                      'activeWeight',
-                                      'lbs.',
+                                      "activeWeight",
+                                      "lbs.",
                                       productIndex,
                                       partIndex
                                     )
@@ -323,10 +328,10 @@ const DrawerDetail = ({ info }) => {
           </div>
         )
       })}
-      <Row justify="space-between" align="middle" style={{ marginTop: '33px' }}>
+      <Row justify="space-between" align="middle" style={{ marginTop: "33px" }}>
         <Col
           className={styles.title}
-          style={{ textDecorationLine: 'none', margin: '0' }}
+          style={{ textDecorationLine: "none", margin: "0" }}
         >
           SELECTED PRODUCTS RATE
         </Col>

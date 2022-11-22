@@ -165,7 +165,8 @@ const ShippingOrders = () => {
             info={drawerShipInfo.info}
             closedDrawer={() => {
               setDrawerShipInfo({
-                ...drawerShipInfo,
+                id: null,
+                info: null,
                 show: false
               })
               fetchData()

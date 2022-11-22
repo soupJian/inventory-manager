@@ -1,23 +1,23 @@
-import React, { useState } from 'react'
-import { Row, Col, Button, Modal, Space } from 'antd'
+import React, { useState } from "react"
+import { Row, Col, Button, Modal, Space } from "antd"
 // js
-import { formatMoney } from '@/utils/formatMoney'
-import { formatTimeStr } from '@/utils/formatTime'
+import { formatMoney } from "@/utils/formatMoney"
+import { formatTimeStr } from "@/utils/formatTime"
 // css
-import styles from '../index.module.less'
+import styles from "../index.module.less"
 
 const discountList = [
   {
     id: 1,
-    Name: 'welcome10'
+    Name: "welcome10"
   },
   {
     id: 2,
-    Name: '10% off'
+    Name: "10% off"
   },
   {
     id: 3,
-    Name: '50% off'
+    Name: "50% off"
   }
 ]
 
@@ -29,8 +29,9 @@ const DrawerOrder = ({ info, type }) => {
   const [showModal, setShowModal] = useState(false)
   // 取消订单
   const handleCancelOrder = () => {
-    console.log('1234')
+    console.log("1234")
   }
+  // const deliveredTime = info.packageInfo.
   return (
     <>
       <div className={styles.drawer}>
@@ -44,19 +45,19 @@ const DrawerOrder = ({ info, type }) => {
             className={styles.orderSubTitle}
           >{`Created on: ${formatTimeStr(
             info.created,
-            'DD/MM/YY hh:mm a'
+            "DD/MM/YY hh:mm a"
           )}`}</Col>
-          {type == 'history' && (
+          {type == "history" && (
             <Col span={24}>
               <Row className={styles.orderSubTitle}>
                 <Col>Delivered on: </Col>
-                <Col style={{ marginLeft: '5px' }}>
+                <Col style={{ marginLeft: "5px" }}>
                   <Row gutter={[0, 8]}>
                     {info.packageInfo.map((packageItem) => {
                       return (
                         <Col span={24} key={packageItem.TrackId}>
-                          {formatTimeStr(info.created, 'DD/MM/YY hh:mm a')}{' '}
-                          <span style={{ color: '#2C88DD' }}>
+                          {formatTimeStr(info.created, "DD/MM/YY hh:mm a")}{" "}
+                          <span style={{ color: "#2C88DD" }}>
                             {packageItem.Carrier}
                           </span>
                         </Col>
@@ -80,7 +81,7 @@ const DrawerOrder = ({ info, type }) => {
                 <Col span={24}>{info.billingInfo.address2}</Col>
               )}
               <Col span={24}>
-                {info.customerInfo.city}, {info.customerInfo.state}{' '}
+                {info.customerInfo.city}, {info.customerInfo.state}{" "}
                 {info.customerInfo.zipcode}
               </Col>
               <Col span={24}>{info.billingInfo.phone}</Col>
@@ -98,7 +99,7 @@ const DrawerOrder = ({ info, type }) => {
                 <Col span={24}>{info.customerInfo.address2}</Col>
               )}
               <Col span={24}>
-                {info.customerInfo.city}, {info.customerInfo.state}{' '}
+                {info.customerInfo.city}, {info.customerInfo.state}{" "}
                 {info.customerInfo.zipcode}
               </Col>
               <Col span={24}>{info.customerInfo.phone}</Col>
@@ -125,7 +126,7 @@ const DrawerOrder = ({ info, type }) => {
                   <td>{productItem.Quantity}</td>
                   <td>${formatMoney(productItem.Price.toFixed(2))}</td>
                   <td>
-                    {productItem.Discount > 0 ? '-' : ''}$
+                    {productItem.Discount > 0 ? "-" : ""}$0
                     {/* {formatMoney(productItem.Discount.toFixed(2))} */}
                   </td>
                 </tr>
@@ -142,14 +143,14 @@ const DrawerOrder = ({ info, type }) => {
                 className={`${styles.discountName} ${
                   info.DiscountId == discountItem.id
                     ? styles.activeDiscount
-                    : ''
+                    : ""
                 }`}
               >
                 {discountItem.Name}
                 {index != discountList.length - 1 &&
                 info.DiscountId != discountItem.id
-                  ? ';'
-                  : ''}
+                  ? ";"
+                  : ""}
               </Col>
             )
           })}
@@ -171,7 +172,7 @@ const DrawerOrder = ({ info, type }) => {
               <Row justify="space-between" align="middle">
                 <Col className={styles.summaryLabel}>Discount</Col>
                 <Col className={styles.summaryValue}>
-                  {info.Discount > 0 ? '-' : ''}${formatMoney(info.Discount)}
+                  {info.Discount > 0 ? "-" : ""}${formatMoney(info.Discount)}
                 </Col>
               </Row>
             </Col>
@@ -199,7 +200,7 @@ const DrawerOrder = ({ info, type }) => {
             ${formatMoney(info.totalAmount)}
           </Col>
         </Row>
-        {type == 'current' && (
+        {type == "current" && (
           <Row justify="end" className={styles.footerWrap}>
             <Col>
               <Button
@@ -213,7 +214,7 @@ const DrawerOrder = ({ info, type }) => {
           </Row>
         )}
       </div>
-      {type == 'current' && (
+      {type == "current" && (
         <Modal
           centered
           title=""

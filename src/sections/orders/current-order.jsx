@@ -36,10 +36,10 @@ const Orders = () => {
     try {
       dispatch(toggleLoading(true))
       const data = await getAllCurrentOrders({
-        date: orderState.date
+        date: orderState.date,
+        order: orderState.orderBy
       })
       setOrderData(data.Items)
-      console.log(data)
       dispatch(toggleLoading(false))
     } catch (err) {
       dispatch(toggleLoading(false))
@@ -50,6 +50,7 @@ const Orders = () => {
   const showDetail = async (id) => {
     if (id != drawerInfo.id) {
       const { Item } = await getOrder(id)
+      console.log(Item)
       setDrawerInfo({
         show: true,
         id,
@@ -100,15 +101,15 @@ const Orders = () => {
       render: (_, record) => {
         return (
           <>
-            {record.orderStatus == "Shipped" ? (
+            {record.packageInfo.length > 0 ? (
               <span
                 className={styles.activeText}
                 onClick={() => showShipped(record.id)}
               >
-                {record.orderStatus}
+                Shipped
               </span>
             ) : (
-              record.orderStatus
+              "Processing"
             )}
           </>
         )
@@ -146,6 +147,7 @@ const Orders = () => {
                 date: value
               })
             }
+            value={orderState.date}
             options={dateList}
           />
           <span>Sort by</span>
@@ -158,6 +160,7 @@ const Orders = () => {
                 sortBy: value
               })
             }
+            value={orderState.orderBy}
             options={sortByList}
           />
         </Space>

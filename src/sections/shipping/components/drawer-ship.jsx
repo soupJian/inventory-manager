@@ -12,7 +12,7 @@ import styles from "../index.module.less"
 // main
 const DrawerShip = ({ info, closedDrawer }) => {
   const dispatch = useDispatch()
-  const [packageInfo, setPackageInfo] = useState(info.packageInfo)
+  const [packageInfo, setPackageInfo] = useState([])
   // 过滤掉没有发货的 product
   const [unShippedProduct, setUnshippedProduct] = useState([])
   // 存放已经被勾选的 products ，存储SKU和当前是第几个package,
@@ -79,18 +79,17 @@ const DrawerShip = ({ info, closedDrawer }) => {
       return
     }
     const order = JSON.parse(JSON.stringify(info))
-    order.packageInfo = newPackageInfo
+    order.packageInfo = order.packageInfo.concat(newPackageInfo)
     dispatch(toggleFullLoading(true))
     await updateOrder(order)
     dispatch(toggleFullLoading(false))
     closedDrawer()
   }
   useEffect(() => {
+    addPackage()
     if (info.packageInfo.length == 0) {
-      addPackage()
       setUnshippedProduct(info.products)
     } else {
-      setPackageInfo(info.packageInfo)
       const arr = info.packageInfo.reduce(
         (pre, cur) => {
           return pre.systemIds.concat(cur.systemIds)
