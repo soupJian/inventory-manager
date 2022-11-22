@@ -1,25 +1,25 @@
-import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import dynamic from 'next/dynamic'
+import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
+import dynamic from "next/dynamic"
 // components
-import { Button, Drawer, Table, Select, Space } from 'antd'
+import { Button, Drawer, Table, Select, Space } from "antd"
 const DrawerDetailHistory = dynamic(() =>
-  import('./components/drawer-detail-history')
+  import("./components/drawer-detail-history")
 )
 // js
-import { dateList } from '@/constants/pageConstants/shipping'
-import { ISOStringToReadableDate } from '@/utils/utils'
-import { toggleLoading } from '@/store/slices/globalSlice'
+import { dateList } from "@/constants/pageConstants/shipping"
+import { ISOStringToReadableDate } from "@/utils/utils"
+import { toggleLoading } from "@/store/slices/globalSlice"
 // api
-import { getAllOrders, getOrder } from '@/service/orders'
+import { getAllShippingHistory, getOrder } from "@/service/orders"
 // css
-import styles from './index.module.less'
+import styles from "./index.module.less"
 
 // main
 const Orders = () => {
   const dispatch = useDispatch()
   const [orderState, setOrderState] = useState({
-    date: ''
+    date: ""
   })
   const [orderData, setOrderData] = useState([])
   const [drawerDetailInfo, setDrawerDetailInfo] = useState({
@@ -29,7 +29,7 @@ const Orders = () => {
   })
   const getData = async () => {
     dispatch(toggleLoading(true))
-    const data = await getAllOrders({
+    const data = await getAllShippingHistory({
       date: orderState.date
     })
     dispatch(toggleLoading(false))
@@ -52,27 +52,27 @@ const Orders = () => {
   }
   const columns = [
     {
-      title: 'ORDER NO.',
-      dataIndex: 'id'
+      title: "ORDER NO.",
+      dataIndex: "id"
     },
     {
-      title: 'CUSTOMER',
+      title: "CUSTOMER",
       render: (_, record) => record.customerInfo.fullName
     },
     {
-      title: 'DESTINATION',
+      title: "DESTINATION",
       render: (_, record) => record.customerInfo.address1
     },
     {
-      title: 'SHIP DATE',
+      title: "SHIP DATE",
       render: (_, record) => ISOStringToReadableDate(record.created)
     },
     {
-      title: 'ORDER DATE',
+      title: "ORDER DATE",
       render: (_, record) => ISOStringToReadableDate(record.created)
     },
     {
-      title: '',
+      title: "",
       render: (_, record) => (
         <Button
           type="primary"

@@ -1,23 +1,22 @@
-import { withRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import dynamic from 'next/dynamic'
-import { Button, Drawer, Table, Select, Space } from 'antd'
-const DrawerDetail = dynamic(() => import('./components/drawer-detail'))
-const DrawerShip = dynamic(() => import('./components/drawer-ship'))
+import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
+import dynamic from "next/dynamic"
+import { Button, Drawer, Table, Select, Space } from "antd"
+const DrawerDetail = dynamic(() => import("./components/drawer-detail"))
+const DrawerShip = dynamic(() => import("./components/drawer-ship"))
 // js
-import { dateList } from '@/constants/pageConstants/shipping'
-import { ISOStringToReadableDate } from '@/utils/utils'
-import { toggleLoading } from '@/store/slices/globalSlice'
+import { dateList } from "@/constants/pageConstants/shipping"
+import { ISOStringToReadableDate } from "@/utils/utils"
+import { toggleLoading } from "@/store/slices/globalSlice"
 // api
-import { getAllOrders, getOrder } from '@/service/orders'
+import { getAllShippingOrders, getOrder } from "@/service/orders"
 // css
-import styles from './index.module.less'
+import styles from "./index.module.less"
 
-const Orders = () => {
+const ShippingOrders = () => {
   const dispatch = useDispatch()
   const [orderState, setOrderState] = useState({
-    date: ''
+    date: ""
   })
   const [orderData, setOrderData] = useState([])
   const [drawerDetailInfo, setDrawerDetailInfo] = useState({
@@ -33,7 +32,7 @@ const Orders = () => {
     try {
       dispatch(toggleLoading(true))
       dispatch(toggleLoading(true))
-      const data = await getAllOrders({
+      const data = await getAllShippingOrders({
         date: orderState.date
       })
       setOrderData(data.Items)
@@ -61,23 +60,23 @@ const Orders = () => {
   }
   const columns = [
     {
-      title: 'ORDER NO.',
-      dataIndex: 'id'
+      title: "ORDER NO.",
+      dataIndex: "id"
     },
     {
-      title: 'CUSTOMER',
+      title: "CUSTOMER",
       render: (_, record) => record.customerInfo.fullName
     },
     {
-      title: 'DESTINATION',
+      title: "DESTINATION",
       render: (_, record) => record.customerInfo.address1
     },
     {
-      title: 'ORDER DATE',
+      title: "ORDER DATE",
       render: (_, record) => ISOStringToReadableDate(record.created)
     },
     {
-      title: 'DETAIL',
+      title: "DETAIL",
       render: (_, record) => (
         <span
           className={styles.activeText}
@@ -88,7 +87,7 @@ const Orders = () => {
       )
     },
     {
-      title: '',
+      title: "",
       render: (_, record) => (
         <Button className={styles.Btn} onClick={() => showShip(record.id)}>
           Ship
@@ -161,10 +160,21 @@ const Orders = () => {
         width={612}
         className={styles.drawerWrap}
       >
-        {drawerShipInfo.info && <DrawerShip info={drawerShipInfo.info} />}
+        {drawerShipInfo.info && (
+          <DrawerShip
+            info={drawerShipInfo.info}
+            closedDrawer={() => {
+              setDrawerShipInfo({
+                ...drawerShipInfo,
+                show: false
+              })
+              fetchData()
+            }}
+          />
+        )}
       </Drawer>
     </>
   )
 }
 
-export default withRouter(Orders)
+export default ShippingOrders

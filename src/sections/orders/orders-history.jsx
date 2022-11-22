@@ -1,23 +1,23 @@
-import { withRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { Button, Table, Select, Space, Drawer } from 'antd'
-import DrawerOrder from './components/drawer-order'
+import { withRouter } from "next/router"
+import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
+import { Button, Table, Select, Space, Drawer } from "antd"
+import DrawerOrder from "./components/drawer-order"
 // js
-import { dateList, sortByList } from '@/constants/pageConstants/shipping'
-import { ISOStringToReadableDate } from '@/utils/utils'
-import { formatMoney } from '@/utils/formatMoney'
-import { toggleLoading } from '@/store/slices/globalSlice'
+import { dateList, sortByList } from "@/constants/pageConstants/shipping"
+import { ISOStringToReadableDate } from "@/utils/utils"
+import { formatMoney } from "@/utils/formatMoney"
+import { toggleLoading } from "@/store/slices/globalSlice"
 // api
-import { getAllOrders } from '@/service/orders'
+import { getAllOrderHistory } from "@/service/orders"
 // css
-import styles from './index.module.less'
+import styles from "./index.module.less"
 
 const Orders = () => {
   const dispatch = useDispatch()
   const [orderState, setOrderState] = useState({
-    sortBy: 'asc',
-    date: ''
+    sortBy: "asc",
+    date: ""
   })
   const [drawerInfo, setDrawerInfo] = useState({
     show: false,
@@ -27,7 +27,7 @@ const Orders = () => {
   const getData = async () => {
     try {
       dispatch(toggleLoading(true))
-      const data = await getAllOrders({
+      const data = await getAllOrderHistory({
         date: orderState.date
       })
       setOrderData(data.Items)
@@ -39,27 +39,27 @@ const Orders = () => {
   }
   const columns = [
     {
-      title: 'ORDER NO.',
-      dataIndex: 'id'
+      title: "ORDER NO.",
+      dataIndex: "id"
     },
     {
-      title: 'CUSTOMER',
+      title: "CUSTOMER",
       render: (_, record) => record.customerInfo.fullName
     },
     {
-      title: 'PAYMENT',
+      title: "PAYMENT",
       render: (_, record) => `$${formatMoney(Number(record.totalAmount))}`
     },
     {
-      title: 'ORDER DATE',
+      title: "ORDER DATE",
       render: (_, record) => ISOStringToReadableDate(record.created)
     },
     {
-      title: 'COMPLETED ON',
+      title: "COMPLETED ON",
       render: (_, record) => ISOStringToReadableDate(record.created)
     },
     {
-      title: '',
+      title: "",
       render: (_, record) => (
         <Button
           type="primary"

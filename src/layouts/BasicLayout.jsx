@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import dynamic from 'next/dynamic'
-import { useSelector, useDispatch } from 'react-redux'
-import Router from 'next/router'
+import React, { useState, useEffect } from "react"
+import dynamic from "next/dynamic"
+import { useSelector, useDispatch } from "react-redux"
+import Router from "next/router"
 // components
-const SideBar = dynamic(() => import('./components/sideBar'))
-const Loading = dynamic(() => import('@/components/loading'))
-import { Layout } from 'antd'
+const SideBar = dynamic(() => import("./components/sideBar"))
+const Loading = dynamic(() => import("@/components/loading"))
+import { Layout } from "antd"
 // js
-import { logoutUser } from '@/store/slices/userSlice'
+import { logoutUser } from "@/store/slices/userSlice"
 // css
-import styles from './BasicLayout.module.less'
+import styles from "./BasicLayout.module.less"
 // js
 const { Content, Sider } = Layout
 
@@ -22,10 +22,10 @@ const BasicLayout = ({ children }) => {
 
   useEffect(() => {
     if (!user.isLoggedIn) {
-      Router.replace('/login')
+      Router.replace("/login")
     }
     const currentVersion = JSON.parse(
-      JSON.stringify(localStorage.getItem('version'))
+      JSON.stringify(localStorage.getItem("version"))
     )
     if (!currentVersion || currentVersion != process.env.version) {
       dispatch(logoutUser())
@@ -46,14 +46,13 @@ const BasicLayout = ({ children }) => {
         <SideBar collapsed={collapsed} user={user} />
       </Sider>
       <Layout
-        style={{ marginLeft: collapsed ? '104px' : '231px' }}
+        style={{ marginLeft: collapsed ? "104px" : "231px" }}
         className={styles.siteLayout}
       >
         <Content>{children}</Content>
-        {global.loading && (
-          <Loading collapsed={collapsed} left={collapsed ? '104px' : '231px'} />
-        )}
+        {global.loading && <Loading left={collapsed ? "104px" : "231px"} />}
       </Layout>
+      {global.fullLoading && <Loading />}
     </Layout>
   )
 }

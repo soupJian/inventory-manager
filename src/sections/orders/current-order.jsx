@@ -1,25 +1,25 @@
-import { withRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { withRouter } from "next/router"
+import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
 // components
-import { Button, Table, Select, Space, Modal, Drawer } from 'antd'
-import ModalShipping from './components/modal-shipping'
-import DrawerOrder from './components/drawer-order'
+import { Button, Table, Select, Space, Modal, Drawer } from "antd"
+import ModalShipping from "./components/modal-shipping"
+import DrawerOrder from "./components/drawer-order"
 // js
-import { dateList, sortByList } from '@/constants/pageConstants/shipping'
-import { ISOStringToReadableDate } from '@/utils/utils'
-import { formatMoney } from '@/utils/formatMoney'
-import { toggleLoading } from '@/store/slices/globalSlice'
+import { dateList, sortByList } from "@/constants/pageConstants/shipping"
+import { ISOStringToReadableDate } from "@/utils/utils"
+import { formatMoney } from "@/utils/formatMoney"
+import { toggleLoading } from "@/store/slices/globalSlice"
 // api
-import { getAllOrders, getOrder } from '@/service/orders'
+import { getAllCurrentOrders, getOrder } from "@/service/orders"
 // css
-import styles from './index.module.less'
+import styles from "./index.module.less"
 
 const Orders = () => {
   const dispatch = useDispatch()
   const [orderState, setOrderState] = useState({
-    orderBy: 'asc',
-    date: ''
+    orderBy: "asc",
+    date: ""
   })
   const [orderData, setOrderData] = useState([])
   const [shippingModal, setShippingModal] = useState({
@@ -35,7 +35,7 @@ const Orders = () => {
   const getData = async () => {
     try {
       dispatch(toggleLoading(true))
-      const data = await getAllOrders({
+      const data = await getAllCurrentOrders({
         date: orderState.date
       })
       setOrderData(data.Items)
@@ -80,27 +80,27 @@ const Orders = () => {
   }
   const columns = [
     {
-      title: 'ORDER NO.',
-      dataIndex: 'id'
+      title: "ORDER NO.",
+      dataIndex: "id"
     },
     {
-      title: 'CUSTOMER',
+      title: "CUSTOMER",
       render: (_, record) => record.customerInfo.fullName
     },
     {
-      title: 'PAYMENT',
+      title: "PAYMENT",
       render: (_, record) => `$${formatMoney(Number(record.totalAmount))}`
     },
     {
-      title: 'ORDER DATE',
+      title: "ORDER DATE",
       render: (_, record) => ISOStringToReadableDate(record.created)
     },
     {
-      title: 'Status',
+      title: "Status",
       render: (_, record) => {
         return (
           <>
-            {record.orderStatus == 'Shipped' ? (
+            {record.orderStatus == "Shipped" ? (
               <span
                 className={styles.activeText}
                 onClick={() => showShipped(record.id)}
@@ -115,7 +115,7 @@ const Orders = () => {
       }
     },
     {
-      title: '',
+      title: "",
       render: (_, record) => (
         <Button
           type="primary"
