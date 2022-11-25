@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import Image from 'next/image'
+import { useCallback, useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
+import Image from "next/image"
 // components
-import { toggleLoading } from '@/store/slices/globalSlice'
-import { Row, Col, Popover } from 'antd'
-import { PlusCircleFilled } from '@ant-design/icons'
+import { toggleLoading } from "@/store/slices/globalSlice"
+import { Row, Col, Popover } from "antd"
+import { PlusCircleFilled } from "@ant-design/icons"
 
 import {
   BaseButton,
@@ -19,17 +19,17 @@ import {
   TableRow,
   Text,
   Wrapper
-} from '@/components/commons'
-import CostModal from '@/components/cost-modal'
+} from "@/components/commons"
+import CostModal from "@/components/cost-modal"
 // api
-import { updateInventory } from '@/service/inventory'
-import { getSearch } from '@/service/search/search-inventory'
+import { updateInventory } from "@/service/inventory"
+import { getSearch } from "@/service/search/search-inventory"
 // js
-import { formatMoney } from '@/utils/formatMoney'
-import { ExpandedTableHeaders } from '@/constants/pageConstants/inventory'
+import { formatMoney } from "@/utils/formatMoney"
+import { ExpandedTableHeaders } from "@/constants/pageConstants/inventory"
 // css
-import styled from 'styled-components'
-import styles from './search.module.less'
+import styled from "styled-components"
+import styles from "./search.module.less"
 
 const perPage = 10
 
@@ -52,12 +52,12 @@ const SearchPage = ({
     total: 0
   })
   const [page, setPage] = useState(1)
-  const [search, setSearch] = useState(router.query.search || '')
+  const [search, setSearch] = useState(router.query.search || "")
   const [data, setData] = useState({})
   const [selection, setSelection] = useState([])
   const [dialog, setDialog] = useState({
-    message: '',
-    onConfirm: '',
+    message: "",
+    onConfirm: "",
     show: false
   })
   const addSelection = (sku) => {
@@ -82,7 +82,7 @@ const SearchPage = ({
       show: true,
       onConfirm: () => {
         cb()
-        return setDialog({ message: '', onConfirm: '', show: false })
+        return setDialog({ message: "", onConfirm: "", show: false })
       }
     })
   }
@@ -93,7 +93,7 @@ const SearchPage = ({
     )
     Promise.all(
       itemsToBeCleared.map((item) => {
-        return updateInventory('update', {
+        return updateInventory("update", {
           ...item,
           Stock: 0,
           Reserved: 0,
@@ -158,29 +158,29 @@ const SearchPage = ({
   return (
     <Wrapper
       styles={{
-        'min-height': '100%',
-        position: 'relative',
-        display: 'flex',
-        'flex-direction': 'column',
-        'align-items': 'stretch'
+        "min-height": "100%",
+        position: "relative",
+        display: "flex",
+        "flex-direction": "column",
+        "align-items": "stretch"
       }}
       height="auto"
       padding="21px 29px"
     >
       <Flex
-        styles={{ flex: '0 0 auto' }}
+        styles={{ flex: "0 0 auto" }}
         alignItems="flex-start"
         justifyContent="flex-start"
       >
         <Icon
           onClick={() => router.back()}
-          styles={{ cursor: 'pointer', 'margin-right': '41px' }}
+          styles={{ cursor: "pointer", "margin-right": "41px" }}
           name="chevron"
           height="22px"
           width="14px"
         />
         <Flex
-          styles={{ lineHeight: '1' }}
+          styles={{ lineHeight: "1" }}
           gap="16px"
           direction="column"
           alignItems="flex-start"
@@ -194,16 +194,16 @@ const SearchPage = ({
         </Flex>
       </Flex>
       <Wrapper
-        styles={{ position: 'relative', flex: '1 0 auto' }}
+        styles={{ position: "relative", flex: "1 0 auto" }}
         padding="23px 0px 0px"
       >
         {!data.Items?.length ? (
           <Flex
             alignItems="flex-start"
             justifyContent="center"
-            styles={{ width: '100%', height: '100%', 'padding-top': '66px' }}
+            styles={{ width: "100%", height: "100%", "padding-top": "66px" }}
           >
-            <Box borderType="solid" styles={{ 'border-width': '2px' }}>
+            <Box borderType="solid" styles={{ "border-width": "2px" }}>
               <LogoBox>
                 <Image
                   src="/images/no-results.png"
@@ -259,8 +259,8 @@ const SearchPage = ({
                     <Wrapper padding="0">
                       <Table
                         styles={{
-                          'background-color': 'transparent',
-                          padding: '0'
+                          "background-color": "transparent",
+                          padding: "0"
                         }}
                         className={styles.expandTable}
                         name={`inventory-item-expanded-${item.Name}`}
@@ -269,7 +269,7 @@ const SearchPage = ({
                         <TableRow>
                           {ExpandedTableHeaders.map((header, idx) => (
                             <TableCell key={idx}>
-                              {header.key === 'Tags' ? (
+                              {header.key === "Tags" ? (
                                 <Row gutter={[10]}>
                                   {item[header.key].map((tag) => {
                                     return (
@@ -296,7 +296,7 @@ const SearchPage = ({
                     .map((header) => {
                       return (
                         <div key={header.key}>
-                          {header.key === 'TotalCost' ? (
+                          {header.key === "TotalCost" ? (
                             <span
                               className={`${styles.activeText} ${styles.underline} ${styles.pointer}`}
                               onClick={(e) => {
@@ -308,9 +308,9 @@ const SearchPage = ({
                                 })
                               }}
                             >
-                              {'$' + formatMoney(item[header.key])}
+                              {"$" + formatMoney(item[header.key])}
                             </span>
-                          ) : header.key === 'Location' ? (
+                          ) : header.key === "Location" ? (
                             <>
                               {item[header.key][0]}
                               {item[header.key].length > 1 && (
@@ -330,9 +330,9 @@ const SearchPage = ({
                                 >
                                   <PlusCircleFilled
                                     style={{
-                                      marginLeft: '4px',
-                                      fontSize: '18px',
-                                      marginTop: '2px'
+                                      marginLeft: "4px",
+                                      fontSize: "18px",
+                                      marginTop: "2px"
                                     }}
                                   />
                                 </Popover>
@@ -346,7 +346,7 @@ const SearchPage = ({
                     })}
                   {noShowExpand && (
                     <Icon
-                      styles={{ transform: 'rotate(180deg)' }}
+                      styles={{ transform: "rotate(180deg)" }}
                       name="chevron"
                       width="8px"
                       height="12px"
@@ -365,13 +365,13 @@ const SearchPage = ({
             <Flex
               gap="16px"
               styles={{
-                width: '100%',
-                'max-width': '416px',
-                'margin-top': '24px'
+                width: "100%",
+                "max-width": "416px",
+                "margin-top": "24px"
               }}
             >
               <BaseButton
-                styles={{ flex: '1', 'border-radius': '8px' }}
+                styles={{ flex: "1", "border-radius": "8px" }}
                 minWidth="auto"
                 kind="primary"
                 onClick={() => dialog.onConfirm()}
@@ -380,15 +380,15 @@ const SearchPage = ({
               </BaseButton>
               <BaseButton
                 styles={{
-                  flex: '1',
-                  'background-color': '#ffffff',
-                  'border-radius': '8px'
+                  flex: "1",
+                  "background-color": "#ffffff",
+                  "border-radius": "8px"
                 }}
                 minWidth="auto"
                 onClick={() =>
                   setDialog({
-                    message: '',
-                    onConfirm: '',
+                    message: "",
+                    onConfirm: "",
                     show: false
                   })
                 }
@@ -400,7 +400,7 @@ const SearchPage = ({
         </Dialog>
       )}
       {selection.length > 0 && (
-        <FloatingBar styles={{ position: 'fixed' }}>
+        <FloatingBar styles={{ position: "fixed" }}>
           <Flex alignItems="center" justifyContent="space-between">
             <Flex alignItems="center">
               <BaseButton
@@ -409,15 +409,15 @@ const SearchPage = ({
                 minHeight="auto"
                 styles={{
                   filter:
-                    'invert(92%) sepia(93%) saturate(0%) hue-rotate(202deg) brightness(106%) contrast(106%);'
+                    "invert(92%) sepia(93%) saturate(0%) hue-rotate(202deg) brightness(106%) contrast(106%);"
                 }}
               >
-                {' '}
-                <Icon width="16px" height="16px" name="close" />{' '}
+                {" "}
+                <Icon width="16px" height="16px" name="close" />{" "}
               </BaseButton>
-              <Text styles={{ 'margin-left': '20px' }} color="#ffffff">
-                {selection.length}{' '}
-                {selection.length > 1 ? 'items selected' : 'item selected'}
+              <Text styles={{ "margin-left": "20px" }} color="#ffffff">
+                {selection.length}{" "}
+                {selection.length > 1 ? "items selected" : "item selected"}
               </Text>
             </Flex>
             <Flex alignItems="center" gap="16px">
@@ -425,16 +425,16 @@ const SearchPage = ({
                 onClick={() =>
                   confirmAction(
                     clearSelectedItems,
-                    'Are you sure you want to clear these items’ stock?'
+                    "Are you sure you want to clear these items’ stock?"
                   )
                 }
                 minWidth="auto"
                 minHeight="auto"
                 styles={{
-                  'background-color': '#ffffff',
-                  padding: '12px 14px',
-                  'border-radius': '8px',
-                  gap: '10px'
+                  "background-color": "#ffffff",
+                  padding: "12px 14px",
+                  "border-radius": "8px",
+                  gap: "10px"
                 }}
               >
                 <Icon name="clear" width="22px" height="22px" />
@@ -444,16 +444,16 @@ const SearchPage = ({
                 onClick={() =>
                   confirmAction(
                     deleteSelectedItems,
-                    'Are you sure you want to delete these items?'
+                    "Are you sure you want to delete these items?"
                   )
                 }
                 minWidth="auto"
                 minHeight="auto"
                 styles={{
-                  'background-color': '#ffffff',
-                  padding: '12px 14px',
-                  'border-radius': '8px',
-                  gap: '10px'
+                  "background-color": "#ffffff",
+                  padding: "12px 14px",
+                  "border-radius": "8px",
+                  gap: "10px"
                 }}
               >
                 <Icon name="delete" width="22px" height="22px" />
@@ -472,20 +472,6 @@ const SearchPage = ({
 
 export default SearchPage
 
-const LoadingWrapper = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.85);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  z-index: 5;
-`
 const LogoBox = styled.div`
   width: 96px;
   height: 96px;

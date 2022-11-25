@@ -1,23 +1,24 @@
-import { message } from 'antd'
-import { store } from '@/store/store'
-import axios from 'axios'
+import { message } from "antd"
+import { store } from "@/store/store"
+import axios from "axios"
 
 // 创建一个axios实例
 const request = axios.create({
-  baseURL: process.env.CRM_BASE_URL,
+  baseURL:
+    process.env.NODE_ENV == "production" ? process.env.CRM_BASE_URL : "/api",
   headers: {
-    'Access-Control-Allow-Headers': '*',
-    'Content-Type': 'application/json',
-    Accept: 'application/json',
-    'Access-Control-Allow-Origin': '*'
+    "Access-Control-Allow-Headers": "*",
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    "Access-Control-Allow-Origin": "*"
   }
 })
 // 请求拦截
 request.interceptors.request.use(
   (config) => {
-    const token = store.getState().user.token || ''
+    const token = store.getState().user.token || ""
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`
+      config.headers["Authorization"] = `Bearer ${token}`
     }
     return config
   },
@@ -33,8 +34,8 @@ request.interceptors.response.use(
   (error) => {
     console.log(error)
     // 网络错误
-    if (error.code == 'ERR_NETWORK') {
-      message.error('ERR_NETWORK')
+    if (error.code == "ERR_NETWORK") {
+      message.error("ERR_NETWORK")
     } else {
       message.error(error.response.data.message)
     }

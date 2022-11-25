@@ -1,92 +1,90 @@
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import HomeProviders from '../components/providers'
-import BasicLayout from '../layouts/BasicLayout'
-import NoAccess from '../components/no-access'
+import { useEffect, useState } from "react"
+import { useRouter } from "next/router"
+import HomeProviders from "../components/providers"
+import BasicLayout from "../layouts/BasicLayout"
+import NoAccess from "../components/no-access"
 // js
-import { store } from '../store/store'
-import { accessObject } from '../constants/setting'
+import { store } from "../store/store"
+import { accessObject } from "../constants/setting"
 
 // css
-import '../styles/global.css'
-import '../styles/reset-antd.css'
+import "../styles/global.css"
+import "../styles/reset-antd.css"
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
   const user = store.getState().user
-  const [hasAccess, setHasAccess] = useState(false)
+  const [hasAccess, setHasAccess] = useState(true)
   useEffect(() => {
     const accessList = user.user?.access?.accesses || []
     const pathname = router.pathname
     let flag = false
     switch (pathname) {
-      case '':
-      case '/':
-      case '/login':
-      case '/register':
-        flag = true
-        break
-      case '/inventory':
-      case '/inventory/products':
-      case '/inventory/search-inventory':
-      case '/inventory/search-product':
+      case "/inventory":
+      case "/inventory/products":
+      case "/inventory/search-inventory":
+      case "/inventory/search-product":
         flag = accessList.includes(accessObject.inventory)
         break
-      case '/warehouse':
-      case '/warehouse/settling':
-      case '/warehouse/managing':
-      case '/warehouse/map':
-      case '/warehouse/item':
-      case '/warehouse/product':
-      case '/warehouse/search-product':
-      case '/warehouse/search-inventory':
+      case "/warehouse":
+      case "/warehouse/settling":
+      case "/warehouse/managing":
+      case "/warehouse/map":
+      case "/warehouse/item":
+      case "/warehouse/product":
+      case "/warehouse/search-product":
+      case "/warehouse/search-inventory":
         flag = accessList.includes(accessObject.warehouse)
         break
-      case '/shipping':
-      case '/shipping/history':
+      case "/shipping":
+      case "/shipping/history":
+      case "/shipping/search-order":
+      case "/shipping/search-history":
         flag = accessList.includes(accessObject.shipping)
         break
-      case '/orders':
-      case '/orders/history':
+      case "/orders":
+      case "/orders/history":
+      case "/orders/search-order":
+      case "/orders/search-history":
         flag = accessList.includes(accessObject.orders)
         break
-      case '/crm-hub/form-email':
+      case "/crm-hub/form-email":
         flag = accessList.includes(accessObject.crmFormEmail)
         break
-      case '/crm-hub/chats':
+      case "/crm-hub/chats":
         flag = accessList.includes(accessObject.crmChats)
         break
-      case '/crm-hub/deals':
-      case '/crm-hub/deals/detail':
+      case "/crm-hub/deals":
+      case "/crm-hub/deals/detail":
         flag = accessList.includes(accessObject.crmDeals)
         break
-      case '/crm-hub/tickets':
-      case '/crm-hub/tickets/detail':
+      case "/crm-hub/tickets":
+      case "/crm-hub/tickets/detail":
         flag = accessList.includes(accessObject.crmTickets)
         break
-      case '/crm-hub/tasks':
+      case "/crm-hub/tasks":
         flag = accessList.includes(accessObject.crmTasks)
         break
-      case '/crm-hub/dashboard':
+      case "/crm-hub/dashboard":
         flag = accessList.includes(accessObject.crmDashboard)
         break
-      case '/setting/assigning':
+      case "/setting/assigning":
         flag = accessList.includes(accessObject.settingAssiging)
         break
-      case '/setting/pipeline':
+      case "/setting/pipeline":
         flag = accessList.includes(accessObject.settingPipeline)
         break
-      case '/setting/assets':
+      case "/setting/assets":
         flag = accessList.includes(accessObject.settingAssets)
         break
-      case '/setting/users':
+      case "/setting/users":
         flag = accessList.includes(accessObject.settingUsers)
         break
-      case '/setting/reply':
+      case "/setting/reply":
         flag = accessList.includes(accessObject.settingReply)
         break
       default:
-        flag = false
+        flag = true
         break
     }
     setHasAccess(flag)
@@ -94,7 +92,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <HomeProviders store={store}>
       {/* 注册页面不需要布局 */}
-      {router.route == '/register' || router.route == '/login' ? (
+      {router.route == "/register" || router.route == "/login" ? (
         <>
           <Component {...pageProps} />
         </>

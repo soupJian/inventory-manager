@@ -78,3 +78,15 @@ export const deleteOrder = (id) => {
     }
   })
 }
+
+/**
+ * 搜素订单
+ */
+export const searchOrder = (search) => {
+  return request({
+    url: "/order",
+    params: {
+      search
+    }
+  })
+}
