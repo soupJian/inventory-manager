@@ -65,3 +65,16 @@ export const updateOrder = (order) => {
     data: order
   })
 }
+
+/**
+ * 修改订单信息内容
+ */
+export const deleteOrder = (id) => {
+  return request({
+    url: "/order",
+    method: "DELETE",
+    params: {
+      id
+    }
+  })
+}

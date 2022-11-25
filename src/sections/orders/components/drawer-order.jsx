@@ -1,8 +1,13 @@
 import React, { useState } from "react"
+import { useDispatch } from "react-redux"
+// components
 import { Row, Col, Button, Modal, Space } from "antd"
 // js
 import { formatMoney } from "@/utils/formatMoney"
 import { formatTimeStr } from "@/utils/formatTime"
+import { toggleFullLoading } from "@/store/slices/globalSlice"
+// api
+import { deleteOrder } from "@/service/orders"
 // css
 import styles from "../index.module.less"
 
@@ -25,11 +30,18 @@ const discountList = [
 /**
  * type current 和 history
  */
-const DrawerOrder = ({ info, type }) => {
+const DrawerOrder = ({ info, type, deleteOrderFinish }) => {
+  const dispatch = useDispatch()
   const [showModal, setShowModal] = useState(false)
   // 取消订单
-  const handleCancelOrder = () => {
-    console.log("1234")
+  const handleCancelOrder = async () => {
+    setShowModal(false)
+    dispatch(toggleFullLoading(true))
+    const res = await deleteOrder(info.id)
+    dispatch(toggleFullLoading(false))
+    if (res.message == "success") {
+      deleteOrderFinish()
+    }
   }
   // const deliveredTime = info.packageInfo.
   return (
@@ -55,7 +67,7 @@ const DrawerOrder = ({ info, type }) => {
                   <Row gutter={[0, 8]}>
                     {info.packageInfo.map((packageItem) => {
                       return (
-                        <Col span={24} key={packageItem.TrackId}>
+                        <Col span={24} key={packageItem.trackId}>
                           {formatTimeStr(info.created, "DD/MM/YY hh:mm a")}{" "}
                           <span style={{ color: "#2C88DD" }}>
                             {packageItem.Carrier}
@@ -200,7 +212,7 @@ const DrawerOrder = ({ info, type }) => {
             ${formatMoney(info.totalAmount)}
           </Col>
         </Row>
-        {type == "current" && (
+        {type == "current" && info.packageInfo.length == 0 && (
           <Row justify="end" className={styles.footerWrap}>
             <Col>
               <Button

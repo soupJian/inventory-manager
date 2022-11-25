@@ -21,8 +21,8 @@ const DrawerDetail = ({ info }) => {
       order.packageInfo.forEach((packageItem) => {
         order.products.forEach((productItem) => {
           if (packageItem.systemIds.includes(productItem.SystemId)) {
-            productItem.cappier = packageItem.cappier
-            productItem.trackingId = packageItem.trackingId
+            productItem.carrier = packageItem.carrier
+            productItem.trackId = packageItem.trackId
             productItem.Shipped = true
           }
           productItem.Parts = productItem.Parts.map((i) => {

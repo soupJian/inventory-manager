@@ -50,7 +50,6 @@ const Orders = () => {
   const showDetail = async (id) => {
     if (id != drawerInfo.id) {
       const { Item } = await getOrder(id)
-      console.log(Item)
       setDrawerInfo({
         show: true,
         id,
@@ -205,7 +204,18 @@ const Orders = () => {
         className={styles.drawerWrap}
       >
         {drawerInfo.info && (
-          <DrawerOrder type="current" info={drawerInfo.info} />
+          <DrawerOrder
+            type="current"
+            info={drawerInfo.info}
+            deleteOrderFinish={() => {
+              getData()
+              setDrawerInfo({
+                show: false,
+                id: null,
+                info: null
+              })
+            }}
+          />
         )}
       </Drawer>
     </>

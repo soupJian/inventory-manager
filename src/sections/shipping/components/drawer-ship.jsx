@@ -61,11 +61,11 @@ const DrawerShip = ({ info, closedDrawer }) => {
     setPackageInfo((packageInfo) => {
       const newPackageInfo = JSON.parse(JSON.stringify(packageInfo))
       newPackageInfo.push({
-        cappier: "",
+        carrier: "",
         shippedTime: new Date(),
         status: "shipped",
         systemIds: [],
-        trackingId: ""
+        trackId: ""
       })
       return newPackageInfo
     })
@@ -73,7 +73,7 @@ const DrawerShip = ({ info, closedDrawer }) => {
   const submit = async () => {
     const newPackageInfo = packageInfo.filter(
       (item) =>
-        item.cappier != "" && item.systemIds.length > 0 && item.trackingId != ""
+        item.carrier != "" && item.systemIds.length > 0 && item.trackId != ""
     )
     if (newPackageInfo.length == 0) {
       return
@@ -174,9 +174,9 @@ const DrawerShip = ({ info, closedDrawer }) => {
                   style={{ width: "100%" }}
                   size="large"
                   onChange={(value) =>
-                    handleChange(value, packageIndex, "cappier")
+                    handleChange(value, packageIndex, "carrier")
                   }
-                  value={packageItem.cappier}
+                  value={packageItem.carrier}
                   options={[
                     {
                       value: "Fedex",
@@ -198,9 +198,9 @@ const DrawerShip = ({ info, closedDrawer }) => {
                 <Input
                   size="large"
                   className={styles.ipt}
-                  value={packageItem.trackingId}
+                  value={packageItem.trackId}
                   onChange={(e) => {
-                    handleChange(e.target.value, packageIndex, "trackingId")
+                    handleChange(e.target.value, packageIndex, "trackId")
                   }}
                 />
               </Col>

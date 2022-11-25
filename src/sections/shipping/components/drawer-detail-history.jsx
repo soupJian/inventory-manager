@@ -10,8 +10,8 @@ const DrawerDetail = ({ info }) => {
   order.packageInfo.forEach((packageItem) => {
     order.products.forEach((productItem) => {
       if (packageItem.systemIds.includes(productItem.SystemId)) {
-        productItem.cappier = packageItem.cappier
-        productItem.trackingId = packageItem.trackingId
+        productItem.carrier = packageItem.carrier
+        productItem.trackId = packageItem.trackId
         productItem.Shipped = true
       }
     })
@@ -63,36 +63,36 @@ const DrawerDetail = ({ info }) => {
               <Row className={styles.trackInfo}>
                 <Col>
                   Carrier:{" "}
-                  <span style={{ color: "#000" }}>{productItem.cappier}</span>
+                  <span style={{ color: "#000" }}>{productItem.carrier}</span>
                 </Col>
                 <Col style={{ marginLeft: "20px" }}>
                   Tracking:{" "}
                   <span style={{ color: "#2C88DD" }}>
-                    {productItem.cappier == "Fedex" && (
+                    {productItem.carrier == "Fedex" && (
                       <a
-                        href={`https://www.fedex.com/fedextrack/?trknbr=${productItem.trackingId}`}
+                        href={`https://www.fedex.com/fedextrack/?trknbr=${productItem.trackId}`}
                         rel="noreferrer"
                         target="_blank"
                       >
-                        {productItem.trackingId}
+                        {productItem.trackId}
                       </a>
                     )}
-                    {productItem.cappier == "UPS" && (
+                    {productItem.carrier == "UPS" && (
                       <a
-                        href={`https://wwwapps.ups.com/WebTracking/track?track=yes&trackNums=${productItem.trackingId}&requester=ST/`}
+                        href={`https://wwwapps.ups.com/WebTracking/track?track=yes&trackNums=${productItem.trackId}&requester=ST/`}
                         rel="noreferrer"
                         target="_blank"
                       >
-                        {productItem.trackingId}
+                        {productItem.trackId}
                       </a>
                     )}
-                    {productItem.cappier == "USPS" && (
+                    {productItem.carrier == "USPS" && (
                       <a
-                        href={`https://tools.usps.com/go/TrackConfirmAction?tRef=fullpage&tLc=2&text28777=&tLabels=${productItem.trackingId}%2C&tABt=false`}
+                        href={`https://tools.usps.com/go/TrackConfirmAction?tRef=fullpage&tLc=2&text28777=&tLabels=${productItem.trackId}%2C&tABt=false`}
                         rel="noreferrer"
                         target="_blank"
                       >
-                        {productItem.trackingId}
+                        {productItem.trackId}
                       </a>
                     )}
                   </span>

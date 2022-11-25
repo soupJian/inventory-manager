@@ -13,7 +13,7 @@ const ModalShipping = ({ info }) => {
     <div className={styles.shipModal}>
       {info.packageInfo.map((item, index) => {
         return (
-          <div key={item.id}>
+          <div key={item.trackId}>
             <Row gutter={[0, 15]}>
               <Col span={24} className={styles.infoIndex}>
                 Package {index + 1}
@@ -21,7 +21,7 @@ const ModalShipping = ({ info }) => {
               <Col span={24}>
                 <Row justify="space-between">
                   <Col className={styles.infoName}>Carrier</Col>
-                  <Col className={styles.infoValue}>{item.cappier}</Col>
+                  <Col className={styles.infoValue}>{item.carrier}</Col>
                 </Row>
               </Col>
               <Col span={24}>
@@ -30,31 +30,31 @@ const ModalShipping = ({ info }) => {
                   <Col
                     className={`${styles.infoValue} ${styles.infoValueTrackId}`}
                   >
-                    {item.cappier == "Fedex" && (
+                    {item.carrier == "Fedex" && (
                       <a
-                        href={`https://www.fedex.com/fedextrack/?trknbr=${item.trackingId}`}
+                        href={`https://www.fedex.com/fedextrack/?trknbr=${item.trackId}`}
                         rel="noreferrer"
                         target="_blank"
                       >
-                        {item.trackingId}
+                        {item.trackId}
                       </a>
                     )}
-                    {item.cappier == "UPS" && (
+                    {item.carrier == "UPS" && (
                       <a
-                        href={`https://wwwapps.ups.com/WebTracking/track?track=yes&trackNums=${item.trackingId}&requester=ST/`}
+                        href={`https://wwwapps.ups.com/WebTracking/track?track=yes&trackNums=${item.trackId}&requester=ST/`}
                         rel="noreferrer"
                         target="_blank"
                       >
-                        {item.trackingId}
+                        {item.trackId}
                       </a>
                     )}
-                    {item.cappier == "USPS" && (
+                    {item.carrier == "USPS" && (
                       <a
-                        href={`https://tools.usps.com/go/TrackConfirmAction?tRef=fullpage&tLc=2&text28777=&tLabels=${item.trackingId}%2C&tABt=false`}
+                        href={`https://tools.usps.com/go/TrackConfirmAction?tRef=fullpage&tLc=2&text28777=&tLabels=${item.trackId}%2C&tABt=false`}
                         rel="noreferrer"
                         target="_blank"
                       >
-                        {item.trackingId}
+                        {item.trackId}
                       </a>
                     )}
                   </Col>
