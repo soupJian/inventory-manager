@@ -54,7 +54,7 @@ const ShippingOrders = () => {
           />
         </Space>
       </div>
-      <ShippingCurrentTable orderData={orderData} />
+      <ShippingCurrentTable orderData={orderData} fetchData={fetchData} />
     </>
   )
 }

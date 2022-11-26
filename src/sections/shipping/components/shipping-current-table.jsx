@@ -11,7 +11,7 @@ import { getOrder } from "@/service/orders"
 // css
 import styles from "../index.module.less"
 
-const ShippingCurrentTable = ({ orderData }) => {
+const ShippingCurrentTable = ({ orderData, fetchData }) => {
   const [drawerDetailInfo, setDrawerDetailInfo] = useState({
     show: false,
     id: null, // 根据 id 变化，设置对应的 info 信息

@@ -81,7 +81,7 @@ const SearchPage = ({ router }) => {
         styles={{ position: "relative", flex: "1 0 auto" }}
         padding="23px 0px 0px"
       >
-        <ShippingCurrentTable orderData={data} />
+        <ShippingCurrentTable orderData={data} fetchData={getData} />
       </Wrapper>
     </Wrapper>
   )
