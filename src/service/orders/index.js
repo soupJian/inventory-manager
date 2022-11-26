@@ -82,11 +82,12 @@ export const deleteOrder = (id) => {
 /**
  * 搜素订单
  */
-export const searchOrder = (search) => {
+export const searchOrder = (search, type) => {
   return request({
-    url: "/order",
+    url: "/search-order",
     params: {
-      search
+      search,
+      type
     }
   })
 }

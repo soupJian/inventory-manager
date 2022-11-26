@@ -17,17 +17,17 @@ const SearchPage = ({ router }) => {
   const [data, setData] = useState([])
 
   const getData = useCallback(() => {
-    // dispatch(toggleLoading(true))
-    // searchOrder(search)
-    //   .then((data) => {
-    //     setData(data)
-    //   })
-    //   .catch((err) => {
-    //     console.log(err)
-    //   })
-    //   .finally(() => {
-    //     dispatch(toggleLoading(false))
-    //   })
+    dispatch(toggleLoading(true))
+    searchOrder(search, "shippingHistory")
+      .then((data) => {
+        setData(data.Items)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+      .finally(() => {
+        dispatch(toggleLoading(false))
+      })
   }, [dispatch, search])
 
   useEffect(() => {

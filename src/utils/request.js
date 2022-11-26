@@ -4,8 +4,8 @@ import axios from "axios"
 
 // 创建一个axios实例
 const request = axios.create({
-  baseURL:
-    process.env.NODE_ENV == "production" ? process.env.CRM_BASE_URL : "/api",
+  baseURL: process.env.CRM_BASE_URL,
+  // process.env.NODE_ENV == "production" ? process.env.CRM_BASE_URL : "/api",
   headers: {
     "Access-Control-Allow-Headers": "*",
     "Content-Type": "application/json",
