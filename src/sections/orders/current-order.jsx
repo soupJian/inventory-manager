@@ -16,7 +16,7 @@ import styles from "./index.module.less"
 const Orders = () => {
   const dispatch = useDispatch()
   const [orderState, setOrderState] = useState({
-    orderBy: "asc",
+    sortBy: "asc",
     date: ""
   })
   const [orderData, setOrderData] = useState([])
@@ -26,7 +26,7 @@ const Orders = () => {
       dispatch(toggleLoading(true))
       const data = await getAllCurrentOrders({
         date: orderState.date,
-        order: orderState.orderBy
+        order: orderState.sortBy
       })
       setOrderData(data.Items)
       dispatch(toggleLoading(false))
@@ -39,7 +39,7 @@ const Orders = () => {
   useEffect(() => {
     getData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [orderState.date])
+  }, [orderState.date, orderState.sortBy])
 
   return (
     <>
@@ -68,7 +68,7 @@ const Orders = () => {
                 sortBy: value
               })
             }
-            value={orderState.orderBy}
+            value={orderState.sortBy}
             options={sortByList}
           />
         </Space>
