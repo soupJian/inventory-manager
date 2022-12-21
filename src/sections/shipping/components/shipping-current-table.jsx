@@ -12,11 +12,11 @@ import { getOrder } from "@/service/orders"
 import styles from "../index.module.less"
 
 const ShippingCurrentTable = ({ orderData, fetchData }) => {
-  const [drawerDetailInfo, setDrawerDetailInfo] = useState({
-    show: false,
-    id: null, // 根据 id 变化，设置对应的 info 信息
-    info: null
-  })
+  // const [drawerDetailInfo, setDrawerDetailInfo] = useState({
+  //   show: false,
+  //   id: null, // 根据 id 变化，设置对应的 info 信息
+  //   info: null
+  // })
   const [drawerShipInfo, setDrawerShipInfo] = useState({
     show: false,
     info: null
@@ -88,7 +88,7 @@ const ShippingCurrentTable = ({ orderData, fetchData }) => {
           }}
         />
       </div>
-      <Drawer
+      {/* <Drawer
         placement="left"
         closable={false}
         onClose={() => {
@@ -103,7 +103,7 @@ const ShippingCurrentTable = ({ orderData, fetchData }) => {
         className={styles.drawerWrap}
       >
         {drawerDetailInfo.info && <DrawerDetail info={drawerDetailInfo.info} />}
-      </Drawer>
+      </Drawer> */}
       <Drawer
         placement="left"
         closable={false}
