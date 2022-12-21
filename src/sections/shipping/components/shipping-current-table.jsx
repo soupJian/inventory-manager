@@ -21,14 +21,14 @@ const ShippingCurrentTable = ({ orderData, fetchData }) => {
     show: false,
     info: null
   })
-  const showDetail = async (id) => {
-    const { Item } = await getOrder(id)
-    setDrawerDetailInfo({
-      show: true,
-      id,
-      info: Item
-    })
-  }
+  // const showDetail = async (id) => {
+  //   const { Item } = await getOrder(id)
+  //   setDrawerDetailInfo({
+  //     show: true,
+  //     id,
+  //     info: Item
+  //   })
+  // }
   const showShip = async (id) => {
     const { Item } = await getOrder(id)
     setDrawerShipInfo({
@@ -54,17 +54,17 @@ const ShippingCurrentTable = ({ orderData, fetchData }) => {
       title: "ORDER DATE",
       render: (_, record) => ISOStringToReadableDate(record.created)
     },
-    {
-      title: "DETAIL",
-      render: (_, record) => (
-        <span
-          className={styles.activeText}
-          onClick={() => showDetail(record.id)}
-        >
-          Detail
-        </span>
-      )
-    },
+    // {
+    //   title: "DETAIL",
+    //   render: (_, record) => (
+    //     <span
+    //       className={styles.activeText}
+    //       onClick={() => showDetail(record.id)}
+    //     >
+    //       Detail
+    //     </span>
+    //   )
+    // },
     {
       title: "",
       render: (_, record) => (

@@ -17,10 +17,10 @@ const Shipping = ({ router }) => {
       <Flex styles={{ "flex-wrap": "nowrap" }} justifyContent="space-between">
         <Tabs>
           <Tab onClick={() => router.push("/shipping")} idx={0}>
-            Shipping Orders
+            Await Shipping
           </Tab>
           <Tab active={true} idx={1}>
-            Shipping History
+            Shipped
           </Tab>
         </Tabs>
         <Input

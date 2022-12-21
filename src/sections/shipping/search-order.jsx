@@ -18,7 +18,7 @@ const SearchPage = ({ router }) => {
 
   const getData = useCallback(() => {
     dispatch(toggleLoading(true))
-    searchOrder(search, "shippingOrder")
+    searchOrder(search, "shippingOrders")
       .then((data) => {
         setData(data.Items)
       })
