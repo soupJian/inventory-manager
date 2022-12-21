@@ -1,9 +1,9 @@
-.userSelectWrap{
+.userSelectWrap {
   margin-top: 27px;
   display: flex;
   justify-content: flex-end;
-  :global{
-    .ant-select:not(.ant-select-customize-input) .ant-select-selector{
+  :global {
+    .ant-select:not(.ant-select-customize-input) .ant-select-selector {
       width: 200px;
       border-radius: 10px;
     }
@@ -11,7 +11,7 @@
 }
 .activeText {
   cursor: pointer;
-  font-family: 'Lato';
+  font-family: "Lato";
   font-weight: 400;
   font-size: 15px;
   line-height: 18px;
@@ -21,16 +21,16 @@
   height: 35px;
   background: #000000;
   border-radius: 6px;
-  font-family: 'Lato';
+  font-family: "Lato";
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
   text-align: center;
   color: #ffffff;
 }
-.tableWrap{
+.tableWrap {
   margin-top: 23px;
-  padding: 0 28px 0 33px ;
+  padding: 0 28px 0 33px;
   border-radius: 10px;
   background-color: #fff;
   :global {
@@ -49,7 +49,7 @@
 // detail
 .drawer {
   .title {
-    font-family: 'Rubik';
+    font-family: "Rubik";
     font-weight: 500;
     font-size: 16px;
     text-decoration-line: underline;
@@ -58,7 +58,7 @@
   }
   .customerInfo {
     margin-bottom: 40px;
-    font-family: 'Lato';
+    font-family: "Lato";
     font-weight: 400;
     font-size: 17px;
     line-height: 28px;
@@ -68,7 +68,7 @@
     }
   }
   .product-description {
-    font-family: 'Rubik';
+    font-family: "Rubik";
     font-weight: 400;
     font-size: 17px;
     line-height: 20px;
@@ -83,7 +83,7 @@
       padding-bottom: 16px;
       .productName {
         padding-left: 8px;
-        font-family: 'Lato';
+        font-family: "Lato";
         font-weight: 700;
         font-size: 17px;
         line-height: 20px;
@@ -108,25 +108,25 @@
     border-radius: 6px;
     color: #fff;
   }
-  .trackInfo{
-    font-family: 'Rubik';
+  .trackInfo {
+    font-family: "Rubik";
     font-weight: 400;
     font-size: 15px;
     line-height: 18px;
-    color: #C4C4C4;
+    color: #c4c4c4;
   }
 }
-.headerWrap{
+.headerWrap {
   margin-bottom: 32px;
-  .orderTitle{
-    font-family: 'Rubik';
+  .orderTitle {
+    font-family: "Rubik";
     font-weight: 500;
     font-size: 20px;
     line-height: 20px;
     color: #000000;
   }
-  .orderSubTitle{
-    font-family: 'Rubik';
+  .orderSubTitle {
+    font-family: "Rubik";
     font-weight: 400;
     font-size: 16px;
     line-height: 20px;
@@ -134,43 +134,97 @@
   }
 }
 // ship
-.drawerShip{
+.drawerShip {
   .title {
-    font-family: 'Rubik';
+    font-family: "Rubik";
     font-weight: 500;
     font-size: 16px;
     text-decoration-line: underline;
     color: #000000;
     margin-bottom: 24px;
   }
+  .customerInfo {
+    margin-bottom: 40px;
+    font-family: "Lato";
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 28px;
+    color: #000000;
+    .name {
+      font-weight: 500;
+    }
+    .addressDes {
+      font-weight: 600;
+      font-size: 17px;
+      line-height: 20px;
+      color: #2ebebd;
+      margin-top: 20px;
+    }
+  }
+
   .product-description {
-    font-family: 'Rubik';
+    font-family: "Rubik";
     font-weight: 400;
     font-size: 17px;
     line-height: 20px;
     color: #000000;
   }
-  .formLabel{
+  .formLabel {
     margin-bottom: 10px;
-    font-family: 'Rubik';
+    font-family: "Rubik";
     font-weight: 500;
     font-size: 14px;
     color: #000000;
   }
-  .ipt{
+  .ipt {
     border-radius: 8px;
   }
-  .btn{
+  .btn {
     height: 45px;
     padding: 0 20px;
     border-radius: 10px;
-    font-family: 'Lato';
+    font-family: "Lato";
     font-weight: 500;
     font-size: 18px;
   }
-  :global{
-    .ant-select:not(.ant-select-customize-input) .ant-select-selector{
+  :global {
+    .ant-select:not(.ant-select-customize-input) .ant-select-selector {
       border-radius: 8px;
+      height: 59px !important;
+      line-height: 59px !important;
+    }
+  }
+}
+.selectWrap {
+  width: 100%;
+  margin-bottom: 40px;
+}
+.addText {
+  padding: 16px;
+  font-family: "Rubik";
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #2c88dd;
+  cursor: pointer;
+}
+.formWrap {
+  :global {
+    .ant-input-affix-wrapper,
+    .ant-input,
+    .ant-select-selector {
+      height: 59px !important;
+      border-radius: 8px !important;
+      line-height: 59px !important;
+    }
+    .ant-select-selection-item,
+    .ant-select-selection-placeholder {
+      line-height: 59px !important;
+    }
+    .ant-input-affix-wrapper {
+      .ant-input {
+        height: unset !important;
+      }
     }
   }
 }

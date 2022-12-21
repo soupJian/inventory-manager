@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import dynamic from "next/dynamic"
 // components
 import { Button, Drawer, Table } from "antd"
-const DrawerDetail = dynamic(() => import("./drawer-detail"))
+// const DrawerDetail = dynamic(() => import("./drawer-detail"))
 const DrawerShip = dynamic(() => import("./drawer-ship"))
 // js
 import { ISOStringToReadableDate } from "@/utils/utils"
@@ -18,8 +18,9 @@ const ShippingCurrentTable = ({ orderData, fetchData }) => {
   //   info: null
   // })
   const [drawerShipInfo, setDrawerShipInfo] = useState({
-    show: false,
-    info: null
+    show: false
+    // id: null,
+    // info: null
   })
   // const showDetail = async (id) => {
   //   const { Item } = await getOrder(id)

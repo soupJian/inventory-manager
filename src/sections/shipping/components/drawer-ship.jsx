@@ -1,230 +1,205 @@
 import React, { useState, useEffect } from "react"
 import { useDispatch } from "react-redux"
 // components
-import { Select, Row, Col, Input, Space, Checkbox, Button } from "antd"
+import {
+  Select,
+  Row,
+  Col,
+  Input,
+  Space,
+  Checkbox,
+  Button,
+  Divider,
+  Modal,
+  Form
+} from "antd"
 // api
 import { updateOrder } from "@/service/orders"
 // js
 import { toggleFullLoading } from "@/store/slices/globalSlice"
 // css
 import styles from "../index.module.less"
+import { STATE } from "@/constants/pageConstants/shipping"
 
 // main
-const DrawerShip = ({ info, closedDrawer }) => {
-  const dispatch = useDispatch()
-  const [packageInfo, setPackageInfo] = useState([])
-  // 过滤掉没有发货的 product
-  const [unShippedProduct, setUnshippedProduct] = useState([])
-  // 存放已经被勾选的 products ，存储SKU和当前是第几个package,
-  // 当前的package中的是可以勾选和取消
-  // 不在当前的package disabled
-  const [selectedProduct, setSelectedProduct] = useState([])
-  const handleChange = (value, index, key) => {
-    setPackageInfo((packageInfo) => {
-      const newPackageInfo = JSON.parse(JSON.stringify(packageInfo))
-      newPackageInfo[index][key] = value
-      return newPackageInfo
-    })
+const DrawerShip = ({ info }) => {
+  console.log(info)
+  const [showAddressModal, setShowAddAddressModal] = useState(false)
+  const handleSelectAddress = (value) => {
+    console.log(`selected ${value}`)
   }
-  // checkbox product
-  const handleSelectProduct = (value, productItem, index) => {
-    setPackageInfo((packageInfo) => {
-      const newPackageInfo = JSON.parse(JSON.stringify(packageInfo))
-      // 勾选
-      if (value) {
-        newPackageInfo[index].systemIds.push(productItem.SystemId)
-      } else {
-        const i = newPackageInfo[index].systemIds.findIndex(
-          (item) => item == productItem.SystemId
-        )
-        newPackageInfo[index].systemIds.splice(i, 1)
-      }
-      return newPackageInfo
-    })
-    // 已经被勾选的 checkbox
-    setSelectedProduct((list) => {
-      const newList = [...list]
-      if (value) {
-        newList.push({
-          SystemId: productItem.SystemId,
-          index
-        })
-      } else {
-        const i = newList.findIndex((item) => item == productItem.SystemId)
-        newList.splice(i, 1)
-      }
-      return newList
-    })
+  const addFormFinish = (values) => {
+    console.log(values)
   }
-  // add
-  const addPackage = () => {
-    setPackageInfo((packageInfo) => {
-      const newPackageInfo = JSON.parse(JSON.stringify(packageInfo))
-      newPackageInfo.push({
-        carrier: "",
-        shippedTime: new Date(),
-        status: "shipped",
-        systemIds: [],
-        trackId: ""
-      })
-      return newPackageInfo
-    })
-  }
-  const submit = async () => {
-    const newPackageInfo = packageInfo.filter(
-      (item) =>
-        item.carrier != "" && item.systemIds.length > 0 && item.trackId != ""
-    )
-    if (newPackageInfo.length == 0) {
-      return
-    }
-    const order = JSON.parse(JSON.stringify(info))
-    order.packageInfo = order.packageInfo.concat(newPackageInfo)
-    dispatch(toggleFullLoading(true))
-    await updateOrder(order)
-    dispatch(toggleFullLoading(false))
-    closedDrawer()
-  }
-  useEffect(() => {
-    addPackage()
-    if (info.packageInfo.length == 0) {
-      setUnshippedProduct(info.products)
-    } else {
-      const arr = info.packageInfo.reduce(
-        (pre, cur) => {
-          return pre.systemIds.concat(cur.systemIds)
-        },
-        {
-          systemIds: []
-        }
-      )
-      // 已经发货的 product
-      const newArr = Array.from(new Set(arr))
-      setUnshippedProduct(() => {
-        return info.products.filter((item) => !newArr.includes(item.SystemId))
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   return (
-    <div className={styles.drawerShip}>
-      <div className={styles.headerWrap} gutter={[0, 16]}>
-        <div
-          span={24}
-          className={styles.orderTitle}
-        >{`Shipping Order #WS${info.id}`}</div>
-      </div>
-      {packageInfo.map((packageItem, packageIndex) => {
-        return (
-          <div key={packageItem.shippedTime} style={{ marginBottom: "40px" }}>
-            <div className={styles.title}>Package {packageIndex + 1}</div>
-            <div className={styles["product-description"]}>
-              Select the product(s) to ship in one package:
-            </div>
-            <Row gutter={[0, 32]} style={{ marginTop: "40px" }}>
-              {unShippedProduct.map((productItem) => {
-                return (
-                  <Col span={24} key={productItem.SystemId}>
-                    <Space align="center">
-                      <Checkbox
-                        disabled={
-                          selectedProduct.findIndex(
-                            (selectItem) =>
-                              selectItem.SystemId == productItem.SystemId &&
-                              selectItem.index != packageIndex
-                          ) >= 0
-                        }
-                        checked={packageItem.systemIds.includes(
-                          productItem.SystemId
-                        )}
-                        onChange={(e) =>
-                          handleSelectProduct(
-                            e.target.checked,
-                            productItem,
-                            packageIndex
-                          )
-                        }
-                      />
-                      <span
-                        style={{
-                          color: `${
-                            selectedProduct.findIndex(
-                              (selectItem) =>
-                                selectItem.SystemId == productItem.SystemId &&
-                                selectItem.index != packageIndex
-                            ) >= 0
-                              ? "#C4C4C4"
-                              : "#262626"
-                          }`
-                        }}
-                      >
-                        {productItem.Name}
-                      </span>
-                    </Space>
-                  </Col>
-                )
-              })}
-              <Col span={24}></Col>
-            </Row>
-            <Row gutter={24}>
-              <Col span={12}>
-                <div className={styles.formLabel}>CARRIER</div>
-                <Select
-                  style={{ width: "100%" }}
-                  size="large"
-                  onChange={(value) =>
-                    handleChange(value, packageIndex, "carrier")
-                  }
-                  value={packageItem.carrier}
-                  options={[
-                    {
-                      value: "Fedex",
-                      label: "Fedex"
-                    },
-                    {
-                      value: "UPS",
-                      label: "UPS"
-                    },
-                    {
-                      value: "USPS",
-                      label: "USPS"
-                    }
-                  ]}
-                />
-              </Col>
-              <Col span={12}>
-                <div className={styles.formLabel}>TRACKING ID</div>
-                <Input
-                  size="large"
-                  className={styles.ipt}
-                  value={packageItem.trackId}
-                  onChange={(e) => {
-                    handleChange(e.target.value, packageIndex, "trackId")
-                  }}
-                />
-              </Col>
-            </Row>
+    <>
+      <div className={styles.drawerShip}>
+        <div className={styles.headerWrap} gutter={[0, 16]}>
+          <div
+            span={24}
+            className={styles.orderTitle}
+          >{`Shipping Order #WS${info.id}`}</div>
+        </div>
+        <div className={styles.title}>SHIP FROM</div>
+        <Select
+          size="large"
+          className={styles.selectWrap}
+          onChange={handleSelectAddress}
+          options={[]}
+          dropdownRender={(menu) => (
+            <>
+              {menu}
+              <Divider
+                style={{
+                  margin: "8px 0"
+                }}
+              />
+              <div
+                className={styles.addText}
+                onClick={() => setShowAddAddressModal(true)}
+              >
+                Add new address
+              </div>
+            </>
+          )}
+        />
+        <div className={styles.title}>SHIP TO</div>
+        <div className={styles.customerInfo}>
+          <div className={styles.name}>{info.customerInfo.fullName}</div>
+          <div>{info.customerInfo.address1}</div>
+          {info.customerInfo.address2 && (
+            <div>{info.customerInfo.address2}</div>
+          )}
+          <div>
+            {info.customerInfo.city}, {info.customerInfo.state}{" "}
+            {info.customerInfo.zipcode}
           </div>
-        )
-      })}
-      <Row justify="space-between">
-        <Col>
-          <Button className={styles.btn} onClick={() => addPackage()}>
-            Add package
-          </Button>
-        </Col>
-        <Col>
-          <Button
-            type="primary"
-            className={styles.btn}
-            onClick={() => submit()}
+          <div>{info.customerInfo.phone}</div>
+          <div className={styles.addressDes}>This is a residential address</div>
+        </div>
+        <div className={styles.title}>PACKING LIST</div>
+      </div>
+      <Modal
+        title="Add New Address"
+        open={showAddressModal}
+        footer={null}
+        centered
+        destroyOnClose
+        width="632px"
+        onCancel={() => setShowAddAddressModal(false)}
+      >
+        <Form
+          size="large"
+          onFinish={addFormFinish}
+          validateMessages={{
+            required: "Required"
+          }}
+          className={styles.formWrap}
+        >
+          <Form.Item
+            name="addressName"
+            rules={[
+              {
+                required: true
+              }
+            ]}
           >
-            Submit
-          </Button>
-        </Col>
-      </Row>
-    </div>
+            <Input placeholder="Address Name/Contact Name" />
+          </Form.Item>
+          <Row gutter={24}>
+            <Col span={12}>
+              <Form.Item
+                name="email"
+                rules={[
+                  {
+                    required: true
+                  }
+                ]}
+              >
+                <Input placeholder="Email" />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="phone"
+                rules={[
+                  {
+                    required: true
+                  }
+                ]}
+              >
+                <Input prefix="+1" placeholder="Email" />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Form.Item
+            name="address1"
+            rules={[
+              {
+                required: true
+              }
+            ]}
+          >
+            <Input placeholder="Address line 1" />
+          </Form.Item>
+          <Form.Item
+            name="address2"
+            rules={[
+              {
+                required: true
+              }
+            ]}
+          >
+            <Input placeholder="Address line 2" />
+          </Form.Item>
+          <Row gutter={24}>
+            <Col span={12}>
+              <Form.Item
+                name="city"
+                rules={[
+                  {
+                    required: true
+                  }
+                ]}
+              >
+                <Input placeholder="City" />
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                name="state"
+                rules={[
+                  {
+                    required: true
+                  }
+                ]}
+              >
+                <Select options={STATE} placeholder="State" />
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                name="zipcode"
+                rules={[
+                  {
+                    required: true
+                  }
+                ]}
+              >
+                <Input placeholder="Zip code" />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row justify="end">
+            <Col>
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      </Modal>
+    </>
   )
 }
 
