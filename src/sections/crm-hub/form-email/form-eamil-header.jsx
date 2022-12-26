@@ -17,10 +17,8 @@ const FromEmailHeader = () => {
       <Col className={styles.title}>Forms & Emails</Col>
       <Col>
         <Space align="middle">
-          <Button size="large">+ LOG eamil</Button>
           <Select
-            mode="multiple"
-            defaultValue={['all']}
+            defaultValue={''}
             style={{
               minWidth: 200
             }}
@@ -28,7 +26,7 @@ const FromEmailHeader = () => {
             allowClear
             onChange={handleChange}
           >
-            <Option value="jack">ALL types</Option>
+            <Option value="">ALL types</Option>
             <Option value="Mockup forms">Mockup forms</Option>
             <Option value="Contact us forms">Contact us forms</Option>
           </Select>

@@ -14,6 +14,7 @@ import {
 import PipelineEdit from './pipeline-edit'
 // js
 import { pipelineColors } from '@/constants/setting'
+import { v4 as uuidv4 } from 'uuid'
 import { toggleLoading } from '@/store/slices/globalSlice'
 // css
 import styles from '../index.module.less'
@@ -75,6 +76,7 @@ const PipelineSales = ({ list, getData, type }) => {
     })
     const i = newList.findIndex((item) => item.salesStatus == afterValue)
     newList.splice(i + 1, 0, {
+      id: uuidv4(),
       color: newColors[0],
       editable: true,
       salesStatus: statusName

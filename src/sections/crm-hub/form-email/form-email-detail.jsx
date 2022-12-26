@@ -291,6 +291,7 @@ const FromEmailDetail = (props) => {
             onClose={() => setShowDealDrawer(false)}
             open={showDealDrawer}
             key={'left'}
+            width={616}
           >
             <CreateDealForm createType={createType} />
           </Drawer>
