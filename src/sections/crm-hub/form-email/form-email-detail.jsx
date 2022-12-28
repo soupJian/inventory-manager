@@ -1,5 +1,5 @@
 // react next -----------
-import React, { useState } from 'react'
+import React, { useState } from "react"
 // componnets ------------
 import {
   Row,
@@ -11,15 +11,14 @@ import {
   Modal,
   Select,
   Drawer
-} from 'antd'
-import { Icon } from '../../../components/commons'
-import { DeleteOutlined, DownOutlined } from '@ant-design/icons'
-import CreateDealForm from './create-deal-form'
+} from "antd"
+import { Icon } from "../../../components/commons"
+import { DeleteOutlined, DownOutlined } from "@ant-design/icons"
+import CreateDealForm from "./create-deal-form"
 // CSS -------------
-import styles from './index.module.less'
+import styles from "./index.module.less"
 // js static------------
 const { Option } = Select
-const ourEmail = 'inquiry@westshade.com'
 
 // main ---------------
 const FromEmailDetail = (props) => {
@@ -31,11 +30,11 @@ const FromEmailDetail = (props) => {
   // assign list
   const [assignList, setAssignList] = useState([])
   // assgin value
-  const [assignValue, setAssignValue] = useState('')
+  const [assignValue, setAssignValue] = useState("")
   // assign的类型
-  const [assignType, setAssignType] = useState('')
+  const [assignType, setAssignType] = useState("")
   // create 的类型 deal ticket
-  const [createType, setCreateType] = useState('')
+  const [createType, setCreateType] = useState("")
   // create Deal 的 弹窗
   const [showDealDrawer, setShowDealDrawer] = useState(false)
   // 选择 create 的 下拉框 Deal 或者 Tickets
@@ -69,25 +68,25 @@ const FromEmailDetail = (props) => {
       label: (
         <span
           onClick={() => {
-            chooseAssignMenu('deal')
+            chooseAssignMenu("deal")
           }}
         >
           Deal
         </span>
       ),
-      key: 'deal'
+      key: "deal"
     },
     {
       label: (
         <span
           onClick={() => {
-            chooseAssignMenu('ticket')
+            chooseAssignMenu("ticket")
           }}
         >
           Ticket
         </span>
       ),
-      key: 'ticket'
+      key: "ticket"
     }
   ]
   // create 的 下拉框
@@ -96,25 +95,25 @@ const FromEmailDetail = (props) => {
       label: (
         <span
           onClick={() => {
-            chooseCreateMenu('deal')
+            chooseCreateMenu("deal")
           }}
         >
           Deal
         </span>
       ),
-      key: 'deal'
+      key: "deal"
     },
     {
       label: (
         <span
           onClick={() => {
-            chooseCreateMenu('ticket')
+            chooseCreateMenu("ticket")
           }}
         >
           Ticket
         </span>
       ),
-      key: 'ticket'
+      key: "ticket"
     }
   ]
   return (
@@ -154,11 +153,9 @@ const FromEmailDetail = (props) => {
             </Col>
           </Row>
           {/* 邮件标题 */}
-          <div className={styles['email-title-wrap']}>
-            <div className={styles['email-title']}>{email.title}</div>
-            <div className={styles['email-address-time']}>
-              {email.emailAddress}
-            </div>
+          <div className={styles["email-title-wrap"]}>
+            <div className={styles["email-title"]}>{email.title}</div>
+            <div className={styles["email-address-time"]}>{email.email}</div>
           </div>
           {/* 消息通知 */}
           <Row className={styles.notice} align="middle" gutter={5}>
@@ -169,36 +166,43 @@ const FromEmailDetail = (props) => {
           </Row>
           <Divider />
           {/* 邮件正文 区分 网站邮箱 和 客户邮箱 */}
-          {email.emailAddress == ourEmail && (
-            <div className={styles['email-content']}>
+          {email.genre == "mockup" && (
+            <div className={styles["email-content"]}>
               <div className={styles.color}>Name</div>
-              <div>Joshua Raphiel</div>
+              <div>{email.fullName}</div>
               <div className={styles.color}>Company name</div>
-              <div>Canyon Restaurant</div>
+              <div>{email.companyName}</div>
               <div className={styles.color}>Phone</div>
-              <div>318-322-8734</div>
+              <div>{email.phone}</div>
               <div className={styles.color}>Email</div>
-              <div>joshuaraphiel@gmail.com</div>
+              <div>{email.email}</div>
               <div className={styles.color}>Interest</div>
-              <div>Canopy tent</div>
+              <div>{email.interest}</div>
               <div className={styles.color}>Budget</div>
-              <div>$401 - $999</div>
+              <div>{email.budget}</div>
               <div className={styles.color}>Logo</div>
               <div>
-                <a>This is the Link</a>
+                <a
+                  href={email.logo}
+                  rel="nofollow noreferrer"
+                  target="_blank"
+                  style={{ color: "#2C88DD" }}
+                >
+                  This is the Link
+                </a>
               </div>
               <div className={styles.color}>Get a $200 voucher</div>
-              <div>True</div>
+              <div>{email.voucher}</div>
             </div>
           )}
-          {email.emailAddress != ourEmail && <div>{email.content}</div>}
+          {email.genre != "genre" && <div>{email.content}</div>}
           {/* delete modal */}
           <Modal
             centered
             open={showDeleteModal}
             onCancel={() => setShowDeleteModal(false)}
             closable={false}
-            bodyStyle={{ textAlign: 'center' }}
+            bodyStyle={{ textAlign: "center" }}
             footer={[
               <Row key="footer" justify="center">
                 <Col>
@@ -209,9 +213,9 @@ const FromEmailDetail = (props) => {
                       setShowDeleteModal(false)
                     }}
                     style={{
-                      background: '#000000',
-                      color: '#ffffff',
-                      width: '120px'
+                      background: "#000000",
+                      color: "#ffffff",
+                      width: "120px"
                     }}
                   >
                     Yes
@@ -220,9 +224,9 @@ const FromEmailDetail = (props) => {
                     key="cancel"
                     onClick={() => setShowDeleteModal(false)}
                     style={{
-                      background: '#ffffff',
-                      color: '#000000',
-                      width: '120px'
+                      background: "#ffffff",
+                      color: "#000000",
+                      width: "120px"
                     }}
                   >
                     No
@@ -240,15 +244,15 @@ const FromEmailDetail = (props) => {
             centered
             open={showAssignModal}
             title={
-              assignType == 'deal'
-                ? 'Assign to an existing deal'
-                : 'Assign to an existing ticket'
+              assignType == "deal"
+                ? "Assign to an existing deal"
+                : "Assign to an existing ticket"
             }
             onCancel={() => setShowAssignModal(false)}
             footer={[
               <Row key="footer" justify="center">
                 <Col span={24}>
-                  <Button disabled={assignValue == ''}> assign</Button>
+                  <Button disabled={assignValue == ""}> assign</Button>
                 </Col>
               </Row>
             ]}
@@ -256,15 +260,15 @@ const FromEmailDetail = (props) => {
             <Row>
               <Col
                 span={24}
-                style={{ fontWeight: '500', marginBottom: '10px' }}
+                style={{ fontWeight: "500", marginBottom: "10px" }}
               >
-                {assignType == 'deal'
-                  ? 'CONTACT NAME/DEAL NAME'
-                  : 'CONTACT CONTACT/TICKET NAME'}
+                {assignType == "deal"
+                  ? "CONTACT NAME/DEAL NAME"
+                  : "CONTACT CONTACT/TICKET NAME"}
               </Col>
               <Col span={24}>
                 <Select
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   size="large"
                   showSearch
                   value={assignValue}
@@ -290,7 +294,7 @@ const FromEmailDetail = (props) => {
             closable={false}
             onClose={() => setShowDealDrawer(false)}
             open={showDealDrawer}
-            key={'left'}
+            key={"left"}
             width={616}
           >
             <CreateDealForm createType={createType} />

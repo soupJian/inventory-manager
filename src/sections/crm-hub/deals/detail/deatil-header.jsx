@@ -1,15 +1,15 @@
 // react next --------------
-import React, { useState } from 'react'
-import { useRouter } from 'next/router'
+import React, { useState } from "react"
+import { useRouter } from "next/router"
 // antd
-import { PageHeader, Button, Modal, Dropdown } from 'antd'
-import { LeftOutlined, DownOutlined } from '@ant-design/icons'
+import { PageHeader, Button, Modal, Dropdown } from "antd"
+import { LeftOutlined, DownOutlined } from "@ant-design/icons"
 // components
-import Icon from '@/components/commons/icons/Icon'
-import ModalNotes from './components/header/modal-notes'
-import ModalMerge from './components/header/modal-merge'
+import Icon from "@/components/commons/icons/Icon"
+import ModalNotes from "./components/header/modal-notes"
+import ModalMerge from "./components/header/modal-merge"
 // css -------------
-import styles from './index.module.less'
+import styles from "./index.module.less"
 
 // main
 const DetailHeader = () => {
@@ -22,22 +22,22 @@ const DetailHeader = () => {
 
   const chooseCreateMenu = (key) => {
     // merge  delete
-    if (key == 'Merge') {
+    if (key == "Merge") {
       setShowModalMerge(true)
     }
   }
   const MoreMenu = [
     {
-      label: <span onClick={() => chooseCreateMenu('Merge')}>Merge</span>,
-      key: 'Merge'
+      label: <span onClick={() => chooseCreateMenu("Merge")}>Merge</span>,
+      key: "Merge"
     },
     {
-      label: <span onClick={() => chooseCreateMenu('Delete')}>Merge</span>,
-      key: 'Delete'
+      label: <span onClick={() => chooseCreateMenu("Delete")}>Delete</span>,
+      key: "Delete"
     }
   ]
   return (
-    <div className={styles['detail-header']}>
+    <div className={styles["detail-header"]}>
       <PageHeader
         backIcon={<LeftOutlined />}
         onBack={() => router.back()}
@@ -59,8 +59,8 @@ const DetailHeader = () => {
             Make Call
           </Button>,
           <Dropdown
-            menu={{ item: MoreMenu }}
-            key="3"
+            menu={{ items: MoreMenu }}
+            key="4"
             className={styles.moreBtn}
           >
             <Button className={styles.createBtn}>
