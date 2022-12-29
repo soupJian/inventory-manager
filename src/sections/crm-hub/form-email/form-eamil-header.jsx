@@ -1,7 +1,7 @@
 // React next -------------
 import React from "react"
 // components
-import { Row, Col, Space, Button, Select, Input } from "antd"
+import { Row, Col, Space, Select, Input } from "antd"
 import { SearchOutlined } from "@ant-design/icons"
 // css ---------------
 import styles from "./index.module.less"
@@ -9,11 +9,10 @@ const { Option } = Select
 
 // main
 const FromEmailHeader = ({
-  general,
-  value,
-  handleChangeType,
+  params,
+  setParams,
   handleSearch,
-  clearSearch
+  handleChangeType
 }) => {
   return (
     <Row justify="space-between" className={styles["header-wrap"]}>
@@ -21,7 +20,7 @@ const FromEmailHeader = ({
       <Col>
         <Space align="middle">
           <Select
-            defaultValue={general}
+            defaultValue={params.genre}
             style={{
               minWidth: 200
             }}
@@ -36,13 +35,15 @@ const FromEmailHeader = ({
           <Input
             allowClear
             size="large"
+            value={params.search}
             placeholder="search email"
             prefix={<SearchOutlined />}
             onPressEnter={(e) => handleSearch(e.target.value)}
             onChange={(e) => {
-              if (e.target.value == "") {
-                clearSearch()
-              }
+              setParams({
+                ...params,
+                search: e.target.value
+              })
             }}
           />
         </Space>

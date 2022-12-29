@@ -1,33 +1,19 @@
 // react next -----------
 import React, { memo } from "react"
 // components
-import { List, Divider, Skeleton } from "antd"
-import InfiniteScroll from "react-infinite-scroll-component"
+import { List } from "antd"
+// import InfiniteScroll from "react-infinite-scroll-component"
+import VirtualList from "rc-virtual-list"
 // css
 import styles from "./index.module.less"
 
 // main
-const FromEmailList = ({
-  emailList,
-  selectedIndex,
-  chooseSelectIndex,
-  loadMoreData,
-  hasMore
-}) => {
+const FromEmailList = ({ emailList, selectedIndex, chooseSelectIndex }) => {
   return (
-    <div className={styles.list} id="scrollableDiv">
-      <InfiniteScroll
-        dataLength={emailList.length}
-        next={loadMoreData}
-        hasMore={hasMore}
-        endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
-        scrollableTarget="scrollableDiv"
-      >
-        <List
-          className=""
-          itemLayout="horizontal"
-          dataSource={emailList}
-          renderItem={(item, index) => (
+    <div className={styles.list}>
+      <List>
+        <VirtualList data={emailList} itemKey="id">
+          {(item, index) => (
             <div
               onClick={() => chooseSelectIndex(index)}
               className={index == selectedIndex ? `${styles.active}` : ""}
@@ -53,8 +39,8 @@ const FromEmailList = ({
               </List.Item>
             </div>
           )}
-        ></List>
-      </InfiniteScroll>
+        </VirtualList>
+      </List>
     </div>
   )
 }

@@ -13,70 +13,40 @@ import { getEmailList, getSearchEmail } from "@/service/crm-hub/form-email"
 import { toggleLoading } from "@/store/slices/globalSlice"
 // css---------
 import styles from "./index.module.less"
-const limit = 2
 // main FC----------------
 const FormEmail = () => {
   const dispatch = useDispatch()
   // 邮件列表
   const [emailList, setEmailList] = useState([])
   const [selectedIndex, setSelectedIndex] = useState(0)
-  const [general, setGeneral] = useState("")
-  const [value, setValue] = useState("")
-  const [hasMore, setHasMore] = useState(true)
-  const [LastEvaluatedKey, setLastEvaluatedKey] = useState(null)
-  const getData = async (params) => {
+  const [params, setParams] = useState({
+    genre: "",
+    search: ""
+  })
+
+  const getData = async () => {
+    const searchParams = {}
+    if (params.genre) {
+      searchParams.genre = params.genre
+    }
+    if (params.search) {
+      searchParams.search = params.search
+    }
     const res = await getEmailList({
-      ...params
+      ...searchParams
     })
-    if (res.LastEvaluatedKey) {
-      setLastEvaluatedKey(res.LastEvaluatedKey)
-    } else {
-      setHasMore(false)
-    }
-    return res.Items
-  }
-  const handleChangeType = async (value) => {
-    setLastEvaluatedKey(null)
-    const res = await getData({
-      limit,
-      general: value
-    })
-    setGeneral(value)
-    setEmailList(res)
+    setEmailList(res.Items)
     setSelectedIndex(0)
   }
-  const handleSearch = async (value) => {
-    setLastEvaluatedKey(null)
-    const params = {
-      limit,
-      search: value
-    }
-    if (general) {
-      params.general = general
-    }
-    const res = await getData({ ...params })
-    setEmailList(res)
-    setSelectedIndex(0)
+  const handleSearch = () => {
+    dispatch(toggleLoading(true))
+    getData()
+    dispatch(toggleLoading(false))
   }
-  const loadMoreData = async () => {
-    const params = {
-      limit
-    }
-    if (value) {
-      params.search = value
-    }
-    if (general) {
-      params.general = general
-    }
-    if (LastEvaluatedKey) {
-      params.LastEvaluatedKey = JSON.stringify(LastEvaluatedKey)
-    }
-    const res = await getData({ ...params })
-    setEmailList(emailList.concat(res))
-  }
-  const clearSearch = () => {
-    getData({ limit, general }).then((res) => {
-      setEmailList(res)
+  const handleChangeType = (value) => {
+    setParams({
+      ...params,
+      genre: value
     })
   }
   const chooseSelectIndex = (index) => {
@@ -88,12 +58,10 @@ const FormEmail = () => {
   // 获取 邮件列表
   useEffect(() => {
     dispatch(toggleLoading(true))
-    getData({ limit, general }).then((res) => {
-      setEmailList(res)
-      dispatch(toggleLoading(false))
-    })
+    getData()
+    dispatch(toggleLoading(false))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [params.genre])
   return (
     <>
       <Head>
@@ -102,10 +70,10 @@ const FormEmail = () => {
       <Row className={styles.FormEmail}>
         <Col span={24}>
           <FromEmailHeader
-            general={general}
-            handleChangeType={handleChangeType}
+            params={params}
+            setParams={setParams}
             handleSearch={handleSearch}
-            clearSearch={clearSearch}
+            handleChangeType={handleChangeType}
           />
         </Col>
         <Col span={24} className={styles.FormEmailContent}>
@@ -115,8 +83,6 @@ const FormEmail = () => {
                 emailList={emailList}
                 selectedIndex={selectedIndex}
                 chooseSelectIndex={(index) => chooseSelectIndex(index)}
-                loadMoreData={loadMoreData}
-                hasMore={hasMore}
               />
             </Col>
             <Col span={12} style={{ height: "100%" }}>
