@@ -23,31 +23,42 @@ const FormEmail = () => {
     genre: "",
     search: ""
   })
-
-  const getData = async () => {
-    const searchParams = {}
-    if (params.genre) {
-      searchParams.genre = params.genre
-    }
-    if (params.search) {
-      searchParams.search = params.search
-    }
+  const getData = async (searchParams) => {
+    dispatch(toggleLoading(true))
     const res = await getEmailList({
       ...searchParams
     })
     setEmailList(res.Items)
     setSelectedIndex(0)
-  }
-  const handleSearch = () => {
-    dispatch(toggleLoading(true))
-    getData()
     dispatch(toggleLoading(false))
+  }
+  const handleSearch = (value) => {
+    const searchParams = {
+      search: value
+    }
+    if (params.genre) {
+      searchParams.genre = params.genre
+    }
+    getData(searchParams)
   }
   const handleChangeType = (value) => {
     setParams({
       ...params,
       genre: value
     })
+  }
+  const handleChangeSearch = (value) => {
+    setParams({
+      ...params,
+      search: value
+    })
+    if (value == "") {
+      const searchParams = {}
+      if (params.genre) {
+        searchParams.genre = params.genre
+      }
+      getData(searchParams)
+    }
   }
   const chooseSelectIndex = (index) => {
     setSelectedIndex(index)
@@ -57,9 +68,14 @@ const FormEmail = () => {
   }
   // 获取 邮件列表
   useEffect(() => {
-    dispatch(toggleLoading(true))
-    getData()
-    dispatch(toggleLoading(false))
+    const searchParams = {}
+    if (params.genre) {
+      searchParams.genre = params.genre
+    }
+    if (params.search) {
+      searchParams.search = params.search
+    }
+    getData(searchParams)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.genre])
   return (
@@ -71,7 +87,7 @@ const FormEmail = () => {
         <Col span={24}>
           <FromEmailHeader
             params={params}
-            setParams={setParams}
+            handleChangeSearch={handleChangeSearch}
             handleSearch={handleSearch}
             handleChangeType={handleChangeType}
           />

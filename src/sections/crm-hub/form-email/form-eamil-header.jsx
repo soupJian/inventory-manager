@@ -10,7 +10,7 @@ const { Option } = Select
 // main
 const FromEmailHeader = ({
   params,
-  setParams,
+  handleChangeSearch,
   handleSearch,
   handleChangeType
 }) => {
@@ -40,10 +40,7 @@ const FromEmailHeader = ({
             prefix={<SearchOutlined />}
             onPressEnter={(e) => handleSearch(e.target.value)}
             onChange={(e) => {
-              setParams({
-                ...params,
-                search: e.target.value
-              })
+              handleChangeSearch(e.target.value)
             }}
           />
         </Space>
