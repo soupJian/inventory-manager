@@ -3,15 +3,28 @@ import request from "@/utils/request"
  * 获取 email列表
  */
 export const getEmailList = (params) => {
+  if (params.genre == "") {
+    delete params.genre
+  }
+  if (params.search == "") {
+    delete params.search
+  }
   return request({
     url: `/incoming-emails`,
     params
   })
 }
-
-export const getSearchEmail = (params) => {
+/**
+ * 删除 email
+ * @param {*} id
+ * @returns
+ */
+export const deleteEmail = (id) => {
   return request({
-    url: `/search-incoming-emails`,
-    params
+    url: `/email`,
+    params: {
+      id
+    },
+    method: "DELETE"
   })
 }

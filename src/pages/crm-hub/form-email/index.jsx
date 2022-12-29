@@ -9,14 +9,13 @@ import FromEmailHeader from "@/sections/crm-hub/form-email/form-eamil-header"
 import FromEmailList from "@/sections/crm-hub/form-email/form-email-list"
 import FromEmailDetail from "@/sections/crm-hub/form-email/form-email-detail"
 // js -------
-import { getEmailList, getSearchEmail } from "@/service/crm-hub/form-email"
+import { getEmailList, deleteEmail } from "@/service/crm-hub/form-email"
 import { toggleLoading } from "@/store/slices/globalSlice"
 // css---------
 import styles from "./index.module.less"
 // main FC----------------
 const FormEmail = () => {
   const dispatch = useDispatch()
-  // 邮件列表
   const [emailList, setEmailList] = useState([])
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [params, setParams] = useState({
@@ -33,13 +32,7 @@ const FormEmail = () => {
     dispatch(toggleLoading(false))
   }
   const handleSearch = (value) => {
-    const searchParams = {
-      search: value
-    }
-    if (params.genre) {
-      searchParams.genre = params.genre
-    }
-    getData(searchParams)
+    getData({ ...params, search: value })
   }
   const handleChangeType = (value) => {
     setParams({
@@ -52,30 +45,25 @@ const FormEmail = () => {
       ...params,
       search: value
     })
+    // 清空
     if (value == "") {
-      const searchParams = {}
-      if (params.genre) {
-        searchParams.genre = params.genre
-      }
-      getData(searchParams)
+      getData({
+        ...params,
+        search: ""
+      })
     }
   }
   const chooseSelectIndex = (index) => {
     setSelectedIndex(index)
   }
-  const handleDeleteEmail = () => {
-    console.log(emailList)
+  const handleDeleteEmail = async (email) => {
+    dispatch(toggleLoading(true))
+    await deleteEmail(email.id)
+    await getData()
+    dispatch(toggleLoading(false))
   }
-  // 获取 邮件列表
   useEffect(() => {
-    const searchParams = {}
-    if (params.genre) {
-      searchParams.genre = params.genre
-    }
-    if (params.search) {
-      searchParams.search = params.search
-    }
-    getData(searchParams)
+    getData(params)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.genre])
   return (

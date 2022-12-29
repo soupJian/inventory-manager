@@ -21,8 +21,7 @@ import styles from "./index.module.less"
 const { Option } = Select
 
 // main ---------------
-const FromEmailDetail = (props) => {
-  const { email, handleDeleteEmail } = props
+const FromEmailDetail = ({ email, handleDeleteEmail }) => {
   // delete 的弹窗
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   // assign 的弹窗
@@ -209,7 +208,7 @@ const FromEmailDetail = (props) => {
                   <Button
                     key="confirm"
                     onClick={() => {
-                      handleDeleteEmail()
+                      handleDeleteEmail(email)
                       setShowDeleteModal(false)
                     }}
                     style={{
